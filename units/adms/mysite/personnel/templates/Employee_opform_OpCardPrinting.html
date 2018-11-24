@@ -1,0 +1,104 @@
+<object classid="clsid:285A9058-12DF-4B1D-AEA1-0FD2412CC761" width=0 height=0 id=zkissonlinesmart >
+</object>
+<COMMENT style="display:None">
+   <embed type="application/x-eskerplus"
+       classid="clsid:285A9058-12DF-4B1D-AEA1-0FD2412CC761"        
+       codebase="ZKISSOnlineX.ocx"                          
+   </EMBED>
+</COMMENT>
+
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %}
+{% if form.non_field_errors %}
+    <tr><td>{{ form.non_field_errors }}</td></tr>
+{% endif %}
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+    //为避免加载界面时还没有显示PIN等信息，使用该回调函数--darcy20110330
+    var emp_id = 0;
+    function after_object_action()
+    {
+        $(".select_row").each(function(){
+            if($(this).attr("checked"))
+            {
+                emp_id = $(this).parents("tr").attr("data");
+            }
+        });
+    }
+    function before_submit()
+    {
+        $.ajax({
+            type: "POST",
+            url: "/{{ request.surl }}iaccess/GetData/?func=card_printing_info&emp_id="+ emp_id,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                if(data != "")
+                {
+                    var ret = 0;
+                    ret = zkissonlinesmart.InitSmartLibrary();
+                    if(ret == 0)
+                    {
+                        var strDeviceID = zkissonlinesmart.SmartComm_GetDeviceList(); 		
+                        ret = zkissonlinesmart.SmartComm_OpenDevice(strDeviceID);
+                        if(ret != 0)
+                        {
+                          alert("open device failed" + ret);
+                          return false;
+                        }
+                        
+                        //alert("start open doc")
+                        ret = zkissonlinesmart.Smart_OpenDocumentEx("E:\\demo.csd");
+                        if(ret !=0)
+                        {
+                          alert("SmartComm_OpenDocumentEx device failed" + ret);
+                          return false;
+                        }
+                        ret = zkissonlinesmart.SmartComm_SetCardPrintingInfo(data.pin, data.name, data.dept, "D:\\trunk\\units\\adms\\files\\"+data.photo)
+                        if(ret != 0)
+                        {
+                            alert("SmartComm_SetCardPrintingInfo="+ret);
+                            return false;
+                        }
+                        ret = zkissonlinesmart.SmartComm_Print();
+                        if(ret !=0)
+                        {
+                          alert("SmartComm_Print device failed" + ret);
+                          return false;
+                        }
+                        //alert("after print")
+                        //ret = zkissonlinesmart.SmartComm_DoPrint();
+                        if(ret !=0)
+                        {
+                          alert("SmartComm_DoPrint device failed" + ret);
+                          return false;
+                        }
+                        zkissonlinesmart.SmartComm_CloseDocument();
+                        zkissonlinesmart.SmartComm_CloseDevice();
+                        return true;
+                    }
+                    else
+                    {
+                        alert('-----InitSmartLibrary Error--ret=',ret);
+                    }
+                }
+                else
+                {
+                    alert('error');
+                    return false;
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-623");
+            }
+        });
+    }
+
+{% endblock%}

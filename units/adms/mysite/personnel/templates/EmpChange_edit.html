@@ -1,0 +1,297 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+	var $div=$("form#id_edit_form")
+	var load=true
+	var newdept=""
+	var newposition=""
+	var newhiretype=""
+	var newattarea=""
+	var blnAdd=false
+    $div.find(".tr_postion").each(function(){
+    	$(this).addClass("displayN");
+    });
+	if($div.find("#id_newvalue").val()=="")//新增
+	{
+	  $div.find("#id_pop_emp").change(function(){
+			$.ajax({
+				url:"/{{request.surl}}personnel/getchange/?k="+$(this).attr("data"),
+				dataType:"json",
+				type:"GET",
+				success:function(data){
+					newdept=data.dept
+					newposition=data.position
+					newhiretype=data.hiretype
+					newattarea=data.attarea
+					for(i in data)
+					{
+						switch(i)
+						{
+							case "dept":	
+								$div.find(".tr_dept").find("p").removeClass("s");
+								$div.find(".tr_dept").find("li").each(function(){
+									if($(this).attr("id")==newdept)
+									{
+										$(this).find("p:first").addClass("s");
+										$(".tr_dept").find("input:first").val($(this).find("p:first").text())
+										return false;
+									}
+								});
+								break;
+							case "position":
+								
+								$div.find("#id_oldposition").val(newposition);
+								break;
+							case "hiretype":
+								
+								$div.find("#id_oldhiretype").val(newhiretype);
+								break;
+							case "attarea":
+								$div.find(".tr_area").find("p").removeClass("s");
+								for(var i=0;i<newattarea.length;i++)
+								{
+									$div.find(".tr_area").find("li").each(function(){
+										if($(this).attr("id")==newattarea[i])
+										{
+											$(this).find("p:first").addClass("s");
+											return false;
+										}
+									})
+								}
+								break;
+							default:
+								break;				
+						}
+					}
+					
+				}
+				
+			})
+	  });
+	}
+	
+    $div.find("#div_id_chk input[type='checkbox']").click(function(){
+		
+    	if(load || $(this).attr("checked"))        
+        {
+			//alert("123")
+			if ($("#id_chkdept").attr("checked")){
+				$div.find("#id_chkposition").attr("checked",true);
+				$div.find(".tr_position").removeClass("displayN");
+			}
+			if ($("#id_chkposition").attr("checked")){
+				$div.find("#id_chkdept").attr("checked",true);
+				$div.find(".tr_dept").removeClass("displayN");
+			}
+			
+        	
+        	$div.find(".tr_"+$(this).attr("name").substr(3)).removeClass("displayN");            
+        }
+        else
+        {
+			//alert("456")        	
+			if (!$("#id_chkdept").attr("checked")){
+				$div.find("#id_chkposition").attr("checked",false);
+				$div.find(".tr_position").addClass("displayN");
+			}
+			if (!$("#id_chkposition").attr("checked")){
+				$div.find("#id_chkdept").attr("checked",false);
+				$div.find(".tr_dept").addClass("displayN");
+			}        	
+        	
+        	$div.find(".tr_"+$(this).attr("name").substr(3)).addClass("displayN");
+        }
+		var bln=false
+		$div.find("#div_id_chk input[type='checkbox']").each(function(){
+			if($(this).attr("checked"))
+			{
+				bln=true;
+				return false;
+			}					
+		});
+		if (load || bln)
+		{
+			$div.find(".tr_message").addClass("displayN");
+		}
+		else
+		{
+			$div.find(".tr_message").removeClass("displayN");			
+		}
+		load=false
+		
+		if(blnAdd)
+		{
+
+			
+		}
+    });
+    if($div.find("#id_newvalue").val()!="")//编辑
+    {
+    	
+		$div.find("#id_chkdept").parent().addClass("displayN");
+		$div.find("#id_chkposition").parent().addClass("displayN");
+		$div.find("#id_chkhiretype").parent().addClass("displayN");
+		$div.find("#id_chkarea").parent().addClass("displayN");
+		var pos=parseInt($div.find("#id_changepostion").val());
+        
+        if (pos==1)//部门
+        {
+        	$div.find("#id_chkdept").parent().removeClass("displayN");
+			
+            $div.find("#id_chkdept").click();
+			
+            $div.find("#id_olddept").val($div.find("#id_oldvalue").val());
+            $div.find("#id_newdept").val($div.find("#id_newvalue").val());
+        }
+        if (pos==2)//职位
+        {	
+			
+        	$div.find("#id_chkposition").parent().removeClass("displayN");
+			
+            $div.find("#id_chkposition").click();
+			
+            $div.find("#id_oldposition").val($div.find("#id_oldvalue").val());
+            $div.find("#id_newposition").val($div.find("#id_newvalue").val());
+        }
+        if (pos==3)//雇用类型
+        {
+			
+        	$div.find("#id_chkhiretype").parent().removeClass("displayN");
+			
+            $div.find("#id_chkhiretype").click();
+			
+            $div.find("#id_oldhiretype").val($div.find("#id_oldvalue").val());
+            $div.find("#id_newhiretype").val($div.find("#id_newvalue").val());
+           
+        }
+        if (pos==4)//区域
+        {
+			
+        	$div.find("#id_chkarea").parent().removeClass("displayN");
+	
+            $div.find("#id_chkarea").click();
+			
+
+            var s="";
+            s=$div.find("#id_newvalue").val();
+            var area=[];
+            
+            if (s.indexOf(",")>0)
+	            area=s.split(",");
+            else
+            	area.push(s);
+            //alert(area.toString());
+            for(var i=0;i<area.length;i++)
+            {
+                $("form#id_edit_form").find("#id_newarea li").each(function(){
+                   if($(this).attr("id")==area[i])
+                    {
+						$(this).click();
+    	                //$($(this).children()[0]).attr("checked","checked");
+        	            return false;
+	                }
+                })
+            }
+            var os="";
+            os=$div.find("#id_oldvalue").val();
+            var oldarea=[];
+            
+            if (os.indexOf(",")>0)
+	            oldarea=os.split(",");
+            else
+            	oldarea.push(os);
+            
+            for(var i=0;i<oldarea.length;i++)
+            {
+                $("form#id_edit_form").find("#id_oldarea li").each(function(){
+                   if($(this).attr("id")==oldarea[i])
+                    {
+						$(this).click();
+    	                //$($(this).children()[0]).attr("checked","checked");
+        	            return false;
+	                }
+                })
+            }
+        }
+        load=false
+    }
+});
+function before_submit()
+{
+	var hascheck=false;
+	$("#div_id_chk").find("input[type='checkbox']").each(function(){
+		if($(this).attr("checked"))
+		{
+			hascheck=true;
+			return false;
+		}
+	});
+	if(!hascheck)
+	{
+		alert(gettext("请选择一个调动栏位"));
+		return false;
+	}
+	return true;
+}
+
+$("#id_newposition").focus(function(){
+    var url = "/{{request.surl}}personnel/select_position/personnel/Position/?newdept=";
+    var items = document.getElementsByName("newdept");
+    if(items.length !=0){
+        var array = items[0].value;
+    }
+    if (array=="")
+        return;
+    url+=array;
+    $.ajax({
+        type:"POST",
+        url:encodeURI(url),
+        dataType:"json",
+        success:function(msg){
+            var html_list = [];
+            html_list.push("<option value='id_null'>---------</option>");
+            if(msg.length !=0){
+                for(var i=0;i<msg.length;i++){
+                    var row = "<option value='" + msg[i][0] + "'>" + msg[i][1] + " " + msg[i][2] + "</option>";
+                    html_list.push(row);
+                }
+            }
+            $("#id_newposition").html(html_list.join(""));
+        }
+    });
+});
+
+{% endblock %}
+{% block form %}
+{% autoescape off %} 
+<tr><td>
+<div>
+<table class="tbl_EmpChange"  cellpadding='2' cellspacing='0'>
+	<tr>{{form.non_field_errors}}</tr>
+	<tr>{{form.UserID|field_as_td_h}}</tr>
+    <tr>{{form.changedate|field_as_td_h}}</tr>
+    <tr>{{form.changereason|field_as_td_h}}</tr>
+    <!-- <tr>{{form.isvalid|field_as_td_h}}</tr> -->
+
+    <tr>{{form.remark|field_as_td_h}}</tr>  
+    <!-- <tr>{{form.available|field_as_td_h}}</tr>   --> 
+     
+<tr><th>{% trans '调动栏位:' %}</th><td><div id="div_id_chk"><table class="tbl_change_type"><tr><td>{{form.chkdept.as_widget}}{{form.chkdept.label_tag}} </td><td>{{form.chkposition.as_widget}} {{form.chkposition.label_tag}} </td><td>{{form.chkhiretype.as_widget}}{{form.chkhiretype.label_tag}} </td><td>{{form.chkarea.as_widget}}{{form.chkarea.label_tag}}</td></tr></table></div></td></tr>
+<tr><th></th><td>
+<div></div>
+<table class="display_table table table1" width="730px">
+<thead>
+<tr><th width="120px">{% trans '调动栏位' %}</th><th width="305px">{% trans '调动后' %}</th></tr></thead>
+<tr class="tr_message"><td colspan="2">{% trans '请选择调动栏位' %}</td></tr>
+<tr class="tr_dept tr_postion"><td>{% trans '部门' %}</td><td>{{form.newdept.as_widget}}</td></tr>
+<tr class="tr_position tr_postion"><td>{% trans '职位' %}</td><td>{{form.newposition.as_widget}}</td></tr>
+<tr class="tr_hiretype tr_postion"><td>{% trans '雇用类型' %}</td><td>{{form.newhiretype.as_widget}}</td></tr>
+<tr class="tr_area tr_postion"><td>{% trans '区域' %}</td><td>{{form.newarea.as_widget}}</td></tr>
+
+</table></td></tr></table></div>
+<div class="displayN"><table><tr>{{form.changepostion|field_as_td_h}}{{form.newvalue|field_as_td_h}}</tr></table></div>
+</div></td></tr>
+
+{% endautoescape %}
+{% endblock %}

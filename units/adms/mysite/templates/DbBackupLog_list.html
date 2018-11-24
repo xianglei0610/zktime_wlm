@@ -1,0 +1,103 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+
+{% block getdatalist %}
+    $('#id_datalist').model_grid({
+        'model_url':'{{dbapp_url}}dbapp/DbBackupLog/',
+        'disabled_actions':['_add','_clear'],
+        'object_actions':true,
+        'obj_edit':false,
+        'model_action_container':$("#id_op_for_tab"),
+        //'multiple_select':false,
+        'init_after_get_jdata':function(){
+            $("#id_datalist").get(0).g.a_div.after("<div><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+            var $app_menu=$("#id_datalist").get(0).g.a_div;
+            var $menu_more=$(".action_more_list");
+            var min_width=500;
+            resize_menu($app_menu,$menu_more,min_width,"id_action_more");
+            $('.nav li').sfHover();
+        }
+    });
+   
+{% endblock %}
+{% block addjs %}
+    var id = setInterval(update_process,5000);//每5s更新一次
+    var is_server_running = true;//服务是否启动
+    var status_number = null;//记录备份状态在哪一列
+    function update_process(){
+        var datas_id = [];
+        $("#id_tbl").find("td").each(function(){
+           if(this.title==gettext("处理中"))
+           {
+               if(status_number == null)
+               {
+                    status_number = $(this).parents("tr").find("td").index($(this));
+               }   
+               datas_id.push($(this.parentNode).attr("data"));
+           }
+       });
+       if(datas_id.length!=0)//当当前页面中有正在处理中的备份记录时时，则实时更新备份状态
+       {
+            $.ajax({
+                url:"/data/update_process",
+                data:"datas=" + datas_id,
+                type:"POST",
+                dataType:"json",
+                success:function(data){
+                    if(data != "")
+                    {
+                        $("#id_tbl").find("tr").each(function(){
+                            var td_status = $(this).find("td").eq(status_number);//备份状态 td标签
+                            if(data.server_running == '0')
+                            {
+                                is_server_running = false;
+                                td_status.html('<div style="width: 72px;">'+gettext("服务未启动")+'</div>');
+                                $(this).attr("class", "IllegalLog row0");
+                            }
+                            else if(data.server_running == '1' && !is_server_running)
+                            {
+                                td_status.html('<div style="width: 72px;">'+td_status.attr("title")+'</div>');
+                                $(this).attr("class", "row0");
+                            }
+                            var id = contains(data.ret, $(this).attr("data"));
+                            if(id)
+                            {
+                                $(this).find("td").each(function(){
+                                    
+                                    if(this.title==gettext("处理中") && id=='1')
+                                    {
+                                        $(this).attr("title", gettext("是"));
+                                        $(this).html('<div style="width: 72px;">'+gettext("是")+'</div>');
+                                       
+                                    }else if(this.title == gettext("处理中") && id=='2')
+                                    {
+                                        $(this).attr("title", gettext("否"));
+                                        $(this).html('<div style="width: 72px;">'+gettext("否")+'</div>');
+                                    }
+                                   
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+            
+       }
+    }
+    function contains(array,value){
+    	for(var i=0;i<array.length;i++){
+    		if(array[i][0]==value)
+    		{
+    			return array[i][1];
+    		}
+    	}
+    	return false;
+    }
+    
+    $(window).unload( function () { clearInterval(id)} );//离开页面后停止运行
+{% endblock %}
+
+
+
+

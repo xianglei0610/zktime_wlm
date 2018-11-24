@@ -1,0 +1,45 @@
+{% extends "base_site.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block extrastyle %}
+<style>
+.menu_item {
+background-image:url(media/img/selector-add.gif);
+background-repeat:no-repeat;
+background-position: 0% 8px;
+padding-left: 30px;
+font-size: 16px;
+padding-top: 10px;
+}
+
+#mainmenu {
+background-image:url(media/img/iclocksvr_logo.jpg);
+background-repeat:no-repeat;
+width: 500px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<table id="mainmenu">
+<tr><td style="padding-left: 220px; padding-top: 100px;">
+<table width=100%>
+<tr><td class="menu_item"><a href="/iclock/data/iclock/">{% trans "设备监控与管理" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/department/">{% trans "部门管理" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/employee/">{% trans "使用人员管理" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/transaction/">{% trans "签到记录管理" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/upload/">{% trans "导入从设备复制到U盘的数据" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/user/">{% trans"系统管理员管理" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/devlog/">{% trans "设备上传数据日志" %}</a></td></tr>
+<tr><td class="menu_item"><a href="/iclock/data/devcmds/">{% trans "服务器下发命令日志" %}</a></td></tr>
+</table>
+</td>
+</tr>
+</table>
+<h3 style="text-align: right;"><img src="/media/img/help.jpg">&nbsp;&nbsp;<a href="/media/help/index.html">{% trans "系统帮助" %}</a></h3>
+<hr />
+<div style="text-align: right;">{% trans "服务器版本号：V2.5 （Build 2218, 20080328）" %}</div>
+{% endblock %}
+

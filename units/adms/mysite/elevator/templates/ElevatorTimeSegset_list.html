@@ -1,0 +1,100 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block leftBoxMiddle %}
+{% endblock %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_ElevatorTimesegSetPage" %}
+        var progress_interval = null;
+        $(".icon_help_current").remove();
+        
+        $("#id_datalist").model_grid({
+            "model_action_container": $("#id_op_for_tab"),
+            "dbapp_url": "{{ dbapp_url }}",
+            "model_url": "/data/iaccess/AccTimeSeg/?",//梯控时间段
+            "init_query": ["timeseg_type__exact=2"],
+            "base_query": ["timeseg_type__exact=2"],
+            "row_operations": ["op_edit","_delete"],
+            "disable_cols": [],
+            "sort_fields": [],
+            "disabled_actions": ["_change"],
+            "init_after_get_jdata": function(){
+                after_submit = function()
+                {
+                    OnRefreshComProgress();
+                    progress_interval = window.setInterval('OnRefreshComProgress()', 2000);//等3秒执行刷新函数#OnRefreshComProgress()
+                }
+            },
+            "cached_data": false
+        });
+    {% else %}<!--browse_acclevelset-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_accinterlock-->
+{% endblock %}
+
+{% block addjs %}    
+    {% if request.user|HasPerm:"contenttypes.can_ElevatorTimesegSetPage" %}
+        var reqid = 0;
+        var temp_detail = -1;
+        var temp_tol = -1;   
+        function OnRefreshComProgress()
+        {
+            var stamp0 = new Date().getTime();
+            $.ajax({
+                url: "/{{ request.surl }}iaccess/downdata_progress/?reqid="+reqid,
+                type: "GET",
+                dataType: "json",
+                success: function(pgdata)
+                {
+                    if(pgdata)
+                    {
+                        if (pgdata.index > 0)
+                        {
+                            rtlisthtml = "";
+                            datas = pgdata.data[0];
+                            $("#labledetail").text(datas['dev']);
+                            if(temp_detail != datas['progress'])
+                            {
+                                //alert(datas['progress']);
+                                $("#spaceuseddetail").progressBar(datas['progress'], {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                                temp_detail = datas['progress'];
+
+                            }
+                            if(temp_tol != datas['tolprogress'])
+                            {
+                                $("#spaceusedtol").progressBar(datas['tolprogress'], {barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                                temp_tol = datas['tolprogress'];
+                            }
+                            $("#show_process_status").show();
+                            $("#gz_processStatus").show();
+
+                        }
+                        else if (pgdata.index == 0)
+                        {
+                            $("#show_process_status").hide();
+                            $("#gz_processStatus").hide();
+                            $("#spaceuseddetail").progressBar(0, {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                            $("#spaceusedtol").progressBar(0, {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                            clearInterval(progress_interval);
+
+                        }
+                    }
+                }
+            });
+        }
+    {% else %}<!--browse_acclevelset-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_accinterlock-->
+
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+@charset "UTF-8";
+.box .AIClockBox {i
+border:2px none #303030;
+float:left;
+height:160px;
+margin-right:10px;
+margin-top:10px;
+position:relative;
+width:160px;
+}
+.iclockButton {
+float:left;
+font-size:10pt;
+left:1px;
+margin-bottom:2px;
+position:relative;
+text-align:left;
+top:1px;
+width:160px;
+}
+.iclockButton img{
+background:#FFFFFF none repeat scroll 0 0;
+height:66px;
+padding-bottom:0px;
+padding-bottom:4px;
+#width:75px;
+}
+.box .iclockTT {
+border-top:1px dotted;
+float:left;
+font-size:10pt;
+padding-top:5px;
+position:relative;
+text-align:left;
+width:160px;
+}
+.box .value {
+color:blue;
+}
+.buttom {
+background:#D0F0FF none repeat scroll 0 0;
+list-style:none;
+font-size:10pt;
+padding:1px 10px;
+}
+.NoIclock{
+height:300px;
+align:center;
+}
+
+.tip{
+width:270px;
+font-size:10pt;
+visibility:hidden;
+background:#0066A6 none repeat scroll 0 0;
+color:white;
+border:1px solid #1E7ACE;
+padding:4px;
+
+
+}

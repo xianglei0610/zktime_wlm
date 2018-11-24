@@ -1,0 +1,114 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script type="text/javascript" src="{{ MEDIA_URL }}/jslib/ajaxfileupload.js"></script>
+{% endblock %}
+
+
+{% block form %}
+    {% if request.user|HasPerm:"iaccess.opaddemptolevel_acclevelset" %}
+        {% autoescape off %}
+        <tr>
+            {{ form.level_id }}
+        </tr>
+        <tr >
+            <th></th>
+            <td >
+                <div id="show_emp_tree"></div>
+                <ul class="errorlist" id="emp_select_error">    
+                </ul>    
+            </td>
+        </tr>
+        {% endautoescape %}
+    {% endif %}<!--opaddemptolevel_acclevelset-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.opaddemptolevel_acclevelset" %}
+    $(function(){
+        $("#id_level_id").attr("class", "displayN");
+        var level_id = $("#id_level_id").val();
+        $.ajax({
+            url: "/{{ dbapp_url }}personnel/choice_widget_for_select_emp/?multiple=T&name=mutiple_emp&filter=qs_filter=openlevel_id="+level_id,
+            type: "POST",
+            dataType: "html",
+            success:function(sdata){   
+                $("#show_emp_tree").html(sdata);
+//                $("#form_search_upload").show();//启用上传文件功能。默认是关闭的。
+                $("div[id^='emp_select_']").get(0).g.base_query=['qs_filter=openlevel_id='+level_id]
+            }
+        });
+    });
+    
+    function before_submit(){
+        var result = true;
+        var check = "";//是否已检验过上传的文件
+        if($("#id_check"))
+        {
+            check = $("#id_check").val();
+        }
+        if($(":radio[name='change_search'][checked]").val() =='f')
+        {
+            if($("#id_upload_file").val()==""){
+                alert(gettext("请选择上传文件!"));
+                return false;
+            }
+            var file_type = $("#id_upload_file").val().split(".")[1];
+            if (file_type != 'txt'&& file_type != 'xls' && file_type != 'csv')
+            {
+                alert(gettext("上传文件类型错误,必须为以下文件类型：xls/txt/csv"));
+                return false;
+            }
+            var stamp = new Date().getTime();
+            if(check)
+            { 
+                return true;//检验通过
+            }
+            //暂未使用同步提交文件，仍为异步。---wangcs 20111219
+            $.ajaxFileUpload({
+                url: "/{{ dbapp_url }}data/check_update_file",
+                secureuri: false,
+                fileElement: "upload_file",
+                dataType: "json",
+                success: function(sdata)
+                {
+                    if ((sdata.drop_count>0) && (sdata.drop_count<30))
+                    {
+                        if(confirm(sdata.drop_count+gettext("条人员编号没有记录")+":"+sdata.list_drop+gettext("是否继续?")))
+                        {
+                            $("#id_f").append('<input type="hidden" id="id_check" value="1"></input>');
+                            $("#OK").click();
+                        }
+                    }
+                    if(sdata.drop_count >= 30)
+                    {
+                        if(confirm(sdata.drop_count+gettext("条人员编号没有记录")+":"+sdata.list_drop+"..."+gettext("是否继续?")))
+                        {
+                            $("#id_f").append('<input type="hidden" id="id_check" value="1"></input>');
+                            $("#OK").click();
+                        }
+                    }
+                    if(sdata.drop_count==0)
+                    {
+                        $("#id_f").append('<input type="hidden" id="id_check" value="1"></input>');
+                        $("#OK").click();
+                    }
+                },
+                error:function()
+                {
+                    //alert(gettext("上传文件出现未知错误！"));
+                }
+            });
+        }
+        else
+        {
+            return true;
+        }
+        return false;
+    }
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--opaddemptolevel_acclevelset-->
+{% endblock%}

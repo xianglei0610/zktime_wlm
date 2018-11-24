@@ -1,0 +1,397 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block headjs %}
+    {% if request.user|HasPerm:"contenttypes.can_VideoLinkagePage" %}
+    <script src="{{ MEDIA_URL }}/jslib/check_browser.js"></script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.user|HasPerm:"contenttypes.can_VideoLinkagePage" %}
+    <!--<div id="" style="padding-bottom: 2px ! important;" class="">-->
+        <!--<h1>查 找</h1>--> 
+    <div id="" class="div_box" style="margin-bottom:0px !important; padding-bottom:2px;">
+        <h1 style="margin-bottom:5px;">{% trans "查询" %}</h1>
+        <table style="width: 99%;"><tbody><tr>
+            <td>
+                <div>
+                    <table id="" width="100%" class="tbl_form_search">
+                        <tbody>  
+                            <tr class="header_div_left">
+                                <td align="right"><label class="" >{% trans "控制器:" %}</label></td>
+                                <td id="acc_device"><select style=" !important; width:143px;"><option value="0">-----------------</option></select></td> 
+                                <td align="right"><label class="" >{% trans "门:" %}</label></td>
+                                <td id="acc_door"><select style=" !important; width:143px;"><option value="0">-----------------</option></select></td> 
+                                <td align="right"><label class="" >{% trans "硬盘录像机:" %}</label></td>
+                                <td id="video_server"><select style=" !important; width:143px;"><option value="0">-----------------</option></select></td> 
+                            </tr> 
+                            <tr>
+                                <td align="right"><label class="" >{% trans "开始时间" %}:</label></td> 
+                                <td><input type="text" id="search_id_starttime" class="wZBaseDateTimeField dp-applied" size="30" maxlength="30" name="" fieldname="starttime"></td>
+                                <td align="right"><label class="" >{% trans "结束时间" %}:</label></td>
+                                <td><input type="text" id="search_id_endtime" class="wZBaseDateTimeField dp-applied" size="30" maxlength="30" name="" fieldname="endtime"></td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div> 
+            </td>
+            <td width="160" valign="bottom">  
+                <div class="topSearchBtn" style="text-align: center; height: 20px; width: 190px;">
+                    <span class="Link_blue1">
+                        <span class="action_topSearch floatL"></span><a class="floatL" id="id_video_search" href="javascript:void(0)">{% trans "查询视频" %}</a>
+                    </span>                              
+                </div>
+            </td></tr>
+         </tbody></table>
+    </div>
+    
+    <div id="id_vid_linage" style="margin:15px 0px 0px 10px;">
+        <div id="id_datalist" class="div_box"  style="float:left; margin:0px; width:45%;">
+            <h1>{% trans "视频联动录像" %}</h1>
+
+            <div id="id_showTbl">
+                <div class="monitor_head">
+                    <div class="monitor_hdiv_right"></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th width="10%">{% trans '序号' %}</th>
+                            <th width="70%">{% trans '文件名' %}</th>
+                            <th width="20%" >{% trans '操作' %}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+                <div id="id_showTbl" class="video_rec_datalist" style="overflow-y:scroll">
+                        <table class="video_datalist table">
+                            <tbody id="rt_content">
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+        <div id="id_extend" class="div_box" style="float:right; width:43%; margin:0px 10px 0px 0px;_margin:0px 5px 0px 0px;">
+            <h1>{% trans "视频回放" %}</h1>
+            <table>
+            <tr>
+              <td width="100%" align="center"><object classid="clsid:CAFCF48D-8E34-4490-8154-026191D73924" codebase="/media/ActiveX/NetVideoActiveX23.cab#version=2,3,9,1"
+              standby="Waiting..." id="NetOCX1" width="400" height="300" name="ocx1" align="center" >
+              </object></td>
+            </tr>
+            </table>
+        </div>
+    </div>
+    
+    {% endif %}<!--contenttypes.can_VideoLinkagePage -->
+{% endblock %}
+
+{% block getdatalist %}
+
+{% endblock %}
+
+
+{% block addjs %}
+    {% if request.user|HasPerm:"contenttypes.can_VideoLinkagePage" %}
+    var VIDEO_CHANNEIL_NUMBER = 8 //视频通道个数
+    //显示、影藏列表thead右侧补齐的monitor_hdiv_right
+    check_brower_version(false)
+    
+    var current_video_id = 0;
+    var video_server_ip = '192.168.12.167';
+    var video_server_port = 8000;
+    var video_login_user = 'admin';
+    var video_login_pwd = '12345';
+    
+    function CheckDateTime111(str)  
+    {   
+        var reg = /^(\d+)-(\d{ 1,2 })-(\d{ 1,2 }) (\d{ 1,2 }):(\d{ 1,2 }):(\d{ 1,2 })$/;   
+        var r = str.match(reg);   
+        if(r==null)return false;   
+        r[2]=r[2]-1;   
+        var d= new Date(r[1],r[2],r[3],r[4],r[5],r[6]);   
+        if(d.getFullYear()!=r[1])return false;   
+        if(d.getMonth()!=r[2])return false;   
+        if(d.getDate()!=r[3])return false;   
+        if(d.getHours()!=r[4])return false;   
+        if(d.getMinutes()!=r[5])return false;   
+        if(d.getSeconds()!=r[6])return false;   
+        return true;   
+    }
+    function CheckDateTime( strValue ) {
+        var objRegExp = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/ ; 
+        //var objRegExp = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/ 
+        if(!objRegExp.test(strValue))
+            return false;
+        else{
+            var arrayDate = strValue.split("-");
+            var intDay = parseInt(arrayDate[2],10);
+            var intYear = parseInt(arrayDate[0],10);
+            var intMonth = parseInt(arrayDate[1],10);
+            if(intMonth > 12 || intMonth < 1)
+            {
+                return false;
+            }
+        var arrayLookup = { '1' : 31,'3' : 31, '4' : 30,'5' : 31,'6' : 30,'7' : 31,
+        '8' : 31,'9' : 30,'10' : 31,'11' : 30,'12' : 31}
+        if(arrayLookup[parseInt(arrayDate[1])] != null) {
+            if(intDay >= arrayLookup[parseInt(arrayDate[1])] && intDay != 0)
+                return false;
+        }
+        if (intMonth-2 ==0) {
+        var booLeapYear = (intYear % 4 == 0 && !(intYear % 100 == 0 || intYear % 400 != 0));
+        if( !(((booLeapYear && (intDay <= 29)) || (!booLeapYear && (intDay <=28))) && intDay !=0))
+            return false;
+        }
+    }
+    return true;
+    } 
+    
+    function show_device(data)
+    {
+        if(data.devices != "")
+        {
+            $("#acc_device select option:gt(0)").remove();
+            for(a in data.devices)
+            {
+                $("#acc_device select").append('<option value="'+data.devices[a][0]+'">'+data.devices[a][1]+'</option>');
+            }
+        }
+        else if(data.type == 'all')//没有返回devices且传入参数为area
+        {
+            $("#acc_device select").empty().append('<option value="0">---------</option>');
+        }
+        if(data.doors != "")
+        {
+            $("#acc_door select option:gt(0)").remove();
+            for(a in data.doors)
+            {
+                $("#acc_door select").append('<option value="'+data.doors[a][0]+'">'+data.doors[a][1]+'</option>');
+            }
+        }
+        else if(data.type == 'device')
+        {
+            $("#acc_door select").empty().append('<option value="0">---------</option>');
+        }
+        if(data.videos != "")
+        {
+            $("#video_server select option:gt(0)").remove();
+            for(a in data.videos)
+            {
+                $("#video_server select").append('<option value="'+data.videos[a][0]+'">'+data.videos[a][1]+'</option>');
+            }
+        }
+        else
+        {
+            $("#video_server select").empty().append('<option value="0">---------</option>');
+        }
+    }
+
+    function Query_Load(url)
+    {
+        //$("#search_search_id_starttime").attr("value","2010-10-20"); 
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                show_device(data);
+            }
+        });        
+    }
+    
+    $("#id_video_search").click(function(){
+        $("#id_showTbl").find("#rt_content").html("")
+        current_video_id = $("#video_server select").val();
+        //alert(current_video_id)
+        if (current_video_id == 0)
+        {
+            return ;
+        }
+        url = "/{{ request.surl }}video/GetData/?func=video&type=videoserver&server_id="+ current_video_id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                video_server_ip = data.devices[2];
+                video_server_port = data.devices[3];
+                video_login_user = data.devices[4];
+                video_login_pwd = data.devices[5];
+                //alert(data.devices[0])
+                SearchRemoteRecord(video_server_ip, video_server_port, video_login_user, video_login_pwd);
+            }
+        });        
+    });
+    
+    $("#acc_device select").change(function(){
+        //url = "/{{ request.surl }}video/GetData/?func=video&type=device&device_id="+$(this).val();
+        //gdev_filter = "&area_id="+$(this).val();
+        if($(this).val()=="0")
+        {
+         url = "/{{ request.surl }}video/GetData/?func=video&type=all_device&device_id="+$(this).val();
+        }
+        else
+        {
+        url = "/{{ request.surl }}video/GetData/?func=video&type=device&device_id="+$(this).val();
+        }
+        
+        Query_Load(url);
+    });
+
+    $("#acc_door select").change(function(){
+        url = "/{{ request.surl }}video/GetData/?func=video&type=door&door_id="+$(this).val();
+        Query_Load(url);
+    });
+
+    $("#video_server select").change(function(){   
+        current_video_id = $(this).val();
+    });
+    
+    var stamp = new Date().getTime();
+    url = "/{{ request.surl }}video/GetData/?func=video&type=all_device&stamp="+ stamp;
+    Query_Load(url)
+    
+    var UserID
+    function SearchRemoteRecord(serverip, serverport, loginuser, pwd)
+    {
+    	var str="";
+        var st = $("#search_id_starttime").val();
+        var et = $("#search_id_endtime").val();
+    	var Netocx1 = document.getElementById("NetOCX1");
+    	UserID = Netocx1.Login(serverip, serverport, loginuser, pwd);
+        //UserID = Netocx1.Login("192.168.12.167", 8000, "admin", "12345");
+        //alert(UserID);
+        if (!CheckDateTime(st) || !CheckDateTime(et))
+        {
+            alert("日期格式错误!");
+            return;
+        }
+        $("#id_datalist").find("#rt_content").empty();
+        for(var j = 0;j < VIDEO_CHANNEIL_NUMBER;j++)
+        {
+            str=Netocx1.SearchRemoteRecordFile(j, 3, $("#search_id_starttime").val(), $("#search_id_endtime").val(), 0, 0, "");
+            //alert(str)
+            parseXML(str);
+        }
+        Netocx1.Logout();
+    }
+
+    function parseXML(xmlstr)
+    {
+    	var members = 0;
+    	var maxRes = 0;
+    
+    	if(!window.DOMParser && window.ActiveXObject){
+    		var xmlDomVersions = ['MSXML.2.DOMDocument.6.0','MSXML.2.DOMDocument.3.0','Microsoft.XMLDOM'];
+    		for(var i=0;i<xmlDomVersions.length;i++){
+    			try //Internet Explorer
+    			{
+    				  xmlDoc=new ActiveXObject(xmlDomVersions[i]);
+    				  xmlDoc.async="false";
+    				  xmlDoc.loadXML(xmlstr);
+    			}
+    			catch(e)
+    			{
+    				
+    			}
+    		}
+    	}
+    	else if (window.DOMParser && document.implementation && document.implementation.createDocument)
+    	{
+    		try{
+    			domParser = new DOMParser();
+    			xmlDoc = domParser.parseFromString(xmlstr, 'text/xml');
+    		}
+            catch(e)
+    		{
+    			
+    		}
+    	}
+    	else{
+    		
+    	}
+    	
+    	if(xmlDoc==null){
+    		alert('load xml fail')
+    	}
+    
+        members= xmlDoc.getElementsByTagName("File");
+        maxRes = members.length;
+        var htmlx=""
+        for(var i=0;i<maxRes;i++)
+        {
+            id = members[i].getElementsByTagName("Index")[0].firstChild.nodeValue;
+            fname = members[i].getElementsByTagName("FileName")[0].firstChild.nodeValue;
+            htmlx = htmlx + '<tr><td width="10%">' + id +'</td>'
+                + '<td width="70%">' + fname +'</td>'
+                //+ '<td width="25%">' + members[i].getElementsByTagName("StartTime")[0].firstChild.nodeValue +'</td>'
+                //+ '<td width="25%">' + members[i].getElementsByTagName("StopTime")[0].firstChild.nodeValue +'</td>'
+                //+ '<td width="10%">' + members[i].getElementsByTagName("FileSize")[0].firstChild.nodeValue +'</td>'
+                //+ '<td id="playvideo_'+ id +'" value="'+ fname +'"><a href="javascript:void(0);">{% trans '播放' %}</a></td>'
+                //+ '<td id="stopvideo_'+ id +'" value="'+ fname +'"><a href="javascript:void(0);">{% trans '停止' %}</a></td>'
+                + '<td class="Link_blue1" id="id_td_row_menu" style="width="20%"><div style="width: 58px;"><ul class="ul_row_menu">'
+                + '<li id="playvideo_' + id +'" title="'+ fname + '"><a  href="javascript:void(0)">{% trans '播放' %}</a></li>' 
+                + '<li id="stopvideo_' + id +'" title="'+ fname + '"><a  href="javascript:void(0)">{% trans '停止' %}</a></li>' + '</ul></div></td></tr>'
+        }
+        //$("#id_datalist").find("#rt_content").empty(); 
+        $("#id_datalist").find("#rt_content").append(htmlx);  
+        $("#rt_content tr").length
+        if($("#id_datalist").find("#rt_content tr").length>0)
+        {
+            check_brower_version(true);
+        }
+        else
+        {
+             check_brower_version(false);
+        }
+
+        $("li[id^='playvideo_'] a").click(function(){
+            var val=$(this).parent().attr("title");
+            var Netocx1 = document.getElementById("NetOCX1");
+            UserID = Netocx1.Login(video_server_ip, video_server_port, video_login_user, video_login_pwd);
+            //UserID = Netocx1.Login("192.168.12.167",8000,"admin","12345");
+            Netocx1.PlayBackByName(val);
+        });
+        $("li[id^='stopvideo_'] a").click(function(){
+            var val=$(this).parent().attr("title");
+            var Netocx1 = document.getElementById("NetOCX1");
+            Netocx1.StopPlayBack();
+            Netocx1.Logout();
+        });
+    }
+
+    Date.prototype.format = function(format)
+    {
+        var o =
+        {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(),    //day
+            "h+" : this.getHours(),   //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+        if(/(y+)/.test(format))
+        format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+        if(new RegExp("("+ k +")").test(format))
+        format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    }
+    
+    var st = new Date();
+    $("#search_id_starttime").val(st.format('yyyy-MM-dd 00:00:00'));
+    $("#search_id_endtime").val(st.format('yyyy-MM-dd 23:59:59'));
+
+    //SearchRemoteRecord("192.168.12.167", 8000, "admin", "12345");
+    {% else %}<!--contenttypes.can_VideoLinkagePage -->
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_VideoLinkagePage -->
+{% endblock %}

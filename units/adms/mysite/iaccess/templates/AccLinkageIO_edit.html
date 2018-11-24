@@ -1,0 +1,527 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% if request.user|HasPerm:"iaccess.add_acclinkageio" or request.user|HasPerm:"iaccess.change_acclinkageio" %}
+        {% autoescape off %}
+        <tr><td>
+            <div id="acc_linkageio">
+                <table>
+                    <tr>
+                        {{ form.linkage_name|field_as_td_h }}
+                    </tr>
+                    <tr>
+                        {{ form.device|field_as_td_h }}
+                    </tr>
+                </table>
+            </div>        
+            <div id="acc_linkageio_opt" class="div_box1 floatL linkageio_edit_table_title">
+                <h2>{% trans '联动条件' %}</h2>
+                <table>
+                    <tr>
+                        {{ form.trigger_opt|field_as_td_h }}
+                    </tr>
+                    <tr>
+                        {{ form.in_address|field_as_td_h }}
+                    </tr>            
+                </table>
+            </div>
+            <div id="acc_linkageio_action" class="div_box1 floatL linkageio_edit_table_title">
+                <h2>{% trans '联动动作' %}</h2>
+                <table>
+                    <tr>
+                        {{ form.out_address|field_as_td_h }}
+                    </tr>
+                    <tr id="out_action">
+                        {{ form.action_type|field_as_td_h }}
+                    </tr>
+                    <tr id="tr_delay_time">
+                        {{ form.delay_time|field_as_td_h }}
+                    </tr>
+                      <tr>
+                          {{ form.email_address|field_as_td_h }}
+                      </tr> 
+                </table>
+            </div>
+        {% if "mysite.video"|hasApp %}
+            <div id="acc_linkageio_video" class="div_box1 floatL linkageio_edit_table_title">
+                <h2>{% trans '视频联动' %}</h2>
+                <table>
+                    <tr id="video_device">
+                        {{ form.video_linkageio|field_as_td_h }}
+                    </tr>
+                    <tr id="video_channel_num">
+                        {{ form.lchannel_num|field_as_td_h }}
+                    </tr>
+                </table>
+            </div>  
+        {% endif %}  
+                    
+        </td></tr>
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+        {% endautoescape %}
+    {% endif %}<!--add/change_acclinkageio-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_acclinkageio" or request.user|HasPerm:"iaccess.change_acclinkageio" %}
+    var after_init = function()
+    {
+        if($("#id_linkage_name").val() != "")//编辑时disable device选择框
+        {
+            $("#id_device").attr("disabled", true);
+            show_setup($("#id_device").val());
+        }
+        else//新增时
+        {
+            $("#acc_linkageio_opt").hide();
+            $("#acc_linkageio_action").hide();
+            $("#acc_linkageio_video").hide();
+        }
+        
+        //select option分层级ie不兼容问题,以及ie6不支持option的disabled的问题
+        if($.browser.msie) 
+        {
+            $("#id_device .level_1").each(function(){
+                $(this).text("         "+$(this).text());
+            });
+
+            $("#id_device .level_0").each(function(){
+                $(this).attr("style", "color:#999999");
+            });
+
+            $("#id_device").change(function(){
+                var options = $("#id_device option");   
+                var len = options.length; 
+                for(var i = 0; i < len; i++){   
+                    if(options[i].disabled && options[i].selected) {  
+                        options[0].selected = "selected";   
+                        break;   
+                    }   
+                }   
+            });
+        }
+        after_init = undefined;
+    } 
+
+    function before_submit()
+    {
+        $("#id_device").attr("disabled", false);
+        return true;
+    }
+    
+    function after_save_continue()
+    {
+        $("#acc_linkageio_opt").hide();
+        $("#acc_linkageio_action").hide();
+        $("#acc_linkageio_video").hide();
+    }
+
+    function show_setup(device_id)
+    {
+        if(device_id == "")
+        {
+            return;
+        }
+        geturl = "/{{ request.surl }}iaccess/GetData/?func=machine_args&device_id="+ device_id;   
+        $.ajax({
+            type: "GET",
+            url: geturl,
+            dataType: "json",
+            async: false,
+            success: function(data){
+                //此处根据设备参数决定显示的内容
+                var outc = data.out_count;
+                var type = data.machine_type;
+                if(outc == 0)//等于0,说明设备尚未连接过
+                {
+                    alert(gettext("当前选择设备的扩展参数获取失败，无法对该设备进行联动设置！"));
+                    $("#id_device #id_null").attr("selected", "selected");
+                    return false;
+                }
+                else if(outc == -1)
+                {
+                    //$("#id_device #id_null").attr("selected", "selected");
+                    alert(gettext("当前选择设备的扩展参数异常,请删除设备并重新添加后重试！"));
+                    $("#id_device #id_null").attr("selected", "selected");
+                    return false;
+                }
+                else if(type == 4 || type == 8 || type == 12)//C3-100 ,inBIO160 12为门禁一体机
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+
+                    if(type == 4 || type == 12)
+                    {
+                        $("#id_in_address option").each(function(){
+                            if($(this).val() != 1)//输入点只有门1 无辅助输入。不需要任意
+                            {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                    else if(type == 8)//inBIO160有一个辅助输入
+                    {   
+                        $("#id_in_address option").each(function(){
+                            if($(this).val() != 1 && $(this).val() != 301)//输入点只有门1 无辅助输入。不需要任意
+                            {
+                                $(this).remove();
+                            }
+                        });
+                    }
+ 
+                    $("#id_out_address option").each(function(){
+                    	var val = $(this).val();
+                        if(val != "" && val != 1 && val != 301)//门锁1和辅助输出1
+                        {
+                            $(this).remove();
+                        }
+                    });
+                }
+                else if(type == 1 || type == 9)//C3-200,C3-260
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+
+                    $("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if(val != 0 && val != 1 && val != 2 && val != 301 && val != 302)
+                        {
+                            $(this).remove();
+                        }
+                    });
+
+                    $("#id_out_address option").each(function(){
+                        var val = $(this).val();
+                        if(val != "" && val != 1 && val != 2 && val != 301 && val != 302)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                }
+                else if(type == 2 || type == 10)//C3-400,C3-460
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+                
+                    $("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if(val > 304)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                    
+                    $("#id_out_address option").each(function(){
+                       var val = $(this).val();
+                       if(val > 304)
+                       {
+                           $(this).remove();
+                       }
+                    });
+                }
+                else if(type == 7)//C3-400转200
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+                
+                	$("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if((val > 2 && val < 301) || val > 304)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                    
+                    $("#id_out_address option").each(function(){
+                       var val = $(this).val();
+                       if((val > 2 && val < 301) || val > 304)
+                       {
+                           $(this).remove();
+                       }
+                    });
+                }
+                else if(type == 5)//如C4-200
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+                
+                    $("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if(val > 2 && val < 409)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                    
+                    $("#id_out_address option").each(function(){
+                       var val = $(this).val();
+                       if(val > 2 && val != 402 && val != 404 && val != 409 && val != 410)
+                       {
+                           $(this).remove();
+                       }
+                    });
+                }
+                else if(type == 3)//如C4-400
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+                    
+                    $("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if(val > 4 && val < 409)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                    
+                    $("#id_out_address option").each(function(){
+                       var val = $(this).val();
+                       if(val > 4 && val < 402)
+                       {
+                           $(this).remove();
+                       }
+                    });                
+                }
+                else if(type == 6)//C4-400转200
+                {
+                    $("#acc_linkageio_opt").show();
+                    $("#acc_linkageio_action").show();
+                    $("#acc_linkageio_video").show();
+                    $("#tr_delay_time").hide();
+                    
+                    $("#id_in_address option").each(function(){
+                        var val = $(this).val();
+                        if(val > 2 && val < 409)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                    
+                    $("#id_out_address option").each(function(){
+                       var val = $(this).val();
+                       if(val > 2 && val < 402)
+                       {
+                           $(this).remove();
+                       }
+                    });                
+                }
+                else
+                {
+                    alert(gettext("读取到错误的设备信息，请重试！"));
+                    //$("#id_device #id_null").attr("selected","selected");
+                    return false;
+                }
+                $("#out_action").hide();
+                $("#video_channel_num").hide();
+                if($("#id_action_type").val() == 1)//编辑时且联动动作为打开
+                {
+                    $("#tr_delay_time").show();
+                }
+                if($("#id_out_address").val() != 0)
+                {
+                    $("#out_action").show();
+                }
+                if($("#id_video_linkageio").val() != "")
+                {
+                    $("#video_channel_num").show();
+                }
+                
+                var in_address_html = $("#id_in_address").html();
+                //处理联动事件和输入点之间的联动关系
+                function trigger_opt(value)
+                {
+                    $("#id_trigger_opt").empty().append(event_html);
+                    if(type == 4 || type == 12)//C3-100和门禁一体机
+                    {
+                        $("#id_trigger_opt option").each(function(){
+                            if($(this).val() >= 220)//输入点只有门1 无辅助输入。
+                            {
+                                $(this).remove();
+                            }
+                        });
+                    }
+
+                    //兼容IE，FF浏览器
+                    $("#id_trigger_opt").val(value);
+                    $("#dropdown_box").remove();
+                    adjust_dropdown_list($("#id_trigger_opt"));
+                	$("#id_trigger_opt").val(value);
+
+                    $("#id_in_address").empty().append(in_address_html);
+                    var $option=$("#id_in_address option");
+
+                    if(value < 220 || value > 221)//门
+                    {
+                        $option.each(function(){
+                            if($(this).val() > 300)
+                            {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                    else//辅助输入
+                    {
+                        $option.each(function(){
+                            if($(this).val() > 0 && $(this).val() < 300)
+                            {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                    $("#id_action_type option[value='']").remove();//去掉blank=True产生的默认空值
+                    $("#id_lchannel_num option[value='']").remove();//去掉blank=True产生的默认空值
+                }
+                
+                //初始时(含编辑)
+                trigger_opt($("#id_trigger_opt").val());
+                //变化时
+                $("#id_trigger_opt").change(function(){
+                    var value = $(this).val();
+                    trigger_opt(value);
+                    $("#id_in_address").val(0);
+                });
+                
+                $(".dropdown_box_list div").live('click',function(){
+                    var value = $(this).attr('id');
+                    trigger_opt(value);
+                    
+                    //IE6下select隐藏不了的Bug,不能删除
+                    $("#id_trigger_opt").css('display','block');
+                    $("#id_trigger_opt").css('display','none');
+                    
+//                    $(".dropdown_box").parent().find(".dropdown_box_list:last").remove();
+//                    $(".dropdown_box").parent().find(".dropdown_box:last").remove();
+                    $("#id_in_address").val(0);
+                });
+                
+                
+                //根据输入点弹出联动动作
+                $("#id_out_address").change(function(){
+                    if($(this).val() != 0)
+                    {
+                        $("#out_action").show();
+                        if($("#id_action_type").val() == 1)
+                        {
+                            $("#tr_delay_time").show();
+                        }
+                    }
+                    else
+                    {
+                        $("#out_action").hide();
+                        $("#tr_delay_time").hide();
+                    }
+                });
+                $("#id_video_linkageio").change(function(){
+                    if($(this).val() != "")
+                    {
+                        $("#video_channel_num").show();
+                    }
+                    else
+                    {
+                        $("#video_channel_num").hide();
+                    }
+                });
+                
+                $("#id_action_type").change(function(){
+                    if($(this).val() == 255 || $(this).val() == 0)
+                    {
+                        $("#tr_delay_time").hide();
+                        $("#id_delay_time").val("0");
+                    }
+                    else
+                    {
+                        $("#tr_delay_time").show();
+                        $("#id_delay_time").val("20");
+                    }
+                });
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                //alert(textStatus+" "+errorThrown);
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-606");
+                return false;
+            }
+        });
+    }
+    
+    var in_html = '';//输入点地址
+    var out_html = '';//输出点地址
+    var event_html = '';//触发事件
+    $.ajax({
+        type: "GET",
+        url: "/{{ request.surl }}iaccess/GetData/?func=linkageio_info",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            in_html = data.in_info;
+            out_html = data.out_info;
+            event_html = data.event_info;
+            
+//            for(index in in_info)
+//            {
+//                in_html += '<option value="'+index+'">'+ in_info[index] +'</option>'
+//                
+//            }
+//            out_html = '<option value="" selected="selected">---------</option>';
+//            for(index in out_info)
+//            {
+//                out_html += '<option value="'+index+'">'+ out_info[index] +'</option>'
+//                
+//            }
+//            for(index in event_info)
+//            {
+//                event_html += '<option value="'+index+'">'+ event_info[index] +'</option>'
+//            }
+        },
+        error:function (XMLHttpRequest, textStatus, errorThrown) 
+        {
+            //alert(textStatus+" "+errorThrown);
+            alert(gettext("服务器处理数据失败，请重试！错误码：")+"-607");
+        } 
+    });
+        
+    $("#id_device").change(function(){
+        $("#id_in_address").empty().append(in_html);
+        $("#id_out_address").empty().append(out_html);   
+        $("#id_trigger_opt").empty().append(event_html); 
+
+        $("#acc_linkageio_opt").hide();
+        $("#acc_linkageio_action").hide();
+        $("#acc_linkageio_video").hide();
+        if($("#id_linkage_name").val() == "")
+        {
+            $("#id_device #id_null").attr("selected", "selected");
+            alert(gettext("请输入联动设置名称！"));
+            $("#id_linkage_name").focus()
+            return false;
+        }   
+        if($("#id_action_type").val() != 0)
+        {
+            $("#id_action_type").val(0);
+            $("#tr_delay_time").hide();
+        }
+        
+        show_setup($(this).val()); 
+    });
+
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_acclinkageio-->
+
+{% endblock %}

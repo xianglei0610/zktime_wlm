@@ -1,0 +1,54 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>后台管理主菜单</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+	<style type="text/css">
+		.menu_item {
+			background-image:url(/media/img/selector-add.gif);
+			background-repeat:no-repeat;
+			background-position: 0% 8px;
+			padding-left: 30px;
+			font-size: 16px;
+			padding-top: 10px;
+		}
+		
+		#mainmenu {
+			background-image:url(/media/img/manager_logo.jpg);
+			background-repeat:no-repeat;
+			width: 500px;
+		}
+	</style>
+	</head>
+	<body>
+		<table id="mainmenu">
+			<tr>
+				<td style="padding-left: 220px; padding-top: 100px;">
+					<table width=100%>
+						<tr>
+							<td class="menu_item"><a href="/manager/att_device.html">考勤 PUSH 模拟</a></td>
+						</tr>
+						<tr>
+							<td class="menu_item"><a href="/manager/pos_id_info.html">ID消费 PUSH 模拟</a></td>
+						</tr>
+						<tr>
+							<td class="menu_item"><a href="/manager/pos_ic_info.html">IC消费 PUSH 模拟</a></td>
+						</tr>
+						
+						<tr>
+							<td class="menu_item"><a href="/data/iclock/DevCmd/">服务器下发命令</a></td>
+						</tr>
+						<tr>
+							<td class="menu_item"><a href="/iclock/DevRTMonitorPage/">设备监控</a></td>
+						</tr>
+							<tr>
+							<td class="menu_item"><a href="/worktable/get_clear_data_html/">临时数据清理</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

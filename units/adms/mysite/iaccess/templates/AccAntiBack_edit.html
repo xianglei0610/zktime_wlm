@@ -1,0 +1,347 @@
+{% extends "data_edit.html" %}
+
+{% block form %}
+{% if request.user|HasPerm:"iaccess.add_accantiback" or request.user|HasPerm:"iaccess.change_accantiback" %}
+{% autoescape off %}
+    <tr>
+        <td>
+            <table id="tr_antiback_mode">
+                <tr>
+                    {{ form.device|field_as_td_h }}
+                </tr>
+            
+                <tr id="tr_one_mode" class="antiback_mode">
+                    <th>{{ form.one_mode|field_as_no_td }}</th>
+                    <td><label for="id_one_mode"></label></td>
+                </tr>
+                <tr id="tr_two_mode" class="antiback_mode">
+                    <th>{{ form.two_mode|field_as_no_td }}</th>
+                    <td><label for="id_two_mode"></label></td>
+                </tr>
+                <tr id="tr_three_mode" class="antiback_mode">	
+                    <th>{{ form.three_mode|field_as_no_td }}</th>
+                    <td><label for="id_three_mode"></label></td>
+                </tr>
+                <tr id="tr_four_mode" class="antiback_mode">	
+                    <th>{{ form.four_mode|field_as_no_td }}</th>
+                    <td><label for="id_four_mode"></label></td>
+                </tr>
+                <tr id="tr_five_mode" class="antiback_mode">
+                    <th>{{ form.five_mode|field_as_no_td }}</th>
+                    <td><label for="id_five_mode"></label></td>
+                </tr>
+                <tr id="tr_six_mode" class="antiback_mode">
+                    <th>{{ form.six_mode|field_as_no_td }}</th>
+                    <td><label for="id_six_mode"></label></td>
+                </tr>
+                <tr id="tr_seven_mode" class="antiback_mode">	
+                    <th>{{ form.seven_mode|field_as_no_td }}</th>
+                    <td><label for="id_seven_mode"></label></td>
+                </tr>
+                <tr id="tr_eight_mode" class="antiback_mode">
+                    <th>{{ form.eight_mode|field_as_no_td }}</th>
+                    <td><label for="id_eight_mode"></label></td>
+                </tr>
+                <tr id="tr_nine_mode" class="antiback_mode">
+                    <th>{{ form.nine_mode|field_as_no_td }}</th>
+                    <td><label for="id_nine_mode"></label></td>
+                </tr>
+                
+                {% if form.non_field_errors %}
+                    <tr><td>{{ form.non_field_errors }}</td></tr>
+                {% endif %}
+            </table>
+        </td>
+    </tr>
+{% endautoescape %}
+{% endif %}<!--add/change_accantiback-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_accantiback" or request.user|HasPerm:"iaccess.change_accantiback" %}
+    var after_init = function()
+    {		
+        //select option分层级ie不兼容问题,以及ie6不支持option的disabled的问题
+        if($.browser.msie) 
+        {
+            $("#id_device .level_1").each(function(){
+                $(this).text("         "+$(this).text());
+            });
+
+            $("#id_device .level_0").each(function(){
+                $(this).attr("style", "color:#999999");
+            });
+			$("#tr_antiback_mode").find("th").css({"width": "130px"});
+            $("#id_device").change(function(){
+                var options = $("#id_device option");   
+                var len = options.length; 
+                for(var i = 0; i < len; i++)
+                {   
+                    if(options[i].disabled && options[i].selected)
+                    {  
+                        options[0].selected = "selected";   
+                        break;   
+                    }
+                }   
+            });
+        }   
+    } 
+
+    function before_submit()
+    {
+        if($("#id_device").attr("disabled") == true)//编辑时不做处理，且不执行下面的判断
+        {
+            $("#id_device").attr("disabled", false);
+             return true;
+        }
+        return true;   
+    }
+    
+    if( $("#id_device").val() != "")//编辑时
+    {
+        $("#id_device").attr("disabled", true);
+    }
+    else//新增时
+    {
+        $("#tr_antiback_mode tr:gt(0)").hide();
+    }
+    
+    //用户没有选择控制器前先检查控制器是两门还是四门以及读头数量。同样适应与编辑时不允许用户更改控制器的情况
+    var init_value = $("#id_device").val();
+
+    function check_device(device_id)
+    {
+        geturl = "/{{ request.surl }}iaccess/GetData/?func=machine_args&device_id=" + device_id;     
+        $.ajax({
+            type: "GET",
+            url: geturl,
+            dataType: "json",
+            async: false,
+            success: function(data){
+                var doorcount = data.door_count;
+                var readercount = data.reader_count;
+                var names = data.doors_name;
+                var machine_type = data.machine_type
+                var door_name_1 = names[0][1] + "(" + names[0][0] + ")";
+                var door_name_2 = "";
+                var door_name_3 = "";
+                var door_name_4 = "";
+                if(doorcount == 0)//尚未连接过
+                {
+                    $("tr[id^='tr_']").hide()
+                    alert(gettext("当前选择设备的扩展参数获取失败，无法对该设备进行反潜设置！"));
+                }
+                else if(machine_type == 10 || machine_type == 3)//inbio四门双向 C4-400四门双向
+                {   
+                    door_name_2 = names[1][1] + "(" + names[1][0] + ")";
+                    door_name_3 = names[2][1] + "(" + names[2][0] + ")";
+                    door_name_4 = names[3][1] + "(" + names[3][0] + ")";
+
+                    $("#tr_antiback_mode tr:gt(0)").show();
+                    $("#tr_one_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("反潜"));
+                    $("#tr_two_mode td label").text(gettext("门:")+door_name_3+" "+gettext("与")+" "+door_name_4+gettext("反潜"));
+                    $("#tr_three_mode td label").text(gettext("门:")+door_name_1+gettext("或")+door_name_2+" "+gettext("与")+" "+door_name_3+gettext("或")+door_name_4+gettext("反潜"));
+                    $("#tr_four_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("或")+door_name_3+gettext("反潜"));    
+                    $("#tr_five_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("或")+door_name_3+gettext("或")+door_name_4+gettext("反潜"));  
+                    $("#tr_six_mode td label").text(gettext("门:")+door_name_1+gettext("读头间反潜"));
+                    $("#tr_seven_mode td label").text(gettext("门:")+door_name_2+gettext("读头间反潜"));
+                    $("#tr_eight_mode td label").text(gettext("门:")+door_name_3+gettext("读头间反潜"));
+                    $("#tr_nine_mode td label").text(gettext("门:")+door_name_4+gettext("读头间反潜"));
+                }
+                else if(machine_type == 2)//四门单向C3-400
+                {   
+                    door_name_2 = names[1][1] + "(" + names[1][0] + ")";
+                    door_name_3 = names[2][1] + "(" + names[2][0] + ")";
+                    door_name_4 = names[3][1] + "(" + names[3][0] + ")";
+
+                    $("#tr_antiback_mode tr:gt(0)").show();
+                    $("#tr_one_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("反潜"));
+                    $("#tr_two_mode td label").text(gettext("门:")+door_name_3+" "+gettext("与")+" "+door_name_4+gettext("反潜"));
+                    $("#tr_three_mode td label").text(gettext("门:")+door_name_1+gettext("或")+door_name_2+" "+gettext("与")+" "+door_name_3+gettext("或")+door_name_4+gettext("反潜"));
+                    $("#tr_four_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("或")+door_name_3+gettext("反潜"));    
+                    $("#tr_five_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("或")+door_name_3+gettext("或")+door_name_4+gettext("反潜"));  
+                    $("#tr_six_mode").hide();
+                    $("#tr_six_mode").hide();
+                    $("#tr_seven_mode").hide();
+                    $("#tr_eight_mode").hide();
+                    $("#tr_nine_mode").hide();
+                    
+                }
+                
+                else if(doorcount == 1)//单门双向
+                {   
+                    $("#tr_antiback_mode tr:gt(0)").show();
+                    $("#tr_two_mode").hide();
+                    $("#tr_three_mode").hide();
+                    $("#tr_four_mode").hide();
+                    $("#tr_five_mode").hide();
+                    $("#tr_six_mode").hide();
+                    $("#tr_seven_mode").hide();
+                    $("#tr_eight_mode").hide();
+                    $("#tr_nine_mode").hide();
+                    $("#tr_one_mode td label").text(gettext("门:")+door_name_1+gettext("读头间反潜"));
+                }
+                else if(doorcount == 2 && readercount == 4)//双门双向C3-200
+                {   
+                    door_name_2 = names[1][1] + "(" + names[1][0] + ")";
+                    $("#tr_antiback_mode tr:gt(0)").show();
+                    $("#tr_four_mode").hide();
+                    $("#tr_five_mode").hide();
+                    $("#tr_six_mode").hide();
+                    $("#tr_six_mode").hide();
+                    $("#tr_seven_mode").hide();
+                    $("#tr_eight_mode").hide();
+                    $("#tr_nine_mode").hide();
+                    
+                    $("#tr_one_mode td label").text(gettext("门:")+door_name_1+gettext("读头间反潜"));
+                    $("#tr_two_mode td label").text(gettext("门:")+door_name_2+gettext("读头间反潜"));
+                    $("#tr_three_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("反潜"));
+                }
+                else if(doorcount == 2 && readercount == 2)//双门单向inbio260
+                {   
+                    door_name_2 = names[1][1] + "(" + names[1][0] + ")";
+                    $("#tr_antiback_mode tr:gt(0)").show();
+                    $("#tr_one_mode").hide()
+                    $("#tr_two_mode").hide();
+                    $("#tr_four_mode").hide();
+                    $("#tr_five_mode").hide();
+                    $("#tr_six_mode").hide();
+                    $("#tr_seven_mode").hide();
+                    $("#tr_eight_mode").hide();
+                    $("#tr_nine_mode").hide();
+
+                    $("#tr_three_mode td label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("反潜"));             
+                }
+                else
+                {   
+                    alert(gettext("读取到错误的设备信息，请重试！"));
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                //alert(textStatus+" "+errorThrown);
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-602");
+                return false;
+            }
+        });
+    }
+
+    if(init_value)//编辑时
+    {
+        check_device(init_value);
+    }
+
+    //用于用户新增数据时
+    $("#id_device").change(function(){
+        var device_id = $(this).find("option:selected").val();
+        if(device_id)
+        {
+            check_device(device_id);
+        }
+    });
+
+    $("#id_one_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+            $("#id_five_mode").removeAttr("checked");
+            $("#id_six_mode").removeAttr("checked");
+            $("#id_seven_mode").removeAttr("checked");
+         }
+    });
+    $("#id_two_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+            $("#id_five_mode").removeAttr("checked");
+            $("#id_eight_mode").removeAttr("checked");
+            $("#id_nine_mode").removeAttr("checked");
+         }
+    });
+    $("#id_three_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_two_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+            $("#id_five_mode").removeAttr("checked");
+            $("#id_six_mode").removeAttr("checked");
+            $("#id_seven_mode").removeAttr("checked");
+            $("#id_eight_mode").removeAttr("checked");
+            $("#id_nine_mode").removeAttr("checked");
+            
+            
+         }
+    });
+    $("#id_four_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_two_mode").removeAttr("checked");
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_five_mode").removeAttr("checked");
+            $("#id_six_mode").removeAttr("checked");
+            $("#id_seven_mode").removeAttr("checked");
+            $("#id_eight_mode").removeAttr("checked");
+            
+         }
+    });
+    $("#id_five_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_two_mode").removeAttr("checked");
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+            $("#id_six_mode").removeAttr("checked");
+            $("#id_seven_mode").removeAttr("checked");
+            $("#id_eight_mode").removeAttr("checked");
+            $("#id_nine_mode").removeAttr("checked");
+            
+         }
+    });
+    
+    $("#id_six_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+            $("#id_five_mode").removeAttr("checked");
+         }
+    });
+    $("#id_seven_mode").click(function(){
+        if($(this).attr("checked"))
+        {
+           $("#id_one_mode").removeAttr("checked");
+           $("#id_three_mode").removeAttr("checked");
+           $("#id_four_mode").removeAttr("checked");
+           $("#id_five_mode").removeAttr("checked");
+        }
+   });
+    $("#id_eight_mode").click(function(){
+        if($(this).attr("checked"))
+        {
+           $("#id_two_mode").removeAttr("checked");
+           $("#id_three_mode").removeAttr("checked");
+           $("#id_four_mode").removeAttr("checked");
+           $("#id_five_mode").removeAttr("checked");
+        }
+   });
+    $("#id_nine_mode").click(function(){
+        if($(this).attr("checked"))
+        {
+           $("#id_two_mode").removeAttr("checked");
+           $("#id_three_mode").removeAttr("checked");
+           $("#id_five_mode").removeAttr("checked");
+        }
+   });
+    
+    {% else %}     
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_accantiback-->
+
+{% endblock %}

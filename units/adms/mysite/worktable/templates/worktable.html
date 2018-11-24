@@ -1,0 +1,869 @@
+{% extends "base_page_frame.html" %}
+{% block headjs %}
+<link href="{{ MEDIA_URL }}/css/drag.css" rel="stylesheet" type="text/css" />
+<link href="{{ MEDIA_URL }}/css/app_guide.css" rel="stylesheet" />
+<script src="{{ MEDIA_URL }}/jslib/CDrag.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/excanvas.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.plot.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/worktable.js"></script>
+<script type="text/javascript">
+$(function(){
+    var id_dog_server_date = $("#id_dog_server_date").val()
+    var et=new Date(id_dog_server_date.replace(/-/g,"/"))
+    if(et<new Date())
+    {
+        alert(gettext("尊敬的客户!您使用的软件维护时间已经到期！如需续约！请及时跟供应商联系！"));
+    }
+    
+ 	$("body").removeClass("indexBody");
+	if($.browser.msie && parseFloat($.browser.version)>6){
+		$("body").css({overflow:"hidden"})
+	}		
+    $("#DEL_CDrag").show();
+    $("#ADD_CDrag").show();
+    $(".icon_help_current").show();
+    var surl="{{ request.surl }}";
+    var dbapp_url="{{ request.dbapp_url }}";
+    init_common_opt(surl,dbapp_url);
+    
+    {% if "WORKTABLE_JS"|filter_config_option %}
+    
+        init_commom_search(surl,dbapp_url);
+        
+        {% if request.user|HasPerm:"contenttypes.can_AttCalculate" %}
+        	init_attrate(surl,dbapp_url);
+        {% endif %} 
+        
+        {% if request.user|HasPerm:"personnel.browse_employee" %}
+        	init_empstructure(surl,dbapp_url);
+        {% endif %}
+        
+        init_instant(surl,dbapp_url);
+        
+        
+        {% if request.user|HasPerm:"att.opaddmanyuserid_empspecday" %}
+        	init_specday(surl,dbapp_url);
+        {% endif %} 
+        
+        {% if request.user|HasPerm:"att.opauditmanyemployee_overtime" %}
+        	init_overtime(surl,dbapp_url);
+        {% endif %}	
+        
+        {% if  request.user|HasPerm:"att.opaddmanycheckexact_checkexact" %}
+        	init_checkexact(surl,dbapp_url);
+        {% endif %}
+        
+    {% endif %}
+    
+    //如果选择英文的就不让显示
+    if($("#install_language").html()!="zh-cn"){
+        $("#en_display_show").remove();
+        $("#en_displayN").attr("class","displayN");
+        $("#en_displayN").next().attr("class","displayN");
+    }
+    $("#id_panels").show();
+});
+
+</script>
+{% endblock %}
+{% load i18n %}
+{% load dbapp_tags %}
+{% block datalist_content %}
+
+<div id="id_panels" class="rightBox1 displayN">
+    <div class="move" id="root_row">
+        <div class="div_title">
+            <div class="title_close" title="{% trans '关闭' %}">
+                <a href="#"></a>
+            </div>
+            <div class="title_minimize">
+                <a href="#">
+                </a>
+            </div>
+            <div class="title_a">　
+            </div>
+        </div>
+        <div class="content">
+        </div>
+        
+    </div>
+
+   
+    <div class="root">
+        <div id="id_edit_container"></div><!-- 编辑用的div -->
+        <div class="tools" >
+            <!-- 获取安装信息，显示隐藏相应的模块 -->
+            <a  id="install_language" class="displayN">{{installed_language}}</a>
+            <a id="DEL_CDrag" class="displayN" href="javascript:void(0);">{% trans "[还原工作面板]" %}
+            </a>&nbsp;&nbsp;
+            <a id="ADD_CDrag" class="displayN" href="javascript:void(0);">{% trans "[自定义工作面板]" %}
+            </a>
+            <a href="{{ request.dbapp_url }}system/help/?p=/file/{{ LANGUAGE_CODE }}/help/worktable.html" target="_blank" title="{% trans '当前页帮助' %}" class="icon_help_current">&nbsp;
+            </a>
+        </div>
+        <div class="cell_left floatL" id="m_1">
+            <div class="line2">　
+            </div>
+            <div style="line-height:1px;height:1px; overflow:hidden">&nbsp;
+            </div>
+            <div class="move" id="m_1_1_common_opt" style="display:block;">
+                <div class="div_title">
+                    <div class="title_close" title="{% trans '关闭' %}">
+                        <a href="#"></a>
+                    </div>
+                    <div class="title_minimize">
+                        <a href="#">
+                        </a>
+                    </div>
+                    <div class="title_a">　
+                    </div>
+                </div>
+                <div class="content">
+                    <div id="id_common_opt">
+                    	<table class="commom_opt commom_panel Link_blue1">
+                            <tr>
+                                <td>
+                                    {% if request.user|HasPerm:"personnel.add_employee" %}
+                                         <a href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/Employee/_new_/?_lock=1">{% trans "新增人员" %} </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if  request.user|HasPerm:"personnel.add_issuecard"%}
+                                         <a href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/IssueCard/_new_/">{% trans "人员发卡"  %} </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% if request.user|HasPerm:"personnel.add_department" %}
+                                    <a href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/Department/_new_/"> {% trans "新增部门" %} </a>
+                                    {% endif %}
+                                </td>
+                                
+                                <td>
+                                    {% if "WORKTABLE_HAS_ADD_AREA"|filter_config_option %}
+                                        {% if request.user|HasPerm:"personnel.add_area" %}
+                                             <a   href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/Area/_new_/?_lock=1">{% trans "新增区域" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                    
+                            <tr>
+                                <td>
+                                    {% if "WORKTABLE_HAS_REGISTERFINGER"|filter_config_option %}
+                                        {% if request.user|HasPerm:"personnel.opregisterfinger_employee" %}
+                                             <a   href="javascript:void(0)" relgoopt="{{request.dbapp_url}}personnel/Employee/_op_/OpRegisterFinger/"> {% trans "指纹登记" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                
+                                <td>
+                                    {% if "WORKTABLE_HAS_ADD_LEAVELOG"|filter_config_option %}
+                                        {% if  request.user|HasPerm:"personnel.add_leavelog" %}
+                                             <a target="_blank"  href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/LeaveLog/_new_/">{% trans "新增人员离职" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% if "WORKTABLE_HAS_ADD_CHECKEXACT"|filter_config_option %}
+                                        {% if  request.user|HasPerm:"att.opaddmanycheckexact_checkexact" %}
+                                             <a href="javascript:void(0)" relgo="{{request.dbapp_url}}att/CheckExact/_op_/OpAddManyCheckExact/?_lock=1">{% trans "新增补签卡" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                
+                                <td>
+                                    {% if "WORKTABLE_HAS_EMPSPECDAY"|filter_config_option %}
+                                        {% if request.user|HasPerm:"att.opaddmanyuserid_empspecday" %}
+                                            <a  href="javascript:void(0)" relgo="{{request.dbapp_url}}att/EmpSpecDay/_op_/OpAddManyUserID/?_lock=1">{% trans "请假" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if "WORKTABLE_HAS_ATTCAL"|filter_config_option %}
+                                        {% if request.user|HasPerm:"contenttypes.can_AttCalculate" %}
+                                             <a target="_blank" href="/{{request.surl}}page/att/AttReport/">{% trans "考勤计算" %} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                            {% if "WORKTABLE_ACCESS"|filter_config_option %}
+                            <tr>
+                                <td>
+                                    {% if request.user|HasPerm:"iaccess.browse_accrtmonitor" %}
+                                    <a target="_blank" href="/{{request.surl}}iaccess/ReportFormPage/">
+                                        {% get_config_option "WORKTABLE_REPORT_NAME" %}
+                                    </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+                                    <a target="_blank" href="/{{request.surl}}iclock/DevRTMonitorPage/">
+                                        {% get_config_option "WORKTABLE_MONITOR_DEVICE_NAME" %}
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% if request.user|HasPerm:"iaccess.add_accholidays" %}
+                                        <a href="javascript:void(0)" relgo="{{request.dbapp_url}}iaccess/AccHolidays/_new_/?_lock=1">
+                                         {% get_config_option "WORKTABLE_ACC_HOLIDAYS_NAME" %}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% if request.user|HasPerm:"iclock.uploadlogs_device" %}
+                                        <a href="javascript:void(0)" relgo="{{request.dbapp_url}}iclock/Device/_op_/UploadLogs/?_lock=1">
+                                            {% get_config_option "WORKTABLE_UPLOADLOGS" %}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            {% if "WORKTABLE_COMMON_SEARCH"|filter_config_option %}
+                <div class="move" id="m_1_2_common_search" style="display:block;">
+                    <div class="div_title">
+                        <div class="title_close" title="{% trans '关闭' %}">
+                            <a href="#"></a>
+                        </div>
+                        <div class="title_minimize">
+                            <a href="#">
+                            </a>
+                        </div>
+                        <div class="title_a">　
+                        </div>
+                    </div>
+                    <div class="content">
+                        	<table class="commom_search commom_panel Link_blue1">
+                        		<tr>
+                        			<td>
+                        				{% if request.user|HasPerm:"personnel.browse_employee" %}
+                        					 <a href="javascript:void(0)" searchfield="employee_num" relgo="/{{request.surl}}worktable/get_search_form/personnel/Employee/">
+                        					 {% trans "人员查询" %}</a>
+                        				{% endif %}
+                        			</td>
+                        			<td>
+                        				{% if request.user|HasPerm:"personnel.browse_employee" %}
+                        					 <a href="javascript:void(0)" searchfield="identitycard" relgo="/{{request.surl}}worktable/get_search_form/personnel/Employee/">
+                        					 {% trans "身份证号查询" %}</a>
+                        				{% endif %}
+                        			</td>
+                        		</tr>
+                                <tr>
+                                    <td>
+                                        {% if request.user|HasPerm:"personnel.browse_issuecard" %}
+                                             <a href="javascript:void(0)" searchfield="issuecard" relgo="/{{request.surl}}worktable/get_search_form/personnel/IssueCard/">{% trans "卡片查询" %} </a>
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
+                                        {% if request.user|HasPerm:"personnel.browse_department" %}
+                                             <a href="javascript:void(0)" searchfield="department" relgo="/{{request.surl}}worktable/get_search_form/personnel/Department/">{% trans "部门查询" %} </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% if "WORKTABLE_ATT_COMMON_SEARCH"|filter_config_option %}
+                                    <tr>
+                                        <td>
+                                            {% if request.user|HasPerm:"att.can_AttDeviceDataManage" %}
+                                                 <a href="javascript:void(0)" searchfield="device" relgo="/{{request.surl}}worktable/get_search_form/iclock/Device/?device_type__exact=1">{% trans "考勤设备查询" %}</a>
+                                            {% endif %}
+                                        </td>
+                                    
+                                        <td>
+                                            {% if request.user|HasPerm:"personnel.browse_leavelog" %}
+                                                 <a href="javascript:void(0)"  searchfield="leave" relgo="/{{request.surl}}worktable/get_search_form/personnel/LeaveLog/">{% trans "离职人员查询" %} </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {% if request.user|HasPerm:"iclock.browse_transaction" %}
+                                            	<a target="_blank" href="/{{request.surl}}page/att/CheckInOut/">{% trans "考勤原始数据查询" %} </a>
+                                                 <!--<a href="javascript:void(0)" searchfield="translog" relgo="/{{request.surl}}worktable/get_search_form/iclock/Transaction/">{% trans "考勤原始数据查询" %} </a>-->
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td>
+                                            {% if request.user|HasPerm:"personnel.browse_empchange" %}
+                                                
+                                                 <a id ="en_display_show" href="javascript:void(0)" searchfield="empchange" relgo="/{{request.surl}}worktable/get_search_form/personnel/EmpChange/">{% trans "员工调动查询" %}</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
+                                            {% if request.user|HasPerm:"att.browse_checkexact" %}
+                                                 <a href="javascript:void(0)" searchfield="checkexact" relgo="/{{request.surl}}worktable/get_search_form/att/CheckExact/">{% trans "补签卡查询" %}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                
+                            </table>
+                    </div>
+                </div>
+            {% endif %}
+            
+            {% if  not request.user|HasPerm:"personnel.add_employee"  or not request.user|HasPerm:"att.add_num_run" or not request.user|HasPerm:"contenttypes.can_AttCalculate" or not request.user|HasPerm:"iclock.add_device" or not request.user|HasPerm:"att.add_schclass" or not request.user|HasPerm:"att.opadduserofrun_user_of_run" and not request.user|HasPerm:"att.opaddtempshifts_user_of_run" %}
+            {% else %}
+             {% if "WORKTABLE_COMMON_SEARCH"|filter_config_option %}
+                    <div class="move" id="m_1_3_attquickstart" style="display:block;">
+                       <div class="div_title">
+                           <div class="title_close" title="{% trans '关闭' %}">
+                               <a href="#"></a>
+                           </div>
+                           <div class="title_minimize">
+                               <a href="#">
+                               </a>
+                           </div>
+                           <div class="title_a">　
+                           </div>
+                       </div>
+                       <div class="content">
+                           <table class="commom_panel Link_blue1 displayN">
+                                <tr>
+                                    <td>
+                                            <a target="_blank"  href="{{request.dbapp_url}}personnel/Employee/">{% trans "第一步:人员管理" %} </a>
+                                    </td>
+                                    <td>
+                                            <a  target="_blank" href="{{request.dbapp_url}}iclock/device/">{% trans "第四步:设备管理" %} </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                             <a target="_blank"  href="{{request.dbapp_url}}att/SchClass/">{% trans "第二步:时段设置" %} </a>
+                                    </td>
+                                    <td>
+                                             <a  target="_blank" href="../../att/AttUserOfRun/">{% trans "第五步:为员工排班" %} </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                             <a target="_blank"  href="{{request.dbapp_url}}att/NUM_RUN/">{% trans "第三步:班次设置" %}</a>
+                                    </td>
+                                    <td>
+                                             <a target="_blank"  href="../../page/att/AttReport/">{% trans "第六步:考勤计算与报表" %} </a>
+                                        
+                                    </td>
+                                </tr>	
+                         </table>
+                            <table align="center" border="0" style="margin-top:10px;">
+                              <tr>
+                                <td><div class="guide_step_box">
+                                  <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                    <tr>
+                                      <td width="45px" align="center" valign="top"><!--<div class="guide_icon_box icon_stepNo1"></div>--><img src="{{ MEDIA_URL }}/images/icon_guid/icon_user.jpg" height="30px" /></td>
+                                      <td height="16px" class="guide_step_name"><ul>
+                                          <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}personnel/Employee/','step1')">{% trans "第一步:人员管理" %} </a><a href="{{request.dbapp_url}}att/EmpSpecDay/" target="_blank" class="Link_blue1 font14"></a> </li>
+                                      </ul></td>
+                                    </tr>
+                                  </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="icon_arrow_b"></div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="guide_step_box">
+                                  <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                    <tr>
+                                      <td width="45px" align="center" valign="top"><!--<div class="guide_icon_box icon_stepNo2"></div>--><img src="{{ MEDIA_URL }}/images/icon_guid/icon_schclass.jpg" height="30px" /></td>
+                                      <td height="16px" class="guide_step_name"><ul>
+                                          <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}att/SchClass/','step2')">{% trans "第二步:时段设置" %} </a> </li>
+                                      </ul></td>
+                                    </tr>
+                                  </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>
+                              </tr>
+                                <tr>
+                                <td><div class="icon_arrow_b"></div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="guide_step_box">
+                                    <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                      <tr>
+                                        <td width="45px" align="center" valign="top"><!--<div class="guide_icon_box icon_stepNo3"></div>--><img src="{{ MEDIA_URL }}/images/icon_guid/icon_numrun.jpg" height="30px" /></td>
+                                        <td height="16px" class="guide_step_name"><ul>
+                                            <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}att/NUM_RUN/','step3')">{% trans "第三步:班次设置" %}</a></li>
+                                        </ul></td>
+                                      </tr>
+                                    </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>
+                              </tr>
+                                <tr>
+                                <td><div class="icon_arrow_b"></div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="guide_step_box">
+                                    <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                      <tr>
+                                        <td width="45px" align="right" valign="top"><img src="{{ MEDIA_URL }}/images/icon_guid/icon_device.jpg" height="30px" /></td>
+                                        <td height="16px" class="guide_step_name"><ul>
+                                            <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14" href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}iclock/device/','step4')">{% trans "第四步:设备管理" %} </a></li>
+                                        </ul></td>
+                                      </tr>
+                                    </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>
+                              </tr>
+                                <tr>
+                                <td><div class="icon_arrow_b"></div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="guide_step_box">
+                                    <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                      <tr>
+                                        <td width="45px" align="center" valign="top"><img src="{{ MEDIA_URL }}/images/icon_guid/icon_attuserofrun.jpg" height="30px" /></td>
+                                        <td height="16px" class="guide_step_name"><ul>
+                                            <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14" href="javascript:void(0)" onclick="window.open('../../att/AttUserOfRun/','step5')">{% trans "第五步:为员工指定班次" %} </a></li>
+                                        </ul></td>
+                                      </tr>
+                                    </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>	
+                              </tr>
+                                <tr>
+                                <td><div class="icon_arrow_b"></div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="guide_step_box">
+                                    <div class="tl"></div>
+                                  <div class="tr"></div>
+                                  <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                                      <tr>
+                                        <td width="45px" align="center" valign="top"><img src="{{ MEDIA_URL }}/images/icon_guid/icon_attcalculate.jpg" height="30px" /></td>
+                                        <td height="16px" class="guide_step_name"><ul>
+                                            <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('../../page/att/AttReport/','step6')">{% trans "第六步:考勤计算与报表" %} </a></li>
+                                        </ul></td>
+                                      </tr>
+                                    </table>
+                                  <div class="bl"></div>
+                                  <div class="br"></div>
+                                </div></td>
+                                
+                              </tr>
+                            </table>
+
+                       </div>
+                     </div>
+                {% endif %}
+            {% endif %}
+            {% if  not request.user|HasPerm:"att.opauditmanyemployee_overtime" %}
+            {% else %}
+                {% if "WORKTABLE_OVERTIME_AUDIT"|filter_config_option %}
+                    <div class="move" id="m_1_4_overtime_audit" style="display:block;">
+                       <div class="div_title">
+                           <div class="title_close" title="{% trans '关闭' %}">
+                               <a href="#"></a>
+                           </div>
+                           <div class="title_minimize">
+                               <a href="#">
+                               </a>
+                           </div>
+                           <div class="title_a">　
+                           </div>
+                       </div>
+                       <div class="content">
+                           <div id="audit_overtime"></div>
+                       </div>
+                   </div>
+                {% endif %}
+           {% endif %} 
+           {% if  not request.user|HasPerm:"att.opspecaudit_empspecday" %}
+           {% else %}
+                {% if "WORKTABLE_SPECDAY_AUDIT"|filter_config_option %}
+                 <div class="move" id="m_1_5_specday_audit" style="display:block;">
+                     <div class="div_title">
+                         <div class="title_close" title="{% trans '关闭' %}">
+                             <a href="#"></a>
+                         </div>
+                         <div class="title_minimize">
+                             <a href="#">
+                             </a>
+                         </div>
+                         <div class="title_a">　
+                         </div>
+                     </div>
+                     <div class="content">
+                         <div id="audit_specday"></div>
+                     </div>
+                 </div>
+                {% endif %}
+           {% endif %}
+           {% if "POS"|filter_config_option %}
+            <div class="move" id="m_1_6_posquickstart" style="display:block;">
+             <div class="div_title">
+                 <div class="title_close" title="{% trans '关闭' %}">
+                     <a href="#"></a>
+                 </div>
+                 <div class="title_minimize">
+                     <a href="#">
+                     </a>
+                 </div>
+                 <div class="title_a">　
+                 </div>
+             </div>
+             <div class="content">
+                 <table align="center" border="0" style="margin-top:10px;">
+                   <tr>
+                     <td><div class="guide_step_box">
+                       <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                         <tr>
+                           <td width="45px" align="center" valign="top"><!--<div class="guide_icon_box icon_stepNo1"></div>--><img src="{{ MEDIA_URL }}/images/icon_guid/icon_user.jpg" height="30px" /></td>
+                           <td height="16px" class="guide_step_name"><ul>
+                               <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}personnel/Employee/','posstep1')">{% trans "第一步:人员管理" %} </a><a href="{{request.dbapp_url}}att/EmpSpecDay/" target="_blank" class="Link_blue1 font14"></a> </li>
+                           </ul></td>
+                         </tr>
+                       </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                       <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                         <tr>
+                           <td width="45px" align="center" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo2"></div></td>
+                           <td height="16px" class="guide_step_name"><ul>
+                               <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14" href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}iclock/device/','posstep2')">{% trans "第二步:设备管理" %} </a> </li>
+                           </ul></td>
+                         </tr>
+                       </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div></td>
+                   </tr>
+                     <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                         <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                           <tr>
+                             <td width="45px" align="center" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo3"></div><!--<img src="{{ MEDIA_URL }}/images/icon_guid/icon_numrun.jpg" height="30px" />--></td>
+                             <td height="16px" class="guide_step_name"><ul>
+                                 <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','step3')">{% trans "第三步:卡管理" %}</a></li>
+                             </ul></td>
+                           </tr>
+                         </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div></td>
+                   </tr>
+                     <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                         <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                           <tr>
+                             <td width="45px" align="right" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo4"></div></td>
+                             <td height="16px" class="guide_step_name"><ul>
+                                 <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14" href="javascript:void(0)" onclick="window.open('../../pos/splittimepage/','step4')">{% trans "第四步:基本资料设置" %} </a></li>
+                             </ul></td>
+                           </tr>
+                         </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div></td>
+                   </tr>
+                     <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                         <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                           <tr>
+                             <td width="45px" align="center" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo5"></div></td>
+                             <td height="16px" class="guide_step_name"><ul>
+                                 <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14" href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}pos/ICcard/','step5')">{% trans "第五步:卡类资料设置" %} </a></li>
+                             </ul></td>
+                           </tr>
+                         </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div></td>	
+                   </tr>
+                     <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                         <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                           <tr>
+                             <td width="45px" align="center" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo6"></div></td>
+                             <td height="16px" class="guide_step_name"><ul>
+                                 <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('../../pos/consume/','posstep6')">{% trans "第六步:消费报表" %} </a></li>
+                             </ul></td>
+                           </tr>
+                         </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div>
+                    </td>	
+                   </tr>
+                     <tr>
+                     <td><div class="icon_arrow_b"></div></td>
+                   </tr>
+                   <tr>
+                   <tr>
+                     <td><div class="guide_step_box">
+                         <div class="tl"></div>
+                       <div class="tr"></div>
+                       <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                           <tr>
+                             <td width="45px" align="center" valign="top"><div class="guide_icon_box_pos icon_pos_stepNo7"></div></td>
+                             <td height="16px" class="guide_step_name"><ul>
+                                 <li> <span class="color_orange">&raquo;</span> <a class="Link_blue1 font14"  href="javascript:void(0)" onclick="window.open('../../pos/report/','posstep7')">{% trans "第七步:统计报表" %} </a></li>
+                             </ul></td>
+                           </tr>
+                         </table>
+                       <div class="bl"></div>
+                       <div class="br"></div>
+                     </div>
+                    </td>	
+                   </tr>
+                 </table>
+                 
+             </div>
+         </div>
+            
+        {% endif %}
+          
+            
+        </div>
+        <div class="cell_center floatR" id="m_2">
+            <div class="line2">　
+            </div>
+            <div style="line-height:1px;height:1px; overflow:hidden">&nbsp;
+            </div>
+            {% if "WORKTABLE_COMMON_MONITOR"|filter_config_option %}
+                <div class="move" id="m_2_1_common_monitor" style="display:block;">
+                   <div class="div_title">
+                       <div class="title_close" title="{% trans '关闭' %}">
+                           <a href="#"></a>
+                       </div>
+                       <div class="title_minimize">
+                           <a href="#">
+                           </a>
+                       </div>
+                       <div class="title_a">　
+                       </div>
+                   </div>
+                   <div class="content">
+                       <div class="common_monitor Link_blue1">
+                       	<div id="id_datalist"></div>
+                       </div>
+                   </div>
+                </div>
+            {% endif %}
+            
+            {% if not request.user|HasPerm:"personnel.browse_employee" %}
+            {% else %}
+                {% if "WORKTABLE_EMPSTRUCTURE"|filter_config_option %}
+                    <div class="move" id="m_2_2_empstructure" style="display:block;">
+                       <div class="div_title">
+                           <div class="title_close" title="{% trans '关闭' %}">
+                               <a href="#"></a>
+                           </div>
+                           <div class="title_minimize">
+                               <a href="#">
+                               </a>
+                           </div>
+                           <div class="title_a">　
+                           </div>
+                       </div>
+                       <div class="content">
+                            <div id="id_category">
+                                <input type="radio" name="imgCategory" checked="checked" value='1' /><span>{% trans '按工龄' %} </span>
+                                <input type="radio" name="imgCategory" value='2' /><span>{% trans '按性别' %} </span>
+                                <input id="en_displayN"  type="radio" name="imgCategory" value='3' /><span>{% trans '按学历' %}</span>
+                            </div>
+                            <br />
+                           <div id="id_empstructure" style="width:450px;height:200px;">
+                           </div>
+                       </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% if not request.user|HasPerm:"contenttypes.can_AttCalculate" %}
+            {% else %}
+                {% if "WORKTABLE_ATTRATE"|filter_config_option %}
+                    <div class="move" id="m_2_3_attrate" style="display:block;">
+                       <div class="div_title">
+                           <div class="title_close" title="{% trans '关闭' %}">
+                               <a href="#"></a>
+                           </div>
+                           <div class="title_minimize">
+                               <a href="#">
+                               </a>
+                           </div>
+                           <div class="title_a">　
+                           </div>
+                       </div>
+                       <div class="content">
+                           <div id="id_attrate" style="width:450px;height:200px;">
+                           </div>
+                       </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+            {% if not request.user|HasPerm:"iaccess.add_acctimeseg" or not request.user|HasPerm:"iaccess.add_acclevelset" or not request.user|HasPerm:"personnel.add_employee" or not request.user|HasPerm:"iclock.add_device" or not request.user|HasPerm:"iaccess.add_accholidays" or not request.user|HasPerm:"contenttypes.can_EmpLevelSetPage" or not request.user|HasPerm:"contenttypes.can_DoorSetPage" or not request.user|HasPerm:"contenttypes.can_RTMonitorPage" %}
+            {% else %}
+                {% if "IACCESS"|filter_config_option %}
+                    <div class="move" id="m_2_4_accquickstart" style="display:block;">
+                       <div class="div_title">
+                           <div class="title_close" title="{% trans '关闭' %}">
+                               <a href="#"></a>
+                           </div>
+                           <div class="title_minimize">
+                               <a href="#">
+                               </a>
+                           </div>
+                           <div class="title_a">　
+                           </div>
+                       </div>
+                       <div class="content">
+                           <div id="id_accquickstart"><!-- style="width:450px;height:100px;"-->
+                                <table id="accquickstart" class="commom_panel Link_blue1">
+                                   <tr>
+                                            <td>
+                                                {% if request.user|HasPerm:"iclock.add_device" %}
+                                                     <a  href="{{request.dbapp_url}}iclock/device/"  target="_blank">{% trans "第一步:设备管理" %}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if request.user|HasPerm:"contenttypes.can_DoorSetPage" %}
+                                                     <a  href="/{{request.surl}}iaccess/DoorSetPage/"  target="_blank">{% trans "第五步:门设置" %}</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {% if request.user|HasPerm:"personnel.add_employee" %}
+                                                     <a  href="{{request.dbapp_url}}personnel/Employee/"  target="_blank">{% trans "第二步:人员管理" %}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if request.user|HasPerm:"iaccess.add_acclevelset" %}
+                                                     <a  href="{{request.dbapp_url}}iaccess/AccLevelSet/" target="_blank">{% trans "第六步:建立门禁权限组" %} </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {% if request.user|HasPerm:"iaccess.add_acctimeseg" %}
+                                                     <a  href="{{request.dbapp_url}}iaccess/AccTimeSeg/" target="_blank">{% trans "第三步:时间段设置" %} </a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if request.user|HasPerm:"contenttypes.can_EmpLevelSetPage" %}
+                                                     <a  href="/{{request.surl}}iaccess/EmpLevelSetPage/" target="_blank">{% trans "第七步:人员门禁权限设置" %} </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>	
+                                   
+                                        <tr>
+                                            <td>
+                                                {% if request.user|HasPerm:"iaccess.add_accholidays" %}
+                                                     <a  href="{{request.dbapp_url}}iaccess/AccHolidays/" target="_blank">{% trans "第四步:节假日设置" %} </a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if request.user|HasPerm:"contenttypes.can_RTMonitorPage" %}
+                                                       <a  href="../../iaccess/RTMonitorPage/" target="_blank">{% trans "第八步:实时监控" %} </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                </table>
+                           </div>
+                       </div>
+                    </div>
+                    {% endif %}
+            {% endif %}
+            {% if not request.user|HasPerm:"att.opauditcheckexact_checkexact" %}
+            {% else %}
+                {% if "WORKTABLE_CHECKEXACT_AUDIT"|filter_config_option %}
+                    <div class="move" id="m_2_5_checkexact_audit" style="display:block;">
+                        <div class="div_title">
+                              <div class="title_close" title="{% trans '关闭' %}">
+                                  <a href="#"></a>
+                              </div>
+                              <div class="title_minimize">
+                                  <a href="#">
+                                  </a>
+                              </div>
+                              <div class="title_a">　
+                              </div>
+                        </div>
+                        <div class="content">
+                              <div id="audit_checkexact"></div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+            
+            </div>
+        <div class="clearB">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

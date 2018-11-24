@@ -1,0 +1,12 @@
+{% extends "base_page_frame.html" %}
+{% load i18n %}
+
+{% block title %}{% trans '页面没有找到' %}{% endblock %}
+
+{% block content %}
+
+<h2>{% trans "页面没有找到" %}</h2>
+<h2>{{ url }}</h2>
+<p>{% trans "该页面不存在或者您没有相应权限！"%}</p>
+{{ content }}
+{% endblock %}

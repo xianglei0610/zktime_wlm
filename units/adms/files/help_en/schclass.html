@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	.
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Attendance System Management -&gt; Attendance timetable</div>
+<div class="help_mainContant">
+  <h2>Attendance timetable</h2><br />
+
+  Before shift setting, all timetables to be used must be  set. Only after timetable setting, shifts can be set and attendance parameter setting  will be meaningful. By default, the system has set a timetable named [Flexible  timetable].<br /><br />
+      <b>Add attendance timetable:</b><br /><br />
+    1. Click [Attendance] - [Timetable] - [Add] to show  attendance timetable edit interface.<br />
+  <br />
+  <b>Parameter setting is as  follows:</b><br /><br />
+  <b>TimeTable name: </b>Any character, up to a combination of 30  characters;<br />
+  <b>On-duty and off-duty time:</b> Format: HH: MM: SS;<br />
+  <b>Allowed late minute and  allowed early leave minute: </b>Refers  to permitted duration of late or early leave against specified check-in and check-out  time;<br />
+    For example: When setting allowed late minute to be 5,  if the check-in time is 9:00, person A checked in at 9:03, and person B at  9:06, then person A is not late, because his check-in time is not more than 5  minutes later than the check-in time, and person B is late for 6 minutes,  because his check-in time is more than 5 minutes later than the check-in time.<br />
+  <b>Check-in required and  check-out required: </b>Whether  check-in and check-out are required on on-duty and off-duty time. If check-in/ check-out  is required, click the check box;<br />
+  <b>Check-in/ check-out start and  end time: </b>The valid  check-in/ check-out duration must be entered, and check-in/check-out records  out of this range will be invalid. The check-out start and check-in end time  can not be overlapped. <br />
+  <b>Calculated as workday:</b> Refers to the number of working days that  each shift is equal to. If a value is set here, the program will count working  days as the value. Otherwise, it will count as the setting in the attendance  rules;<br />
+  <b>Break start and end time: </b>The system supports break in the format of  HH:MM:SS, and the break time will be deducted from the working duration for  attendance statistics;<br />
+  <b>Work time: </b>Calculation of the minutes between the check-in  and check-out time set for this attendance timetable. The system does not  support automatic calculation.<br />
+  <b>Whether delay calculated as  overtime:</b> Yes or No;<br />
+  <b>The timetable contains fixed  overtime: </b>Meaning fixed  overtime contained in normal working duration. This setting normally useful  when the working shift is continuous at the shift changing situation.<br />
+    For calculation of overtime, if “Yes” is selected for  Whether delay calculated as overtime, the overtime will be the delay (the interval  between check-out time and timetable end time) + the fixed overtime (minutes)  contained in the timebable. If “No” is selected for this item, that entry will  be 0.<br />
+    2. Click [OK] to save and return, and the added  timetable will be shown in the attendance timetable list.<br />
+  <b>]</b><b> Flexible  timetable: </b>Flexible  timetable are the default set of the system. For flexible timetable, work delay  will not be counted as overtime, and late, early leave, or absent will not be  counted. The records will be based on even card punches, and the number of  lines of the daily report will be automatically generated as the lines number  of attendance records. If there are 4 records, the daily report of the day will  have 2 lines; if 6 records, 3 lines. The attendance duration will be the  check-out time reduce the check-in time of each timetable.<br />
+  <br /><b>Note:</b> <br />
+    (1) The interval between start time and end time can  not exceed the maximum/minimum timetable duration of the system. For details,  see 8.2 Attendance parameters;<br />
+    (2) After installation, by default the system will have  a flexible timetable;<br />
+    (3) Timetables cannot have same start time.<br /><br />
+</div>
+</body>
+</html>

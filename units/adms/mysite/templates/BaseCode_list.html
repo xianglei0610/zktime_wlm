@@ -1,0 +1,66 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block AddDiv %}
+    <div class ="div_box" id="id_bascode_catagory_div" style="float:left;width:20%; margin-right:0px !important;"><h1>&nbsp;</h1>
+     <div style="overflow: auto; height: 323px; *height: 321px;_height:322px;"><ul id='id_base_category'></ul></div>
+     
+    </div>
+{%endblock%}
+
+
+{% block addjs %}
+ filterData =function(o){
+
+    var vItem= $(o).attr('value')
+    $("#id_datalist").get(0).g.base_query=["content__exact="+vItem]
+    $("#id_datalist").get(0).g.load_data()
+ }
+var after_init=function(){
+    $(".div_ListAndFilter").css({float:'right',width:'100%'})
+    var code =$("#id_content").val();
+    var combobox_content = "";
+    for(i=0,j=global_Catogary.length;i<j;i++){
+        if (code == global_Catogary[i][0]){
+            combobox_content += "<option selected='selected' value='" +global_Catogary[i][0]+"'>" + global_Catogary[i][1] + "</option>"
+        }else{
+            combobox_content += "<option  value='" +global_Catogary[i][0]+"'>" + global_Catogary[i][1] + "</option>"
+        }
+    }
+    $("#id_content").parent().html('<select name="content" class="wZBaseCharField required" id="id_content">' +combobox_content+ '</select>')
+}
+var after_submit=function(){
+//     $(".div_ListAndFilter").css({float:'right',width:'75%'});
+//	 $(".div_ListAndFilter").find(".div_box").css({height:'350px'});
+//	 if ($.browser.msie&&$.browser.version<7.0){
+//	 	$(".div_ListAndFilter").find(".div_box").css({height:'350px'});
+//	 };
+}
+var after_close=function(){
+    $(".div_ListAndFilter").css({float:'right',width:'75%'});
+}
+
+ $(function(){
+    $(".div_ListAndFilter").css({float:'right',width:'75%'});
+	$(".div_ListAndFilter").find(".div_box").css({height:'350px'});
+	 if ($.browser.msie&&$.browser.version<7.0){
+	 	$(".div_ListAndFilter").find(".div_box").css({height:'350px'});
+	 };
+    $.ajax({
+        url:"{{dbapp_url}}BaseCode/category/",
+        dataType:"json",
+        cache:false,
+        async:false,
+        type:"GET",
+        success:function(data){
+            global_Catogary = data
+            var li_html =""
+            for(i=0,j=data.length;i<j;i++){
+                li_html+= "<li><a href='javascript:void(0)'  onclick='filterData(this)' value='"+data[i][0] +"'>" + data[i][1] +"</a></li>"
+            }
+            $("#id_base_category").html(li_html)
+        }
+    });
+
+})
+{% endblock %}

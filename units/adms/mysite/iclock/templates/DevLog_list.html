@@ -1,0 +1,16 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+    
+		$("#id_model_extend .leftBoxTop").remove();
+        $("#id_datalist").model_grid({
+            "model_url": "{{ model_url }}",
+            "disabled_actions": ["_change","_add"],
+            "row_operations": [],
+            "multiple_select":null
+        });
+
+{% endblock %}
+{% block export %}
+{% endblock %}

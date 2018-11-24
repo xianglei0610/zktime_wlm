@@ -1,0 +1,120 @@
+{% load i18n %}
+{
+  
+    "{% trans '人事' %}":
+            {
+                 "{% trans '部门' %}__1":["personnel.Department"],
+                 "{% trans '人员' %}__2":["personnel.Employee"],
+                 "{% trans '人员离职' %}__4":["personnel.LeaveLog"],
+                 {% if 'mysite.att'|hasApp or 'mysite.iaccess&mysite.att'|hasApp %}
+                 "{% trans '人员调动' %}__3":["personnel.EmpChange"],
+                 "{% trans '人员离职' %}__4":["personnel.LeaveLog"],
+                 {%  endif %}
+                 "{% trans '人员发卡' %}__5":["personnel.IssueCard"]
+            },
+    
+ 
+    
+    "{% trans '设备' %}":
+        {
+            {% if "ONLY_POS"|filter_config_option %}
+            "{% trans '设备' %}__7":["iclock.Device"]
+            {%else%}
+            "{% trans '区域设置' %}__6":["personnel.Area"],
+            "{% trans '设备' %}__7":["iclock.Device"],
+            "{% trans '服务器下发命令' %}__8":["iclock.DevCmd"],
+            {%endif%}
+            {% if 'mysite.att'|hasApp or 'mysite.iaccess&mysite.att'|hasApp %}
+            "{% trans '设备通讯日志' %}__9":["iclock.DevLog"],
+            "{% trans '通信命令详情' %}__28":["iclock.OperateCmd"],
+            "{% trans '失败命令查询' %}__32":["iclock.DevCmdBak"],
+            "{% trans '夏令时' %}__30":["iclock.DSTime"]
+            {% endif %}
+            
+            
+        },
+    "{% trans '门禁' %}":
+        {
+            "{% trans '门禁权限' %}__10":["iaccess.AccTimeSeg","iaccess.AccHolidays","iaccess.AccLevelSet"],
+            "{% trans '门设置' %}__11":[
+                                        "iaccess.AccWiegandFmt",
+                                        "iaccess.AccInterLock",
+                                        "iaccess.AccAntiBack",
+                                        "iaccess.AccLinkageIO",
+                                        "iaccess.AccFirstOpen",
+                                        "iaccess.AccMoreCardSet",
+                                        "iaccess.AccMoreCardGroup",
+                                        "personnel.AccMoreCardEmpGroup"
+                                      ],
+            "{% trans '事件记录' %}__12":["iaccess.AccRTMonitor"],
+            "{% trans '电子地图' %}__31":["iaccess.AccMap"]
+        },
+    
+    "{% trans '考勤' %}":
+       {
+            "{% trans '请假' %}__13":["att.EmpSpecDay"],
+            "{% trans '补签卡' %}__14":["att.CheckExact"],
+            "{% trans '排班' %}__15":["att.USER_OF_RUN","att.USER_TEMP_SCH"],
+            {% if 'mysite.att'|hasApp or 'mysite.iaccess&mysite.att'|hasApp %}
+            "{% trans '原始记录表' %}__16":["iclock.Transaction"],
+            {% endif %}
+            "{% trans '考勤报表' %}__17":["att.attCalcLog","att.AttException","att.attRecAbnormite","att.attShifts"],
+            "{% trans '节假日' %}__18":["att.Holiday"],
+            "{% trans '时段' %}__19":["att.SchClass"],
+            "{% trans '班次' %}__20":["att.NUM_RUN","att.NUM_RUN_DEIL"],
+            "{% trans '假类' %}__21":["att.LeaveClass"],
+            "{% trans '调休' %}__28":["att.SetUserAtt"]
+       },
+   
+    
+    
+     "{% trans '消费' %}":
+         {
+            {% if "POS"|filter_config_option %}
+                 "{% trans '基本资料' %}__40":[
+                            "iclock.Dininghall",
+                            "pos.Merchandise",
+                            "pos.KeyValue"
+                          ],
+                 "{% trans '补贴' %}__41":["pos.Allowance"],
+                 "{% trans '手工补消费' %}__42":["pos.HandConsume"],
+                 
+                 "{% trans '卡类资料' %}__44":["personnel.ICcard"],
+                  "{% trans '管理卡表' %}__45":["pos.CardManage"],
+                 "{% trans '挂失解挂表' %}__46":["pos.LoseUniteCard"],
+                 "{% trans '换卡表' %}__47":["pos.ReplenishCard"],
+                 {% if "POS_ID"|filter_config_option %}
+                    "{% trans '卡现金收支' %}__43":["pos.CarCashSZ"],
+                    "{% trans '消费日志' %}__48":["pos.PosLog","pos.PosDevLog"]
+                 {%else%}
+                     "{% trans '卡现金收支' %}__43":["pos.CarCashSZ","pos.CarCashSZBak"],
+                     "{% trans '消费明细' %}__48":["pos.ICConsumerList"]
+                 {% endif %}
+            {% endif %}
+         },
+        
+    "{% trans '会议' %}":
+        {
+            "{% trans '会议室' %}__81":["meeting.Room"],
+            "{% trans '会议' %}__87":["meeting.MeetingEntity"],
+            "{% trans '会议人员' %}__82":["meeting.MeetingEmp"],
+            "{% trans '会议请假' %}__83":["meeting.Leave"],
+            "{% trans '会议补签卡' %}__84":["meeting.MeetingExact"],
+            "{% trans '会议原始记录' %}__85":["meeting.OriginalRecord"],
+            "{% trans '会议签到与报表' %}__86":["meeting.DetailMeeting","meeting.StatisticsMeeting"]
+        },
+        
+    
+    "{% trans '系统' %}":
+       {
+        "{% trans '角色' %}__22":["auth.Group"],
+        "{% trans '用户' %}__23":["auth.User"],
+        {% if 'mysite.att'|hasApp or 'mysite.iaccess&mysite.att'|hasApp %}
+        "{% trans '系统提醒设置' %}__25":["worktable.GroupMsg"],
+        "{% trans '公告发布' %}__26":["worktable.InstantMsg"],
+        "{% trans '公告类别' %}__27":["worktable.MsgType"],
+        {% endif %}
+        "{% trans '日志记录' %}__29":["base.LogEntry"]
+       }
+
+}

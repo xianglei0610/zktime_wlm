@@ -1,0 +1,59 @@
+{% extends "data_list.html" %}
+{% block headjs%}
+{% endblock %}
+{% load i18n %}
+{% block addjs %}
+    $(function(){
+
+        $(".div_inline").append($("#id_show_area_data"));
+		$(".div_inline").addClass("showAreaTree");
+
+		$("#id_show_area_data").show();
+		$("#id_show_area_data").find("#id_show_area_tree").css({height:$(".dt_bdiv").height()+42});
+       
+        $("#id_spn_refresh").click(function(){
+            $.ajax({ 
+            	type: "POST",
+            	url:"{{dbapp_url}}personnel/Area/choice_data_widget?areatree=True",
+            	dataType:"html",
+            	success:function(json){ 
+                    data=json
+                    $("#area_tree").html("");
+                    $("#area_tree").html(data);
+                          		
+            	}
+            });	
+        });
+        if ($("#id_OpAdjustArea")){
+                  $("#id_OpAdjustArea").hide();
+        	$("#id_OpAdjustArea").next(".div_leftBottomLine").hide();
+        }
+              if ($("#id_OpForAreaAddController")){
+                  $("#id_OpForAreaAddController").hide();
+        }
+        $("#id_spn_refresh").click();
+    })
+          //点击树形空间,左边表格刷新    
+    function reflash_child_area_list(event, treeId, treeNode){
+    	var parent_id = treeNode.id;
+    	var strwhere=[];
+    	strwhere.push("parent__id__exact="+parent_id);  
+    	var $grid = $("#id_datalist");
+    	var datalist=$grid.get(0);
+    	datalist.g.init_query=strwhere;
+    	datalist.g.load_data();
+    }
+{% endblock %}
+{% load personnel_tags %}
+{% block addition_content %}
+		<div id='id_show_area_data' class="div_box floatR" style="width:25%; margin-right:5px !important; margin-left:0px !important; display:none;">
+			<h1 align="right">&nbsp;<a id="id_spn_refresh" href="javascript:void(0)">{% trans '刷新' %}</a ></h1>
+			<div id="id_show_area_tree" style="overflow: auto;  width:100%">
+				<!--height: 323px;height: 302px\9;_height: 326px;-->
+				<ul id="area_tree" ></ul>
+			</div>
+			<div class='clear'>
+			</div>
+		</div> 
+{% endblock %}
+

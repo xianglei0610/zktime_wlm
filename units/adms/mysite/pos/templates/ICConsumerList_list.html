@@ -1,0 +1,146 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+
+{% block getdatalist %}
+{% endblock %}
+{% block op_for_tab %}
+
+{% endblock %}
+
+{% block addjs %}
+var data=[]
+function showdate(n)
+{
+var uom = new Date();
+uom.setDate(uom.getDate()+n);
+uom = uom.getFullYear() + "-" + (uom.getMonth()+1) + "-" + uom.getDate();
+return uom;
+}
+
+$(function(){
+    begin_time = showdate(0)
+	end_time = showdate(-30)
+    $("#id_model_export").hide()
+//	$("#search_id_pos_model option[index=0]").remove()
+	var pos_model=$("#search_id_pos_model").find("option:selected").val();
+	// $("#id_datalist").get(0).g.detail_model();
+    $("#div_id_middiv").hide();
+    //$(".leftBoxMiddle").hide();
+   
+		var device_id = 0;
+       $("#id_sys_cur_model").val("ICConsumerList");
+       $("#id_datalist_main").append("<div id='id_edit_door'></div>");
+       $("#id_datalist").model_grid({
+           "dbapp_url": "{{ dbapp_url }}",
+           "model_url": "{{ dbapp_url }}pos/ICConsumerList/", 
+           //"init_query": ["pos_time__gte='+begin_time+'&pos_time__lte='+end_time+'",],
+           "model_actions": true ,
+           "object_actions": true, 
+           "record_per_page": 20,
+           "obj_edit": true,
+           "async": false,
+           "layout_types": [],        
+           "disable_cols": [],
+           "disabled_actions": ['_change','_delete',],
+           "init_after_get_jdata": function(){
+			$("#id_datalist").on_dbl_click(function(grid, key, row_data){ //单击
+				var pos_model=$("#search_id_pos_model").find("option:selected").val();
+				var model_name = $($("#id_datalist tr[data="+row_data+"]").find("td")[10]).text();
+				var href = "";
+				var html = "";
+				switch(model_name)
+				{
+					case '键值模式'://键值模式
+						href=$("#id_datalist").get(0).g.dbapp_url+"pos/KeyDetail/?list_code_id__icontains="+row_data;
+						$.ajax({ 
+								url:href,
+								dataType:"json",
+								type:"post",
+								success:function(retdata){
+									if(retdata.data.length>0)
+									{
+										for (i=0;i<retdata.data.length;i++)
+										{
+		
+										 html+="<tr><td>"+ (retdata.data[i][6]) +"</td><td>"+ (retdata.data[i][2])+"</td><td>"+ (retdata.data[i][4]) +"</td><td>"+ (retdata.data[i][5])+"</td><td>"+ (retdata.data[i][7])+"</td></tr>";
+										}
+										var vbox=$("<div class='version_box' style='overflow:scroll;'>"
+										  + "<div class='version_content_box_oem'>"
+										  +"<table class='table table1' width='100%' id='id_tbl_old'><thead> <tr id='tr_first'>"
+										  +"<th>{% trans '序号' %}</th><th>{% trans '设备序列号' %}</th><th>{% trans '按键编号' %}</th><th>{% trans '金额(元)' %}</th><th>{% trans '上传时间' %}</th></tr>"
+										  + html
+										  + "</thead></table></div>"
+										  + "</div>");
+										vbox.dialog({title:gettext("键值消费明细")});
+									}
+								}
+							}); 
+						break;
+					case '商品模式'://商品模式
+						href=$("#id_datalist").get(0).g.dbapp_url+"pos/StoreDetail/?list_code_id__icontains="+row_data;
+						$.ajax({ 
+								url:href,
+								dataType:"json",
+								type:"post",
+								success:function(retdata){
+								   var data= retdata;
+									if(retdata.data.length>0)
+									{
+										for (i=0;i<retdata.data.length;i++)
+										{
+		
+										 html+="<tr><td>"+ (retdata.data[i][6]) +"</td><td>"+ (retdata.data[i][2])+"</td><td>"+ (retdata.data[i][4]) +"</td><td>"+ (retdata.data[i][5])+"</td><td>"+ (retdata.data[i][7])+"</td></tr>";
+										}
+										var vbox=$("<div class='version_box' style='overflow:scroll;'>"
+										  + "<div class='version_content_box_oem'>"
+										  +"<table class='table table1' width='100%' id='id_tbl_old'><thead> <tr id='tr_first'>"
+										  +"<th>{% trans '序号' %}</th><th>{% trans '设备序列号' %}</th><th>{% trans '商品编号' %}</th><th>{% trans '金额(元)' %}</th><th>{% trans '上传时间' %}</th></tr>"
+										  + html
+										  + "</thead></table></div>"
+										  + "</div>");
+										vbox.dialog({title:gettext("商品消费明细")});
+									}
+								}
+							}); 
+						break;
+					case '计时模式'://计时模式
+						href=$("#id_datalist").get(0).g.dbapp_url+"pos/TimeDetail/?list_code_id__icontains="+row_data;
+						$.ajax({ 
+								url:href,
+								dataType:"json",
+								type:"post",
+								success:function(retdata){
+								   var data= retdata;
+									if(retdata.data.length>0)
+									{
+										for (i=0;i<retdata.data.length;i++)
+										{
+		
+										 html+="<tr><td>"+ (retdata.data[i][2]) +"</td><td>"+ (retdata.data[i][3])+"</td><td>"+ (retdata.data[i][4]) +"</td><td>"+ (retdata.data[i][5])+"</td><td>"+ (retdata.data[i][6])+"</td><td>"+ (retdata.data[i][7])+"</td><td>"+ (retdata.data[i][8])+"</td></tr>";
+										}
+										var vbox=$("<div class='version_box'  style='overflow:scroll;width:770px;'>"
+										  + "<div class='version_content_box_oem'>"
+										  +"<table class='table table1' width='100%' id='id_tbl_old'><thead> <tr id='tr_first'>"
+										  +"<th>{% trans '设备序列号' %}</th><th>{% trans '设备流水号' %}</th><th>{% trans '开始时间' %}</th><th>{% trans '结束时间' %}</th><th>{% trans '开始余额(元)' %}</th><th>{% trans '结束余额(元)' %}</th><th>{% trans '上传时间' %}</th></tr>"
+										  + html
+										  + "</thead></table></div>"
+										  + "</div>");
+										vbox.dialog({title:gettext("计时消费明细")});
+									}
+								}
+							}); 
+						break;
+					default:
+						break;
+				}
+           });
+		},
+		   "row_operations":true
+       });
+       
+       });
+   
+{% endblock %}
+

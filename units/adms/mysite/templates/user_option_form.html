@@ -1,0 +1,57 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block help_panel %}{% endblock %}
+{% block title %} {% endblock %}
+{% block addjs %}
+    {% if not 'zh-cn'|has_language %}
+        $("select[id*='language']").find("option[value='zh-cn']").remove();
+    {% endif %}
+    {% if not 'en'|has_language %}
+        $("select[id*='language']").find("option[value='en']").remove();
+    {% endif %}
+    {% if not 'es'|has_language %}
+        $("select[id*='language']").find("option[value='es']").remove();
+    {% endif %}
+    {% if not 'zh-tw'|has_language %}
+          $("select[id*='language']").find("option[value='zh-tw']").remove();
+      {% endif %}
+    //如果只有一个语言选项，直接不显示-darcy20110328
+    if($("select[id*='language'] option").length == 1) 
+    {
+       $("select[id*='language']").parent().parent().remove();
+    }    
+    $("input[id=id_base.shortdatetime_format]").parent().parent().hide();
+    $("input[id=id_base.datetime_format]").parent().parent().hide();
+    $("input[id=id_base.date_format]").parent().parent().hide();
+    $("input[id=id_base.shortdate_format]").parent().parent().hide();
+    $("input[id=id_base.time_format]").parent().parent().hide();
+    $("input[id=id_dbapp.max_photo_width]").parent().parent().hide();
+    $("input[id=id_dbapp.theme]").parent().parent().hide();//之前的换肤功能
+    var obj_theme=$("input[id=id_dbapp.theme]");
+    var obj_theme_select=obj_theme.val();
+    {% if "USER_OPTION_ADD_ATT"|filter_config_option %}//暂时只有中文下才考虑是否显示和隐藏考勤模块-darcy20110708
+        var html1 = '<tr><td align="right">{% trans "是否添加考勤" %}:</td><td><input id="is_contain_att" type="checkbox" name="is_contain_att" ></input></td></tr>';
+        var html2 = '<tr><td align="right">{% trans "是否添加考勤" %}:</td><td><input id="is_contain_att" type="checkbox" name="is_contain_att" checked="true"></input></td></tr>';
+        if(contain_att_temp)//contain_att_temp在base_page_frame.html中定义，判断是否配置考勤模块
+        {	 
+            $("#id_opt_message").find("tr[id=pre_addition_fields]").next().next().next().after(html2);
+        }else
+        {
+            $("#id_opt_message").find("tr[id=pre_addition_fields]").next().next().next().after(html1);
+        }
+        
+    {% endif %}
+	//新的的换肤功能
+//    $("input[id=id_dbapp.theme]").replaceWith(
+//        '<select id="id_dbapp.theme" name="dbapp.theme">'
+//            +'<option value="flat">'+gettext("蓝色")+'</option>'
+//            +'<option value="s1">'+gettext("灰色")+'</option>'
+//            //+'<option value="s2">'+gettext("咖啡色")+'</option>'
+//            //+'<option value="s3">'+gettext("红色")+'</option>'
+//            //+'<option value="s4">'+gettext("绿色")+'</option>'
+//            //+'<option value="s5">'+gettext("紫色")+'</option>'
+//        +'</select>'
+//    );
+//    $("select[id=id_dbapp.theme] option[value='"+obj_theme_select+"']").attr("selected","selected");
+      
+{% endblock %}

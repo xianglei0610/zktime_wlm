@@ -1,0 +1,260 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block addjs %}
+
+var schClass=[]
+
+$(function(){
+	$("#id_all_emp").val("");
+    $.ajax({
+       url:"../../att/choice_widget_for_select_emp/?multiple=T&popup=F&name=UserID",
+       type:"POST",
+       dataType:"html",
+        success:function(sdata){
+				$("#id_emp_run").html(sdata);
+        }
+    });
+	
+	var iIndex=1;
+	var ComeTime="";
+	var EndDate="";
+	var assignedShifts=[];
+    $.ajax({
+	    url:"../../att/getmodeldata/att/NUM_RUN/?fields=Num_runID,Name",
+	    type:"POST",
+	    dataType:"json",
+	    success:function(sdata){
+            
+            var html="";
+        	for(i=0;i<sdata.length;i++)
+           {	
+           		var data=sdata[i];
+                
+                html+="<option type='checkbox' value='"+data[0] +"' >"+data[1]+"</option>";
+           };
+       		
+	        $("#id_shifts").append(html);
+	        
+	    }
+	});
+   
+    $.ajax({
+	    url:"../../att/getmodeldata/att/SchClass/?fields=SchclassID,SchName,StartTime,EndTime",
+	    type:"POST",
+	    dataType:"json",
+	    success:function(sdata){
+	       var html="";
+           
+           for(i =0;i<sdata.length;i++)
+           {
+           		var data=sdata[i];
+           		html+="<tr>";
+                html+="<td><input type='checkbox' name='sTimeTbl' value='"+ data[0]+"' /></td>";
+                html+="<td>"+ data[1] +"("+ data[2] +"--"+ data[3] +")</td>";
+                html+="</tr>";
+           };
+          
+	        $("#tblSchclass").append(html);
+	        
+	    }
+	});
+  
+	$("#id_StartDate").change(function(){
+	if($(".select_all_shifts").length>0)
+		$("#id_add_shift").click();
+	});
+	
+	$("#id_EndDate").change(function(){
+	if($(".select_all_shifts").length>0)
+		$("#id_add_shift").click();
+		});
+	
+	$("#id_add_shift").click(function(){
+		if($("#id_shifts")[0].selectedIndex<0)
+		{
+			alert(gettext('请选择一个班次'));
+			return;
+		}
+    	var sid=$("#id_shifts").attr("value");
+        var stext=$("#id_shifts")[0].options[$("#id_shifts")[0].selectedIndex].text;
+       
+        var sst=$("#id_StartDate").val();
+        var set=$("#id_EndDate").val();
+		var st=new Date(sst.replace(/-/g,"/"));
+		var et=new Date(set.replace(/-/g,"/"));
+		
+		if(st>et)
+		{
+			alert(gettext("结束日期不能小于开始日期!"));
+			return;
+		}
+        if(sst=="" || set=="")
+        {
+        	alert(gettext("请输入开始日期和结束日期! "));
+            return;
+        }
+		$("#id_tr_line").remove();
+		if($(".select_all_shifts").length>0)
+		{
+			alert(gettext("只能设置一个班次! "));
+			return;
+			
+		}
+		
+		schClass=[]
+        var html="<tr id='id_tr_line'><td><input type='checkbox' checked='checked' class='select_all_shifts' alt='"+ iIndex +"' /></td><td>"+ stext +"</td><td id='id_td_st'>"+ sst +"</td><td id='id_td_et'>"+ set +"</td></tr>";
+        $("#shifts_list").append(html);
+	   
+        t={'numID':iIndex,'SchId':sid,'SchName':stext,'StartDate':sst,'EndDate':set};
+        schClass.push(t);
+        iIndex+=1
+		$("#id_sAssigned_shifts").val(get_assignedShifts_String(schClass) );
+        
+    });
+     
+     
+     
+    $("#select_num").click(function(){
+    	var blnvalue=$(this).attr("checked");
+    	$(".select_all_shifts").each(function(){
+        	$(this).attr("checked",blnvalue);
+            
+        });
+    });
+    
+    
+    
+    $("#id_del_shifts").click(function(){
+    	$(".select_all_shifts").each(function(){
+        	if($(this).attr("checked"))
+            	{                	
+                    for(i=0;i<schClass.length;i++)
+                    {
+                    	if(schClass[i].numID==$(this).attr("alt"))
+						{
+                        	schClass.splice(i,1);
+							
+                            break;
+						}
+                    }
+					$(this).parent().parent().remove();
+                }
+        });
+        
+        $("#id_sAssigned_shifts").val(get_assignedShifts_String(schClass) );
+    });
+});
+function after_close(){
+	$("#id_all_emp").val("all");
+}
+function get_assignedShifts_String(lc) 
+{
+	var result = "["
+	if(lc.length>0){
+		for(var i=0; i <lc.length; i++){ 
+			row = lc[i];
+			row_string = "{";
+			for (var j in row){
+				if(j=="SchName"||j=="StartDate"||j=="EndDate")
+					row_string += "\""+j + "\":\""+  row[j] + "\",";
+				else 
+					row_string += "\""+j + "\":"  +  row[j] + ",";
+				}
+			row_string = row_string.substring(0, row_string.length-1)+"}";
+		result += row_string + ",";
+		}
+		result = result.substring(0, result.length-1);
+	}
+	result+="]";
+	return result;
+}
+{% endblock %}
+
+{% block form %}
+{% autoescape off %}
+
+<tr>
+<td><div class="lineH22"><label for="id_emp">人员:</label></div></td><td><div id = "id_emp_run"></div></td>
+</tr>
+<tr><th></th><td>
+<div id="id_opdialog"class='dialog' style='width:850px;'>
+				
+				<div class='dcontent'><form id='id_edit_form'>
+				<table>
+							<tr><td>
+								<table>
+									<tr>
+										{{form.StartDate|field_as_td_h}}
+									</tr>
+								</table>
+									</td>
+									<td>
+										<table><tr>{{form.EndDate|field_as_td_h}}</tr></table>
+									</td>
+									<td></td>
+								</tr>
+
+								<tr>
+								<td><fieldset>
+								    <legend>{% trans '班次表' %}</legend>
+									<div style='height:230px;'><table>
+																
+									<tr><td height="146" colspan='2' style="padding-top:15px;">
+									
+									
+									<table align="right"><tr><td><select  id='id_shifts' size='10' style='width:175px !important;' ></select></td>
+								<td style='vertical-align:middle;'><input type='button' id='id_add_shift' value='&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;' /><br />
+								<input type='button' id='id_del_shifts'  value='&nbsp;&nbsp;&nbsp;&lt;&nbsp;&nbsp;' style='margin-top:10px;'/></td></tr></table></td>
+								</tr>
+							
+											
+								</table></div></fieldset></td>
+								<td><fieldset>
+								    <legend>{% trans '已选择班次' %}</legend><div id='id_assigned_shifts' style='height:230px;width:300px !important;overflow:auto;'>
+                                    <table id='shifts_list'>
+                                    <tr>
+                                    <td width="30"><input type="checkbox"  id="select_num" /></td>
+                                    <td width="104">{% trans '班次名称' %}</td>
+                                    <td width="77">{% trans '开始日期' %}</td>
+                                    <td width="67">{% trans '结束日期' %}</td>
+                                    </tr>
+                                    </table></div></fieldset></td>
+								<td><fieldset style="display:none;">
+								<legend>{% trans '自动排班' %}</legend>
+								<div style='height:230px;width:230px !important;align:center;'>
+								<table><tr><td><input type='checkbox' name='auto_assign' id='id_auto_assign'/>
+								{% trans '是否智能排班' %}</td></tr>
+								<tr>
+								  <td>{% trans '最小排班间隔:' %}</td></tr>
+								<tr><td><span><input type='text' style='width:40px !important;' maxlength='3' size='5' id='id_least_days' name='least_days' value='1' >
+								</input>{% trans '天' %}</span>
+								<span>
+								<input type='text'  style='width:40px !important;' maxlength='3' size='5' id='id_least_hours' name='least_hours' value='0' />
+								{% trans '小时' %}</span></td></tr>
+								<tr>
+								  <td>{% trans '可用时间段:' %}</td></tr>
+								<tr><td><div style='height:150px;*height:140px;width:220px;overflow:auto; padding:3px; border:1px solid #CAE2F9'><table id="tblSchclass"></table></div></td></tr>
+								</table></div>
+								</fieldset>
+								</td>
+									
+								</tr>							
+								<tr><td><span id='id_error_sec'></span></td></tr>
+								<tr><td></td></tr>
+								<input type='hidden' value='' name='sAssigned_shifts' id='id_sAssigned_shifts' />
+								
+								</td></tr>
+								{% for i,k in form.errors.items %}
+								{{i}}{{k}}
+								{% endfor %}
+								
+				</table></form>
+				</div>
+			
+		</div>
+		</td>
+</tr>
+
+
+{% endautoescape %}
+{% endblock%}

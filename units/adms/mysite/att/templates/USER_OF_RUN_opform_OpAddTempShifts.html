@@ -1,0 +1,233 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+	$("#id_all_emp").val("");
+    $.ajax({
+       url:"../../att/choice_widget_for_select_emp/?multiple=T&popup=F&name=UserID",
+       type:"POST",
+       dataType:"html",
+        success:function(sdata){
+			$("#id_emp_temp").html(sdata);
+        }
+    });
+	
+	$.ajax({
+	    url:"../../att/getmodeldata/att/SchClass/?fields=SchclassID,SchName,StartTime,EndTime",
+	    type:"POST",
+	    dataType:"json",
+	    success:function(sdata){
+	       var html="";
+           for(var i =0;i<sdata.length;i++)
+           {
+           		var data=sdata[i];
+           		html+="<tr>";
+                html+="<td><input class='appen_schclass' type='checkbox' name='sTimeTbl' value='"+ data[0]+"' /></td>";
+                html+="<td>"+ data[1] +"("+ data[2] +"--"+ data[3] +")</td>";
+                html+="</tr>";
+           };
+	        $("#tblSchclass").append(html);
+	        
+	    }
+	});
+   $("input[name='EndDate']").change(function(){
+  
+	   ChangeDate();
+   });
+   $("input[name='StartDate']").change(function(){
+   
+	   ChangeDate();
+   });
+   $("#is_select_all_dates").click(function(){
+   		var bln=$(this).attr("checked")
+        $(".check_week").attr("checked",bln);
+   });
+   $("#is_select_all_shcClass").click(function(){
+   		var bln =$(this).attr("checked");
+        $(".appen_schclass").attr("checked",bln);
+   });
+	$("input[name='EndDate']").change();
+    //$("#id_deptIDs").val("1,2,3");
+	
+});
+
+function ChangeDate()
+{
+	
+   		var st;
+        var et;
+        try
+        {
+        	st=$("input[name='StartDate']").val()
+        	st=new Date(st.replace(/-/g,'/'));
+        	et=$("input[name='EndDate']").val()
+        	et=new Date(et.replace(/-/g,'/'));
+        }
+        catch(err)
+        {
+        	alert(gettext('日期格式输入错误'));
+        	return;
+        }
+        if (et>=st)
+        {
+        	var sweek=['{% trans '星期日' %}','{% trans '星期一' %}','{% trans '星期二' %}','{% trans '星期三' %}','{% trans '星期四' %}','{% trans '星期五' %}','{% trans '星期六' %}']
+            //var sweek=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+        	var day=0
+            et=new Date(Date.parse(et));
+            st=new Date(Date.parse(st));
+            var count=(et-st)/1000/24/3600
+            var html=""
+            for( day=0;day<=count;day++)
+            {
+            	var tmpdate= new Date(st.getFullYear(),st.getMonth(),st.getDate()+day);
+                html+="<tr class='id_week_append'><td><input type='checkbox' class='check_week' name='sDates' value='"+DtoS(tmpdate)+"' />"+ DtoS(tmpdate)+" ( "+sweek[tmpdate.getDay()]+" ) </td></tr>"
+                
+            };
+            $(".id_week_append").remove();
+            
+            $("#id_week").append(html);
+        }
+
+}
+function after_close(){
+	$("#id_all_emp").val("all");
+}
+function DtoS(d)
+{
+	var s=""
+    s+=d.getFullYear()+"-"
+    s+=N2((d.getMonth()+1))+"-"
+    s+=N2(d.getDate())
+    return s
+}
+function N2(nc)
+{
+	var tt= "00"  +nc.toString()
+   
+    tt=tt.toString();
+    return tt.substr(tt.length-2);
+}   
+{% endblock %}
+
+
+{% block form %}
+{% autoescape off %}
+
+<tr>
+<td><div class="lineH22"><label for="id_emp">人员:</label></div></td><td><div id = "id_emp_temp"></div></td>
+</tr>
+<tr><th></th><td>
+<div class="dcontent">
+	<form id="id_edit_form">
+		<table>
+			<tbody>
+            	<tr>
+                	<td>
+                		<table>
+                		<tr>
+                    		{{form.StartDate|field_as_td_h}}
+                    	</tr>
+                    	</table>
+                    </td>
+                    <td>        
+                          <table>
+                		<tr>
+                    		{{form.EndDate|field_as_td_h}}
+                    	</tr>
+                    	</table>
+                     </td>
+                </tr>
+                <tr>
+                	<td>
+                    	<fieldset>
+                        	<legend>{%trans '时段' %}</legend>
+                            <div style="overflow: auto; height: 200px; width: 250px;">
+                            	<table id="tblSchclass">
+                                	<tbody>
+                                    	<tr>
+                                        	<td colspan="2">
+                                            	<div id="select_div">
+												<span>&nbsp;</span>
+                                                	<!--<input type="checkbox"  id="is_select_all_shcClass"> ({% trans '全选' %} <span id="selected_count_schClass"></span>) -->
+                                                 </div>
+                                             </td>
+                                         </tr>
+                                       
+                                    </tbody>
+                                 </table>
+                                       </div>
+                                    </fieldset>
+									<div style="padding-left: 3px;" >
+										<table><tr><td><label>{% trans '指定工作类型: ' %}</label></td><td>{{form.WorkType}}</td></tr></table>
+									</div>
+									<div class ="displayN" style="margin-top:5px">
+                                        <input type="checkbox" name="is_OT" id="is_overtime"> {% trans '是否需要加班' %}</div>
+                                        <div class ="displayN" style="padding-left: 3px;" id="show_ot">{% trans '加班时间(分钟):' %}<input type="text" value="0" name="OverTime" size="5" id="id_overTime">
+                                         </div>
+									
+									
+                                 </td>
+                                 <td>
+                                 	<fieldset>
+                                    	<legend>{% trans '日期' %}</legend>
+                                        <div style="overflow: auto; height: 200px; width: 250px;">
+                                        	<table id="id_week">
+                                            	<tbody>
+                                                	<tr>
+                                                    	<td>
+                                                        <div id="select_div">
+                                                        	<input type="checkbox"   id="is_select_all_dates">({% trans '全选' %} <span id="selected_count_dates"></span>)
+                                                        </div>
+                                                        </td>
+                                                     </tr>
+
+                                                   
+                                                </tbody>
+                                             </table>
+                                           </div>
+                                        </fieldset>
+									</td>
+								  <td>
+									<fieldset>
+										<legend>{% trans '当天存在员工排班时' %}</legend>
+										<div style="height: 200px; width: 150px;">
+											<table id="id_week">
+												<tbody>
+													<tr>
+														<td class="wrapA">														
+															<input type="radio"   id="" name="Flag" checked="checked" value="1">{% trans '仅临时排班有效' %}</input>		
+														</td>
+													 </tr>
+													<tr>
+														<td class="wrapA">														
+															<input type="radio"   id="" name="Flag" value="2">{% trans '追加于员工排班之后' %}</input>		
+														</td>
+													 </tr>
+													
+												</tbody>
+											 </table>
+										   </div>
+									</fieldset>
+								
+								  </td>
+							     </tr>
+                                  <tr>
+                                  		<td><span id="id_error_sec"></span>
+                                        </td>
+                                   </tr>
+                                   <!-- <input type='hidden' value='' name='UserIDs' id='id_UserIDs' />
+                                   <input type='hidden' value='' name='deptIDs' id='id_deptIDs' value='1,2,3'/> -->
+                                   <input type="hidden" id="id_all_emp" value=""/>
+								{% for i,k in form.errors.items %}
+								{{i}}{{k}}
+								{% endfor %}
+								
+                            </tbody>
+                      </table>
+               </form>
+     </div></td>
+</tr>
+{% endautoescape %}
+{% endblock%}
+
+

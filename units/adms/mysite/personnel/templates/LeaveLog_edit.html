@@ -1,0 +1,22 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block addjs %}
+{% if "LEAVE_ONLY_POS"|filter_config_option %}
+$(function(){
+//       $(".tbl_data_edit>tbody>tr").eq(5).hide()
+        $(".tbl_data_edit>tbody>tr").eq(6).hide()
+        $(".tbl_data_edit>tbody>tr").eq(7).hide()
+        $(".tbl_data_edit>tbody>tr").eq(8).hide()
+    })
+
+    {%endif%}
+    
+{% if  "POS"|filter_config_option %}
+    $(function(){
+        $(".tbl_data_edit>tbody>tr").eq(8).hide()
+    })
+{%endif%}
+    
+    
+{% endblock %}

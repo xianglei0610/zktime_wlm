@@ -1,0 +1,198 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% if request.user|HasPerm:"iaccess.add_accinterlock" or request.user|HasPerm:"iaccess.change_accinterlock" %}
+{% autoescape off %}
+    <tr><td><table id="tr_interlock_mode">
+        <tr style="text-align:left;">
+            {{ form.device|field_as_td_h }}
+        </tr>
+        
+        <tr id="tr_one_mode" class="interlock_mode">
+            <th>{{ form.one_mode|field_as_no_td }}</th>
+            <td><label for="id_one_mode"></label></td>
+        </tr>
+        <tr id="tr_two_mode" class="interlock_mode">
+            <th>{{ form.two_mode|field_as_no_td }}</th>
+            <td><label for="id_two_mode"></label></td>
+        </tr>
+        <tr id="tr_three_mode" class="interlock_mode">	
+            <th>{{ form.three_mode|field_as_no_td }}</th>
+            <td><label for="id_three_mode"></label></td>
+        </tr>
+        <tr id="tr_four_mode" class="interlock_mode">		
+            <th>{{ form.four_mode|field_as_no_td }}</th>
+            <td><label for="id_four_mode"></label></td>
+        </tr>
+        
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+    </table></td></tr>
+{% endautoescape %}
+{% endif %}<!--add/change_accinterlock-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_accinterlock" or request.user|HasPerm:"iaccess.change_accinterlock" %}
+    var after_init=function()
+    {
+        //select option分层级ie不兼容问题,以及ie6不支持option的disabled的问题
+        if($.browser.msie) 
+        {
+            $("#id_device .level_1").each(function(){
+                $(this).text("         "+$(this).text());
+            });
+
+            $("#id_device .level_0").each(function(){
+                $(this).attr("style", "color:#999999");
+            });
+
+            $("#id_device").change(function(){
+                var options = $("#id_device option");   
+                var len = options.length; 
+                for(var i = 0; i < len; i++){   
+                    if(options[i].disabled && options[i].selected) {  
+                        options[0].selected = "selected";   
+                        break;   
+                    }   
+                }   
+            });
+        }   
+    } 
+
+    function before_submit()
+    {
+        if($("#id_device").attr("disabled") == true)//编辑时不做处理，且不执行下面的判断
+        {
+            $("#id_device").attr("disabled", false);
+             return true;
+        }     
+        return true;   
+    }
+
+    if( $("#id_device").val() != "")//编辑时
+    {
+        $("#id_device").attr("disabled", true);
+    }
+    else//新增时
+    {
+        $("label[for$='_mode']").hide();
+        $("input[id$='_mode']").hide();
+    }
+    
+
+    //用户没有选择控制器前先检查控制器是两门还是四门。同样适应与编辑时不允许用户更改控制器的情况
+    init_value = $("#id_device").val();
+    
+    function check_device(device_id)
+    {
+        geturl = '/{{ request.surl }}iaccess/GetData/?func=machine_args&device_id='+ device_id   
+        $.ajax({
+            type: "GET",
+            url: geturl,
+            dataType: "json",
+            async: false,
+            success: function(data){
+                var names = data.doors_name;
+                var door_name_1 = names[0][1] + "(" + names[0][0] + ")";
+                var door_name_2 = names[1][1] + "(" + names[1][0] + ")";
+                var door_name_3 = "";
+                var door_name_4 = "";
+
+                var doorcount = data.door_count;
+                $tbody = $("#id_edit_form table tbody");
+                if(doorcount == 0)//尚未连接过
+                {
+                    $("tr[id^='tr_']").hide()
+                    alert(gettext("当前选择设备的扩展参数获取失败，无法对该设备进行互锁设置！"));
+                }
+                else
+                { 
+                    $("tr[id^='tr_']").show();
+                    if(doorcount == 2)
+                    {
+                        $("#tr_one_mode label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("互锁"));
+                        $("label[for$='_mode']").show();
+                        $("input[id$='_mode']").show();
+                        $tbody.find("tr:gt(4)").hide();
+                    }
+                    else if(doorcount == 4)
+                    {
+                        door_name_3 = names[2][1] + "(" + names[2][0] + ")";
+                        door_name_4 = names[3][1] + "(" + names[3][0] + ")";
+                        
+                        $("#tr_one_mode label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+gettext("互锁"));
+                        $("#tr_two_mode label").text(gettext("门:")+door_name_3+" "+gettext("与")+" "+door_name_4+gettext("互锁"));
+                        $("#tr_three_mode label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+" "+gettext("与")+" "+door_name_3+gettext("互锁"));
+                        $("#tr_four_mode label").text(gettext("门:")+door_name_1+" "+gettext("与")+" "+door_name_2+" "+gettext("与")+" "+door_name_3+" "+gettext("与")+" "+door_name_4+gettext("互锁"));
+                        
+                        $("label[for$='_mode']").show();
+                        $("input[id$='_mode']").show();
+                        $tbody.find("tr:hidden").show();//如果有隐藏tr的就显示
+                    }
+                    else
+                    {
+                        alert(gettext("读取到错误的设备信息，请重试！"));
+                    }
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                //alert(textStatus+" "+errorThrown);
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-605");
+                return false;
+            }
+        });
+    }
+
+    if(init_value)//编辑时
+    {
+        check_device(init_value);
+    }
+
+    //用于用户新增数据时
+    $("#id_device").change(function(){
+        var device_id = $(this).find("option:selected").val();
+        if(device_id)
+        {
+            check_device(device_id);
+        }
+    });
+
+    $("#id_one_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+         }
+    });
+    $("#id_two_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_three_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+         }
+    });
+    $("#id_three_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_two_mode").removeAttr("checked");
+            $("#id_four_mode").removeAttr("checked");
+         }
+    });
+    $("#id_four_mode").click(function(){
+         if($(this).attr("checked"))
+         {
+            $("#id_one_mode").removeAttr("checked");
+            $("#id_two_mode").removeAttr("checked");
+            $("#id_three_mode").removeAttr("checked");
+         }
+    });
+    {% else %}      
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_accinterlock-->
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% if request.user|HasPerm:"iaccess.add_accmorecardset" or request.user|HasPerm:"iaccess.change_accmorecardset" %}
+    {% autoescape off %}
+        <tr><td>
+            <div class="morecardset_edit_table">
+                <table>
+                    <tr id="id_door">
+                    </tr>
+                    <tr>
+                        {{ form.comb_name|field_as_td_h }}
+                    </tr>
+                </table>
+            </div>
+            <div id="id_empgroup" class="div_box1 floatL morecardset_edit_table2"><h2>{% trans "各组开门人数" %}<label class="morecard_tip">{% trans "(括号内为该组中当前实际人数)" %}</label></h2>
+                <div style="width:100%; max-height:300px; overflow:auto;"><table></table></div>
+            </div>
+        </td></tr>
+
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+
+    {% endautoescape %}
+    {% endif %}<!--add/change_accmorecardset-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_accmorecardset" or request.user|HasPerm:"iaccess.change_accmorecardset" %}
+    //多卡开门组合名称的value值隐藏不显示
+    $("#id_door").append('<th style="padding-top:3px\9;*padding:0px;"><label class="required" for="id_comb_name">'+gettext("当前门:")+'</label></th><td style="padding-top:3px;padding-top:0px\9;*padding-top:4px;">'+door_name+'</td><input type="hidden" value="'+door_id+'" name="door"></input>');
+
+    before_submit =function(){
+        if($("#id_empgroup div table tr").length!=0)
+        {
+            var sum = 0;
+            $("#id_empgroup input[name = number]").each(function(){
+                sum += Number($(this).val())
+            });
+            if(sum == 0)
+            {
+                alert(gettext("请至少在一个组内填入开门人数！"));
+                $("#id_empgroup input[id^='id_number_']:first").focus()
+                return false;
+            }
+            else if(sum == 1)
+            {
+                alert(gettext("至少两人同时开门！"));
+                $("#id_empgroup input[id^='id_number_']:first").focus()
+                return false;
+            }
+            if(sum > 5)
+            {
+                alert(gettext("最多五人同时开门！"));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    var key = 0;
+    if($("#id_comb_name").val() != '')
+    {
+        //编辑记录时，获取当前accmorecardset的id，通过此得到accmorecardgroup中关联的数据
+        var comb_name = $("#id_comb_name").val();
+    }
+
+    //新增记录时，组合名称栏为空key=0,编辑时则不为0
+    $.ajax({
+        type: "POST",
+        url: "/{{ request.surl }}iaccess/GetData/?func=morecardempgroup&comb_name="+ encodeURI(comb_name),
+        dataType: "json",
+        async: false,
+        success: function(json){
+            if(json != "")
+            {
+                for(g in json)
+                {
+                    var html = '<tr>'
+                                    +'<th style="_padding:0px;">'
+                                        +'<label class="required">'+json[g][1]+':</label>'
+                                    +'</th>'
+                                    +'<td>'
+                                    	+'<select name="number_'+json[g][0]+ '" id="id_select_'+json[g][0]+ '" style="width: 45px;"><option value=0>0</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option></select>'
+
+                                        +'<input type="hidden" id="id_group_'+json[g][0]+'" name="group" value="'+json[g][0]+'">'
+                                        +'<input type="input" id="id_number_'+json[g][0]+'" maxlength="30" class="wZBaseCharField" name="number" value="'+json[g][2]+'" style="width: 30px;display:none;">'
+                                        +'<label class="currunt_count">('+json[g][3]+gettext("人")+')</label>'
+                                    +'</td>'
+                                +'</tr>';
+                    $("#id_empgroup table").append(html);
+                    $("#id_empgroup table select[@name=number_"+json[g][0]+"] option").each(function(){
+                    	if($(this).parent().attr("name") == "number_"+json[g][0])
+                    	{
+                    		if(this.value == json[g][2])
+                    		{
+                    			this.selected = true;
+                    		}
+                    	}
+                    });
+                    $("#id_select_"+json[g][0]).bind("change",function(){
+                    	$($(this).next().next()).val(this.value);
+                    })
+                }
+            }
+            else
+            {
+                $("#id_empgroup").hide();
+                alert(gettext("您还没有设置多卡开门人员组！请先添加！"));
+            }
+        }
+    });
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_accmorecardset-->
+
+{% endblock %}
+

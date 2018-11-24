@@ -1,0 +1,63 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %} 
+<tr align="left"><td align="left">
+  <table width="100%" border="0"  cellspacing="0" cellpadding="3">
+    <tr>
+    <th><label for='id_use_fan_area'>{%trans '使用扇区:'%}</label></th>
+           <td width="10px"><input type='text' style = "width:100px;" maxlength='6'  name='use_fan_area' id='id_use_fan_area' value=''/></td>
+    </tr>
+    <tr>
+         <th valign="middle">
+                     {% trans '已初始化卡数:' %}
+                 </th>
+                 <td>
+                     <div id="div_id_issuecardnumber" class="color_orange" style="padding-top:3px;padding-top:0px\9;"></div>
+                 </td>
+       </tr>
+   <tr>
+      <td></td>
+          <td colspan="4">
+              <div id="div_id_showdetail" class="div_box" style="width:400px"><h1>&nbsp;</h1>
+                  <div class="div_addcard">
+                      <table class="table table1" width="100%" id="id_tbl_old"><thead>
+                          <tr id="tr_first">
+                              <th>{% trans '序号' %}</th>
+                              <th>{% trans '卡号' %}</th>
+                          </tr></thead>
+                      </table>
+                  </div>
+              </div>
+           </td>
+          
+      </tr>
+    
+    <tr>
+        <td></td>
+        <td>
+            <button type="button"  id="btnstart" disabled="disabled" style="color: rgb(136, 136, 136)" >批量开始</button>
+        </td>
+        <td>
+            <button type="button"  id="btnstart" disabled="disabled" style="color: rgb(136, 136, 136)" >批量结束</button>
+        </td>
+        <td>
+            <button type="button"  id="btnstart">清空列表</button>
+        </td>
+    </tr>
+  <div>   {{ form.non_field_errors }} </div>
+ <div id="id_info"><div>
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+  </table>
+</td></tr>
+
+
+{% endautoescape %}
+{% endblock %}
+{% block addjs %}
+$(function(){
+     $(".editformbtn").hide();
+})
+{% endblock %}

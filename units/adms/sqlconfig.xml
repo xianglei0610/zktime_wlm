@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<firesource>
+	<dirs>
+		<dir path="mysite.att.sql" app="att"/>
+		<dir path="mysite.personnel.sql" app="personnel"/>
+		<dir path="mysite.iclock.sql" app="iclock"/>
+		<dir path="mysite.pos.sql" app="pos"/>
+		<dir path="mysite.iaccess.sql" app="iaccess"/>
+	</dirs>
+</firesource>

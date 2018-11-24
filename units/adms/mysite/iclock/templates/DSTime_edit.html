@@ -1,0 +1,346 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block form %}
+{% if request.user|HasPerm:"iclock.add_dstime" or request.user|HasPerm:"iclock.change_dstime" %}
+    {% autoescape off %}
+    <tr>{{ form.dst_name|field_as_td_h }}</tr>
+     <tr>{{ form.mode|field_as_td_h }}</tr>
+     <tr>{{ form.start_time|field_as_td_h }}</tr>
+     <tr>{{ form.end_time|field_as_td_h }}</tr>
+        <tr>
+            <th><label class="required">{% trans "夏令时名称:" %}</label></th>
+            <td ><input id="id_dstime" type="text" maxlength="20" name="dstime_txt" value="" ></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input id="select_mode1" type="radio" name="dslt_mode" value="dslt_mode1" cellspacing="10" checked="checked" />&nbsp;{% trans '模式一'  %}</td>
+        </tr>
+        <tr>
+            <th><label class="required">{% trans "开始时间" %}:</label></th0>
+            <td ><span style="border:1px solid #8DB6CD;"><input id="stime_1" type="text" style="border:0px;width:22px;height:16" maxlength=2  onkeypress="keypress(this,event,12,0)" onblur="check_value(this,1)" onkeydown="keydown(this,event,12)"></input>-<input id="stime_2" type="text"style="border:0px ;width:22px;height:16" maxlength=2  onkeypress="keypress(this,event,31,0)" onblur="check_value(this,1)" onkeydown="keydown(this,event,31)"></input>&nbsp;<input id="stime_3" type="text" style="border:0px ;width:22px;height:16" maxlength=2 onkeypress="keypress(this,event,23,0)" onkeydown="keydown(this,event,23)"></input>:
+<input id="stime_4" type="text" style="border:0px ;width:22px;height:16" maxlength=2  onkeypress="keypress(this,event,59,0)" onkeydown="keydown(this,event,59)"></input></span>
+&nbsp;&nbsp;
+            <label class="required">{% trans "(MM-dd hh:mm)" %}</label></td>
+        </tr>
+        <tr>
+            <th><label class="required">{% trans "结束时间" %}:</label></th>
+            <td ><span style="border:1px solid #8DB6CD;"><input id="etime_1" type="text" style="border:0px;width:22px;height:16" maxlength=2 onkeypress="keypress(this,event,12,0)" onblur="check_value(this,1)" onkeydown="keydown(this,event,12)"></input>-<input id="etime_2" type="text"style="border:0px ;width:22px;height:16" maxlength=2  onkeypress="keypress(this,event,31,0)" onblur="check_value(this,1)" onkeydown="keydown(this,event,31)"></input>&nbsp;<input id="etime_3" type="text" style="border:0px ;width:22px;height:16" maxlength=2  onkeypress="keypress(this,event,23,0)"onkeydown="keydown(this,event,23)"></input>:
+<input id="etime_4" type="text" style="border:0px ;width:22px;height:16" maxlength=2 onkeypress="keypress(this,event,59,0)" onkeydown="keydown(this,event,59)"></input></span>
+&nbsp;&nbsp;
+            <label class="required">{% trans "(MM-dd hh:mm)" %}</label></td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input id="select_mode2" type="radio" name="dslt_mode" value="dslt_mode2" cellspacing="10" />&nbsp;{% trans '模式二'  %}</td>
+        </tr>
+        <tr>
+            <th><label class="required">{% trans "开始时间" %}:</label></th>
+             <td id="tag_id_mod2_snd_month">
+                <select id="id_txtm2sy" style="width:61px">
+                    <option value="1">{%trans "一月"%}</option>
+                    <option value="2">{%trans "二月"%}</option>
+                    <option value="3">{%trans "三月"%}</option>
+                    <option value="4">{%trans "四月"%}</option>
+                    <option value="5">{%trans "五月"%}</option>
+                    <option value="6">{%trans "六月"%}</option>
+                    <option value="7">{%trans "七月"%}</option>
+                    <option value="8">{%trans "八月"%}</option>
+                    <option value="9">{%trans "九月"%}</option>
+                    <option value="10">{%trans "十月"%}</option>
+                    <option value="11">{%trans "十一月"%}</option>
+                    <option value="12">{%trans "十二月"%}</option>
+                </select>
+                <select id="id_txtm2sw" style="width:62px">
+                    <option value="1">{%trans "第一个"%}</option>
+                    <option value="2">{%trans "第二个"%}</option>
+                    <option value="3">{%trans "第三个"%}</option>
+                    <option value="4">{%trans "第四个"%}</option>
+                    <option value="5">{%trans "第五个"%}</option>
+                </select>
+                <select id="id_txtm2sd" style="width:100px">
+                    <option value="1">{%trans "星期一"%}</option>
+                    <option value="2">{%trans "星期二"%}</option>
+                    <option value="3">{%trans "星期三"%}</option>
+                    <option value="4">{%trans "星期四"%}</option>
+                    <option value="5">{%trans "星期五"%}</option>
+                    <option value="6">{%trans "星期六"%}</option>
+                    <option value="7">{%trans "星期日"%}</option>
+                </select>
+                <input type="text" name="txtm2sh_txt" id="id_txtm2sh" value="" style="width:20px" maxlength=2  onkeypress="keypress(this,event,23,0)"/>{% trans "时" %}
+                <input type="text" name="txtm2sm_txt" id="id_txtm2sm" value="" style="width:20px" maxlength=2  onkeypress="keypress(this,event,59,0)"/>{% trans "分" %}
+
+            </td>
+        <tr>
+            <th><label class="required">{% trans "结束时间" %}:</label></th>
+          <td id="tag_id_mod2_end_month">
+            <select id="id_txtm2ey" style="width:61px">
+                <option value="1">{%trans "一月"%}</option>
+                <option value="2">{%trans "二月"%}</option>
+                <option value="3">{%trans "三月"%}</option>
+                <option value="4">{%trans "四月"%}</option>
+                <option value="5">{%trans "五月"%}</option>
+                <option value="6">{%trans "六月"%}</option>
+                <option value="7">{%trans "七月"%}</option>
+                <option value="8">{%trans "八月"%}</option>
+                <option value="9">{%trans "九月"%}</option>
+                <option value="10">{%trans "十月"%}</option>
+                <option value="11">{%trans "十一月"%}</option>
+                <option value="12">{%trans "十二月"%}</option>
+            </select>
+            <select id="id_txtm2ew" style="width:62px">
+                <option value="1">{%trans "第一个"%}</option>
+                <option value="2">{%trans "第二个"%}</option>
+                <option value="3">{%trans "第三个"%}</option>
+                <option value="4">{%trans "第四个"%}</option>
+                <option value="5">{%trans "第五个"%}</option>
+            </select>
+            <select id="id_txtm2ed" style="width:100px">
+                <option value="1">{%trans "星期一"%}</option>
+                <option value="2">{%trans "星期二"%}</option>
+                <option value="3">{%trans "星期三"%}</option>
+                <option value="4">{%trans "星期四"%}</option>
+                <option value="5">{%trans "星期五"%}</option>
+                <option value="6">{%trans "星期六"%}</option>
+                <option value="7">{%trans "星期日"%}</option>
+            </select>
+            <input type="text" name="txtm2sh_txt" id="id_txtm2eh" value="" style="width:20px" maxlength=2  onkeypress="keypress(this,event,23,0)"/>{% trans "时" %}
+            <input type="text" name="txtm2sm_txt" id="id_txtm2em" value="" style="width:20px" maxlength=2  onkeypress="keypress(this,event,59,0)"/>{% trans "分" %}
+        </td>
+        </tr>
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+
+{% endautoescape %}
+{% endif %}
+{% endblock %}
+
+{% block addjs %}
+{% if request.user|HasPerm:"iclock.add_dstime" or request.user|HasPerm:"iclock.change_dstime" %}
+    var mode = $("#id_mode").val();
+    var start_time = $("#id_start_time").val();
+    var end_time = $("#id_end_time").val();
+    function keypress(tag,event,max,min)
+    {
+        var id = tag.id;
+        var index = id.split("_")[1];
+        var pos = getselection(tag);
+        var key = event.charCode||event.keyCode;
+        var c=String.fromCharCode(key);
+        if(key>=48 && key<=57)
+        {
+            value=""+tag.value.substring(0,pos.start)
+                    + c + tag.value.substring(pos.end,tag.value.length);
+            if(parseInt(value,10)>=min&&parseInt(value,10)<=max)
+            {
+            	if(!isNaN(parseInt(index,10)))//模式1时间输入框
+            	{
+                	if(value.length==2)
+                	{
+                	    if(parseInt(index,10)<4)
+                	    {
+                    	    id=id.replace(/(\d)$/,parseInt(index,10)+1 );
+                        	setTimeout("document.getElementById('"+id+"').focus();"+
+                                 "document.getElementById('"+id+"').select();",200);
+                    	}
+               		}
+
+	            }
+            }
+            else{
+                if(event.preventDefault)
+                    event.preventDefault();
+                event.returnValue=false;
+                return false;
+            }
+         }
+         else if(key!=39&&key!=37&&key!=8&&key!=9&&key!=116&&key!=46)//过滤掉left,right,backspace,tab,F5,delete键，否则在Firefox下，这些键会失效
+         {
+           if(event.preventDefault)
+               event.preventDefault();
+           event.returnValue=false;
+
+         }
+
+    }
+    function check_value(tag, min)
+    {
+    	if(parseInt(tag.value,10) < min)
+    	{
+    		tag.value = "01";
+    	}
+    }
+    function keydown(tag, event, max){
+        var key = event.charCode||event.keyCode;
+        var id = tag.id;
+        var index = id.split("_")[1];
+        var pos = getselection(tag);
+        var c=String.fromCharCode(key);
+        switch(key)
+        {
+            case 39://键盘right
+                if(pos.start == tag.value.length && index<4)
+                {
+                    var next = id.replace(/(\d)$/, parseInt(index,10)+1 );
+                    document.getElementById(next).focus();
+                }
+                break;
+            case 37://键盘left
+                if(pos.end == 0 && index>1)
+                {
+                    var next = id.replace(/(\d)$/,parseInt(index,10)-1 );
+                    document.getElementById(next).focus();
+                    document.getElementById(id).value = document.getElementById(id).value;//避免IE下焦点会到文本框的起始位置
+                }
+                break;
+            case 8://键盘backspace
+                //alert('start');
+               if(tag.value.length==0){
+                  if(index==1){return;}
+                  id=id.replace(/(\d)$/,parseInt(index,10)-1 );
+                  document.getElementById(id).focus();
+                  document.getElementById(id).select();
+
+               }
+                break;
+        }
+
+    }
+    //获取选区位置
+    function getselection(oInput){
+       var T = this;
+       if(oInput.createTextRange)
+       {
+           var s = document.selection.createRange().duplicate();
+           s.moveStart("character",-oInput.value.length);
+           var p1 = s.text.length;
+
+
+           var s = document.selection.createRange().duplicate();
+           s.moveEnd("character", oInput.value.length);
+           var p2=oInput.value.lastIndexOf(s.text);
+           if(s.text == "")
+           {
+                p2=oInput.value.length;
+           }
+
+           return {start:p2,end:p1};
+
+       }else {
+           return {start:oInput.selectionStart,end:oInput.selectionEnd};
+
+       }
+   }
+
+    if(mode==1 ){
+        $("#select_mode2").attr("checked","checked");
+        $("#id_dstime").attr("value",$("#id_dst_name").val())
+        //编辑时初始化起始时间
+        st_temp = start_time.split(" ");
+        st_temp_sub1 = st_temp[0].split("-");
+        st_temp_sub2 = st_temp[1].split(":");
+        $("#id_txtm2sy").attr("value",st_temp_sub1[0]);
+        $("#id_txtm2sw").attr("value",st_temp_sub1[1]);
+        $("#id_txtm2sd").attr("value",st_temp_sub1[2]);
+        $("#id_txtm2sh").attr("value",st_temp_sub2[0]);
+        $("#id_txtm2sm").attr("value",st_temp_sub2[1]);
+        //编辑时初始化结束时间
+        ed_temp = end_time.split(" ");
+        ed_temp_sub1 = ed_temp[0].split("-");
+        ed_temp_sub2 = ed_temp[1].split(":");
+        $("#id_txtm2ey").attr("value",ed_temp_sub1[0]);
+        $("#id_txtm2ew").attr("value",ed_temp_sub1[1]);
+        $("#id_txtm2ed").attr("value",ed_temp_sub1[2]);
+        $("#id_txtm2eh").attr("value",ed_temp_sub2[0]);
+        $("#id_txtm2em").attr("value",ed_temp_sub2[1]);
+
+    }else if(mode==0 && start_time!=""){
+        $("#select_mode1").attr("checked","checked");
+        $("#id_dstime").attr("value",$("#id_dst_name").val())
+        st_temp = start_time.split(" ");
+        st_temp_sub1 = st_temp[0].split("-");
+        st_temp_sub2 = st_temp[1].split(":");
+        $("#stime_1").attr("value",st_temp_sub1[0]);
+        $("#stime_2").attr("value",st_temp_sub1[1]);
+        $("#stime_3").attr("value",st_temp_sub2[0]);
+        $("#stime_4").attr("value",st_temp_sub2[1]);
+        //编辑时初始化结束时间
+        ed_temp = end_time.split(" ");
+        ed_temp_sub1 = ed_temp[0].split("-");
+        ed_temp_sub2 = ed_temp[1].split(":");
+        $("#etime_1").attr("value",ed_temp_sub1[0]);
+        $("#etime_2").attr("value",ed_temp_sub1[1]);
+        $("#etime_3").attr("value",ed_temp_sub2[0]);
+        $("#etime_4").attr("value",ed_temp_sub2[1]);
+    }
+
+    $(function(){
+        $("#id_dst_name").parent().parent().hide();
+        $("#id_mode").parent().parent().hide();
+        $("#id_start_time").parent().parent().hide();
+        $("#id_end_time").parent().parent().hide();
+    })
+    function before_submit(){
+        if($("#id_dstime").val() == ""){
+            alert(gettext("夏令时名称不能为空！"));
+            return false;
+        }
+        $("#id_dst_name").attr("value",$("#id_dstime").val());
+
+
+
+        if($("#select_mode1").attr("checked")==true)
+        {
+            start_time = "";
+            end_time = "";
+            mode = "0";
+            if($("#stime_1").val()!="" && $("#stime_2").val()!="" && $("#stime_3").val()!="" && $("#stime_4").val()!="")
+            {
+                start_time = $("#stime_1").val()+"-"+$("#stime_2").val()+" "+($("#stime_3").val().length==1?'0'+$("#stime_3").val():$("#stime_3").val())+":"+($("#stime_4").val().length==1?'0'+$("#stime_4").val():$("#stime_4").val());
+            }
+            if($("#etime_1").val()!="" && $("#etime_2").val()!="" && $("#etime_3").val()!="" && $("#etime_4").val()!="")
+            {
+                end_time = $("#etime_1").val()+"-"+$("#etime_2").val()+" "+($("#etime_3").val().length==1?'0'+$("#etime_3").val():$("#etime_3").val())+":"+($("#etime_4").val().length==1?'0'+$("#etime_4").val():$("#etime_4").val());
+            }
+            if(parseInt($("#stime_1").val(),10)==parseInt($("#etime_1").val(),10) && parseInt($("#stime_2").val(),10)==parseInt($("#etime_2").val(),10) && parseInt($("#stime_3").val(),10)==parseInt($("#etime_3").val(),10) && parseInt($("#stime_4").val(),10)==parseInt($("#etime_4").val(),10))
+            {
+                alert(gettext("起始时间不能和结束时间相等！"));
+                return false;
+            }
+
+
+        }else if($("#select_mode2").attr("checked")==true){
+            start_time = "";
+            end_time = "";
+            mode = "1";
+            if($("#id_txtm2sh").val()!="" && $("#id_txtm2sm").val()!="")
+            {
+                start_time = $("#id_txtm2sy").val() + "-" +$("#id_txtm2sw").val() + "-" + $("#id_txtm2sd").val() + " " + ($("#id_txtm2sh").val().length==1?'0'+$("#id_txtm2sh").val():$("#id_txtm2sh").val()) + ":" + ($("#id_txtm2sm").val().length==1?'0'+$("#id_txtm2sm").val():$("#id_txtm2sm").val());
+            }
+            if($("#id_txtm2eh").val()!="" && $("#id_txtm2em").val()!="")
+            {
+                end_time = $("#id_txtm2ey").val() + "-" +$("#id_txtm2ew").val() + "-" + $("#id_txtm2ed").val() + " " + ($("#id_txtm2eh").val().length==1?'0'+$("#id_txtm2eh").val():$("#id_txtm2eh").val()) + ":" + ($("#id_txtm2em").val().length==1?'0'+$("#id_txtm2em").val():$("#id_txtm2em").val());
+            }
+            if(parseInt($("#id_txtm2sy").val(),10)==parseInt($("#id_txtm2ey").val(),10)&&parseInt($("#id_txtm2sw").val(),10)==parseInt($("#id_txtm2ew").val(),10)&&parseInt($("#id_txtm2sd").val(),10)==parseInt($("#id_txtm2ed").val(),10)&&parseInt($("#id_txtm2sh").val(),10)==parseInt($("#id_txtm2eh").val(),10)&&parseInt($("#id_txtm2sm").val(),10)==parseInt($("#id_txtm2em").val(),10))
+            {
+                alert(gettext("起始时间不能和结束时间相等！"));
+                return false;
+            }
+
+        }
+        if(start_time == "" || end_time == "")
+       {
+               alert(gettext("日期格式不正确！"));
+               return false;
+       }
+        $("#id_start_time").attr("value",start_time);
+        $("#id_end_time").attr("value",end_time);
+        $("#id_mode").attr("value",mode);
+
+        return true;
+    }
+    {% else %}
+    	    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+    	    window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}
+
+{% endblock %}

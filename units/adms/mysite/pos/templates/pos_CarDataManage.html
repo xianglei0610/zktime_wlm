@@ -1,0 +1,337 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{%  block search_div  %}
+
+<div style="margin-bottom: 0px ! important; padding-bottom: 2px;" class="div_box" id="id_search">
+                    <h1 style="margin-bottom: 5px;">查询</h1>
+                    <table style="width: 99%;">
+                    <tbody><tr>
+                        <td>
+                            <div>          
+        <table width="100%" id="id_form_search" class="tbl_form_search">
+               <tbody><tr class="header_div_left"> 
+                    <td align="right"><label class="" for="id_UserID__PIN">人员编号:</label></td> <td><input type="text" maxlength="20" name="UserID__PIN" id="search_id_UserID__PIN"></td>
+                    <td align="right"><label for="id_UserID__EName">姓名:</label></td> <td><input type="text" maxlength="24" name="UserID__EName" id="search_id_UserID__EName" ></td>
+ <td align="right"><label for="id_cardno">卡号:</label></td> <td><input type="text" maxlength="20" name="cardno" id="search_id_cardno"></td>
+                    
+               
+                   </tr>
+                   <tr class="header_div_left">
+               
+               
+           <td align="right">
+        <label class="" for="id_cardstatus">卡状态:</label></td> 
+        <td style="width:144px;">
+        <select id="search_id_cardstatus" name="cardstatus" 
+        <option value="" selected="selected">---------</option>
+           <option selected="selected" value="1">有效</option>
+           <option value="2">无效</option>
+           <option value="3">挂失</option>
+           </select></td>
+           
+               
+                   
+               
+                 </tr> 
+               
+           
+                   
+       </tbody></table>
+    
+                            </div> 
+                        </td>
+					</tr>
+					<tr>
+                        <td valign="bottom">  
+                                <div class="topSearchBtn floatR" style="text-align: right;"><!--height:20px;-->
+                                   
+                                    <span class="Link_blue1">
+                                        <span class="action_topSearch floatL"></span><a class="floatL" id="id_header_search" href="javascript:void(0)">查询</a>
+                                    </span>
+                                    
+                                    <span id="id_advanced_search" class="Link_blue1">
+                                        <span class="action_advancedSearch floatL"></span><a class="floatL" href="javascript:void(0)">高级</a>
+                                    </span>
+                                    
+                                    <span class="Link_blue1">
+                                        <span class="action_topClear floatL"></span><a class="floatL" id="id_header_clear" href="javascript:void(0)">清除</a>
+                                    </span>
+                                    <div class="clear"></div>
+                                </div>
+                       </td>
+                    </tr>
+                    </tbody></table>
+                </div>
+
+
+{% endblock %}
+
+{% block op_for_tab %}
+	
+{% endblock %}
+
+
+{% block getdatalist %}
+{% endblock %}
+
+{% block addjs %}
+var data=[]
+
+$(function(){
+    $("#div_id_middiv").hide();
+    $(".leftBoxMiddle").hide();
+    {% if request.user|HasPerm:"contenttypes.can_AttDeviceDataManage" %}
+    $('#id_datalist').model_grid(
+        {
+        'model_url':'{{dbapp_url}}personnel/IssueCard/',
+        'model_actions':false,
+        'object_actions':true,
+  
+        'addition_actions':{
+                "add":{
+                    "verbose_name":gettext("批量发卡"),
+                    "help_text":"help",
+                    "for_model":true,
+                    "only_one":false,
+                    "item_index":2,
+                    "params":0,
+                    "on_click":function(grid,selected_objs,event,elem){
+                        var href="/data/personnel/IssueCard/_op_/_add/";
+                        var f=function(){
+                            return function(){
+                                var op_name=$(event.target).attr("alt");
+                                var op=grid.g.actions[op_name];
+								var $show_op= $("#id_edit_form #objs_for_op");
+                                if(op.for_model)
+                                {
+                                    if(op_name=="_clear"){
+                                       $show_op.prepend(gettext("是否")+op.verbose_name+"?");
+                                    }
+                                }
+                                else
+                                {
+                                    if(grid.g.is_select_all)
+                                    {
+                                        $show_op.prepend($.validator.format(gettext("选择所有 {0}(s)"), grid.g.title))
+                                    }else if(!elem)
+                                    {
+                                        $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+selected_objs.obj_strings.join("; "));
+                                    }else
+                                    {
+                                        $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+$(elem).attr("title"));
+                                    }
+                                }
+								if($.trim($show_op.text())=="")
+                                {
+									$show_op.remove();
+								}
+                                else
+                                {
+									$show_op.addClass("objs_for_op");
+									$show_op.parents("#pre_addition_fields").css("height",60);		
+								}
+                                //用来执行操作时的回调函数，比如为人员添加权限组时--darcy20110330
+                                if(typeof(after_object_action)!="undefined")
+                                {
+                                	after_object_action();
+                                }
+                            }
+                        }
+                        if(elem){
+                            href+="?K="+$(elem).attr("data");
+                            $.zk._processEdit(href, grid, undefined, event,f());
+                        }else{
+                            href+="?"+selected_objs.query_string;
+                            $.zk._processEdit(href, grid, undefined, event,f());
+                        }
+                        return false;
+                    }
+                },
+                   "Supplement":{
+                                       "verbose_name":gettext("充值"),
+                                       "help_text":"help",
+                                       "for_model":true,
+                                       "only_one":false,
+                                       "item_index":2,
+                                       "params":0,
+                                       "on_click":function(grid,selected_objs,event,elem){
+                                           var href="/data/personnel/IssueCard/_op_/Supplement/";
+                                           var f=function(){
+                                               return function(){
+                                                   var op_name=$(event.target).attr("alt");
+                                                   var op=grid.g.actions[op_name];
+                   								var $show_op= $("#id_edit_form #objs_for_op");
+                                                   if(op.for_model)
+                                                   {
+                                                       if(op_name=="_clear"){
+                                                          $show_op.prepend(gettext("是否")+op.verbose_name+"?");
+                                                       }
+                                                   }
+                                                   else
+                                                   {
+                                                       if(grid.g.is_select_all)
+                                                       {
+                                                           $show_op.prepend($.validator.format(gettext("选择所有 {0}(s)"), grid.g.title))
+                                                       }else if(!elem)
+                                                       {
+                                                           $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+selected_objs.obj_strings.join("; "));
+                                                       }else
+                                                       {
+                                                           $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+$(elem).attr("title"));
+                                                       }
+                                                   }
+                   								if($.trim($show_op.text())=="")
+                                                   {
+                   									$show_op.remove();
+                   								}
+                                                   else
+                                                   {
+                   									$show_op.addClass("objs_for_op");
+                   									$show_op.parents("#pre_addition_fields").css("height",60);		
+                   								}
+                                                   //用来执行操作时的回调函数，比如为人员添加权限组时--darcy20110330
+                                                   if(typeof(after_object_action)!="undefined")
+                                                   {
+                                                   	after_object_action();
+                                                   }
+                                               }
+                                           }
+                                           if(elem){
+                                               href+="?K="+$(elem).attr("data");
+                                               $.zk._processEdit(href, grid, undefined, event,f());
+                                           }else{
+                                               href+="?"+selected_objs.query_string;
+                                               $.zk._processEdit(href, grid, undefined, event,f());
+                                           }
+                                           return false;
+                                       }
+                                   } ,
+                                                   "Reimburse":{
+                       "verbose_name":gettext("退款"),
+                       "help_text":"help",
+                       "for_model":true,
+                       "only_one":false,
+                       "item_index":2,
+                       "params":0,
+                       "on_click":function(grid,selected_objs,event,elem){
+                           var href="/data/personnel/IssueCard/_op_/Reimburse/";
+                           var f=function(){
+                               return function(){
+                                   var op_name=$(event.target).attr("alt");
+                                   var op=grid.g.actions[op_name];
+                                var $show_op= $("#id_edit_form #objs_for_op");
+                                   if(op.for_model)
+                                   {
+                                       if(op_name=="_clear"){
+                                          $show_op.prepend(gettext("是否")+op.verbose_name+"?");
+                                       }
+                                   }
+                                   else
+                                   {
+                                       if(grid.g.is_select_all)
+                                       {
+                                           $show_op.prepend($.validator.format(gettext("选择所有 {0}(s)"), grid.g.title))
+                                       }else if(!elem)
+                                       {
+                                           $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+selected_objs.obj_strings.join("; "));
+                                       }else
+                                       {
+                                           $show_op.prepend($.validator.format(gettext("选择 {0}(s): "),grid.g.title)+$(elem).attr("title"));
+                                       }
+                                   }
+                                if($.trim($show_op.text())=="")
+                                   {
+                                    $show_op.remove();
+                                }
+                                   else
+                                   {
+                                    $show_op.addClass("objs_for_op");
+                                    $show_op.parents("#pre_addition_fields").css("height",60);		
+                                }
+                                   //用来执行操作时的回调函数，比如为人员添加权限组时--darcy20110330
+                                   if(typeof(after_object_action)!="undefined")
+                                   {
+                                    after_object_action();
+                                   }
+                               }
+                           }
+                           if(elem){
+                               href+="?K="+$(elem).attr("data");
+                               $.zk._processEdit(href, grid, undefined, event,f());
+                           }else{
+                               href+="?"+selected_objs.query_string;
+                               $.zk._processEdit(href, grid, undefined, event,f());
+                           }
+                           return false;
+                       }
+                   }                                                    
+        },
+        "model_action_container":$("#id_op_for_tab"),
+        'obj_edit':false,
+        'row_operations':["op_edit"],
+        'disable_cols':['acpanel_type','com_port','area.areaname','com_address','show_enabled|boolean_icon','show_fp_mthreshold','get_dstime_name','device_type','fw_version'],
+        'need_plus_sign':false,
+        'multiple_select':true,
+        'init_after_get_jdata':function(){
+            $("#id_datalist").get(0).g.a_div.after("<div class='floatL' style='_position:relative;_z-index:10;'><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+            var $app_menu=$("#id_datalist").get(0).g.a_div;
+            var $menu_more=$(".action_more_list");
+            var min_width=380;
+            resize_menu($app_menu,$menu_more,min_width,"id_actioen_more");
+            $('.nav li').sfHover();
+			
+            {% block extrajs %}{% endblock %}
+        },
+        'disabled_actions':['ClearData','ClearTransaction','ClearPicture','_change','Pause','PowerSuspend','ResetPassword','_delete','Resume','Syncdata','SyncACPanelTime','OpChangeIPOfACPanel','OpBrowseLog','UploadLogs','OpEnableDevice','OpDisableDevice','OpUpgradeFirmware','OpChangeMThreshold','OpCloseAuxOut','OpSetDSTime','OpRemoveDSTime']
+    })
+    
+
+    var listDiv=""
+    data=$("#id_datalist").get(0).g.data
+    {% endif %}
+    $("input[name='rdo_style']").click(function(){
+        var v=$(this).val();
+        if(v==1)
+        {
+            $(this).parent().parent().find("#id_tbl").removeClass("displayN");
+            $("#id_datalist_view").css("display","None");
+
+        }
+        else
+        {
+            //if($("#id_datalist_view").length>0)
+            $("#id_datalist_view").remove();
+            listDiv=showBox(data);               
+           
+            $(this).parent().parent().append(listDiv);
+            $(this).parent().parent().find("#id_tbl").addClass("displayN");
+      
+        }
+    });
+});
+function view_edit(obj)
+{
+    var Href=$(obj).attr("alt");
+   
+    $.zk._processEdit(Href, $("#id_datalist").get(0), undefined, $(obj));
+    $("#id_datalist_view").css("display","None");
+    $("#id_datalist_view").parent().find("#id_tbl").removeClass("displayN");
+    return false;
+    
+}
+
+{% endblock %}
+{% block addmiddiv %}
+{% if request.user|HasPerm:"contenttypes.can_AttDeviceDataManage" %}
+<div id="id_tip" style="display:none" class="div_tip ui-corner-all"></div>
+<div id="div_id_middiv">{% trans '显示方式' %}
+<input type="radio" name="rdo_style" value=1 checked="checked">{% trans '列表方式' %}</input>
+<input type="radio" name="rdo_style" value=2>{% trans '图表方式' %}</input>
+</div>
+<div id="id_datalist"></div>
+{% else %}
+<div>{% trans '用户无设备浏览权限，请与管理员联系' %}</div>
+{% endif %}
+{% endblock %}

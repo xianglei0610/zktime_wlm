@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"> 
+<title>ID消费 PUSH SDK 模拟</title>
+<style type="text/css">
+	body,td,th {
+		font-size: 12px;
+	}
+	body {
+		margin-left: 0px;
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-bottom: 0px;
+	}
+	.an {
+		height: 60px;
+		width: 100px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #000000;
+	}
+	.select1 {
+		width: 140px;
+	}
+   #result{ float:top; width:100%; height:100%; background: #eeeecc} 
+    
+</style>
+</head>
+<body>
+
+<table width="90%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#E1EBF4" class="tab" >
+  
+   <tr>
+		 <td bgcolor="#F7FCFD" colspan="2">
+			<label id = "lable_card"for="Radio3">服务器地址：</label><input class="select1"  style = "width:200px;"type="text"id="local_host"/>
+		</td>
+   </tr>
+  
+  <tr>
+
+    <td bgcolor="#F7FCFD" colspan="2">
+       	<input type="radio" name="radio" id="radio2" value="1" checked />
+		<label id = "id_lable_redio2"for="Radio2"></label>
+       	<label id = "pos_getdata" for="select"></label>
+        <select class="select1" name="select" id="data_type" >
+			<option value='1'>获取系统时间</option>
+			<option value='2'>下载管理卡信息</option>
+			<option value='3'>获取键值资料</option>
+			<option value='5'>获取商品资料</option>
+        </select>
+   		<a href="javascript:void(0);" onclick ="flush_dev();">刷新</a>
+   	</td>
+    <td rowspan="5" align="right" bgcolor="#F7FCFD">消费设备:
+    <select class="select1" name="select" id="id_select" ></select>
+    </td>
+	
+    <td rowspan="5" align="center" bgcolor="#F7FCFD">
+    	<input class="an" type="button" name="button" id="id_submit" value="提交" onclick = "on_submit();"/>
+    </td>
+  </tr>
+
+
+  <tr>
+    <td bgcolor="#F7FCFD" colspan="2">
+    	<input type="radio" name="radio" id="radio2" value="2" />
+        <label id = "id_lable_redio1"for="Radio2"></label>
+    	<label id = "getrequest" for="select"></label>
+		<a href="javascript:void(0);" onclick ="flush_dev();">刷新</a>
+	</td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#F7FCFD">
+    	<input type="radio" name="radio" id="radio3" value="3" />
+			<label id = "id_lable_redio3"for="Radio3"></label>
+			<select class="select1" name="select" id="query_type" >
+				<option value='1'>卡余额查询</option>
+				<option value='2'>个人消费明细查询</option>
+				<option value='3'>个人汇总查询</option>
+				<option value='4'>设备汇总查询</option>
+			</select>
+	
+			<label id = "lable_card"for="Radio3">卡号</label><input class="select1" type="text"id="card_value"/>
+			<label id = "lable_stime"for="Radio3">开始时间</label><input class="select1" type="text"id="id_stime"/>
+			<label id = "lable_etime"for="Radio3">结束时间</label><input class="select1" type="text"id="id_etime"/>
+	</td>
+	
+  </tr>
+
+ 
+</table>
+<br />
+<table width="90%" height="400px" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#E1EBF4" class="tab">
+  <tr >
+    <td bgcolor="#F7FCFD">返回结果</td>
+  </tr>
+  <tr>
+    <td align="left" bgcolor="#F3F3F3">
+	<div id="table_frame_div" scrolling="0" >
+					<iframe src="" id="table_frame" frameborder="0" scrolling="0" width="100%" height="350"></iframe>
+		</div>
+    
+    </td>
+  </tr>
+</table>
+<script>
+
+Date.prototype.format = function(format){
+var o = {
+"M+" : this.getMonth()+1, //month
+"d+" : this.getDate(), //day
+"h+" : this.getHours(), //hour
+"m+" : this.getMinutes(), //minute
+"s+" : this.getSeconds(), //second
+"q+" : Math.floor((this.getMonth()+3)/3), //quarter
+"S" : this.getMilliseconds() //millisecond
+}
+
+if(/(y+)/.test(format)) {
+format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+}
+
+for(var k in o) {
+if(new RegExp("("+ k +")").test(format)) {
+format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+}
+}
+return format;
+}
+
+////使用方法
+//var now = new Date();
+//var nowStr = now.format("yyyyMMddhhmmss");
+//alert(nowStr)
+//
+
+
+
+	$(function(){
+		var host =  document.location.host;
+		var now = new Date();
+		var nowStr = now.format("yyyyMMddhhmmss");
+		$("#id_stime").val(nowStr)
+		$("#id_etime").val(nowStr)
+		$("#id_lable_redio2").html("读取设备配置信息:");
+		$("#id_lable_redio1").html("读取基本信息:");
+		$("#id_lable_redio3").html("查询操作");
+		set_sn();
+		flush_dev();
+	})
+	
+	function flush_dev(){
+		$("#id_select").empty();
+	    $.ajax({
+	        url:"/manager/getDevInfo/?device_type=5",
+	        type:"POST",
+	        dataType:"json",
+	        success:function(msg){
+		    	if(!msg.data==null || !msg.data==""){
+		    		data = msg.data
+		    		for (i = 0; i<data.length;i++){
+		    			$("#id_select").append('<option value="'+data[i][0]+'">'+data[i][1]+'<'+data[i][0]+'>'+'</option>');
+		    		}
+		    	}
+	        }
+	    });
+	}
+	function set_sn(){
+		sn = Math.round(Math.random() * 10000000000000)
+		$("#sn_bumber").val(sn)
+		return;
+	}
+	function clear_(id){
+		$("#"+id).val("")
+		return;
+	}
+	function on_submit(){
+		sn_num = ""
+		url = ""
+		check = $('input[name="radio"]:checked').val();
+		var host = $("#local_host").val()
+		if (host == "")
+		{
+			alert("服务器地址不能为空！");
+			return;
+		} 
+		
+		if (check ==1){
+			sn_num = $("#id_select").val();
+            id_data_type = $("#data_type").val();
+		 	url = host+"/iclock/pos_getdata?sn="+sn_num+"&datatype="+id_data_type
+            $("#pos_getdata").html(url)
+	 	}
+		else if (check ==2){
+				sn_num = $("#id_select").val();
+					url = host+"/iclock/cdata?device_type=30&sn="+sn_num
+		            $("#getrequest").html(url)
+			 	}
+		
+		else if (check ==3){
+			sn_num = $("#id_select").val();
+			id_quyer_type = $("#query_type").val();
+			b_stime = $("#id_stime").val()
+			e_etime = $("#id_etime").val()
+			card_no = $("#card_value").val()
+			url = host+"/iclock/pos_getrequest?querytype="+id_quyer_type+"&sn="+sn_num+"&card="+card_no+"&start="+b_stime+"&end="+e_etime
+			}
+				alert(url)
+				window.open(url)
+//	$("#table_frame").attr("src",url)
+//	    $.ajax({
+//	        url:url,
+//	        type:"GET",
+//	        dataType:"html",
+//            contentType: "application/x-www-form-urlencoded; text/xml;charset=utf-8",
+//	        success:function(msg){
+////                alert(msg)
+//	            $("#result").html(msg);
+//	        }
+//	    });
+	}
+	</script>
+</body>
+</html>

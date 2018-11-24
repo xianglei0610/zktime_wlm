@@ -1,0 +1,125 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %} 
+<tr><td>
+  <table width="100%" border="0" cellspacing="" cellpadding="3" id="tbl_iccard_edit">
+  <tr>
+     <th height="20">{{ form.code|field_as_label_tag }}</th>
+     <td>{{form.code.as_widget }}</td>
+     <td>{{form.code.errors }}</td>
+     
+     <th height="20">{{ form.name|field_as_label_tag }}</th>
+     <td>{{form.name.as_widget }}</td>
+     <td>{{form.name.errors }}</td>
+ </tr>
+  <tr>
+      <th height="20">{{ form.discount|field_as_label_tag }}</th>
+      <td>{{form.discount.as_widget }}</td>
+      <td>{{form.discount.errors }}</td>
+      
+      <th height="20">{{ form.pos_time|field_as_label_tag }}</th>
+      <td>{{form.pos_time.as_widget }}</td>
+      <td>{{form.pos_time.errors }}</td>
+  </tr>
+  <tr>
+      <th height="20">{{ form.date_max_money|field_as_label_tag }}</th>
+      <td>{{form.date_max_money.as_widget }}</td>
+      <td>{{form.date_max_money.errors }}</td>
+      
+      <th height="20">{{ form.date_max_count|field_as_label_tag }}</th>
+      <td>{{form.date_max_count.as_widget }}</td>
+      <td>{{form.date_max_count.errors }}</td>
+  </tr>
+<tr>
+      <th height="20">{{ form.per_max_money|field_as_label_tag }}</th>
+      <td>{{form.per_max_money.as_widget }}</td>
+      <td>{{form.per_max_money.errors }}</td>
+      
+      <th height="20">{{ form.meal_max_money|field_as_label_tag }}</th>
+      <td>{{form.meal_max_money.as_widget }}</td>
+      <td>{{form.meal_max_money.errors }}</td>
+  </tr>
+
+<tr>
+      <th height="20">{{ form.meal_max_count|field_as_label_tag }}</th>
+      <td>{{form.meal_max_count.as_widget }}</td>
+      <td>{{form.meal_max_count.errors }}</td>
+      
+      <th height="20">{{ form.less_money|field_as_label_tag }}</th>
+      <td>{{form.less_money.as_widget }}</td>
+      <td>{{form.less_money.errors }}</td>
+  </tr>
+
+<tr>
+      <th height="20">{{ form.max_money|field_as_label_tag }}</th>
+      <td>{{form.max_money.as_widget }}</td>
+      <td>{{form.max_money.errors }}</td>
+      
+      <th height="20">{{ form.use_date|field_as_label_tag }}</th>
+      <td>{{form.use_date.as_widget }}</td>
+      <td>{{form.use_date.errors }}</td>
+  </tr>
+<tr>
+      <th height="20">{{ form.posmeal|field_as_label_tag }}</th>
+      <td>{{form.posmeal.as_widget }}</td>
+      <td>{{form.posmeal.errors }}</td>
+      
+      <th height="20">{{ form.use_mechine|field_as_label_tag }}</th>
+      <td>{{form.use_mechine.as_widget }}</td>
+      <td>{{form.use_mechine.errors }}</td>
+  </tr>
+<tr>
+      <th height="20">{{ form.remark|field_as_label_tag }}</th>
+      <td colspan="5">{{form.remark.as_widget }}</td>
+      <td>{{form.remark.errors }}</td>
+      <td></td>
+  </tr>
+
+  
+  
+   
+    
+    
+
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+   
+
+  </table>
+</td></tr>
+
+
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+$(function(){
+//    $("#id_pos_time option[index=0]").remove()
+    $("#dropMeal").parent().css({position:"relative","z-index":"4"});
+    $("#dropDevice").parent().css({position:"relative","z-index":"3"});
+    $("#dropTime").parent().css({position:"relative","z-index":"5"});
+    //$("#id_main_div").attr("style","margin-left:-110px;");
+   $('#id_edit_form').validate({
+     	                        rules: {
+     	                            "less_money": {required:true,min:0,max:9999,"maxlength":4,digits:true},
+                                    "max_money": {required:true,min:0,max:9999,"maxlength":4,digits:true},
+                                    "less_money": {required:true,min:0,max:999,"maxlength":3,digits:true},
+                                    "per_max_money": {required:true,min:0,max:999,"maxlength":3,digits:true},
+                                    "date_max_money": {required:true,min:0,max:999,"maxlength":3,digits:true},
+                                    "meal_max_money": {required:true,min:0,max:999,"maxlength":3,digits:true},
+                                    "per_max_money": {required:true,min:0,max:999,"maxlength":3},digits:true}
+     	                        }
+     	            );
+     if($("#id_edit_form").find("#id_code").val()!="")
+        {
+            $("#id_code").attr("readonly","True");
+            $('#id_code').css("backgroundColor","scrollbar");
+        }
+    {%if "POS_IC"|filter_config_option%}
+       $("#page_help").attr("href",$("#page_help").attr("href").replace("iccard","ic_iccard"));
+    {%endif%}
+    
+})
+{% endblock %}

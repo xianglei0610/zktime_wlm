@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>人员管理</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+    <style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+    </style>
+</head>
+
+<body class="help_body1"; style="line-height: 150%">
+	<div class="help_position"><span class="help_positionIcon">系统帮助</span> -> 人事管理 -&gt; 人员管理</div>
+<div class="help_mainContant"> 
+  <h2><a name="_Toc358123077">4.4 </a>人员管理</h2>
+  <p>单击【人事】<img src="arrow.png" width="18" height="13">【人员】，进入<strong>人员</strong>页面。</p>
+  <p>用户开始使用本管理系统时，需要在系统中登记人员，或者通过导入的方式，将其他软件或资料中的人员信息导入到本系统，具体操作请参见<a href="addenda1.html">附录1 常用操作</a>中的<span class="style1">4. 导入</span>。</p>
+  <h3><a name="_Toc358123078"></a><a name="_5.2.1_新增人员"></a><a name="_4.2.1_新增人员"></a><a name="_4.4.1_新增人员"></a>4.4.1 新增人员</h3>
+  <p>1、点击【人事】<img src="arrow.png" width="18" height="13">【人员】<img src="arrow.png" width="18" height="13">【新增】，进入<strong>新增人员</strong>页面：</p>
+  <p align="center"><img width="887" height="535" src="clip_image003_0007.jpg"></p>
+  <p>根据需要设置各项参数，具体设置方法如下：</p>
+  <p><strong><img src="redpoint.png" width="13" height="13"> 人员基础资料设置</strong><strong></strong></p>
+  <p><strong>人员编号</strong>：系统默认长度不能超过9位，长度不足9位的工号，自动在前面以0补齐9位；如果用户需要使用更长的编号，可以在安装目录下找到units\adms\attsite.ini文件，打开后找到PIN_WIDTH=9，将9改成其他的数字（不大于16位且不超过设备支持的最大位数）。例如门禁控制器最多支持9位码，所以设置时不能超过9位。编号不能重复，点击【验证】确定是否重复。</p>
+  <p><strong>部门</strong>：单击<img width="13" height="12" src="clip_image005_0006.jpg">按钮，在弹出的部门下拉框中选择部门。（如之前未进行部门设置，则只能选择系统默认存在的部门。）</p>
+  <p><strong>身份证号码</strong>：不能重复，可以点击【验证】确定是否重复，支持15位和18位身份证号码。</p>
+  <p><strong>登记指纹</strong>：登记人员指纹。还可登记胁迫指纹，供门禁系统使用，如果人员按胁迫指纹，则会触发报警信号传送到系统。具体操作请参见<span class="style1">4.4.2 人员信息维护</span>中的登记指纹。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：如果系统中尚未安装指纹仪驱动，则点击“登记指纹”，会提示下载、安装指纹仪驱动程序。<strong></strong></p>
+  <p><strong>卡号</strong>：为人员分配卡号，以供门禁、消费或考勤使用，可以手工录入或使用发卡器发卡。</p>
+  <p><strong>密码</strong>：设置人员密码，门禁控制器仅支持6位密码，黑白屏考勤机仅支持5位密码，彩屏考勤机支持8位密码，超过规定长度后系统将自动截取，修改密码时请先清空文本框中原有密码，再输入新密码。</p>
+  <p><strong>聘用日期</strong>：默认为当前日期。</p>
+  <p><strong>登录密码</strong>：初始状态下为123456，为员工登录<strong>员工自助系统</strong>的密码，可修改。</p>
+  <p><strong>雇佣类型</strong>：单击<img width="13" height="12" src="clip_image005_0007.jpg">按钮，在弹出的下拉框中选择雇佣类型，可选择为“合同内”或“合同外”。</p>
+  <p><strong>员工类型</strong>：单击<img width="13" height="12" src="clip_image005_0008.jpg">按钮，在弹出的下拉框中选择员工类型，可选择为“正式员工”或“试用员工”。</p>
+  <p><strong>职位</strong>：单击<img width="13" height="12" src="clip_image005_0009.jpg">按钮，在弹出的下拉框中选择职位。</p>
+  <p><strong>姓名</strong>、<strong>性别</strong>、<strong>姓氏</strong>：根据实际情况进行选择与设置。</p>
+  <p><strong><img src="redpoint.png" width="13" height="13"> 人员详细资料设置</strong></p>
+  <p>单击文字（人员详细资料设置），展开<strong>人员详细资料设置</strong>栏，如下图所示：</p>
+  <p align="center"><img width="619" height="134" src="clip_image006.gif"></p>
+  <p>根据需要设置<strong>人员详细资料</strong>栏内的各参数。</p>
+  <p><strong><img src="redpoint.png" width="13" height="13"> 考勤设置</strong><strong></strong></p>
+  <p>单击文字（考勤设置），展开<strong>考勤设置</strong>栏，如下图所示：</p>
+  <p align="center"><img width="572" height="104" src="clip_image007.gif"></p>
+  <p>选择<strong>考勤区域</strong>（如不选择则默认区域为总部）和<strong>是否考勤</strong>（默认设为“是”，设为“否”则在考勤统计结果中不计算此人员）；对于某些高层管理人员或临时人员如不需考勤时，可以在此设置为“否”。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：考勤区域设置，请参见<span class="style1"><a href="Area.html">5.1 区域设置</a></span>。</p>
+  <p><strong>人员设备权限：</strong>设置该用户在设备中的权限是普通用户、登记员、系统管理员维护或超级管理员。</p>
+  <p><strong><img src="redpoint.png" width="13" height="13"> 门禁设置</strong></p>
+  <p>单击文字（门禁设置），展开<strong>门禁设置</strong>栏，如下图所示：</p>
+  <p align="center"><img width="578" height="198" src="clip_image008_0000.gif"></p>
+  <p>选择<strong>门禁权限组</strong>、<strong>设置有效时间</strong>的启用和结束日期、<strong>多卡开门人员组</strong>（需要预先设定，详情请参见<span class="style1"><a href="AccMoreCardSet.html">6.3.3 多卡开门</a></span>）。</p>
+  <p>其中，<strong>设置有效时间</strong>：是为了针对临时门禁的设置，即只在有效时间内能够开门。如不勾选则设置为始终有效。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：门禁权限组设置，请参见<span class="style1"><a href="AccLevelSet.html">6.4 门禁权限组</a></span>。</p>
+  <p>2、设置完成后，点击【确定】保存（若需继续添加人员，则单击【保存并继续】），并返回<strong>人员</strong>页面，此时<strong>人员列表</strong>中将显示刚新增的人员信息。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：人员无论是离职还是在职，都必须保证编号的唯一性，系统进行验证时会自动去离职库进行编号查询。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：人员信息列表默认为<strong>列表</strong>显示，可以选择<strong>照片</strong>显示，则显示照片和编号，鼠标放在某个人员照片上，会显示该人员详细信息。如下图所示：</p>
+  <p align="center"><img width="798" height="427" src="clip_image010_0000.jpg"></p>
+  <h3><a name="_Toc358123079"></a><a name="_5.2.2_人员维护"></a><a name="_5.2.2_人员信息维护"></a><a name="_4.2.2_人员信息维护"></a><a name="_4.4.2_人员信息维护"></a>4.4.2 人员信息维护</h3>
+  <p>包括登记指纹、同步人员到设备、设置用户照片和新增对私短消息等操作。</p>
+  <p>这些功能均可直接点击人员列表下的人员编号，进入编辑界面进行修改，或者点击“相关操作”项目下的【编辑】按钮，进入编辑界面进行修改。修改完成后，点击【确定】保存并退出编辑。</p>
+  <p><strong>1</strong>、<strong>登记指纹</strong><strong></strong></p>
+  <p>（1）、在<strong>人员</strong>页面的<strong>人员列表</strong>中，单击选中需登记指纹的人员，然后单击【更多】按钮，弹出如下图所示下拉菜单：</p>
+  <p align="center"><img width="111" height="163" src="clip_image012_0000.jpg"></p>
+  <p>（2）、单击下拉菜单中的“登记指纹”菜单，进入如下图所示的登记指纹页面：</p>
+  <p align="center"><img width="592" height="208" src="clip_image013.gif"></p>
+  <p>若用户已登记过指纹，则在“已登记指纹”后会显示登记指纹数量。（为“0”代表没有登记指纹。）</p>
+  <p>（3）、单击【指纹登记】按钮，弹出指纹登记窗口：</p>
+  <p align="center"><img width="454" height="380" src="clip_image015.jpg"></p>
+  <p>（4）、单击手指图标，选择需登记指纹的手指（被选中的手指的颜色为“黄色”）：</p>
+  <p align="center"><img width="454" height="460" src="clip_image017.jpg"></p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：如需登记胁迫指纹，在登记时勾选【胁迫指纹】即可。</p>
+  <p>（5）、根据窗口提示在指纹仪上，以正确的按压方式连续按压三次手指，指纹登记成功后，窗口提示“指纹登记成功”（此时手指的颜色显示为“绿色”）：</p>
+  <p align="center"><img width="454" height="369" src="clip_image019_0003.jpg"></p>
+  <p>（6）、点击【确定】按钮保存并关闭<strong>指纹登记</strong>窗口。此时<strong>登记指纹</strong>页面的“已登记指纹数”显示登记指纹数量为1，即指纹登记成功。如下图所示：</p>
+  <p align="center"><img width="584" height="211" src="clip_image021.jpg"></p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：若需删除已登记的指纹，则在<strong>指纹登记</strong>窗口中，点击该指纹，弹出删除确认框，单击【Yes】按钮确认，并删除被选中的指纹。<strong></strong></p>
+  <p align="center"><img width="454" height="380" src="clip_image023.jpg"></p>
+  <p>（7）、单击<strong>登记指纹</strong>页面上的【确定】按钮保存，并返回<strong>人员</strong>页面。</p>
+  <p><strong>2</strong>、<strong>设置用户照片</strong><strong></strong></p>
+  <p>（1）、在<strong>人员</strong>页面的<strong>人员列表</strong>中，单击选中需上传照片的人员，然后单击【更多】按钮，弹出如下图所示下拉菜单：</p>
+  <p align="center"><img width="111" height="163" src="clip_image012_0001.jpg"></p>
+  <p>（2）、单击下拉菜单中的“设置用户照片”菜单，进入如下图所示的<strong>设置用户照片</strong>页面：</p>
+  <p align="center"><img width="589" height="196" src="clip_image024.gif"></p>
+  <p>（3）、单击【浏览】按钮，在弹出的“选择文件”窗口中，选择需上传的照片，并返回<strong>设置用户照片</strong>页面，此时“选择个人照片”后，将显示照片地址，如下图所示：</p>
+  <p align="center"><img width="601" height="193" src="clip_image026.jpg"></p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：人员照片大小不能超过16KB。</p>
+  <p>（4）、单击【确定】按钮，保存并返回<strong>人员</strong>页面。单击以“照片”形式显示，可查看已设置的用户照片，如下图所示：</p>
+  <p align="center"><img width="753" height="278" src="clip_image028.jpg"></p>
+  <p><strong>3</strong><strong>、重新同步到设备（</strong><strong>同步人员到设备）</strong><strong></strong></p>
+  <p>在<strong>人员列表</strong>中，选中人员（可多选），然后点击【更多】<img src="arrow.png" width="18" height="13">【重新同步到设备】，进入同步人员信息的确认页面；单击【确定】按钮确认，并将并选中的人员信息同步到该人员所属区域的所有设备中。</p>
+  <p><strong>4</strong><strong>、删除指纹模板</strong></p>
+  <p>在<strong>人员列表</strong>中，选中人员，单击【更多】<img src="arrow.png" width="18" height="13">【删除指纹模板】，进入删除指纹模板的确认页面，单击【确定】按钮确认并发送删除指纹模板的请求至设备，待设备连接至服务器时，即响应该条请求，完成删除指纹模板操作。</p>
+  <p><strong>5</strong><strong>、删除面部模板</strong></p>
+  <p>在<strong>人员列表</strong>中，选中人员，单击【删除面部模板】，进入删除面部模板的确认页面，单击【确定】按钮确认并发送删除面部模板的请求至设备，待设备连接至服务器时，即响应该条请求，完成删除面部模板操作。</p>
+  <p><strong>6</strong><strong>、新增对私短消息</strong><strong></strong></p>
+  <p>（1）、在<strong>人员</strong>页面中，选中人员（可多选），点击【新增对私短消息】，进入<strong>新增对私短消息</strong>页面，具体操作方法如下：</p>
+  <p align="center"><img width="450" height="276" src="clip_image029.gif"></p>
+  <p><strong>短消息内容</strong>：输入短消息内容。</p>
+  <p><strong>开始时间</strong>：设置短消息的开始时间。</p>
+  <p><strong>短消息的持续时间</strong>：设置短消息持续显示的时间。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：设置<strong>开始时间</strong>与<strong>短消息持续时间</strong>时，须考虑该人员的可能打卡（考勤）时间，确保该人员能查看到该短消息。</p>
+  <p>（2）、设置完成后，单击【确定】保存，该条短消息将在<strong>设备短消息</strong>页面中显示；单击【取消】则放弃操作。</p>
+  <p>单击【设备】<img src="arrow.png" width="18" height="13">【设备短消息】，进入<strong>设备短消息</strong>页面，此时页面将显示该条短消息，如下图所示：</p>
+  <p align="center"><img width="742" height="235" src="clip_image031.jpg"></p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：需将短消息下发到设备中，用户方能在设备查看该短消息。具体操作请参见<span class="style1"><a href="Notice.html">5.4.1短消息下发</a></span>。</p>
+  <h3><a name="_Toc358123080"></a><a name="_5.2.3_人员调整"></a><a name="_4.2.3_人员调整"></a>4.4.3人员调整</h3>
+  <p>人员调整即对现有人员进行日常的维护，主要包括：人员调动（调整部门、职务调动、员工转正、调整区域）、离职、、删除人员等。</p>
+  <p><strong>1</strong>、<strong>人员调动</strong><strong></strong></p>
+  <p>包括调整部门、职位调动、员工转正和调整区域。</p>
+  <p>此处<strong>调整部门</strong>为例，操作步骤如下所示：</p>
+  <p>（1）、在<strong>人员</strong>页面的<strong>人员列表</strong>中，选择人员，单击【更多】<img src="arrow.png" width="18" height="13">【调整部门】，进入<strong>调整部门</strong>页面，如下所示：</p>
+  <p align="center"><img width="542" height="246" src="clip_image032.gif"></p>
+  <p>（2）、单击<a name="OLE_LINK6">“调整到的部门”后的</a><img width="14" height="11" src="clip_image034.jpg">按钮，在弹出的部门下拉列表中选择需调整到的部门，并根据需要输入“调动原因”和“备注”信息。</p>
+  <p>（3）、设置完成后，单击【确定】按钮，保存并返回<strong>人员</strong>页面。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：调整区域、员工转正和职位调动的操作同调整部门一致，此处不再重述。</p>
+  <p><strong>2</strong>、<strong>人员离职</strong><strong></strong></p>
+  <p>在<strong>人员</strong>页面，选中需离职的人员，单击【更多】<img src="arrow.png" width="18" height="13">【离职】，进入<strong>人员离职</strong>页面，具体操作同<span class="style1"><strong><a href="leavelog.html">4.5 </a></strong><a href="leavelog.html"><strong>人员离职</strong></a></span>一致，此处不再重述。</p>
+  <p><strong>3</strong>、<strong>删除人员</strong><strong></strong></p>
+  <p>在<strong>人员</strong>页面，选中需删除人员，单击【更多】<img src="arrow.png" width="18" height="13">【删除】；或者直接点击该人员所在行的“相关操作”下的【删除】按钮，进入删除确认页面，点击【确定】完成删除操作。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：删除人员的同时也删除该人员的数据库。 </p>
+</div>
+</body>
+</html>

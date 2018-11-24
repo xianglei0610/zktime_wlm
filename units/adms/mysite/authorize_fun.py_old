@@ -1,0 +1,472 @@
+# -*- coding: utf-8 -*-
+from ctypes import *
+from ctypes.wintypes import LPCSTR
+from random import *
+from SoftKey import*
+import socket
+import os
+import pyDes
+
+prototype = WINFUNCTYPE(c_int, LPCSTR, c_short,c_int,LPCSTR)
+paramflags = (1, "OutString"), (1, "Address"), (1, "Outlen"), (1, "KeyPath")
+ReadString = prototype(("ReadString", windll.my3l_ex), paramflags)
+
+prototype = WINFUNCTYPE(c_int, LPCSTR, c_short,LPCSTR)
+paramflags = (1, "InString"), (1, "Address"),  (1, "KeyPath")
+WriteString = prototype(("WriteString", windll.my3l_ex), paramflags)
+
+SUCCESS="success"
+FAIL="fail"
+PLEASE_INSERT_DOG="please_insert_dog"
+WRITE_ERROR="write_error"
+READER_ERROR="read_error"
+PLEASE_WRITE_NUMBER="please_write_number"
+ZKECO=31#起始地址31~41存加密的字符串
+ZKECO_LENGTH=30
+ZKTIME=61#起始地址41~51加密的字符串
+ZKTIME_LENGTH=30
+ZKACCESS=91#起始地址51~61加密的字符串
+ZKACCESS_LENGTH=30
+
+MAC=121
+MAC_LENGTH=50
+
+OTHER=171#其他字符起始位置61~512
+OTHER_LENGTH=341
+LENGTH_EXCEED="length_exceed"#超出边界
+
+def encrypt(encrypt_str):
+    u'''加密字符串'''
+    key="llgmgpyw"
+    k=pyDes.des(key,pyDes.CBC,"\0\0\0\0\0\0\0\0",pad=None,padmode=pyDes.PAD_PKCS5)
+    encrypt_str=encrypt_str.encode("base64")
+    ret=k.encrypt(encrypt_str)
+    ret=ret.encode("base64")
+    if ret[-1:]=="\n":
+        ret=ret[:-1]
+    return ret
+
+def dencrypt(dencrypt_str,type=1):
+    u'''解密字符串'''
+    key="llgmgpyw"
+    k=pyDes.des(key,pyDes.CBC,"\0\0\0\0\0\0\0\0",pad=None,padmode=pyDes.PAD_PKCS5)
+    ret=k.decrypt(dencrypt_str.decode("base64"))
+    return ret.decode("base64")
+
+def write_value(address,write_str):
+    u'''以address为地址，向加密狗存储器中写入字符串write_str'''
+    key_path=create_string_buffer('\0'*260)
+    last_error = FindPort(0, key_path)
+    ret=None
+    if last_error==0:
+        write_len = WriteString(str(write_str),address,key_path)
+        if write_len<0:
+            last_error=write_len
+            ret=WRITE_ERROR+str(last_error)
+        else:
+            ret=SUCCESS
+    else:
+        ret=PLEASE_INSERT_DOG
+    
+    return ret
+
+def write_device_length(write_str,address,length):
+    u'''write_str应该加密'''
+    return write_value(address,write_str)
+    
+def write_zkeco(write_str):
+    u'''写ZKECO数据,字节长度不能大于ZKECO_LENGTH'''
+    return write_device_length(write_str,ZKECO,ZKECO_LENGTH)
+
+def write_zktime(write_str):
+    u'''写ZKTIME数据,字节长度不能大于ZKTIME_LENGTH'''
+    return write_device_length(write_str,ZKTIME,ZKTIME_LENGTH)
+
+def write_zkaccess(write_str):
+    u'''写ZKACCESS数据,字节长度不能'''
+    return write_device_length(write_str,ZKACCESS,ZKACCESS_LENGTH)
+
+def write_mac(write_str):
+    u'''写MAC数据,字节长度不能大于'''
+    return write_device_length(write_str,MAC,MAC_LENGTH)
+
+def init_usb_device_section():
+    u'''初始化设备中各数据段的数据'''
+    init_zkeco_data="".join(['\xff' for i in range(ZKECO_LENGTH)])
+    ret=write_zkeco(init_zkeco_data)
+    if ret!=SUCCESS:
+        return ret
+    
+    init_zktime_data="".join(['\xff' for i in range(ZKTIME_LENGTH)])
+    ret=write_zktime(init_zktime_data)
+    if ret!=SUCCESS:
+        return ret
+    
+    init_zkaccess_data="".join(['\xff' for i in range(ZKTIME_LENGTH)])
+    ret=write_zkaccess(init_zkaccess_data)
+    if ret!=SUCCESS:
+        return ret
+    
+    init_mac_data="".join(['\xff' for i in range(MAC_LENGTH)])
+    ret=write_mac(init_mac_data)
+    if ret!=SUCCESS:
+        return ret
+    return SUCCESS
+
+def write_other(write_str):
+    u'''写其他数据'''
+    return write_value(OTHER,write_str)
+
+def read_value(address,length):
+    u'''以address为地址，读取长度为length个字节的字符串'''
+    key_path=create_string_buffer('\0'*260)
+    last_error = FindPort(0, key_path)
+    out_string=create_string_buffer('\0'*512)
+    ret = None
+    if last_error==0:
+       last_error=ReadString(out_string,address,length,key_path)
+       if last_error!=0:
+            last_error=length
+            ret=READER_ERROR
+       else:
+            ret=out_string.value.replace('\xff',"")
+    else:
+       ret=PLEASE_INSERT_DOG
+    return ret
+
+def read_zkeco():
+    zkeco_length=0
+    try:
+        usb_str=read_value(ZKECO,ZKECO_LENGTH).replace('\xff',"")
+        zkeco_length=int(dencrypt(usb_str))#解密
+    except Exception,e:
+        return FAIL
+    return zkeco_length
+
+def read_zktime():
+    zktime_length=0
+    try:
+        usb_str=read_value(ZKTIME,ZKTIME_LENGTH).replace('\xff',"")
+        zktime_length=int(dencrypt(usb_str))#解密
+    except Exception,e:
+        return FAIL
+    return zktime_length
+
+def read_zkaccess():
+    zkaccess_length=0
+    try:
+        usb_str=read_value(ZKACCESS,ZKACCESS_LENGTH).replace('\xff',"")
+        zkaccess_length=int(dencrypt(usb_str))#解密
+    except Exception,e:
+        return FAIL
+    return zkaccess_length
+
+def read_mac():
+    mac_length=0
+    try:
+        usb_str=read_value(MAC,MAC_LENGTH).replace('\xff',"")
+        mac_length=dencrypt(str(usb_str))#解密
+    except Exception,e:
+        import traceback;traceback.print_exc();
+        return FAIL
+    return mac_length
+
+def get_mac():
+    sd=os.popen("ipconfig/all").read()
+    lans= sd.split("\r\n\r\n")
+    lns=[]
+    for i in lans:
+        ln=[str(s).strip() for s in i.split("\r\n")]
+        lns.append(ln)
+    dip=socket.gethostbyname(socket.gethostname())#获取主机IP地址
+    import re
+    mac="";
+    for i in lns:#获取MAC地址
+        for j in i:
+            if j.strip().find(dip)!=-1:
+                for m in i:
+                    L = re.findall('([0-9,A-F]{2}-[0-9,A-F]{2}-[0-9,A-F]{2}-[0-9,A-F]{2}-[0-9,A-F]{2}-[0-9,A-F]{2})', m)
+                    if L:
+                        mac=L[0]
+    return mac
+
+def check_mac():
+    ret=read_mac()   
+    if len(ret)==0:
+        return True
+    elif ret==get_mac().strip():
+        return True
+    return False
+        
+def login_check(request,client_language):
+    u'''登入验证'''
+    from django.utils.translation import ugettext_lazy as _
+    import locale
+    from django.conf import settings
+    from django.core.cache import cache
+    from mysite.iclock.models import Device
+    from mysite.utils import get_option
+    DEVICE_TIME_RECORDER = 1 #考勤设备类型
+    DEVICE_ACCESS_CONTROL_PANEL = 2 #门禁设备类型
+    DEVICE_POS_SERVER = 5  # 消费设备
+    ret = None #返回值
+    installed_apps = settings.INSTALLED_APPS
+    zkeco_length = None
+    zktime_length = None
+    zkaccess_length = None
+    zkpos_length = None
+
+    if CheckKey() == 1:#有狗
+        if check_mac():
+            zkeco_length=read_zkeco()
+            zktime_length=read_zktime()
+            zkaccess_length=read_zkaccess()
+            if get_option("POS_ID"):
+                zkpos_length = 20
+            elif get_option("POS_IC"):
+                zkpos_length = 100
+            if zkeco_length==FAIL or zktime_length==FAIL or zkaccess_length==FAIL:
+                ret =  u"%s"%_(u"软件狗初始化失败！")
+            else:
+                cache.set("ZKECO_DEVICE_LIMIT",zkeco_length,2592000)
+                cache.set("ATT_DEVICE_LIMIT",zktime_length,2592000)
+                cache.set("MAX_ACPANEL_COUNT",zkaccess_length,2592000)
+                cache.set("POS_DEVICE_LIMIT",zkpos_length,2592000)
+                if ("mysite.pos" in installed_apps):  #zkeco+消费
+                    qs=Device.objects.filter(device_type__in=[DEVICE_TIME_RECORDER,DEVICE_ACCESS_CONTROL_PANEL,DEVICE_POS_SERVER])
+                else:
+                    qs=Device.objects.filter(device_type__in=[DEVICE_TIME_RECORDER,DEVICE_ACCESS_CONTROL_PANEL])
+                qs_count=qs.count()
+                if zkeco_length!=0:
+                    if int(qs_count)>int(zkeco_length):
+                        ret = u"%s"%_(u"ECO设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！")%{"d1":qs_count,"d2":zkeco_length}
+                else:
+                    att_count=qs.filter(device_type=DEVICE_TIME_RECORDER).count()
+                    if int(att_count)>int(zktime_length):
+                        ret =  u"%s"%_(u"ECO考勤设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！")%{"d1":att_count,"d2":zktime_length}
+                    else:
+                        acc_count=qs.filter(device_type=DEVICE_ACCESS_CONTROL_PANEL).count()
+                        if int(acc_count)>int(zkaccess_length):
+                            ret = u"%s"%_(u"ECO门禁设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！")%{"d1":acc_count,"d2":zkaccess_length}
+        else:
+            ret = u"%s"%_(u"未找到对应的加密狗。")
+    else:#没有狗
+        if client_language!="zh-cn" and locale.getdefaultlocale()[0]!="zh_CN":#国外
+            zkeco_length =0
+            zktime_length =20
+            zkaccess_length =50
+        else:#国内
+            zkeco_length =0
+            zktime_length =0
+            zkaccess_length =50
+            if get_option("POS_ID"):
+                zkpos_length = settings.POS_ID_DEVICE_LIMIT
+            elif get_option("POS_IC"):
+                zkpos_length = settings.POS_IC_DEVICE_LIMIT
+        from mysite.settings import get_device_limit,has_serialize
+
+        if has_serialize():#**********是否使用了序列号*************
+            zkeco_length,zktime_length,zkaccess_length =get_device_limit()
+        elif not is_test_expired():#**********测试版本
+            zkeco_length,zktime_length,zkaccess_length = get_test_info()#测试版本
+        elif is_test_expired():
+            ret =  u"%s"%_(u"系统已过试用期")
+            return ret
+
+        if settings.ZKECO_TEST:
+            import datetime
+            sdate="2013-10-30 23:59:59"
+            sdate=datetime.datetime.strptime(sdate,"%Y-%m-%d %H:%M:%S")
+            now=datetime.datetime.now()
+            if now>sdate:
+                ret =  u"%s"%_(u"系统已过试用期")
+                return ret
+            zkeco_length=10
+            zktime_length=10
+            zkaccess_length=10
+
+        if ("mysite.pos" in installed_apps):  #zkeco+消费
+            qs=Device.objects.filter(device_type__in=[DEVICE_TIME_RECORDER,DEVICE_ACCESS_CONTROL_PANEL,DEVICE_POS_SERVER])
+        else:
+            qs=Device.objects.filter(device_type__in=[DEVICE_TIME_RECORDER,DEVICE_ACCESS_CONTROL_PANEL])
+        if zkeco_length!=0:
+            qs_count = qs.count()
+            if int(qs_count)>int(zkeco_length):
+                ret = u"%s"%_(u"ECO设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！")%{"d1":qs_count,"d2":zkeco_length}
+        else:
+            att_count=qs.filter(device_type=DEVICE_TIME_RECORDER).count()
+            if  int(att_count)>int(zktime_length):
+                ret =  u"%s"%_(u"ECO考勤设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！")%{"d1":att_count,"d2":zktime_length}
+            if("mysite.iaccess" in installed_apps):
+                acc_count=qs.filter(device_type=DEVICE_ACCESS_CONTROL_PANEL).count()
+                if int(acc_count)>int(zkaccess_length):
+                    ret = u"%s"%_(u"ECO门禁设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！")%{"d1":acc_count,"d2":zkaccess_length}
+            if("mysite.pos" in installed_apps):
+                pos_count=qs.filter(device_type=DEVICE_POS_SERVER).count()
+                if int(pos_count)>int(zkpos_length):
+                    ret = u"%s"%_(u"ECO消费设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！")%{"d1":pos_count,"d2":zkpos_length}
+
+        cache.set("ZKECO_DEVICE_LIMIT",zkeco_length,2592000)
+        cache.set("ATT_DEVICE_LIMIT",zktime_length,2592000)
+        cache.set("MAX_ACPANEL_COUNT",zkaccess_length,2592000)
+        cache.set("POS_DEVICE_LIMIT",zkpos_length,2592000)
+    if not ret:
+        return True
+    else:
+        return ret
+        
+def check_push_device(language):
+    '''设备第一次请求时加设备处理'''
+    import locale
+    from django.conf import settings
+    from django.core.cache import cache
+    from mysite.settings import get_device_limit,has_serialize
+    from mysite.utils import get_option
+    if not settings.HAS_DOG:#没有狗
+        zkeco_length  = None
+        zktime_length  = None
+        zkaccess_length  = None
+        zkpos_length = None
+        if get_option("POS_ID"):
+            zkpos_length = settings.POS_ID_DEVICE_LIMIT
+        elif get_option("POS_IC"):
+            zkpos_length = settings.POS_IC_DEVICE_LIMIT
+        
+        if language:#当前出版的机器
+            if language!=u'83':#国外
+                zkeco_length =0
+                zktime_length =20
+                zkaccess_length =50
+            else:
+                zkeco_length =0
+                zktime_length =0
+                zkaccess_length =50
+        else:#兼容以前的机器
+            if locale.getdefaultlocale()[0]=="zh_CN":
+                zkeco_length =0
+                zktime_length =0
+                zkaccess_length =50
+            else:
+                zkeco_length =0
+                zktime_length =20
+                zkaccess_length =50
+
+        if has_serialize():#**********是否使用了序列号*************
+            zkeco_length,zktime_length,zkaccess_length =get_device_limit()
+        elif not is_test_expired():#**********测试版本判断结束*******************
+            zkeco_length,zktime_length,zkaccess_length = get_test_info()#测试版本
+        
+        if settings.ZKECO_TEST:
+            import datetime
+            sdate="2013-10-30 23:59:59"
+            sdate=datetime.datetime.strptime(sdate,"%Y-%m-%d %H:%M:%S")
+            now=datetime.datetime.now()
+            if now>sdate:
+                ret =  u"%s"%_(u"系统已过试用期")
+                return ret
+            zkeco_length=10
+            zktime_length=10
+            zkaccess_length=10      
+        
+        cache.set("ZKECO_DEVICE_LIMIT",zkeco_length ,2592000)
+        cache.set("ATT_DEVICE_LIMIT",zktime_length ,2592000)
+        cache.set("MAX_ACPANEL_COUNT",zkaccess_length ,2592000)
+        cache.set("POS_DEVICE_LIMIT",zkpos_length,2592000)
+    return True
+
+def get_cache(key):
+    u"取缓存中的变量值，共享数据"
+    from django.core.cache import cache
+    from mysite import settings
+    
+    ret = None
+    zkeco_length,zktime_length,zkaccess_length =settings.ZKECO_DEVICE_LIMIT,settings.ATT_DEVICE_LIMIT,settings.MAX_ACPANEL_COUNT
+    keys=("ZKECO_DEVICE_LIMIT","ATT_DEVICE_LIMIT","MAX_ACPANEL_COUNT","POS_DEVICE_LIMIT")
+    if key in keys:
+        ret = cache.get(key)
+        if ret == None:
+            if CheckKey()==1:#有狗
+                if check_mac():
+                    if key == "ZKECO_DEVICE_LIMIT":
+                        ret = read_zkeco()
+                    if key == "ATT_DEVICE_LIMIT":
+                        ret = read_zktime()
+                    if key == "MAX_ACPANEL_COUNT":
+                        ret = read_zkaccess()
+            else:
+                if settings.has_serialize():#**********是否使用了序列号*************
+                    zkeco_length,zktime_length,zkaccess_length =settings.get_device_limit()
+                elif not is_test_expired():
+                    zkeco_length,zktime_length,zkaccess_length = get_test_info()#测试版本
+                
+                if settings.ZKECO_TEST:
+                    import datetime
+                    sdate="2013-10-30 23:59:59"
+                    sdate=datetime.datetime.strptime(sdate,"%Y-%m-%d %H:%M:%S")
+                    now=datetime.datetime.now()
+                    if now>sdate:
+                        ret =  u"%s"%_(u"系统已过试用期")
+                        return ret
+                    zkeco_length=10
+                    zktime_length=10
+                    zkaccess_length=10
+                
+                if key == "ZKECO_DEVICE_LIMIT":
+                    ret = zkeco_length
+                if key == "ATT_DEVICE_LIMIT":
+                    ret = zktime_length
+                if key == "MAX_ACPANEL_COUNT":
+                    ret = zkaccess_length
+                if key == "POS_DEVICE_LIMIT":
+                    from mysite.utils import get_option
+                    POS_DEVICE_LIMIT = 0 
+                    if get_option("POS_ID"):
+                        POS_DEVICE_LIMIT = settings.POS_ID_DEVICE_LIMIT
+                    elif get_option("POS_IC"):
+                        POS_DEVICE_LIMIT = settings.POS_IC_DEVICE_LIMIT
+                    ret = POS_DEVICE_LIMIT
+            cache.set(key,ret,2592000)#设置缓存     
+    return ret
+
+def is_test_expired(trans_path=None):
+    u"判断测试版是否过期,True过期了，False没过期"
+    import datetime
+    path = trans_path
+    if not path:
+        from mysite import settings
+        path = os.path.join(settings.APP_HOME,"author_test.pyc")
+        
+    if os.path.exists(path):
+        from author_test import encrypt_str
+        list_items = dencrypt(encrypt_str).split("\n")
+        expire_day = datetime.datetime.strptime(list_items[0],"%Y-%m-%d %H:%M:%S") #过期时间
+        if expire_day>datetime.datetime.now():
+            return False
+    return True
+
+def get_test_info(trans_path=None):
+    u"取得测试版中的过期时间和不同类型设备台数"
+    import datetime
+    end_time =None
+    device_count =0
+    zkeco_length  = None
+    zktime_length  = None
+    zkaccess_length  = None
+    expire_day = None
+    path =trans_path
+    if not path:
+        from mysite import settings
+        path = os.path.join(settings.APP_HOME,"author_test.pyc")
+        
+    if os.path.exists(path):
+        try:
+            from author_test import encrypt_str
+            list_items = dencrypt(encrypt_str).split("\n")
+            expire_day = datetime.datetime.strptime(list_items[0],"%Y-%m-%d %H:%M:%S") #过期时间
+            zkeco_length  = int(list_items[1]) #ZKECO数量
+            zktime_length  = int(list_items[2]) #ZKTIME数量
+            zkaccess_length  = int(list_items[3]) #ZKACCESS数量
+        finally:
+            pass
+        
+    return zkeco_length ,zktime_length,  zkaccess_length

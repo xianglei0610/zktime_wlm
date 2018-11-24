@@ -1,0 +1,344 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block op_for_tab %}
+{% endblock %}
+{% block headjs %}
+
+<script type="text/javascript" src="/media/jslib/USER_OF_RUN.js"></script>
+<link rel="stylesheet" type="text/css" href="/media/css/picture.css" />
+{% endblock %}
+{% block addjs %}
+var weekStartDay=0
+function setPostData()
+{
+    var choices=[]
+	ds=[]
+	$("#id_cond_form").find("input[name='deptIDs']").each(function(){
+		ds.push($(this).val());
+	})
+	var depts=ds.toString();		
+	var users=$("#id_cond_form").find("div[id^='emp_select_']").get(0).g.get_store_emp(); 
+
+	
+	if(users.length==0)
+	{
+        if(ds.length>0)
+        {
+    
+        choices.push("UserID__DeptID__in="+depts);
+        }
+	}
+	else
+	{
+        choices.push("UserID__in="+users.toString());       
+	}
+    /*
+	if($("#id_cur_table").val()=="1")
+    {
+        choices.push("StartDate__gte="+$("#id_ComeTime").val());
+        choices.push("EndDate__lte="+$("#id_EndTime").val());
+    }
+    else
+    {
+        choices.push("ComeTime__gte="+$("#id_ComeTime").val());
+        choices.push("LeaveTime__lte="+$("#id_EndTime").val());
+        
+    }
+   */
+    return choices
+}
+
+$(function(){
+	$("#id_all_emp").val("all")
+    $.ajax({
+       url:"../../att/choice_widget_for_select_emp/?multiple=T&popup=T&name=UserID",
+       type:"POST",
+       dataType:"html",
+        success:function(sdata){
+			$("#id_emp").html(sdata);
+        }
+    });
+//	var t=new Date()
+//	
+//    var strtime=t.getFullYear().toString()
+//    var m="00"+(t.getMonth()+1).toString()
+//    strtime= strtime+ "-" +m.substr(m.length-2)+"-01"
+//    $("#id_ComeTime").attr("value",strtime);
+//
+//    render_widgets($("#id_conditions"));
+    $("div#id_shifts_all").model_grid({
+           dbapp_url:"{{dbapp_url}}", 
+           model_url:"{{dbapp_url}}att/USER_OF_RUN/",                      //根目录地址
+          // record_per_page: 15,                 //每页记录数
+           max_no_page: 50,                 //记录数少于该数据时，不分页显示
+           row_operations: false,               //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+           obj_edit:false,
+           model_action_container:$("#id_op_for_tab"),
+           disable_cols:['UserID_id','NUM_OF_RUN_ID_id','id'],
+           disabled_actions: ['_change','_add','_clear','_delete'],
+           do_action_masker_div:[$("#div_id_main_userofrun"),$("#id_model_extend")],//操作所需要覆盖的div
+           do_action_template:$("#div_id_showaction")//响应操作时使用的模板
+        	
+        });
+    
+    $("#id_sys_isModelExport").val("true")
+	$("#id_sys_cur_app").val('att');
+   	$("#id_sys_cur_model").val('USER_OF_RUN');
+    $("#id_sys_cur_grid").val("#id_shifts_all");
+    $("#id_sys_cur_exporttitle").val(gettext("员工排班表"));
+	    
+	
+  
+    $("#id_show_tmpShift").click(function(){
+            $("#id_cur_table").val("2")
+            
+            $("#id_sys_cur_grid").val("#id_shifts_all");
+            $("#id_sys_cur_model").val('USER_TEMP_SCH');
+            $("#id_sys_cur_exporttitle").val(gettext("临时排班表"));
+            
+            $("div#id_shifts_all").empty();
+            $("div#id_shifts_all").model_grid({
+                    init_query:setPostData(),
+                   dbapp_url:"{{dbapp_url}}", 
+                   model_url:"{{dbapp_url}}att/USER_TEMP_SCH/",                      //根目录地址
+                  // record_per_page: 15,                 //每页记录数
+                   max_no_page: 50,                 //记录数少于该数据时，不分页显示
+                   row_operations: false,               //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+                   obj_edit:false,
+                   disabled_actions: ['_change','_add','_clear','_delete'],
+                model_actions: false,         //模型操作true表示全部显示(默认)，false表示全部不显示，{op1:{},op2:{}}表示显示这些操作
+                
+                row_operations: false ,              //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+                do_action_masker_div:[$("#div_id_main_userofrun"),$("#id_model_extend")],//操作所需要覆盖的div
+                do_action_template:$("#div_id_showaction")//响应操作时使用的模板
+                
+                });
+            $("div#id_shift_details").addClass("displayN");               
+            $("#id_div_title>h1").text(gettext('临时排班表'));
+    });
+    
+    
+    $("#id_show_EmpShift").click(function(){
+            $("#id_cur_table").val("1")
+            
+           $("#id_sys_cur_model").val('USER_OF_RUN');
+           $("#id_sys_cur_grid").val("#id_shifts_all");
+           $("#id_sys_cur_exporttitle").val(gettext("员工排班表"));
+           
+           $("div#id_shifts_all").empty();
+           $("div#id_shifts_all").model_grid({
+                  dbapp_url:"{{dbapp_url}}", 
+                  model_url:"{{dbapp_url}}att/USER_OF_RUN/",                      //根目录地址
+                  init_query:setPostData(),
+              //    record_per_page: 15,                 //每页记录数
+                  max_no_page: 50,                 //记录数少于该数据时，不分页显示
+                  row_operations: false,               //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+                  obj_edit:false,
+                  disabled_actions: ['_change','_add','_clear','_delete'],               
+                  model_actions: false,
+                  disable_cols:['UserID_id','NUM_OF_RUN_ID_id','id'],
+                  row_operations: false    ,           //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+                do_action_masker_div:[$("#div_id_main_userofrun"),$("#id_model_extend"),$("#tz")],//操作所需要覆盖的div
+                do_action_template:$("#div_id_showaction")//响应操作时使用的模板
+                
+            });
+            $("div#id_shift_details").removeClass("displayN");
+            $div=$("div#id_shifts_all");
+           	$div.on_row_click(//单击
+           	        function(grid,key, row_data){
+           	            
+                        data=$div.get(0).g.data
+           				var rowData=[]
+                        rowData.push(data[key-1][4])
+                        rowData.push(data[key-1][3])
+                        rowData.push(0)
+                        rowData.push(data[key-1][6])
+                        rowData.push(data[key-1][7])
+                        
+           				show_shift_Detail(rowData);
+           				
+           	            return true;
+           	        }
+           	    );
+           $("#id_div_title>h1").text(gettext('员工排班表'));
+    });
+
+    var $div=$("div#id_shifts_all");
+    $div.on_row_click(//单击
+            function(grid,key, row_data){
+                
+              data=$div.get(0).g.data
+                var rowData=[]
+              rowData.push(data[key-1][4])
+              rowData.push(data[key-1][3])
+              rowData.push(0)
+              rowData.push(data[key-1][6])
+              rowData.push(data[key-1][7])
+              
+                show_shift_Detail(rowData);
+                
+                return true;
+            }
+        );
+
+
+    $("#tz").html("<div align='center'><h4><span class='icon_Shift_Detail'>&nbsp;</span>{% trans '单击人员查看排班详情!' %}  </h4></div>");
+});
+
+var week=[
+		"{% trans '星期日S' %}",
+	     "{% trans '星期一S' %}",
+	     "{% trans '星期二S' %}",
+	     "{% trans '星期三S' %}",
+	     "{% trans '星期四S' %}",
+	     "{% trans '星期五S' %}",
+	     "{% trans '星期六S' %}"
+];
+
+function show_shift_Detail(rowData)
+{   
+
+    var Shift_id=rowData[0];
+    $("#id_Shift_Detail fieldset legend").html(rowData[1]+"&nbsp;&nbsp;&nbsp;{% trans '时段明细' %}");
+    queryStr="Shift_id="+Shift_id+"&unit="+rowData[2]+"&weekStartDay=0";
+    $.ajax({
+        type:"POST",
+        url: "{{dbapp_url}}../att/shift_detail/",
+        data:queryStr,
+        dataType:"json",
+        success:function(json){
+            var unit=rowData[2];
+            var st=new Date(rowData[3].replace(/-/g,'/'));
+            var et=new Date(rowData[4].replace(/-/g,'/'));
+            var yed=new Date(st.getFullYear()+"/12/31")  //年底
+            var ydays=(yed-st)/1000/24/3600+1;   //当前到年底天数
+            var days=(et-st)/1000/24/3600+1;     //结束日期与开始日期的天数
+            
+            $("#id_shift_details>h1").text(gettext("排班时间段详细明细"))
+            
+            if(days>ydays)     //结束日期小于年底，以结束日期为准,如果大于年底日期。
+            {
+                
+                if(ydays<90 && days>90)
+                {
+                    days=90
+                    $("#id_shift_details>h1").text(gettext("排班时间段详细明细(仅显示三个月)"))
+                }
+                if(ydays>90 && days>90)
+                {
+                    
+                    days=ydays
+                    $("#id_shift_details>h1").text(gettext("排班时间段详细明细(仅显示到年底)"))
+                }
+            }
+
+            $("#tz").html(createTZTable(json,getTZDayLabel,days,st,true));
+          
+            $(".tzbar span").mouseover(function(){ 
+                
+                var schName=$(this).attr("alt3");
+				$("#id_numrun_tip").css({"background-color":"#0066a6","color":"#ffffff","padding":"1px 5px 1px 5px "});
+                $("#id_numrun_tip").html(schName);
+                var offset=$(this).offset();
+            	if($("#id_numrun_tip").css("visibility")=="hidden"){
+            		$("#id_numrun_tip").css({"z-index":16,"visibility":"visible","position":"absolute","top":(offset.top-133),"left":(offset.left-40)})//提示信息定位
+            		$("#id_numrun_tip").mouseover(function(){
+            			$(this).css({"z-index":"16","visibility":"visible","position":"absolute","top":(offset.top-133),"left":(offset.left-40)})
+            		
+            		}).mouseout(function(){
+            			$("#id_numrun_tip").css("visibility","hidden");
+            		});
+            	}
+            	else
+            		$("#id_numrun_tip").css("visibility","hidden");
+            }).mouseout(function(){
+                $("#id_numrun_tip").css("visibility","hidden")
+            }); 
+            
+            
+        }
+     });
+}
+
+function getTZDayLabel(day,st)
+{
+ 
+    v=new Date(st.valueOf()+day*24*1000*3600);
+    return  (v.getMonth()+1)+"."+v.getDate()+"("+week[v.getDay()]+")";
+}
+
+//执行删除 后的附加操作
+function after_save_return(){
+	//重新刷新界面
+//	window.location.reload();
+	$tab_div = null;
+	if($("#id_cur_table").val() == "1"){
+		$tab_div = $("#id_shifts_all")
+	}else{
+		$tab_div = $("#id_shift_details")
+	}
+	$tab_div.get(0).g.load_data();
+}
+
+
+{% endblock%}
+
+{% block content %}
+<input type="hidden" id="id_cur_table" value="1" />
+<input type="hidden" id="id_all_emp" value=""/>
+<div id="div_id_main_userofrun" class="module" style=" position:relative;">
+	<form id="id_cond_form" method="POST">
+		<div class="news_topsearch">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="50"><div class="news_topsearch1">查询</div></td>
+					<td>
+						<table style="margin:0px 10px 0px 10px;">
+							<tr>
+								{% block select_emp %}
+									{% autoescape off %}
+										<td><div class="lineH22"><label for="id_emp">选择人员:</label></div></td><td><div id = "id_emp"><input  type = "text" style = "width:140px height:15px"/></div></td>
+									{% endautoescape %}
+								{% endblock %}
+								<td>
+									<span class="action_Search">&nbsp;</span><a href="javascript:void(0)" id="id_show_EmpShift" class="Link_blue3">{%trans '查询排班表' %}</a>
+								</td>
+								<td>
+									<span class="action_Search">&nbsp;</span><a href="javascript:void(0)" id="id_show_tmpShift" class="Link_blue3">{%trans '查询临时排班表' %}</a>
+				                </td>
+							</tr>
+				            <tr>
+				                <td style="border:0px;"><span id="id_error"></span></td>
+				            </tr>
+				        </table>
+				     </td>
+				</tr>
+	          </table>
+	     </div>
+
+        <div style="margin:0px 0px 10px 0px;">
+		   <table style="width:100%;">
+			<tr style="height:430px;">
+			  <td style="float:left;width:68%">
+				<div id="id_div_title" class="div_box" >
+					<h1>{% trans '员工排班列表' %}</h1>
+					<div id="id_shifts_all"  ></div>
+				</div>
+			  </td>
+			  <td style="float:right; width:30%;">
+		        <div id="id_shift_details" class="div_box" >
+		            <h1>{%trans "排班时间段详细明细" %}</h1>
+		            <div id="tz"></div>
+		        </div>
+			  </td>
+			</tr>
+		</table>
+	   </div>
+	</form>
+
+    <div id='id_numrun_tip'></div>
+</div>
+<div id="div_id_showaction"></div>
+{% block getdatalist %}
+{% endblock %}
+{% endblock %}

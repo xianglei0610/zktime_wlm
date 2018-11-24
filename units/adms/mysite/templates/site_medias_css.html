@@ -1,0 +1,15 @@
+{% block extracss %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/menu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/base.css" />
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}/css/rtl.css{% endblock %}" />
+{% endif %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/widgets.css" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/sf.css" media="screen" />
+<link href="{{ MEDIA_URL }}/css/css.css" rel="stylesheet" />
+<link href="{{ MEDIA_URL }}/css/tabs.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/jquery.treeview.css" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/datepiker.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/themes/{{ request.theme }}/css/skin.css" media="screen" />
+
+

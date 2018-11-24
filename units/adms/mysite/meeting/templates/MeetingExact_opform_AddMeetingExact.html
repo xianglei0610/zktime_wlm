@@ -1,0 +1,43 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% autoescape off %} 
+        <table>
+            <tr>
+                <th height="20">{{ form.meetingID|field_as_label_tag }}</th>
+                <td width="210">{{form.meetingID.as_widget }}</td>
+                <td width="80" class="displayN">{{form.meetingID.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.users|field_as_label_tag }}</th>
+                <td width="210">{{form.users.as_widget }}</td>
+                <td width="80" class="displayN">{{form.users.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.checktype|field_as_label_tag }}</th>
+                <td width="210">{{form.checktype.as_widget }}</td>
+                <td width="80" class="displayN">{{form.checktype.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.reason|field_as_label_tag }}</th>
+                <td width="210">{{form.reason.as_widget }}</td>
+                <td width="80" class="displayN">{{form.reason.errors }}</td>
+            </tr>            
+            
+        </table>
+    {% endautoescape %}
+    {% if form.non_field_errors %}
+        <tr><td>{{ form.non_field_errors }}</td></tr>
+    {% endif %}
+    
+{% endblock %}
+
+{% block addjs%}
+$(function(){
+   $("#id_meetingID option[value='']").remove();
+    $("#id_meetingID").prepend("<option value='' >----------------</option>");
+
+})
+    
+{% endblock %}

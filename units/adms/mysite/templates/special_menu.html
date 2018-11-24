@@ -1,0 +1,22 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block model_extend %}
+    <div id="id_model_extend" class="noUnderl leftBoxTop">
+        <!-- 设备监控菜单-->
+        {% block for_special_menu %}
+        <div id="id_special_menu">
+			{% for model in myapp.models %}
+			{% if model.parent_model == menu_focus %}
+	        <ul id="monitor_{{ model.name }}" class="Link_blue2">
+			<li id="id_'{{ model.name }}" name="{{ model.name }}">				
+            	<a  href="{% if model.url %}{{ model.url }}{% else %}{{ request.dbapp_url }}{{ model.app_label }}/{{ model.name }}/{% endif %}" ><span class="ds_{{ model.name }}" ></span>{{ model.verbose_name }}</a><div class='div_leftBottomLine'></div>
+            </li></ul>
+			{% endif %}
+			{% endfor %}
+		</div>    
+        {% endblock %}
+        
+    </div>
+{% endblock %}
+

@@ -1,0 +1,238 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+
+{% endblock %}
+
+{% block getdatalist %}
+{% endblock %}
+
+{% block op_for_tab %}
+
+{% endblock %}
+<style>
+.calculatediv{
+	width:300px;
+	overflow:auto;
+	}
+</style>
+
+{% block content %}
+<table id='id_EmpItemDefine_content' width="97%" style="margin:0px 10px 0px 10px ;">
+    <tr>
+        <td style="padding:0px !important;">
+            <div id="id_divsearch" class="div_EmpItemDefine">
+                    <div id="show_emp_tree"></div>
+                    <div class="clearB">
+                    <form id="id_empform" method="post">
+					    <div class="div1"><div class="div1">{% trans '选择部门' %}:</div><div id="id_multidept" style="display:inline"></div></div>
+                        <div class="div1"><div style="margin-left:5px;" class="div1">{% trans '开始日期' %}:</div><div class="div1"><input type="text" size="10" id="id_cometime" class="wZBaseDateField dp-applied" name="ComeTime"  readonly="True"/></div></div>
+                        <div class="div1"><div style="margin-left:5px;" class="div1">{% trans '结束日期' %}:</div><div class="div1"><input type="text" size="10" id="id_endtime" class="wZBaseDateField dp-applied" name="EndTime" readonly="True"/></div></div>
+
+                        <div class="div1"><span class="action_Search floatL"></span><a id="id_query" href="javascript:void(0)" class="Link_blue1" >{% trans '查询' %}</a></div>
+                        <div id="id_ReturnMsg"></div>
+                        <input type="hidden" name="DeptIDs" value="" />
+                        <input type="hidden" name="beigndate" value="0" />
+                        <input type="hidden" name="enddate" value="" />
+                    </form>
+                    </div>
+            </div><br /><br />
+			<input type="hidden" id="id_current_report" value="1" />
+            
+            <div id="empreporttabs" style="overflower:auto; clear:both; overflow:hidden; padding-right:1px; width:860px;"> <!--width:870px;height:440px;-->
+			
+                <ul class="tabs">
+				  {% if request.user|HasPerm:"personnel.deptrosterreport_empitemdefine" %}
+				  <li><a href="#emptabs-1" onClick="DeptRosterReport('1')">{% trans '部门花名册' %}</a></li>
+				  {% endif %}
+				
+				  {% if request.user|HasPerm:"personnel.empeducationreport_empitemdefine" %}
+				  <li><a href="#emptabs-2" onClick="EducationReport('2')">{% trans '学历构成分析表' %}</a></li>
+				  {% endif %}
+				
+                  {% if request.user|HasPerm:"personnel.empflowreport_empitemdefine" %}
+                  <li><a href="#emptabs-3" onClick="EmpFlowReport('3')">{% trans '人员流动表' %}</a></li>
+                  {% endif %}
+
+
+				  {% if request.user|HasPerm:"personnel.empcardreport_empitemdefine" %}
+				    <li><a href="#emptabs-4" onClick="EmpCardReport('4')">{% trans '人员卡片清单' %}</a></li>
+				  {% endif %}
+                  
+                </ul>
+				{% if request.user|HasPerm:"personnel.deptrosterreport_empitemdefine" %}
+					<div  class="calculatediv" id="emptabs-1"><div id="subtabs-1">
+					</div></div>
+				{% endif %}
+				{% if request.user|HasPerm:"personnel.empeducationreport_empitemdefine" %}
+					<div class="calculatediv" id="emptabs-2" ><div id="subtabs-2">
+					</div></div>
+				{% endif %}
+				{% if request.user|HasPerm:"personnel.empflowreport_empitemdefine" %}
+					<div class="calculatediv" id="emptabs-3" ><div id="subtabs-3">                                
+					</div></div>
+				{% endif %}
+				{% if request.user|HasPerm:"personnel.empcardreport_empitemdefine" %}
+					<div class="calculatediv" id="emptabs-4" ><div id="subtabs-4">
+					</div></div>
+            	{% endif %}			
+            </div>            
+        </td>
+    </tr>
+</table>
+<div id="id_no_perm_info" class="displayN">{% trans "权限不够，请联系管理员!" %}</div>
+{% endblock %}
+{% block addjs %}
+function SetProperty(reportid,tmp_name,reportname) //reportid,app,model,reportname
+{
+	$("#id_current_report").val(reportid);
+	$("#subtabs-"+reportid).empty();
+	
+	$("#id_sys_cur_app").val("list");
+	$("#id_sys_cur_model").val(tmp_name);
+	$("#id_sys_cur_grid").val("#subtabs-"+reportid);
+	
+	if (reportid=="1")
+		reportname = gettext("部门花名册")
+	else if (reportid=="2")
+		reportname = gettext("学历构成分析表")
+	else if (reportid=="3")
+		reportname = gettext("人员流动表")
+	else if (reportid=="4")
+		reportname = gettext("人员卡片清单")
+	
+	$("#id_sys_cur_exporttitle").val(reportname);
+	
+}
+
+function getPostDate(){
+	dt1=$("#id_cometime").val()
+	dt2=$("#id_endtime").val()
+	if (dt1=="" || dt2==""){
+	  alert(gettext("请选择开始日期和结束日期"))
+	  return -1
+	}
+	if (dt1>dt2){
+	  alert(gettext("开始日期不能大于结束日期"))
+	  return -1
+	}
+	return {"starttime":dt1,"endtime":dt2}
+}
+function getPostDept(){
+	//选择的部门值
+	deptids =""
+	$.each($("input[type='hidden'][name='id_input_department']"),function(){
+		deptids =deptids + $(this).val()+","
+	})  
+	deptids = deptids.substring(0,deptids.length-1)
+	return deptids
+}
+function EmpFlowReport(tabid){
+	SetProperty("3")
+	ret= getPostDate()
+	if (ret==-1) return		
+	deptids = getPostDept()
+	postdata ={"starttime":ret.starttime,"endtime":ret.endtime,"deptids":deptids}
+	
+	getdata({"url":"../../../personnel/GenerateEmpFlow/","ddiv":"#subtabs-3","data":postdata,"tabid":tabid})
+}
+
+function DeptRosterReport(tabid){
+	deptids = getPostDept()
+	postdata ={"deptids":deptids}
+	getdata({"url":"../../../personnel/GenerateDeptRoster/","ddiv":"#subtabs-1","data":postdata,"tabid":tabid})
+}
+function EducationReport(tabid){
+	deptids = getPostDept()
+	postdata ={"deptids":deptids}	
+	
+	getdata({"url":"../../../personnel/GenerateEmpEducation/","ddiv":"#subtabs-2","data":postdata,"tabid":tabid})
+}
+function EmpCardReport(tabid){
+	getdata({"url":"../../../personnel/GenerateEmpCardList/","ddiv":"#subtabs-4","tabid":tabid})
+}
+
+
+getdata=function(opt){
+    
+	$.ajax({ 
+	   type: "POST",
+	   url:opt.url+"?r="+Math.random(),
+	   data:opt.data,
+	   dataType:"json",
+	   success:function(json){
+			var gridd=$(opt.ddiv);
+			
+			json.multiple_select=null;
+			json.on_pager=function(grid,p){
+				
+				$.ajax({
+					type:"POST",
+					url:opt.url+"?p="+p,
+					data:opt.data,
+					dataType:"json",
+					success:function(msg){
+						
+						$.extend(grid.g,msg);
+						grid.g.reload_data(msg);
+					}
+				});
+			 return false;
+			 }; 
+			SetProperty(opt.tabid ,json.tmp_name)
+			gridd.grid(json);
+			$(gridd).show()
+			
+	   }
+  })
+}
+
+$(function(){
+    render_widgets($("#id_empform"));
+	
+	$.ajax({ 
+		type: "POST",
+		url:"{{dbapp_url}}personnel/Department/choice_data_widget?name=id_input_department&multiple=True&flat=False",
+		dataType:"html",
+		success:function(json){
+			$("#id_multidept").html(json)
+
+		}
+	});	
+	
+    $('#empreporttabs').tabs("#empreporttabs > div");
+	
+	if ($("#emptabs-1").css("display")=="block")
+		$("#id_current_report").val("1")
+	else if ($("#emptabs-2").css("display")=="block")
+		$("#id_current_report").val("2")
+	else if ($("#emptabs-3").css("display")=="block")
+		$("#id_current_report").val("3")
+	else if ($("#emptabs-4").css("display")=="block")
+		$("#id_current_report").val("4")
+	
+    $("#id_query").click(function(){
+    		var typevalue=	$("#id_current_report").val();
+			
+			
+			if (typevalue =="1"){
+				DeptRosterReport("1")
+			}else if (typevalue =="2"){
+				EducationReport("2")
+			}else if (typevalue =="3"){
+				EmpFlowReport("3")
+			}else if (typevalue =="4"){
+			    EmpCardReport("4")
+			}
+
+    })
+	$("#id_sys_isModelExport").val("false")
+	$("#id_sys_cur_app").val("list");
+	if("{% user_perms "personnel.EmpItemDefine" %}"=="browse_empitemdefine"){
+		$("#id_EmpItemDefine_content").remove();
+		$("#id_no_perm_info").show();
+	}
+})
+
+
+{% endblock %}

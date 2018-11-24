@@ -1,0 +1,127 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %}
+<tr >
+    <th>{% trans "选择权限组:" %}</th>
+    <td>
+        <input type="text" id="level_name" name="level_name" size="1"></input>
+        <input type="button" id="id_query_level" class="select_EmpSubmit" title={% trans "查询" %} value=""></input>
+        <input type="checkbox" id="id_select_all" name="level_name" size="1"></input>
+        <label>{% trans "全选" %}</label>
+    </td>
+</tr>
+<tr>
+    <th></th>
+    <td>
+		<div id="id_level" style="border:1px solid #CAE2F9;"></div>
+    </td>
+</td>
+</tr>
+<ul class="errorlist" id="emp_select_error"></ul> 
+
+
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+    //为避免加载界面时还没有显示PIN等信息，使用该回调函数--darcy20110330
+    function after_object_action()
+    {
+        //var key= $($("#id_datalist").get(0).current_row).attr("data");
+        //通过当前界面获取到的PIN号作为传入条件，不再从id_datalist中获取-darcy20110330
+        var pin = $("#objs_for_op").text().split(":")[1].split(" ")[1];
+        
+        $.ajax({ 
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/GetData/?func=level&pin="+pin,
+            dataType:"json",
+            async:false,
+            success:function(json)
+            {
+                var level_list="<ul id='levelSingleBrowser' class='level_list'>";
+                if (json.length>0)
+                {   
+                    for(index in json)
+                    {
+                        level_list+='<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                    }
+                    level_list+='</ul>';
+                }
+                else
+                {
+                    var varelevtar_or_iaccess=$('#id_app_menu').find("a").attr("href");
+                    if(varelevtar_or_iaccess.indexOf("elevator") > 0 )
+                    {
+                        level_list+='<li><label class="none_selected">'+gettext("没有可选的梯控权限组！")+'</label></li></ul>';
+                    }
+                    else
+                    {
+                        level_list+='<li><label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label></li></ul>';
+                    } 
+                
+                    
+                }
+                
+                $("#id_level").append(level_list);
+
+                $("#level_name").keydown(function(event){//按回车键直接查询
+                    if(event.keyCode==13)
+                    {
+                       $("#id_query_level").click();
+                    }
+                });
+                
+                //中央党校zhangy20110719
+                $("#id_query_level").click(function(){
+                    var level_name = $("#level_name").val();
+					level_name = encodeURI(level_name)
+                    $.ajax({ 
+                        type: "POST",
+                        url:"/{{ request.surl }}iaccess/GetData/?func=level&level_name="+level_name+"&pin="+pin,
+                        dataType:"json",
+                        async:false,
+                        success:function(json){
+                            var level_list = "<ul id='levelSingleBrowser' class='level_list'>";
+                            if (json.length>0)
+                            {   
+                                for(index in json)
+                                {
+                                    level_list += '<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                                }
+                                level_list += '</ul>';
+                            }
+                            else
+                            {
+                                level_list += '<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                            }
+                            $("#id_level").empty();
+                            $("#id_level").append(level_list);
+                        }
+                    });
+                    
+                });
+                
+                //权限组全选按钮--darcy20110726
+                $("#id_select_all").click(function(){
+                    var select_all = $("#id_select_all").attr("checked");
+                    $("#id_level input").each(function(){
+                        
+                        if(select_all)
+                        {
+                            $(this).attr("checked", "checked");
+                        }
+                        else
+                        {
+                            $(this).attr("checked", "");
+                        }
+
+                    });
+                });
+                
+            }
+        });
+    }
+
+{% endblock%}

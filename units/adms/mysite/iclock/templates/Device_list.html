@@ -1,0 +1,55 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+
+{% block extend_disabled_actions %}
+    {% if request.user|HasPerm:"iclock.browse_device" %}
+       {%get_config_option "DEVICE_DISABLE_ACTIONS"%}
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--iclock.browse_device-->
+    
+{% endblock %}
+
+{% block extrajs %}	
+    {% if request.user|HasPerm:"iclock.browse_device" %}
+        $("#id_datalist").find("#id_OpBrowseLog").remove();
+        $("#id_datalist").find("#OpChangeElevatorParamters").remove();
+        {% if "mysite.iaccess&mysite.att"|hasApp or "mysite.iaccess"|hasApp %}
+            $("#id_OpSearchACPanel").parent().append($("#id_OpSearchACPanel"));
+        {% else %}
+            {% if "ONLY_POS"|filter_config_option %}
+                            $("#id_OpSearchACPanel").remove();
+            {% else %}
+                {% if "mysite.att"|hasApp %}
+                                $("#id_OpSearchACPanel").remove();
+                            {% endif %}
+            {% endif %}
+        {% endif %}
+        $("#id_OpSearchACPanel").after($("#id_op_for_tab").find(".div_leftBottomLine").eq(0));
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--iclock.browse_device-->
+
+{% endblock %}
+
+{% block extend_model_grid %}
+    {% if request.user|HasPerm:"iclock.browse_device" %}
+        'model_actions':true,
+        'object_actions':true,
+        'multiple_select':true,
+        'need_plus_sign':false,
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--iclock.browse_device-->
+{% endblock %}
+
+
+

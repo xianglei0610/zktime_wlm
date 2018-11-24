@@ -1,0 +1,129 @@
+{% load i18n %}
+<html><head>
+<script src="{{ MEDIA_URL }}/jslib/i18n.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.plus.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.perciformes.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/i18n_{{ LANGUAGE_CODE }}.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/base.css" />
+
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/themes/hot-sneaks/jquery-ui-1.7.2.custom.css" />
+<script src="{{ MEDIA_URL }}/jslib/jquery-ui-1.7.2.custom.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/datalist.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/widgets.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.tools.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/sf.css" media="screen" />
+<script src="{{ MEDIA_URL }}/jslib/scrollable.js"></script>
+
+<script>
+
+//该函数通过ajax从服务器端获取json数据，然后将数据按照格式加以组织再进行显示
+//header不需要每次请求，直接写在了模板里面。或者第一次get的时候传递过来
+//(function($){
+//
+//})(jQuery);
+
+
+var intervalID=null;
+
+var getUrl="";
+
+function OnRefresh(getUrl)
+{
+	if($("#rt_tb").find("tbody tr").length>30)
+	{
+		$("#rt_tb").find("tbody tr").remove();
+	}
+
+	$.ajax({
+			type:"GET",
+			url:getUrl,
+			dataType:"json",
+			async:true,
+			success:function(rtdata)
+			{
+				rtlisthtml="";
+				for(var index in rtdata)
+				{
+					rtlisthtml+="<tr>";
+					data=rtdata[index]
+					rtlisthtml+="<td>"+data.time+"</td>"+"<td>"+data.card+"</td>"+"<td>"+data.door+"</td>"+"<td>"+data.verify+"</td>";
+					rtlisthtml+="</tr>";
+				}
+				$("#id_real_time_info").find("#rt_tb").append(rtlisthtml);
+			}
+	});
+}
+
+function UpDownLoad()
+{
+	$.ajax({
+			type:"GET",
+			url:"/iaccess/UploadTest/",
+			dataType:"json",
+			async:true,
+			success:function(rtdata)
+			{
+				alert("ok");
+			}
+	}); 
+}
+
+function Monitor()
+{
+	getUrl="/iaccess/monitor_test/";
+	intervalID=window.setInterval('OnRefresh(getUrl)',3000);//每三秒执行刷新函数
+	$.ajax({
+			type:"GET",
+			url:"/iaccess/MonitorTest/",
+			dataType:"json",
+			async:true,
+			success:function(rtdata)
+			{
+				alert("ok");
+			}
+	});
+}
+
+function StopUpDownLoad()
+{
+	$.ajax({
+			type:"GET",
+			url:"/iaccess/Stop/",
+			dataType:"json",
+			async:true,
+			success:function(rtdata)
+			{
+				alert("ok");
+			}
+	});
+}
+
+</script>
+</head>
+
+<body>
+<div>
+<div class="portlet-content" style="position:relative;">
+<div id="id_rtlist">
+    <div id="id_controlMonitor" style="text-align:center">
+	<input id="id_updowntest" name="id_updowntest" type="button" value={% trans "上传下载" %} onclick="UpDownLoad()"/>
+    <input id="id_Monitor" name="id_Monitor" type="button" value={% trans "时间监控" %} onclick="Monitor()"/>
+	<input id="id_Stoptest" name="id_Stoptest" type="button" value={% trans "停止" %} onclick="StopUpDownLoad()"/>
+    </div>
+
+    <div id='id_real_time_info'>
+                <table id='rt_tb' width=100% border=0>
+                    <thead id="rt_Header">
+                       <tr bgcolor=#dfcceb>
+                            <td >{% trans '日期时间' %}</td><td>{% trans '刷卡' %}</td><td >{% trans '门编号' %}</td><td>{% trans '验证' %}</td>
+                       </tr>
+                    </thead>
+                    <tbody id="rt_content"></tbody>
+                </table>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

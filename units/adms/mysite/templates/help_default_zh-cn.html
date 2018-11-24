@@ -1,0 +1,342 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>系统帮助</title>	
+	<link rel="shortcut icon" href="/file/help/images/help_ico.ico" type="image/x-icon" > 
+	<link rel="stylesheet" type="text/css" href="/file/help/css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="/file/help/jquery.js"></script>
+	<script src="/file/help/js.js" type="text/javascript" language="javascript"></script>
+</head>
+<body class="help_body" onLoad="fix()" onScroll="fix()" onResize="fix()">
+	<div class="help_headBox">
+		<div class="help_headBox1">
+			<div class="help_headBox_left_cn">
+				<div class="help_headBox_left_cn" style="display:none;">
+					Help Center
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="help_mainContainer">
+		<div class="help_mainLeft" id="id_help_mainLeft">
+			<div class="help_title_corner corner_focus">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/index.html" target="main">帮助首页</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/index.html" target="main">帮助首页</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/softwareInUnstall.html"  target="main">软件的安装与卸载</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/softwareInstall.html" target="main">软件的安装</a></li>
+						<li class="zkeco att"><a href="/file/help/fingerprintDriverInstall.html" target="main">指纹仪驱动安装</a></li>						
+						<li><a href="/file/help/softwareUninstall.html" target="main">软件的卸载</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>			
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/systemSynopsis.html"  target="main">系统简介</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/systemFunction.html" target="main">系统功能简介</a></li>
+						<li class="zkeco att"><a href="/file/help/systemUseknowledge.html" target="main">系统使用基本流程</a></li>						
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/systemManage.html" target="main">系统管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/systemManage.html" target="main">系统管理</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>			
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/worktable.html" target="main">我的工作面板</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/worktable.html" target="main">我的工作面板</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/personnel.html" target="main">人事管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+					    <li><a href="/file/help/base_data_page.html" target="main">基本资料</a></li>
+						<li><a href="/file/help/department.html" target="main">部门管理</a></li>
+						<li style=display:none><a href="/file/help/department_import.html" target="main"></a></li>
+						<li><a href="/file/help/position.html" target="main">职位管理</a></li>
+						<li><a href="/file/help/employee.html" target="main">人员管理</a></li>						
+						<li><a href="/file/help/leavelog.html" target="main">人员离职</a></li>
+						{% if "POS"|filter_config_option%}
+							 {% if "POS_IC"|filter_config_option%}
+								<li><a href="/file/help/ic_issuecard.html" target="main">卡管理</a></li>
+							 {%else%}
+								<li><a href="/file/help/id_issuecard.html" target="main">卡管理</a></li>
+							 {%endif%}
+						{%else%}
+							<li><a href="/file/help/issuecard.html" target="main">人员发卡</a></li>
+						{%endif%}
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/devicesystemmanage.html" target="main">设备系统管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+					    <li><a href="/file/help/area.html" target="main">区域设置</a></li>
+						<li><a href="/file/help/device.html" target="main">设备管理</a></li>
+						<li>
+							<a href="/file/help/devcmd.html" target="main">服务器下发命令</a>
+						</li>
+						<li>
+							<a href="/file/help/devcmdbak.html" target="main">失败命令查询</a>
+						</li>
+						<li><a href="/file/help/notice.html" target="main">设备短消息</a></li>
+						<li><a href="/file/help/devrtmonitorpage.html" target="main">设备监控</a></li>						
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/accesscontrolmanage.html" target="main">门禁系统管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+					    <li><a href="/file/help/acctimeseg.html" target="main">门禁时间段</a></li>
+						<li><a href="/file/help/accholidays.html" target="main">门禁节假日</a></li>
+						<li><a href="/file/help/doormngpage.html" target="main">门设置</a></li>
+
+								<li>
+									<a href="/file/help/doormngpage.html" target="main">门管理</a>
+								</li>
+								<li>
+									<a href="/file/help/accfirstopen.html" target="main">首卡常开</a>
+								</li>
+								<li>
+									<a href="/file/help/accmorecardset.html" target="main">多卡开门</a>
+
+									    <li>
+									        <a href="/file/help/accmorecardempgroup.html" target="main">多卡开门人员组</a>
+										</li>
+						        <li>
+									<a href="/file/help/accinterlock.html" target="main">互锁设置</a>
+								</li>
+								<li>
+									<a href="/file/help/accantiback.html" target="main">反潜设置</a>
+								</li>
+								<li>
+									<a href="/file/help/acclinkageio.html" target="main">联动设置</a>
+								</li>
+						<li><a href="/file/help/acclevelset.html" target="main">门禁权限组</a></li>
+						<li><a href="/file/help/emplevelsetpage.html" target="main">人员门禁权限设置</a></li>
+						<li><a href="/file/help/rtmonitorpage.html" target="main">实时监控</a></li>
+						<li><a href="/file/help/alleventreportpage.html" target="main">门禁报表</a></li>	
+						<li><a href="/file/help/accoption.html" target="main">门禁参数设置</a></li>							
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/attmanage.html" target="main">考勤系统管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list link_blue1">
+					    <li><a href="/file/help/attparam.html" target="main">考勤参数</a></li>
+						<li><a href="/file/help/schclass.html" target="main">考勤时段</a></li>
+						<li><a href="/file/help/holiday.html" target="main">考勤节假日</a></li>
+						<li><a href="/file/help/num_run.html" target="main">班次管理</a></li>
+						<li><a href="/file/help/attuserofrun.html" target="main">员工排班</a></li>
+						<li>
+							<a href="/file/help/checkinout.html" target="main">原始记录表</a>
+						</li>
+						  <li><a href="/file/help/leaveclass.html" target="main">请假--假类管理</a></li>
+						  <li><a href="/file/help/empspecday.html" target="main">请假--请假管理</a></li>
+
+						<li>
+							<a href="/file/help/checkexact.html" target="main">补签卡</a>
+						</li>
+						<li>
+							<a href="/file/help/overtime.html" target="main">加班单</a>
+						</li>
+						<li><a href="/file/help/setuseratt.html" target="main">调休</a></li>						
+						<li><a href="/file/help/attreport.html" target="main">考勤计算与报表</a></li>
+						<li><a href="/file/help/devicedatamanage.html" target="main">考勤设备管理</a></li>
+						<li><a href="/file/help/deviceusermanage.html" target="main">区域用户管理</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/Pos_IC.html" target="main">IC消费管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/posguide_IC.html" target="main">IC导航</a></li><li>
+							<a href="/file/help/posdatabase_IC.html" target="main">IC基本资料</a>
+							<ul>
+								<li>
+									<a href="/file/help/ic_splittimepage.html" target="main">IC分段定值</a>
+								</li>
+								<li>
+									<a href="/file/help/ic_batchtimepage.html" target="main">IC消费时间段设置</a>
+								</li>
+								<li>
+									<a href="/file/help/ic_diningpage.html" target="main">IC餐厅资料</a>
+								</li>
+								<li>
+									<a href="/file/help/ic_mealpage.html" target="main">IC餐别资料</a>
+								</li>
+								<li>
+									<a href="/file/help/ic_merchandisepage.html" target="main">IC商品资料</a>
+								</li>
+								<li>
+									<a href="/file/help/ic_keyvaluepage.html" target="main">IC键值资料</a>
+								</li>
+							</ul>
+						</li>
+						<li><a href="/file/help/ic_allowance.html" target="main">IC补贴</a></li>						
+						<li><a href="/file/help/ic_handconsume.html" target="main">IC手工补消费</a></li>
+						<li class="zkeco att"><a href="/file/help/ic_carcashsz.html" target="main">IC卡现金收支</a></li>
+						<li class="zkeco att"><a href="/file/help/ic_iccard.html" target="main">IC卡类资料</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/ic_consume.html" target="main">IC消费报表</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/ic_report.html" target="main">IC统计报表</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/ic_device.html" target="main">IC消费设备管理</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/posparam.html" target="main">IC消费参数</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/icconsumerlist.html" target="main">IC消费明细</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/Pos_ID.html" target="main">ID消费管理</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<li><a href="/file/help/posguide_ID.html" target="main">ID导航</a></li><li>
+							<a href="/file/help/posdatabase_ID.html" target="main">ID基本资料</a>
+							<ul>
+								<li>
+									<a href="/file/help/splittimepage.html" target="main">ID分段定值</a>
+								</li>
+								<li>
+									<a href="/file/help/batchtimepage.html" target="main">ID消费时间段设置</a>
+								</li>
+								<li>
+									<a href="/file/help/diningpage.html" target="main">ID餐厅资料</a>
+								</li>
+								<li>
+									<a href="/file/help/mealpage.html" target="main">ID餐别资料</a>
+								</li>
+								<li>
+									<a href="/file/help/merchandisepage.html" target="main">ID商品资料</a>
+								</li>
+								<li>
+									<a href="/file/help/keyvaluepage.html" target="main">ID键值资料</a>
+								</li>
+							</ul>
+						</li>
+						<li><a href="/file/help/allowance.html" target="main">ID补贴</a></li>						
+						<li><a href="/file/help/handconsume.html" target="main">ID手工补消费</a></li>
+						<li class="zkeco att"><a href="/file/help/carcashsz.html" target="main">ID卡现金收支</a></li>
+						<li class="zkeco att"><a href="/file/help/iccard.html" target="main">ID卡类资料</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/consume.html" target="main">ID消费报表</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/report.html" target="main">ID统计报表</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/id_devicedatamanage.html" target="main">ID消费设备管理</a></li>
+						<li class="iaccess zkeco"><a href="/file/help/poslog.html" target="main">ID消费日志</a></li>
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+				
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/systemsettings.html" target="main">系统设置</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list link_blue1">
+						<li><a href="/file/help/group.html" target="main">角色管理</a></li>
+						<li><a href="/file/help/user.html" target="main">用户管理</a></li>	
+						<li><a href="/file/help/appoption.html" target="main">系统参数</a></li>
+						<li><a href="/file/help/groupmsg.html" target="main">系统提醒设置</a></li>
+						<li><a href="/file/help/msgtype.html" target="main">公告类别</a></li>
+						<li><a href="/file/help/instantmsg.html" target="main">公告发布</a></li>
+						<li><a href="/file/help/logentry.html" target="main">日志记录</a></li>	
+						<li><a href="/file/help/deletedata.html" target="main">临时数据清理</a></li>	
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>
+			<div class="help_title_corner">
+				<b class="tl"></b>
+				<div class="inner">
+					<p><a href="/file/help/addenda1.html" target="main">附录</a></p>
+					<div class="clear"></div>
+					<ul class="ul_help_list Link_blue1">
+						<!--<li><a href="/file/help/addenda1.html" target="main">名词解释</a></li>-->
+						<li><a href="/file/help/addenda1.html" target="main">常用操作</a></li>						
+						<li><a href="/file/help/addenda2.html" target="main">最终用户软件许可协议</a></li>	
+						<li><a href="/file/help/addenda3.html" target="main">用户使用FAQ</a></li>	
+					</ul>
+				</div>
+				<b class="bl"></b>
+			</div>	
+		</div>
+		<div class="help_mainRight">
+			<iframe name="main" id="main" onload="setIframeHeight(this)" allowtransparency="true" scrolling="auto" height="auto"
+			 frameBorder="0" width="1024px" >
+			</iframe>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="help_goTop" id="bar">
+		<span class="help_goTop_down" onClick="javascript:GoTop_down()"></span>
+		<span class="help_goTop_up" onClick="javascript:GoTop_up()"></span>
+		<ul>
+			<li onClick="javascript:window.location.href='#Top'">Top</li>
+			<li onClick="javaScript:closeHelp()">Close</li>
+		</ul>
+</div>
+<div id="id_appData" style="display:none;">
+{% for app in apps %}
+	{% if forloop.last %}
+		{{app}}
+	{% else %}
+		{{ app }}__
+	{% endif %}
+{% endfor %}
+</div>
+<div id="id_model_address" class="displayN">{{redirect_url}}</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %}
+<tr >
+<td>
+    <div class="div_box div_opAdjustArea" style="margin-top:0px !important;margin-bottom:0px !important;"><h1>{% trans '选择区域' %}</h1><div id="id_area"></div></div>
+</td>
+<td>
+    <div id="show_emp_tree" style="width:670px;display:block;"></div>  
+</td>
+</tr>
+<tr>
+	<td colspan="2" class="displayB">
+		<div style="height:27px; display:block;"><ul class="errorlist" id="emp_select_error"></ul></div>
+	</td>
+</tr>
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+
+before_submit =function(){
+    var v = $("#id_dept_all").attr("checked")
+    if (v){
+        var iItems = $("div[id^='emp_select_']").get(0).g.data.length
+            if (v && iItems<=0){
+                $('#id_info').html("<ul class='errorlist'><li>"+gettext('请选择人员!')+"</li></ul>")
+                return false
+            }else{
+                $('#id_info').html("")
+                return true
+            }
+    }else{
+        var c= $("input[type='checkbox'][name='mutiple_emp']")
+          if (c.length<=0){
+              $('#id_info').html("<ul class='errorlist'><li>"+gettext('请选择人员!')+"</li></ul>")
+              return false
+          }else{
+              $('#id_info').html("")
+              return true
+          }
+    }
+    
+    
+}
+
+after_submit = function(){ $("#id_show_area_data").show()}
+function after_cancel(){$("#id_show_area_data").show()};
+$(function(){
+	$("tr#pre_addition_fields").css({display:"none"});
+    $.ajax({
+        url:"/iclock/choice_widget_for_select_emp/?multiple=T&name=mutiple_emp",
+        type:"POST",
+        dataType:"html",
+        success:function(sdata){            
+            $("#show_emp_tree").html(sdata);
+        }
+    });
+    
+//    $.ajax({ 
+//        type: "POST",
+//        url:"../../att/getData/?func=area",
+//        dataType:"json",
+//        success:function(json){
+//            department=json;
+//            if (department.length<=0)return
+//            $("#id_area").html(getTree('areaSingleBrowser','AreaSelect',0,2));
+//            $("#areaSingleBrowser").treeview();
+//            $("#areaSingleBrowser .parent").click(function(event){
+//                event.stopPropagation();
+//                return true;
+//            })
+//            
+//        }
+//    });
+      $.ajax({ 
+      	type: "POST",
+      	url:"/data/personnel/Area/choice_data_widget?name=AreaSelect&multiple=True&flat=False",
+      	dataType:"html",
+      	success:function(json){
+
+            $("#id_area").hide().html(json).show();
+//            $("#show_deptment").hide();
+            $("#show_deptment").show();
+            var pk=$("#id_area_select").find(".s>a").attr("alt")
+            if(pk!=undefined)
+            {
+                $("#id_area").find("li#"+pk+">p").click();
+                
+            }
+            
+      	}
+      });
+      $("#id_rel_log").html("");
+      $("#id_rel_log").html(gettext("考勤"));
+      $("#id_show_area_data").hide()
+})    
+{% endblock%}

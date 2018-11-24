@@ -1,0 +1,57 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %}
+<table class = "tbl_data_edit"  cellpadding="3px">
+<tr/>
+    <tr>
+         {{form.UserID|field_as_td_h}}
+             <td  >{{form.UserID.errors }}</td>
+             
+           </tr>
+    <tr>
+             {{form.money|field_as_td_h}}
+                 <td  >{{form.money.errors }}</td>
+                 
+               </tr>
+    <tr>
+             {{form.valid_date|field_as_td_h}}
+                 <td  >{{form.valid_date.errors }}</td>
+                 
+               </tr>
+    <tr>
+             {{form.remark|field_as_td_h}}
+                 <td  >{{form.remark.errors }}</td>
+                 
+               </tr>
+     <tr><td><input type="hidden" id="id_all_emp" name = "id_all_emp" value="filed_having_card"/></td></tr>
+     <tr><td><input type="hidden" id="id_op_type" name = "id_op_type" value="allowance"/></td></tr>
+</table>
+{% if form.non_field_errors %}
+			<tr><td>{{ form.non_field_errors }}</td></tr>
+		{% endif %}
+
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+$(function(){
+    $('#id_edit_form').validate({
+          	                        rules: {
+          	                            "money": {required:true,min:0.0,max:9999,"maxlength":8,isMoney:true}
+                                        },
+                                        errorPlacement: function(error, element) {
+                                                                                      var ele_id = element.attr("id")
+                                                                                      if ( ele_id == "id_drop_dept" )
+                                                                                          error.appendTo (element.next());
+                                                                                      else
+                                                                                          error.appendTo (element.parent());
+                                                                                  }
+                                        
+                                        
+                                        
+          	                        }
+          	            );
+    
+});
+{% endblock %}

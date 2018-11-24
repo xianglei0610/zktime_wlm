@@ -1,0 +1,12 @@
+{% extends "data_list.html" %}
+
+{% block tblHeader %}
+fieldHeaders=["{{ cl.FieldName.MsgType }}","{{ cl.FieldName.StartTime }}","{{ cl.FieldName.EndTime }}","{{ cl.FieldName.MsgContent }}","{{ cl.FieldName.MsgParam }}","{{ cl.FieldName.DeptID }}"
+];
+options.disableCols=[0];
+
+{% endblock %}
+{% block rowdata %}
+{% for item in latest_item_list %}
+["{{ item.id }}","{{ item.get_MsgType_display }}","{{ item.StartTime }}","{{ item.EndTime }}","<pre>{{ item.MsgContent|lescape }}</pre>", "{{ item.MsgParam }}", "{{ item.DeptID }}"]{%if not forloop.last%},{%endif%}{% endfor %}
+{% endblock %}

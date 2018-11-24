@@ -1,0 +1,119 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block addjs %}
+var selectcount=0
+function before_submit()
+{
+	var hascheck=false	
+	$(".div_time_select").find("input[type='checkbox']").each(function(){
+		if($(this).attr("checked"))
+		{
+			hascheck=true;
+			return false;
+		}
+	});
+	if(!hascheck)
+	{
+		alert(gettext("请选择时段"));
+		return false;
+	}
+	
+	
+	var hastt=false
+	$("input[name='days']").each(function(){
+		if($(this).attr("checked"))
+		{
+			hastt=true;
+			return false;
+		}
+	});
+	if(!hastt)
+	{
+		alert(gettext("选择日期"));
+		return false;
+	}
+	return true
+	
+}
+
+$(function(){
+
+    $.ajax({
+    
+    	    url:"{{request.surl}}../../../att/getmodeldata/att/SchClass/?fields=SchclassID,SchName,StartTime,EndTime",
+    	    type:"POST",
+    	    dataType:"json",
+    	    success:function(sdata){
+    	       var html="";
+               for(var i =0;i<sdata.length;i++)
+               {
+               		var data=sdata[i];
+               		html+="<ul>";
+                    html+="<li><input class='appen_schclass' type='checkbox' name='time_table' value='"+ data[0]+"' />";
+                    html+=" "+ data[1] +"("+ data[2] +"--"+ data[3] +")</li>";
+                    html+="</ul>";
+               };
+    	        $("#id_add_time_table").append(html);
+    	    }    
+		});
+     $("#id_selectcount").html("("+gettext("已选择")+selectcount+")");
+    $("#id_chk_selectall").click(function(){
+        var bln=$(this).attr("checked");
+        $(".div_chk_date").find("input[type='checkbox']").each(function(){
+            $(this).attr("checked",bln);
+        });
+        if (bln)
+        {
+            selectcount=$(".div_chk_date").find("input[type='checkbox']").length
+            
+        }
+        else
+        {
+            selectcount=0
+        }
+        $("#id_selectcount").html("("+gettext("已选择")+selectcount+")");
+    })
+    $(".div_chk_date").find("input[type='checkbox']").click(function(){
+                var t=$(this).attr("checked");
+               
+                if(t)
+                {selectcount=selectcount+1}
+                else
+                { if (selectcount>0)
+                    selectcount=selectcount-1
+                }
+                
+                
+                $("#id_selectcount").html("("+gettext("已选择")+selectcount+")");
+            });
+    
+});
+{% endblock %}
+{% block form %}
+{% autoescape off %}
+<tr>
+<td style="vertical-align: top;">
+  <div class="div_cls_opaddtable">
+  <table class="id_tbl_opaddtable">
+  <tr><td colspan="2"><div style="height:25px;line-height:25px;">{% trans '请选择时段:' %}</div><div id ="id_add_time_table" class="div_time_select"></div></td></tr>
+  <tr class="displayN"><th style="line-height:21px;">{% trans '是否需要加班' %}<td>{{ form.if_overtime.as_widget }}</td></tr>
+  <tr class="displayN"><th style="line-height:21px;">{% trans '加班时间(分钟)' %}<td>{{ form.overtime.as_widget }}</td></tr>
+
+  {% for i,k in form.errors.items %}
+  {{i}}{{k}}
+  {% endfor %}
+
+  </table>
+  
+</div>
+</td>
+  <td id="id_opaddtable_chk_date"><div style="height:26px;line-height:26px;">{% trans '选择日期:' %} <span> <input type="checkbox" id="id_chk_selectall" \> <span id="id_selectcount"></span></span></div><div class="div_chk_date">{{ form.days.as_widget }}</div></td>
+</tr>
+
+
+
+
+{% endautoescape %}
+{% endblock %}
+
+

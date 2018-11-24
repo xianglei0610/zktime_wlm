@@ -1,0 +1,153 @@
+{% load i18n %}
+{% if request.is_ajax %} 
+	{{ form.media }}
+	{% block headajaxjs %}{% endblock %}
+{% else %}
+<!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+	<title> 
+	{% block html_title %} 
+		{{ title|escape }}&rsaquo;
+		{% if add %}
+			{% trans "增加" %}
+		{% else %}
+			{%trans "详情"%}
+		{% endif %}
+	{% endblock %}
+	</title>
+	{% include "site_medias_css.html" %}
+	{% include "site_medias_js.html" %}
+	{% block headjs %}{% endblock %}
+	{{ form.media }}
+</head>
+<body>
+{% endif %}<!-- request.is_ajax-->
+
+	<div style="margin:0px;padding:0px;">
+	{% block content %}
+		<form method="post" onkeydown="if(event.keyCode==13){return false;}"  id="id_edit_form" enctype="multipart/form-data"{% if action_url %} action="{{ action_url }}"{% endif %}>
+			<input type="hidden" id="id_model_pk" name="pk" value="{{ instance.pk }}" />
+			<input type="hidden" id="id_model_info"  app_label="{{app}}"  model_name="{{ model_name }}"/>
+			{% block title %} 
+			<div id="id_span_title" class="portlet-header sfActive">
+				<span title="{% trans '关闭' %}" class="ui-icon ui-icon-closethick cursorP"></span>
+				<span title="{% trans '临时保存' %}" class="ui-icon ui-icon-circle-arrow-s cursorP"></span>
+				<span class="floatR" style=display:none><a href="{{ request.dbapp_url }}system/help/?p=/file/{{ LANGUAGE_CODE }}/help/{{ model_name|lower }}.html" target="_blank" title="{% trans '当前页帮助' %}" class="icon_help_current" id="page_help"></a></span>
+				<span class='icon_SiteMap'>&nbsp;</span>{% trans "当前位置：" %}
+					{% if position %} 
+						{{position}}->
+					{% else %} 
+						<span id="id_rel_log">{{ app_menu|translate_str }}</span>
+						-> {{ title|translate_str|escape }}->
+					{% endif %}
+
+					{% if add %}
+						{% trans "增加" %}
+					{% else %}
+						{%trans "详情"%}
+					{% endif %}
+			</div>
+			{% endblock %}<!-- title -->
+
+			{% block help_panel %}
+			<div class="form_help">
+			{% if form.admin_help_text %}
+			<div id="id_help_text">{% block help_image %}{% if form.admin_help_image %}<img src="{{ form.admin_help_image }}" align ="left" /> {% endif %}{% endblock %} {% autoescape off %}{{ form.admin_help_text }} {% endautoescape %} </div>
+			{% endif %}
+			<div id="id_help" style="text-align: right;">
+				{% block help_difine %}{% endblock %}
+				<a href='javascript:void(0);' ref="{{ MEDIA_URL }}/help/{{ LANGUAGE_CODE }}/{{ dataOpt.app_label }}/{{ model_name }}#{% if detail %}{{ detail }}{% else %}detail{% endif %}"  ></a>
+				{% if request.user|HasPerm:"base.browse_logentry" %}
+					{% if log_url %}
+					<div id="id_log_url">
+						<a id="id_log_edit_dialog" href="javascript:void(0);" ref="/{{request.surl}}worktable/get_search_form/base/LogEntry/" query="{{log_search}}">{% trans "日志记录" %}</a>
+					</div>
+					{% endif %}
+				{% endif %}
+			</div>
+			<div class="clear"></div>
+			</div>
+			{% endblock %}<!-- help_panel -->
+
+			{% block operation_panel %}
+			{% if add %} {% else %}
+			<div class="form_operation">
+			</div>
+			{% endif %}
+			{% endblock %}<!--operation_panel-->
+
+			<table cellpadding="3" style="margin:0px 10px 0px 10px; position:relative;" class="tbl_data_edit">
+			<tr><td clospan="6">
+			<div id="id_tabs">
+			{% for k,v in tabs.items %}
+							{% if forloop.first%}
+								<ul>
+							{% endif %}
+							{% ifequal k "tabnames"%}
+								{%for kk,vv in v%}
+									<li><a href="#id_{{ kk }}">{{ vv }}</a></li>
+								{%endfor%}
+							{% endifequal%}
+							{% if forloop.last %}
+								</ul>
+							{% endif %}
+			{% endfor%}
+
+			{% for k,v in tabs.items %}
+				{% ifnotequal k "tabnames"%}
+				<div id="id_{{ k }}">
+					<table>
+						{% for list_item in v %}
+							<tr title="id_{{ list_item }}"></tr>
+						{% endfor %}
+					</table>
+				</div>
+				{% endifnotequal %}
+			{% endfor%}
+			</div>
+			</td></tr>
+
+			<tr id="pre_addition_fields">{% block pre_addfields %}{% endblock %}</tr>
+
+			{% block form %}
+			{{ form.as_table }}
+			{% endblock %}<!-- form -->
+
+			<tr id="addition_fields">{% block addfields %}{% endblock %}</tr>
+			</table>
+
+			{% if request.is_ajax %}{% else %}
+			
+			{% endif %}
+
+
+		</form>
+
+		<input type="hidden" id="id_query_str" value=""/>
+
+		<div id="id_info"></div>
+		{% block edit_buttons %}
+		{% endblock %}
+		<script>
+			{% block addjs %}{% endblock %}
+			var $form=$("#id_edit_form");
+			render_widgets($form);
+			{% if log_url %}
+				init_log($("#id_log_edit_dialog"),"{{ title|escape }}"+gettext("日志"));
+			{% endif %}
+			{% block inputfocus %}
+			after_process=function()
+			{
+				$("#id_edit_form input[id^='id_']:first").focus();
+			}
+			{% endblock %}
+		</script>
+		{% block add_contents %}{% endblock %}
+	{% endblock %}<!-- content ???-->
+	</div>
+{% if request.is_ajax %} {% else %}
+</body></html>
+{% endif %}
+

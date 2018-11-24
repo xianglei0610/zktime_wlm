@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Installation And Uninstallation -> Software Installation </div>
+    <div class="help_mainContant">
+	  <h2>Software Installation </h2><br />
+Put the installation CD into the CD driver, the system will automatically pop up the program selection menu. Select the software you want to install. The following is the  installation process for an example.
+</p>
+<br />
+<ol>
+          <li>1. Select your desired installing language,  as shown below, and click [OK] button.</li>
+  </ol><br />
+        <p align="center"><img width="304" height="157" src="softwareInstall_clip_image001.jpg" /><br />
+<br />
+2. The  End-User License Agreement dialog will pop up, as shown below. Select [I accept  the agreement], and click [Next].<br />
+          <br />
+  <div class="alignC"><img width="584" height="419" src="softwareInstall_clip_image003.jpg" /></div><br />
+          3. Click [Next] button to display the next interface, it will prompt you to set the database backup path.<br />
+      <br />
+	  4. 
+
+
+Select the installation path of the software. It will be installed under the system disk by default, and click [Next] button.<br />
+      <br />
+      5. Select the folder of shortcuts,   and click [Next]. <br />
+      <div>
+          <div>
+         <br />
+         6.
+
+
+You can select to use the default database, and then click [Next] to continue. Otherwise, select the database you have installed, and input the database information at right side of interface (For example the MySQL database):<br />
+              <br />
+			  <b>Database Name:</b> MySQL.<br />
+              <br />
+			  <b>User Name:</b> root.<br />
+              <br />
+			  <b>Password:</b> The password you set in  configuration process.<br />
+              <br />
+			  <b>Host Address: </b>IP address for which installed the  database server (If you have installed the database server at this PC, input  the IP address of this PC).<br />
+              <br />
+			  <b>Prot:</b> Input the port number you set in  configuration process (3306 by default).<br />
+            <br />
+			When  completed, click [Test Connection], and if the system prompts [Connection  Successful], click [Next] to start installation. Otherwise, check and retry.<br />
+            <br />
+			If MSSQLServer2005 database is selected, please refer to the relevant document for configuration.<br />
+			<br />
+			If you need to use the database Oracle10i, please contact us for a new package.<br />
+		
+          <br />
+        </div>
+    <div>
+         
+          <b>Note: </b>If you select to use remote MySQL database, after inputing all of the information, click [Next], and it will prompt “If convert the data code to utf-8 format, please select “Yes”and continue.<br />
+<br />
+		 7. 
+
+
+The system will start to install the software. If your have installed the antivirus (such as 360, Rising, Kaspersky etc.) or other firewall software, they may stop the install program, and pop up a security prompt (or a similar one). If so, please select “Always Permitted” and add it to the antivirus or firewall software’s trust list. Or stop them temporarily to continue the installation.
+
+<br />
+<br />
+      8. 
+
+
+After software installation, it will prompt whether to restart the computer or not. The server program will be enabled only after restarting the computer. Select [Yes] to restart immediately, or select [No] to restart later.</div>
+        <ol>
+          <li><br />
+          9. 
+
+
+After software installation, from [Start] - [Programs] - [ZKECO Time &amp; Security Management Platform], you will see such items as Home Page, <strong>Service Controller</strong>, and Uninstalled ZKECO Time &amp; Security Management Platform. .</li>
+        </ol>
+         <br />
+		  Select [Server Controller] in  program menu, or double click [Server Controller] shortcut on desktop, and an  icon will appear on the tray on the lower right corner of the desktop.  Right-click on the icon, and the menu will be shown.<br />
+
+        <br />
+
+			  <h1>After Installation<br />
+			  </h1>
+			  <br />After  installation, please pay attention to these items:<br />
+			  <br />
+			    <b>1. Port  Configuration:</b><br />
+			    <br />
+				Select  [Configure server port] in the [Server Controller] menu , the following will be  shown.<br />
+  <br />
+  <div class="alignC"><img width="442" height="232" src="softwareInstall_clip_image002.jpg" /></div>
+  <br />
+			    Click  [Test port] (80 by default), if it is not usable, change the port number. If  usable, click [Save] and quit. If you have changed the port number, please add  “:port” after IP address when you access the system. For example, if you set  the port as 8080, you need input [http://127.0.0.1:8080] in IP box. <br />
+			    <br />
+			    2. In  Windows Firewall configuration, set this port number as an exception, then  other computers could access this server through internet.<br />
+			    <br />
+				Double  click [Windows Firewall] under [Start] – [Settings] – [Control Panel], click  [Exceptions], the interface shown below.<br />
+			    <br /><div class="alignC"><img width="432" height="514" src="softwareInstall_clip_image005_0000.jpg" /></div><br />
+			    Click [Add Port],  the following interface pops up.<br />
+  <br /><div class="alignC"><img width="393" height="289" src="softwareInstall_clip_image007_0000.jpg" /></div><br />
+			    Set the  port name and port number, such as zkeco, 8080, click [OK] to save and exit.<br />
+			    <br />
+			    <b>3. Start/ Stop  service:</b><br />
+<br />
+After software installation, please restart your computer. Before using this program, please start [Service Controller], select [<strong>No Server is running, start server please click here</strong>] in operation menu, and start the service, then double click ZKECO Time &amp; Security Management Platform shortcut to use this program. After you using this program and quit, please click [<strong>Server is running, stop it please click here</strong>] to end the service, and then click [<strong>Exit Service Controller</strong>] .<br />
+                <br />
+                <b>4. Configure database:</b><br />
+                 <br />
+				  During the use of this program, if you want change  another database, please select [Configure database] in [Server Controller]  operation menu, the following interface appear:<br />
+  <br /><div class="alignC"><img width="533" height="384" src="softwareInstall_clip_image002_0000.jpg" /></div><br />
+First test the connection, when the testing is successful before you can save the database configuration information. After you have successfully saved configuration information, confirm whether you need to initialize the database.
+<div class="alignC"></div>
+  <br />
+                  Select “Yes” to synchronize the database with the  system, otherwise select “No” to cancel.<br />
+  
+  </div>
+        <br /><br />
+</div>
+</body>
+</html>

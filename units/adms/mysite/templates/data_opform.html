@@ -1,0 +1,37 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block html_title %}
+{{ form.title|escape }}
+{% endblock %}
+{% block headajaxjs %}
+{% endblock %}
+
+{% block pre_addfields %}
+    <th></th>
+    <td>
+	<table>
+		<tr>
+			<td><div id="objs_for_op" style="padding:2px;margin:0px 0px 2px 0px;">{% if form.tips_text %}{{ form.tips_text }}?{% endif %}</div>
+			</td>
+			<td><div id="id_op_for_model" data="{{op.for_model}}"></div><div id="id_store_select_emp">
+				<table id="id_tbl"></table></div>
+			</td>
+		</tr>
+	</table>
+</td>
+{% endblock %}
+{% block title %}
+<div id="id_span_title" class="portlet-header sfActive">
+<span class='icon_SiteMap'>&nbsp;</span>{% trans "当前位置：" %}
+	{% if position %} 
+		{{position}} 
+	{% else %} 
+		<span id="id_rel_log">{{ app_menu|translate_str }}</span> -> {{ title|translate_str|escape }}
+	{% endif %}->{{ form.verbose_name|escape }}
+</div>
+{% endblock %}
+
+{% block operation_panel %}
+{% endblock %}
+
+

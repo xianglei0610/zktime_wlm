@@ -1,0 +1,45 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+{% load i18n %}
+<style>
+.pic {
+float: left;
+padding: 15px;
+padding-left:0;
+text-align:center;
+width:110px;
+}
+.catabar {
+clear: left;
+}
+
+.catabar h3 {
+background-color: #ade;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<h3><img src="/media/img/folderclose.gif">&nbsp;&nbsp;<a href="../">[ .. ]</a></h3>
+<div class='catabar'>
+<h3>{%trans "成功的验证"%}</h3>
+{% for file in files %}
+{% if file.0.1 %}
+<div class="pic"><a href="{{ file.2 }}"><img src="{{ file.1 }}"><br>{{ file.0.1 }}<br/>{{ file.0.0 }}</a></div>
+{% endif %}
+{% endfor %}
+</div>
+<div class='catabar'>
+<h3>{%trans "失败的验证"%}</h3>
+{% for file in files %}
+{% if not file.0.1 %}
+<div class="pic"><a href="{{ file.2 }}"><img src="{{ file.1 }}"><br>{{ file.0.0 }}</a></div>
+{% endif %}
+{% endfor %}
+</div>
+{{ content }}
+<br />
+<p style="clear: left;">&nbsp;</p>
+
+<input type="submit" value="{% trans '返回' %}" onclick="window.history.back(); return false;">
+{% endblock %}

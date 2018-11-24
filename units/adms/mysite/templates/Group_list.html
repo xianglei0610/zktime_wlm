@@ -1,0 +1,26 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block advance_search %}{% endblock %}
+{% block addjs %}
+    $("#id_model_export").parent().hide()
+{% endblock %}
+
+{% block getdatalist %}
+    var str_query="name__exclude=role_for_employee";
+    $("#id_datalist").model_grid({
+            base_query:str_query.split("&"),
+            model_action_container:$("#id_op_for_tab"),
+            dbapp_url:"{{ dbapp_url }}",
+            model_url:"{{ model_url }}",
+            row_operations:["op_edit","_delete","View_detail"],
+            init_after_get_jdata:function(){
+                $("#id_datalist").get(0).g.a_div.after("<div class='floatL' style='_position:relative;_z-index:10;'><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+                var $app_menu=$("#id_datalist").get(0).g.a_div;
+                var $menu_more=$(".action_more_list");
+                var min_width=300;
+                resize_menu($app_menu,$menu_more,min_width,"id_action_more");
+                $('.nav li').sfHover();						
+            },
+            disabled_actions:["_change"{% block extend_disabled_actions %}{% endblock %}]
+    });
+{% endblock %}

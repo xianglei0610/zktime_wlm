@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>数据库管理</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+</head>
+
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">系统帮助</span> -> 系统设置 -&gt; 数据库管理</div>
+<div class="help_mainContant">
+  <h2><a name="_Toc318895486">7.3 </a>数据库管理</h2>
+  <p>单击【系统设置】-【数据库管理】，进入如下图所示<strong>数据库管理</strong>页面：</p>
+  <p align="center"><img width="572" src="clip_image002_0020.jpg"></p>
+  <p>系统主页面显示历史备份数据库操作记录。系统提供了备份、还原、初始化数据库功能。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">提示</strong>：将鼠标光标移动到<strong>窗口操作选择栏</strong>的图标上，系统将自动弹出该图标对应的操作提示。</p>
+  <h3><a name="_Toc318895487"></a>7.3.1备份数据库</h3>
+  <p>将系统的数据库定期备份，以保证数据的安全，需要再使用备份的数据时，将数据还原即可。</p>
+  <p>备份数据库的步骤描述如下：</p>
+  <p><strong>1</strong><strong>、</strong><strong>设置数据库备份路径</strong><strong></strong></p>
+  <p>在<strong>【服务控制台】</strong>中选择【设置数据库备份路径】，出现如下界面：</p>
+  <p align="center"><img width="414" height="261" src="clip_image003_0000.jpg"></p>
+  <p align="center">&nbsp;</p>
+  <p>点击【浏览】选择备份路径，点击【保存】按钮，保存设置，设置成功后系统会在该窗口中给出“设置成功！”的提示字样，如下图所示：</p>
+  <p align="center"><img width="416" height="260" src="clip_image004_0015.jpg"></p>
+  <p>单击【关闭】按钮，退出窗口。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意：</strong><strong></strong></p>
+  <p>（1）、如果不预先设置数据库的备份路径，则系统无法备份数据库（供其他计算机访问的服务器，需要在服务上预先设置备份路径）；</p>
+  <p>（2）、建议数据库备份路径不要和本系统安装路径在同一磁盘下，不要将备份路径设置到磁盘根目录下或桌面。</p>
+  <p><strong>2</strong><strong>、</strong><strong>备份数据库</strong><strong></strong></p>
+  <p>（1）、在<strong>数据库管理</strong>页面中，点击【备份数据库】图标，进入<strong>备份数据库</strong>页面，如下图所示：</p>
+  <p align="center"><img width="572" src="clip_image006_0007.jpg"></p>
+  <p>（2）、选择立即备份、计划备份或取消计划备份。若单击选择计划备份项，则弹出如下图所示窗口：</p>
+  <p align="center"><img width="572" height="77" src="clip_image007_0004.jpg"></p>
+  <p><strong>从</strong><strong>__</strong><strong>开始</strong>：选择开始的日期和时间，日期和时间的选择请参见附录1常用操作中的2选择日期和3选择时间。</p>
+  <p><strong>每隔</strong><strong>__</strong><strong>天</strong>：输入天数，只能为整数。设置每隔几天自动备份数据库。</p>
+  <p>（3）、设置完成后，点击【确认】按钮，开始备份，如果是立即备份，则备份后返回，计划备份则按计划执行备份。若选择的是立即备份，并单击【确定】按钮，弹出如下图所示的备份确认框：</p>
+  <p align="center"><img width="237" height="142" src="clip_image008_0006.jpg"></p>
+  <p>（4）、单击【确定】按钮，开始备份，并返回<strong>数据库管理</strong>页面，此时数据库备份记录列表中的显示如下图所示：</p>
+  <p align="center"><img width="572" src="clip_image010_0005.jpg"></p>
+  <p>如图所示，此时该备份记录的<strong>是否成功备份</strong>显示为“<strong>处理中</strong>”，代表系统后台正在备份数据库，稍等片刻，待备份成功后，备份数据库记录列表的信息显示如下图所示：</p>
+  <p align="center"><img width="572" src="clip_image012_0003.jpg"></p>
+  <p>如图所示，此时设备备份记录的<strong>是否成功备份</strong>显示为“<strong>是</strong>”，代表备份成功。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意：</strong><strong></strong></p>
+  <p>（1）、数据库服务器与本系统服务器必须在同一台电脑中；</p>
+  <p>（2）、建议用户在建立完人事信息、设备信息、消费信息和系统设置后立即进行数据备份；</p>
+  <p>（3）、系统暂不支持Oracle数据库备份，如需备份请使用Oracle自带工具进行备份。</p>
+  <h3><a name="_Toc318895488"></a>7.3.2还原数据库</h3>
+  <p>1、在<strong>【服务控制台】</strong>中选择【<strong>还原数据库</strong>】，出现如下界面。</p>
+  <p align="center"><img width="419" height="249" src="clip_image014_0005.jpg"></p>
+  <p>2、点击【浏览】按钮，弹出如下图所示的备份文件选择列表：</p>
+  <p align="center"><img width="419" src="clip_image015_0000.jpg"></p>
+  <p>3、在备份数据库列表中选择成功备份的以“.sql”为后缀的数据库文件，单击【打开】按钮，返回<strong>还原数据库</strong>窗口。点击【还原】按钮，开始还原数据库。还原成功后系统会在当前窗口中给出“数据库还原成功！”的提示字样，如下图所示：</p>
+  <p align="center"><img width="414" height="246" src="clip_image016_0006.jpg"></p>
+  <p>单击【关闭】按钮，关闭窗口。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意：</strong><strong></strong></p>
+  <p>（1）、请不要关闭数据库还原过程中弹出的任何命令行窗口；</p>
+  <p>（2）、不建议在同一台服务器上建立多个计划备份，避免加重服务器负荷。</p>
+  <h3><a name="_Toc318895489"></a>7.3.3初始化数据库</h3>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：<strong>初始化数据库</strong>是将数据恢复到系统初始状态，初始化人事信息时，原数据库中所有消费数据将被删除，请用户谨慎操作。</p>
+  <p>1、在<strong>数据库管理</strong>页面中，点击【初始化数据库】图标，进入<strong>初始化数据库</strong>页面，如下图所示：</p>
+  <p align="center"><img width="572" src="clip_image017_0001.jpg"></p>
+  <p>2、单击数据类列表中每类数据前对应的选择框<img width="12" height="13" src="clip_image019_0000.jpg">，打钩选中；可单击上级类前方的选择框<img width="12" height="13" src="clip_image019_0001.jpg">，选中该类及其下的所有子类。也可单击<strong>全部</strong>前面的选择框<img width="12" height="13" src="clip_image019_0002.jpg">，选中所有数据类。点击【确认】按钮，完成初始化并返回。</p>
+</div>
+</body>
+</html>

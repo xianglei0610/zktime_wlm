@@ -1,0 +1,29 @@
+{% load i18n %}
+{
+    "iaccess.AccRTMonitor":{
+                 "params":"",
+                 "verbose_fields":{
+                     "6":"in_address",
+                     "7":"out_address",
+                     "8":"verified",
+                     "9":"state",
+                     "10":"event_type",
+                     "11":"trigger_opt"
+                 },
+                 "head":["{% trans '时间' %}","{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '卡号' %}","{% trans '设备' %}","{% trans '门事件点' %}","{% trans '辅助输入点' %}","{% trans '辅助输出点' %}","{% trans '验证方式' %}","{% trans '出入状态' %}","{% trans '事件描述' %}","{% trans '联动触发条件' %}"],
+                 "db_fields":["time","pin","name","card_no","device_name","door_name","in_address","out_address","verified","state","event_type","trigger_opt"],
+                 "sql":"
+                     SELECT time,pin,name,card_no,device_name,door_name,in_address,out_address,verified,state,event_type,trigger_opt
+                     FROM (
+                         select a.time,a.pin,u.name,a.card_no,a.device_name,a.door_name,a.in_address,
+                         a.out_address,a.verified,a.state,a.event_type,a.trigger_opt
+                         from acc_monitor_log a left join userinfo u on a.pin = u.badgenumber 
+                         %s
+                         order by time desc                         
+                     )
+            
+                    AS RECORDS limit %s,%s
+                 "
+     }
+    
+}

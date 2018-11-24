@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Security System Management -&gt; Door Settings</div>
+<div class="help_mainContant">
+  <h2>Door Settings </h2>
+  <br />
+
+  <h3>Door Management</h3>
+  <br />
+  <p><b>Door parameter modification:</b></p>
+  <br />
+  <p> Select the door to be modified, and click [Edit] under “Related operation” to show the Edit interface;</p>
+  <br />
+  <p><b>The fields are as follows: </b></p><br />
+  <p><b>Device Name:</b> It is not editable (need to be edited in <u><a href="device.html">Add Access Control </a></u><a href="device.html">Panel</a>);</p>
+  <br />
+  <p><b>Door Number: </b> <strong></strong>The system automatically names the numbers of doors according to how many doors of the device (for example, the four doors of a four-door control panel are numbered 1, 2, 3 and 4). The number will be consistent with the door number on the device. </p>
+  <br />
+  <p><b>Door Name: </b> The default door name is “device name_door number”. The field allows the user to modify as required. Up to 30 characters can be entered; </p>
+  <br />
+  <p><b>Door Active Time Zone, Normal Open Time Zone:</b>By default either is null. Initialized and added access control time zones will be shown for the user to select. Upon door editing, door valid time zone is needed to input. Only after setting door valid time zone, the door can be opened and closely normally. We recommend to set door normal open time period within the door valid time zone, only in this situation, the door normal open time zone is valid;</p>
+  <br />
+  <p><b>Note: </b> Consecutive punching of a card having access level of the door for 5 times can release the normal open status within one day (including First-Card Normal Open), and close the door immediately. </p>
+  <br />
+  <p><b>Lock Open Duration: </b> Used to control the delay for unlocking after card punching. The unit is second, and the default is 5 seconds. The user can enter a number between 0-254;</p>
+  <br />
+  <p><b>Punch Interval: </b> The unit is second (range: 0-10 seconds), and the default is 2 seconds; </p>
+  <br />
+  <p><b>Door Sensor Type: </b> NO (door sensor not detected), Normal Open, Normal Close. The default is NO. When editing doors, the user can select the door sensor type to be Normal Open or Normal Close. If Normal Open or Normal Close is selected, it is required to select <strong>door status delay</strong> and whether<strong> close and reverse-lock </strong>is required. By default, once door sensor type is set as Normal Open or Normal Close, the default door status delay will be 15s, and by default it will enable close and reverse-lock </p>
+  <br />
+  <p><b>Lock Status Delay:</b> The duration for delayed detection of door sensor after the door is opened. Detection is performed only after the door is opened and the delay duration expired. When the door is not in the “Normally Open” period, and the door is opened, the device will start timing. It will trigger alarm when the delay duration expired, and stop alarm when you close the door. The default door status delay will be 15s. The<strong> door status delay </strong>should be longer than<strong> lock open duration</strong>. </p>
+  <br />
+  <p><b>Close and Reverse-Lock: </b> Set locking or not after door closing. Tick it for lock after door closing. </p>
+  <br />
+  <p><b>Verify Mode:</b> Identification modes include Only Card, Card plus Password, Only Password, Card plus Fingerprint, and Only Fingerprint verify.The default is Only Card or Only Fingerprint. When Card plus Password mode is selected, make sure the door uses a reader with keyboard;</p>
+  <br />
+  <p><b>Duress Password, Emergency Password: </b> Upon duress, use duress password (used with legally card) to open the door. When opening the door with duress password, it will alarm. Upon emergency, the user can use emergency password (named super password)<strong></strong>to open the door. Emergency password allows normal door opening. Emergency password is effective in any time zone and any type of verify mode, usually used for the administrator. </p>
+    <br />
+	<p><b>Duress Password Opening (used with legally card): </b> When Only Card verify mode is used, you need press [ESC] first, and then press the setting password plus [OK] button, finally swipe your card, the door open and trigger the alarm. When Card Plus Password verify mode is used, please swipe your card first, then press the password number plus [OK] button (same to normal door open in card plus password verify mode), the door open and trigger the alarm. </p>
+  <br />
+  <p><b>Emergency Password Opening: </b>The password must be a number not exceeding 8 digits (integer). The door can be opened just by entering the password. Please press [ESC] every time before entering password, and then press OK to execute.</p>
+  <br />
+  <p><b>Apply these settings to all the doors of current access control panel: </b> Click to apply to all doors of the current access control panel; </p>
+  <br /> <br />
+  <p><b>Apply these settings to all the doors of current access control panel: </b> Click to apply to all doors of all access control panels within the current user’s level; </p>
+  <br /><br />
+  <p> After parameter editing, click [OK] to save and quit. <b> </b></p>
+  <br />
+<br />
+
+</div>
+</body>
+</html>

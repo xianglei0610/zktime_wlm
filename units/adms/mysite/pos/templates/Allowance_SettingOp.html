@@ -1,0 +1,50 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+{% endblock %}<!--end of getdatalist-->
+
+<!-- block content, id_main_div 最后加div到block AddDiv，可利用#id_datalist来加载数据## div_box is a import css class-->
+{% block content %}
+
+<div class="form_help">
+			
+			<div id="id_help_text">1、累加：表示以批次号为界，对未下发的批次金额进行累计再下发
+							2、清零：表以每次只下发最后一次补贴金额  </div>
+			
+			<div style="text-align: right;" id="id_help">
+				
+				<a ref="/media/help/zh-cn/pos/Allowance#detail" href="javascript:void(0);"></a>
+
+			</div>
+			<div class="clear"></div>
+			</div>
+<div class="div_box" style="border:none;">
+    <h1>补贴参数设置</h1><!-- title dt_bdiv_tbl -->
+	<form method="post" name="actionForm" action=".">
+		<table style="border-collapse:separate;border-spacing:5px; ">
+			{{ form.as_table }}
+		</table>
+		
+	</form>
+</div>
+
+<div class="editformbtn" style="margin-top:-20px;">	
+			<div class="lineH22 img_padding"><span class="action_OK"></span><a id="id_submit" href="javascript:void(0)" class="Link_blue1">确定</a></div>
+			<div class="lineH22 img_padding"><span class="action_Cancel"></span><a id="Cancel"  href='javascript:void(0)' class="Link_blue1">取消</a></div>
+		</div>
+
+{% endblock %}
+
+{%block addjs%}
+ $("#id_submit").click(function(){
+                        document.actionForm.submit();  
+                        var url="{{dbapp_url}}pos/Allowance/";
+                                    window.location.href=url 
+	        		});
+ $("#Cancel").click(function(){
+ 			var url="{{dbapp_url}}pos/Allowance/";
+            window.location.href=url 
+				});
+{%endblock%}
+

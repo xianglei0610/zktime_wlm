@@ -1,0 +1,70 @@
+{% extends "base_site.html" %}
+
+{% load i18n %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+	<a href="/">{%trans "首页"%}</a> &rsaquo;
+	{%trans "设置配置文件"%}
+</div>
+<div style="float: right; margin: -18px 5px; width: 700px; text-align: right;"><span style="margin-right: 150px;">{% version %}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<form action="/i18n/setlang/" method="post" style="float: right; margin-top: -19px; display: block;">
+<select name="language" style="padding: 0px; padding-left: 5px;" onchange="if(this.value!='0') this.form.submit()">
+<option value="0" selected>{% trans '语言选择' %}</option>
+{% for lang in LANGUAGES %}
+<option value="{{ lang.0 }}">{{ lang.1 }}</option>
+{% endfor %}
+</select>
+</form>
+</div>
+<br/><br/><h1>&nbsp;&nbsp;&nbsp;{%trans "设置配置文件"%}</h1>
+{% endblock %}
+
+{% block extrahead %}
+<link href="/media/css/forms.css" type="text/css" rel="stylesheet">
+<style>
+</style>
+<script src="{{ MEDIA_URL }}/jslib/pg.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<br />
+<form id="form1" action="" method="POST" enctype="multipart/form-data">
+<table width="800px" border="1">
+<tr><th>{% trans "WEB端口:" %}</th><td><input type="text" name="WebPort"  value="{{WebPort}}"></td></tr>
+<tr><th>{% trans "数据库引擎:" %}</th><td><select name="DbEngine" size=1 style="padding: 0px; padding-left: 5px;" >
+{% for engine in DBEC %}
+<option value="{{ engine }}" {% ifequal engine DbEngine %} selected="selected" {% endifequal %}>{{ engine }}</option>
+{% endfor %}
+</select></td></tr>
+<tr><th>{% trans "数据库名称:" %}</th><td><input type="text" name="DatabaseName"  value="{{DatabaseName}}"></td></tr>
+<tr><th>{% trans "数据库用户名:" %}</th><td><input type="text" name="DatabaseUser"  value="{{DatabaseUser}}"></td></tr>
+<tr><th>{% trans "数据库密码:" %}</th><td><input type="text" name="DatabasePassword" value="{{DatabasePassword}}"></td></tr>
+<tr><th>{% trans "数据库端口:" %}</th><td><input type="text" name="DatabasePort"  value="{{DatabasePort}}"></td></tr>
+<tr><th>{% trans "数据库地址:" %}</th><td><input type="text" name="DatabaseHost"  value="{{DatabaseHost}}"></td></tr>
+<tr><th>{% trans "考勤号码长度:" %}</th><td><input type="text" name="PIN_WIDTH"  value="{{PIN_WIDTH}}"></td></tr>
+<tr><th>{% trans "加密:"" %}</th><td><select name="ENCRYPT" size=1 style="padding: 0px; padding-left: 5px;" >
+{% for encryp in YN %}
+<option value="{{ encryp.0 }}" {% ifequal encryp.0  ENCRYPT %}  selected="selected" {{encryp.1}} {% endifequal %}>{{ encryp.1 }}</option>
+{% endfor %}
+</select></td></tr>
+<tr><th>{% trans "每页长度:" %}</th><td><input type="text" name="PAGE_LIMIT"  value="{{PAGE_LIMIT}}"></td></tr>
+<tr><th>{% trans "实时:" %}</th><td><select name="REALTIME" size=1 style="padding: 0px; padding-left: 5px;" >
+{% for realtime in YN %}
+<option value="{{ realtime.0 }}" {% ifequal realtime.0 REALTIME %} selected="selected" {{realtime.1}}  {% endifequal %}>{{ realtime.1 }}</option>
+{% endfor %}
+</select></td></tr>
+<tr><th>{% trans "自动注册:" %}</th><td><select name="AUTO_REG" size=1 style="padding: 0px; padding-left: 5px;" >
+{% for auto_reg in YN %}
+<option value="{{ auto_reg.0 }}" {% ifequal auto_reg.0 AUTO_REG %} selected="selected" {{auto_reg.1}} {% endifequal %}>{{ auto_reg.1 }}</option>
+{% endfor %}
+</select></td></tr>
+<tr ><th>&nbsp;&nbsp;</th>
+<tr ><th>&nbsp;&nbsp;</th>
+<td><input type="submit" value="{%trans "提交"%}"> &nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="submit" value="{%trans "返回"%}" onclick="window.history.back(); return false;"></td>
+</tr>
+</table>
+</form>
+{% endblock %}
+

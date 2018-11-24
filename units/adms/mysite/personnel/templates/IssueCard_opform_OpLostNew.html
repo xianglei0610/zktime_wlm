@@ -1,0 +1,212 @@
+<OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+</OBJECT>
+
+<COMMENT style="display:None">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+        codebase="ZKOnline.ocx"                
+        
+    </EMBED>
+</COMMENT>
+
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script src="{{ MEDIA_URL }}/jslib/datalist.js"></script>
+{% endblock %}
+
+    {% block edit_buttons %}
+    {% if "POS_IC"|filter_config_option %}
+    {% autoescape off %} 
+    <input type="hidden" id="id_password"   value="{% get_system_pwd request.session %}"> </input>
+    <input type="hidden" id="id_main_fan"   value="{% get_main_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_minor_fan"  value="{% get_minor_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_max_money"  value="{% get_max_money request.session %}"> </input>
+    <input type="hidden" id="operate_type" name="operate_type"   value="12"> </input>
+    <tr><td><input type="hidden" id="card_serial_no" name="card_serial_no"   value="1"> </input></td></tr>
+
+    
+    <div class="editformbtn" style="display:none">
+        <div class="lineH22 img_padding"><span class="action_OK"></span><a id="OK" href="javascript:void(0)" class="Link_blue1">确定</a></div>
+        <div class="lineH22 img_padding"><span class="action_Cancel"></span><a id="Cancel" href="javascript:void(0)" class="Link_blue1">取消</a></div>
+    </div>
+    <div class="editformbtn">
+        <button type="button" style="color: rgb(136, 136, 136)"  id="read_card">换卡</button>
+        <button type="button"  id="btnclose" onclick ="from_close();">关闭</button>
+    </div>
+    {% endautoescape %}
+    {%endif%}
+    {% endblock %}
+
+{% block addjs %}
+{% if "POS"|filter_config_option %}
+    {% if "POS_IC"|filter_config_option %}
+    $('#id_edit_form').validate({
+                                          rules: {
+                                              "card_cost": {required:true,min:0.0,max:999,maxlength:8,isMoney:true},
+                                              "mng_cost": {required:true,min:0.0,max:999,maxlength:8,isMoney:true},
+                                              "Password": {required:true,"maxlength":6}
+                                          }
+                              });
+    
+        //获取系统参数值
+        $(".tbl_data_edit>tbody>tr").eq(6).hide()
+        $(".tbl_data_edit>tbody>tr").eq(11).hide()
+        $(".tbl_data_edit>tbody>tr").eq(12).hide()
+        $(".tbl_data_edit>tbody>tr").eq(13).hide()
+        $(".tbl_data_edit>tbody>tr").eq(14).hide()
+        $(".tbl_data_edit>tbody>tr").eq(15).hide()
+        var sys_pwd = $("#id_password").val();
+        var main_fan = $("#id_main_fan").val();
+        var minor_fan = $("#id_minor_fan").val();
+        var max_money = $("#id_max_money").val();
+        $(function(){
+            $("#id_cardtype option[value='']").remove();
+            $('#id_blance').attr("readonly","true");
+            $('#id_blance').css("backgroundColor","scrollbar");
+            $('#id_labor').attr("readonly","true");
+            $('#id_labor').css("backgroundColor","scrollbar");
+            $('#id_name').attr("readonly","true");
+            $('#id_name').css("backgroundColor","scrollbar");
+            $('#id_old_sys_card_no').attr("readonly","true");
+            $('#id_old_sys_card_no').css("backgroundColor","scrollbar");
+            $('#id_sys_card_no').attr("readonly","true");
+            $('#id_sys_card_no').css("backgroundColor","scrollbar");
+            var sys_card_no = {% get_cardserial_from_txt %};
+            $("#id_sys_card_no").val(sys_card_no);
+            card_change();
+     })
+    {%else%}
+        $(function(){
+               $("#id_cardtype option[value='']").remove();
+               $('#id_blance').attr("readonly","true");
+//               $('#id_card_cost').attr("readonly","true");
+//               $('#id_mng_cost').attr("readonly","true");
+//               $('#id_card_cost').css("backgroundColor","scrollbar");
+               $('#id_blance').css("backgroundColor","scrollbar");
+//               $('#id_mng_cost').css("backgroundColor","scrollbar");
+               $(".tbl_data_edit>tbody>tr").eq(2).hide()
+                $(".tbl_data_edit>tbody>tr").eq(3).hide()
+                $(".tbl_data_edit>tbody>tr").eq(4).hide()
+                $(".tbl_data_edit>tbody>tr").eq(5).hide()
+                $(".tbl_data_edit>tbody>tr").eq(8).hide()
+                $(".tbl_data_edit>tbody>tr").eq(11).hide()
+                $(".tbl_data_edit>tbody>tr").eq(12).hide()
+                $(".tbl_data_edit>tbody>tr").eq(13).hide()
+                $(".tbl_data_edit>tbody>tr").eq(14).hide()
+                $(".tbl_data_edit>tbody>tr").eq(15).hide()
+               
+        })
+    {%endif%}
+ function card_change()
+ {   
+     var card_no = $("#id_card").val();
+     if(isOnline()){
+         $("#read_card").click(function() {
+             if(funValidCard())
+                {
+                    reval = readCard();
+                     if (reval.length>4)
+                        {   
+                            $("#id_cardno").val(reval);
+                            write_card();
+                        }
+                     else
+                        {
+                            check_card(reval);
+                        }
+                }
+            });
+     }
+ }
+ 
+ 
+ function write_card()
+     {
+         if ($('#id_edit_form').valid())
+         {
+             if ($("#id_cardno").val() == reval )//验证卡号是否一致
+             {
+                 var rinfo = isEmptyCard();//验证卡是否为空白卡
+                 var m = 0;//写卡金额
+                 if (!rinfo)
+                 {   
+                     $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>这不是一张空白卡，不能发卡！请先初始化卡！</li></ul></div>');
+                     return;
+                 }
+                 else if(typeof(rinfo) != "boolean")
+                 {
+                    check_card(rinfo);
+                 }
+                 else
+                 {
+                     if(funSaveAddCardBakData())//第一次写卡时先往备份表插入一条记录
+                     { 
+                         var pwdbyte = stringToBytes(sys_pwd);//系统密码
+                         var cardno = $("#id_sys_card_no").val();//卡编号
+                         var cardtype = $("#id_type").val();//卡类型
+                         var overpwd = $("#id_Password").val();
+                         var money = 0
+                         var rval = zkonline.ZK_PosIssueICCard(0,pwdbyte,overpwd,cardno,0,cardtype,2,main_fan,minor_fan);
+                         if (rval.toString() == '0')//写卡成功
+                         {
+                             if(isvild_write_Add_card(0,0,0,0))//验证写卡数据是否正确
+                             {
+                                 if (funSaveIssuecardData())
+                                 {
+                                     //保存数据到系统
+                                     $("#id_info").remove();                
+                                     $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="successlist"><li>换卡成功</li></ul></div>');      
+                                 }
+                                 else
+                                 {
+                                     zkonline.ZK_PosClearICCard(0,stringToBytes(sys_pwd),main_fan,minor_fan)
+                                     $("#id_info").remove();                
+                                     $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>换卡失败</li></ul></div>');
+                                     
+                                 }
+                             }
+                             else
+                             {
+                                $("#id_info").remove();                
+                                $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>换卡失败</li></ul></div>');                             
+                             }
+                         }
+                         else
+                         {
+                             check_card(rval);
+                         }
+                     }
+//                    else
+//                    {
+//                        $("#id_info").remove();                
+//                        $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>系统错误，换卡失败</li></ul></div>');                      
+//                    }
+                 }
+             }
+             else
+             {
+                  $("#id_info").remove();                
+                  $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡号不一致，换卡失败！</li></ul></div>');                
+                  
+             }
+         }
+     }
+{%else%}
+    $(".tbl_data_edit>tbody>tr").eq(7).hide()
+    $(".tbl_data_edit>tbody>tr").eq(8).hide()
+    $(".tbl_data_edit>tbody>tr").eq(9).hide()    
+    $(".tbl_data_edit>tbody>tr").eq(2).hide()
+    $(".tbl_data_edit>tbody>tr").eq(3).hide()
+    $(".tbl_data_edit>tbody>tr").eq(4).hide()
+    $(".tbl_data_edit>tbody>tr").eq(5).hide()
+    $(".tbl_data_edit>tbody>tr").eq(10).hide()
+    $(".tbl_data_edit>tbody>tr").eq(11).hide()
+    $(".tbl_data_edit>tbody>tr").eq(12).hide()
+    $(".tbl_data_edit>tbody>tr").eq(13).hide()
+    $(".tbl_data_edit>tbody>tr").eq(14).hide()
+    $(".tbl_data_edit>tbody>tr").eq(15).hide()
+    
+{%endif%}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+    {%if "POS_IC"|filter_config_option%}
+            $("#page_help").attr("href",$("#page_help").attr("href").replace("meal","ic_mealpage"));
+            $(".tbl_data_edit>tbody>tr").eq(4).hide()
+        {%else%}
+            $("#page_help").attr("href",$("#page_help").attr("href").replace("meal","mealpage"));
+        {%endif%}
+    
+    $('#id_edit_form').validate({
+        	                        rules: {
+        	                            "money": {required:true,min:0,max:9999,"maxlength":8,isMoney:true}
+                                        }
+                                    }
+        	            );
+    
+})
+{% endblock %}

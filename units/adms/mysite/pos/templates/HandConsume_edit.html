@@ -1,0 +1,343 @@
+<OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+</OBJECT>
+
+<COMMENT style="display:None">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+        codebase="ZKOnline.ocx"                
+        
+    </EMBED>
+</COMMENT>
+
+
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %} 
+<tr><td>
+  <table  id="id_hand"width="100%" border="0" cellspacing="0" cellpadding="3">
+        {% if "POS_IC"|filter_config_option %}
+                <tr>
+                    {{form.sys_card_no|field_as_td_h}}
+                    <td  >{{form.sys_card_no.errors }}</td>
+                <tr>  
+        {% endif %}
+        
+        <tr>
+           {{form.card|field_as_td_h}}
+             <td >{{form.card.errors }}</td>
+        </tr>
+        <tr>
+           {{form.name|field_as_td_h}}
+             <td >{{form.name.errors }}</td>
+        </tr>
+        <tr>
+                   {{form.labor|field_as_td_h}}
+                     <td >{{form.labor.errors }}</td>
+                </tr>
+        
+        <tr>
+            {{form.blance|field_as_td_h}}
+            <td  >{{form.blance.errors }}</td>
+        <tr>  
+        {% if "POS_IC"|filter_config_option %}
+        
+        <tr>
+                    {{form.card_serial_no|field_as_td_h}}
+                    <td  >{{form.card_serial_no.errors }}</td>
+                <tr> 
+        
+        {% endif %}
+        <tr>
+             {{form.meal|field_as_td_h}}
+             <td>{{form.meal.errors }}</td>
+        <tr>
+        
+        <tr>
+           {{form.date|field_as_td_h}}
+           <td  >{{form.date.errors }}</td>
+        <tr>
+
+        <tr>
+           {{form.money|field_as_td_h}}
+           <td  >{{form.money.errors }}</td> 
+        </tr>
+       
+        
+        <tr>
+            {{form.posdevice|field_as_td_h}}
+            <td  >{{form.posdevice.errors }}</td>
+        <tr>
+
+   
+    
+
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+<div id="id_info"></div>
+{% if "POS_IC"|filter_config_option %}
+    <tr><td><input type="hidden" id="operate_type" name="operate_type"   value="8"> </input></td></tr>
+    <input type="hidden" id="id_password"   value="{% get_system_pwd request.session %}"> </input>
+    <input type="hidden" id="id_main_fan"   value="{% get_main_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_minor_fan"  value="{% get_minor_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_max_money"  value="{% get_max_money request.session %}"> </input>
+{% endif %}
+  </table>
+</td></tr>
+
+{% endautoescape %}
+{% endblock %}
+{% block edit_buttons %}
+
+   {% if "POS_IC"|filter_config_option %}
+           <div class="editformbtn" style="display:none">
+               <div class="lineH22 img_padding"><span class="action_OK"></span><a id="OK" href="javascript:void(0)" class="Link_blue1">确定</a></div>
+               <div class="lineH22 img_padding"><span class="action_Cancel"></span><a id="Cancel" href="javascript:void(0)" class="Link_blue1">取消</a></div>
+           </div>
+           <div class="editformbtn">
+               <button type="button" disabled="disabled" style="color: rgb(136, 136, 136)"  id="read_card">读卡</button>
+               <button type="button" disabled="disabled" style="color: rgb(136, 136, 136)"  id="btn_Reim">补单</button>
+               <button type="button"  id="btnclose" onclick ="from_close();">关闭</button>
+           </div>
+   {%endif%}
+   {% endblock %}
+
+{% block addjs %}
+$('#id_edit_form').validate({
+        	                        rules: {
+        	                            "money": {required:true,min:0.1,max:9999,"maxlength":8,isMoney:true},
+                                         "posdevice": {required:true},
+                                        "card": {required:true}
+                                        },
+                                        errorPlacement: function(error, element) {
+                                               var ele_id = element.attr("id")
+                                               if ( ele_id == "id_drop_dept" )
+                                                   error.appendTo (element.next());
+                                               else
+                                                   error.appendTo (element.parent());
+                                           }
+                                        
+                                    });
+
+{% if "POS_IC"|filter_config_option %}
+    var sys_pwd = $("#id_password").val();
+    var main_fan = $("#id_main_fan").val();
+    var minor_fan = $("#id_minor_fan").val();
+    var max_money = $("#id_max_money").val();
+{%endif%}
+$(function(){
+    
+    {% if "POS_ID"|filter_config_option %}
+        $("#id_hand>tbody>tr>th>label").eq(0).addClass("required");
+        $('#id_name').attr("readonly","true");
+        $('#id_name').css("backgroundColor","scrollbar");
+        $('#id_labor').attr("readonly","true");
+        $('#id_labor').css("backgroundColor","scrollbar");
+        
+        $('#id_blance').attr("readonly","true");
+        $('#id_blance').css("backgroundColor","scrollbar");
+        
+        $("#id_card").change(function(){
+           var card = $("#id_card").val();
+           get_card_number(card,"");
+        });
+        
+    {%endif%}
+        $("#dropMeal").parent().css({position:"relative","z-index":"4"});
+        $("#dropDevice").parent().css({position:"relative","z-index":"3"});
+        {% if "POS_IC"|filter_config_option %}
+            $('#id_blance').attr("readonly","true");
+            $('#id_blance').css("backgroundColor","scrollbar");
+            $('#id_sys_card_no').attr("readonly","true");
+            $('#id_sys_card_no').css("backgroundColor","scrollbar");
+            $('#id_card').attr("readonly","true");
+            $('#id_card').css("backgroundColor","scrollbar");
+            $('#id_name').attr("readonly","true");
+            $('#id_name').css("backgroundColor","scrollbar");
+            $('#id_card_serial_no').attr("readonly","true");
+            $('#id_card_serial_no').css("backgroundColor","scrollbar");
+            $('#id_labor').attr("readonly","true");
+            $('#id_labor').css("backgroundColor","scrollbar");
+            
+            $("#page_help").attr("href",$("#page_help").attr("href").replace("handconsume","ic_handconsume"));
+            
+            
+            
+            if(isOnline()){
+                    $("#read_card").click(function() {
+                        var reval = readCard();
+                        if (reval.length>4)
+                           {
+                               $("#id_card").val(reval);
+                               var cardInfo = zkonline.ZK_PosReadICCard(0,stringToBytes(sys_pwd),main_fan,minor_fan).split(',');
+                                if (cardInfo.length >1)
+                                    {
+                                      var sys_card_no = cardInfo[1].split('=')[1];
+                                      get_card_number(sys_card_no,cardInfo);
+                                    }
+                                else
+                                    {check_card(cardInfo);}
+                               
+                           }
+                        else
+                           {
+                               check_card(reval);
+                           }
+                   });
+                
+                    $("#btn_Reim").click(function() {
+                        card_reimburse();
+                    });
+                }
+            
+        {%endif%}
+});
+
+
+function card_reimburse()
+{   
+    var card_no = $("#id_card").val();
+    if(isOnline()){
+     if ($('#id_edit_form').valid())
+        {
+            var et=new Date($("#id_date").val().replace(/-/g,"/"))
+            if(et>new Date())
+            {
+                alert(gettext("消费时间不能大于当前时间"));
+                return false;
+            }
+            var reval = readCard();
+            if (reval.length>4)
+              {
+                if(card_no == reval )
+                {
+                  var m = parseFloat($("#id_money").val());
+                  var reimburse_blance =  parseFloat($("#id_blance").val()) - m ;//补单后金额
+                  reimburse_blance=Math.round(reimburse_blance * 100) / 100; 
+                  if (reimburse_blance > 0)
+                 {
+                      if(funSaveBakData()) //第一次写卡时先往备份表插入一条记录
+                        {
+                          var rval = writeICMoney(0,stringToBytes(sys_pwd),-m*100,0,main_fan,minor_fan); //写卡数据           
+                          if (rval.toString() == '0')//补单写卡成功
+                              {
+//                                $('#id_reimburse_blance').val(reimburse_blance); 
+                                //验证写卡数据是否通过 没有通过则自动纠错 
+                                if(isvild_write_card($('#id_card_serial_no').val(),-m*100,reimburse_blance*100,Number($("#id_blance").val())*100))
+                                    {
+                                        if(funSaveData())//补单成功保存数据
+                                        {
+                                            $("#id_info").remove();                
+                                            $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="successlist"><li>补单成功</li></ul></div>');      
+                                            $("#btn_Reim").attr("disabled","disabled");
+                                        }
+                                        else
+                                        {
+                                            $("#btn_Reim").attr("disabled","disabled");
+                                            var rval = writeICMoney(0,stringToBytes(sys_pwd),m*100,0,main_fan,minor_fan); //写卡数据
+                                        }    
+                                    }      
+                                else
+                                    {
+                                        $("#btn_Reim").attr("disabled","disabled");
+                                        $("#id_info").remove();                
+                                        $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>补单失败</li></ul></div>');                             
+                                    }
+                              }
+                          else
+                             {
+                                check_card(reval);
+                             }
+                        }
+                    }
+                    else
+                    {
+                        $("#id_money").val(0);
+                        $("#id_info").remove();                
+                        $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>余额不足！补单失败！</li></ul></div>');                
+                    }
+                }
+                else
+                {
+                    $("#id_info").remove();                
+                    $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡号不一致，补单失败！</li></ul></div>');                
+                }
+              }
+           else
+              {
+                  check_card(reval);
+              }
+            }
+    }
+}
+
+
+
+
+function get_card_number(sys_card_no,cardInfo){
+    $("#id_info").remove();
+    var p_url= "/{{request.surl}}personnel/get_issuecard_info/?cardno="+sys_card_no+"";
+    {% if "POS_ID"|filter_config_option %}
+      p_url= "/{{request.surl}}personnel/get_issuecard_info/?cardno="+parseFloat(sys_card_no)+"";
+    {%endif%}
+	$.ajax({
+		url:p_url,
+		dataType:"json",
+		type:"POST",
+		success:function(data){
+			if(data.ret == 1)
+			{
+                {% if "POS_IC"|filter_config_option %}
+                    if (cardInfo[4].split('=')[1] != '255')//管理卡
+                    {
+    //                    var cardInfo = zkonline.ZK_PosReadICCard(0,stringToBytes(sys_pwd),main_fan,minor_fan).split(',');
+    //                    alert(cardInfo);
+                        $("#id_labor").val(data.user_pin);
+                        $("#id_sys_card_no").val(cardInfo[1].split('=')[1]);
+                        $("#id_name").val(data.user_name);
+                        $("#id_blance").val(Number(cardInfo[6].split('=')[1]) / 100);
+                        $("#id_card_serial_no").val(cardInfo[7].split('=')[1]);
+                        var card_status = data.cardstatus;
+                        if (Number(max_money) > Number($("#id_blance").val()))
+                        {
+                            if (page_valid(card_status))
+                              {
+                                   $("#btn_Reim").attr("disabled","");
+                                   $("#btn_Reim").attr('style','none');
+                              }
+                        }
+                        else
+                           {
+                               $("#id_info").remove();   
+                               $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡上金额超出卡最大金额该卡为异常卡！操作失败！</li></ul></div>');
+                           } 
+                     }
+                    else
+                       {
+                           $("#id_info").remove();   
+                           $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>当前操作卡片为管理卡，操作失败！</li></ul></div>');
+                       } 
+                
+                {%endif%}
+                {% if "POS_ID"|filter_config_option %}
+                    $("#id_labor").val(data.user_pin);
+                    $("#id_name").val(data.user_name);
+                    $("#id_blance").val(data.blance);
+                {%endif%}
+                
+			}
+            else
+            { 
+                $("#id_labor").val("");
+                $("#id_name").val("");
+                $("#id_blances").val("");
+                $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡号不存在</li></ul></div>');
+            }
+
+		}
+	});
+}
+
+{% endblock %}

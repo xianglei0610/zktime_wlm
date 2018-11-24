@@ -1,0 +1,232 @@
+2014-01-17 11:30:55.761000 AutoCalculate [pid:6068] start
+soft key LastError -92
+2014-01-17 11:30:59.442000 AutoCalculate [pid:0] be stoped
+
+
+2014-01-17 11:31:07.757000 AutoCalculate [pid:10052] start
+soft key LastError -92
+2014-01-17 11:31:24.889000 AutoCalculate [pid:0] be stoped
+
+
+2014-01-17 11:31:29.538000 AutoCalculate [pid:6736] start
+soft key LastError -92
+2014-01-17 11:32:18.571000 AutoCalculate [pid:0] be stoped
+
+
+2014-01-17 11:32:23.532000 AutoCalculate [pid:8448] start
+soft key LastError -92
+2014-01-17 11:32:27.853000 AutoCalculate [pid:0] be stoped
+
+
+2014-01-17 11:32:52.408000 AutoCalculate [pid:9740] start
+soft key LastError -92
+2014-01-17 15:36:01.916000 AutoCalculate [pid:0] be stoped
+
+
+2014-01-21 17:12:36.868000 AutoCalculate [pid:9044] start
+soft key LastError -92
+2014-01-21 17:14:50.276000 AutoCalculate [pid:4644] start
+soft key LastError 0
+2014-01-21 17:21:11.705000 AutoCalculate [pid:4948] start
+soft key LastError 0
+2014-01-21 17:23:45.755000 AutoCalculate [pid:8708] start
+soft key LastError 0
+2014-01-21 17:29:19.524000 AutoCalculate [pid:5704] start
+soft key LastError 0
+2014-01-21 17:34:24.664000 AutoCalculate [pid:8960] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+    utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+    self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+    output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\management\commands\autocalculate.py", line 23, in handle
+    auto_calculate(True)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\calculate\main_calculate.py", line 62, in auto_calculate
+    for obj in objs:
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 104, in _result_iter
+    self._fill_cache()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 755, in _fill_cache
+    self._result_cache.append(self._iter.next())
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 267, in iterator
+    for row in compiler.results_iter():
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 672, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 726, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\__init__.py", line 75, in cursor
+    cursor = self._cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\base.py", line 144, in _cursor
+    self.command_timeout
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 131, in connect
+    raise OperationalError(e, "Error opening connection: " + connection_string)
+OperationalError: (com_error(-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u'\u65e0\u6cd5\u6253\u5f00\u767b\u5f55\u6240\u8bf7\u6c42\u7684\u6570\u636e\u5e93 "zktime8.5_0121"\u3002\u767b\u5f55\u5931\u8d25\u3002', None, 0, -2147467259), None), 'Error opening connection: PROVIDER=SQLOLEDB;DATA SOURCE=192.168.10.28;Initial Catalog=zktime8.5_0121;UID=sa;PWD=root')
+
+2014-01-21 17:34:38.972000 AutoCalculate [pid:8960] exit
+2014-01-21 17:34:38.972000 AutoCalculate [pid:8960] auto start
+2014-01-21 17:34:39.113000 AutoCalculate [pid:10816] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+    utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+    self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+    output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\management\commands\autocalculate.py", line 23, in handle
+    auto_calculate(True)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\calculate\main_calculate.py", line 62, in auto_calculate
+    for obj in objs:
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 104, in _result_iter
+    self._fill_cache()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 755, in _fill_cache
+    self._result_cache.append(self._iter.next())
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 267, in iterator
+    for row in compiler.results_iter():
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 672, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 726, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\__init__.py", line 75, in cursor
+    cursor = self._cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\base.py", line 144, in _cursor
+    self.command_timeout
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 131, in connect
+    raise OperationalError(e, "Error opening connection: " + connection_string)
+OperationalError: (com_error(-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u'\u65e0\u6cd5\u6253\u5f00\u767b\u5f55\u6240\u8bf7\u6c42\u7684\u6570\u636e\u5e93 "zktime8.5_0121"\u3002\u767b\u5f55\u5931\u8d25\u3002', None, 0, -2147467259), None), 'Error opening connection: PROVIDER=SQLOLEDB;DATA SOURCE=192.168.10.28;Initial Catalog=zktime8.5_0121;UID=sa;PWD=root')
+
+2014-01-21 17:34:46.170000 AutoCalculate [pid:10816] exit
+2014-01-21 17:34:46.170000 AutoCalculate [pid:10816] auto start
+2014-01-21 17:34:46.320000 AutoCalculate [pid:11064] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+    utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+    self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+    output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\management\commands\autocalculate.py", line 23, in handle
+    auto_calculate(True)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\calculate\main_calculate.py", line 62, in auto_calculate
+    for obj in objs:
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 104, in _result_iter
+    self._fill_cache()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 755, in _fill_cache
+    self._result_cache.append(self._iter.next())
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 267, in iterator
+    for row in compiler.results_iter():
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 672, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 726, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\__init__.py", line 75, in cursor
+    cursor = self._cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\base.py", line 144, in _cursor
+    self.command_timeout
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 131, in connect
+    raise OperationalError(e, "Error opening connection: " + connection_string)
+OperationalError: (com_error(-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u'\u65e0\u6cd5\u6253\u5f00\u767b\u5f55\u6240\u8bf7\u6c42\u7684\u6570\u636e\u5e93 "zktime8.5_0121"\u3002\u767b\u5f55\u5931\u8d25\u3002', None, 0, -2147467259), None), 'Error opening connection: PROVIDER=SQLOLEDB;DATA SOURCE=192.168.10.28;Initial Catalog=zktime8.5_0121;UID=sa;PWD=root')
+
+2014-01-21 17:34:52.012000 AutoCalculate [pid:11064] exit
+2014-01-21 17:34:52.012000 AutoCalculate [pid:11064] auto start
+2014-01-21 17:34:52.165000 AutoCalculate [pid:5124] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+    utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+    self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+    output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\management\commands\autocalculate.py", line 23, in handle
+    auto_calculate(True)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\calculate\main_calculate.py", line 62, in auto_calculate
+    for obj in objs:
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 104, in _result_iter
+    self._fill_cache()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 755, in _fill_cache
+    self._result_cache.append(self._iter.next())
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 267, in iterator
+    for row in compiler.results_iter():
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 672, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 726, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\__init__.py", line 75, in cursor
+    cursor = self._cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\base.py", line 144, in _cursor
+    self.command_timeout
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 131, in connect
+    raise OperationalError(e, "Error opening connection: " + connection_string)
+OperationalError: (com_error(-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u'\u65e0\u6cd5\u6253\u5f00\u767b\u5f55\u6240\u8bf7\u6c42\u7684\u6570\u636e\u5e93 "zktime8.5_0121"\u3002\u767b\u5f55\u5931\u8d25\u3002', None, 0, -2147467259), None), 'Error opening connection: PROVIDER=SQLOLEDB;DATA SOURCE=192.168.10.28;Initial Catalog=zktime8.5_0121;UID=sa;PWD=root')
+
+
+2014-01-21 17:34:56.794000 AutoCalculate [pid:5124] exit
+2014-01-21 17:34:56.794000 AutoCalculate [pid:5124] auto start
+2014-01-21 17:34:56.973000 AutoCalculate [pid:10900] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+    utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+    self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+    output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\management\commands\autocalculate.py", line 23, in handle
+    auto_calculate(True)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\calculate\main_calculate.py", line 62, in auto_calculate
+    for obj in objs:
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 104, in _result_iter
+    self._fill_cache()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 755, in _fill_cache
+    self._result_cache.append(self._iter.next())
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 267, in iterator
+    for row in compiler.results_iter():
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 672, in results_iter
+    for rows in self.execute_sql(MULTI):
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 726, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\__init__.py", line 75, in cursor
+    cursor = self._cursor()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\base.py", line 144, in _cursor
+    self.command_timeout
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 131, in connect
+    raise OperationalError(e, "Error opening connection: " + connection_string)
+OperationalError: (com_error(-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u'\u65e0\u6cd5\u6253\u5f00\u767b\u5f55\u6240\u8bf7\u6c42\u7684\u6570\u636e\u5e93 "zktime8.5_0121"\u3002\u767b\u5f55\u5931\u8d25\u3002', None, 0, -2147467259), None), 'Error opening connection: PROVIDER=SQLOLEDB;DATA SOURCE=127.0.0.1;Initial Catalog=zktime8.5_0121;UID=sa;PWD=root')
+
+
+2014-01-21 17:37:44.804000 AutoCalculate [pid:5896] start
+soft key LastError 0
+2014-01-21 17:47:55.108000 AutoCalculate [pid:9484] start
+soft key LastError 0
+2014-01-21 17:48:53.714000 AutoCalculate [pid:4592] start
+soft key LastError 0
+2014-01-21 20:26:14.607000 AutoCalculate [pid:2092] start
+soft key LastError 0
+2014-01-21 21:08:12.071000 AutoCalculate [pid:1464] start
+soft key LastError -92
+2014-01-21 21:08:39.766000 AutoCalculate [pid:8020] start
+soft key LastError -92

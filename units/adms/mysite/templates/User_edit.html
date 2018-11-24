@@ -1,0 +1,400 @@
+<OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+   </OBJECT>
+   <COMMENT style="display:None">
+       <EMBED type="application/x-eskerplus"
+           classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"        
+           codebase="ZKOnline.ocx"                          
+       </EMBED>
+   </COMMENT>
+
+
+{% extends "data_edit.html" %}
+
+
+{% load i18n %}
+{% block form %}
+    {% autoescape off %} 
+    <tr>{{ form.as_table }}</tr>        
+    {% endautoescape %} 
+    {%if "USER_FINGER_LOGIN"|filter_config_option %}
+    <tr>
+        <th><lable class="required">{% trans "用户指纹登记:" %}</label></th>
+        <td class="floatL Link_blue1" style="width:150px"><a href="javascript:void(0)" id="id_fp_register" onclick="userRegsFp()">{% trans '指纹登记'%}</a></td>
+        <td id="div_id_finngerT" class="floatL" ></td>
+    </tr>
+    <tr>
+        <input type="hidden" id="id_finnger" name="finnger" alt="" value=""></input>
+        <input type="hidden" id="id_template" name="template" alt="" value=""></input>
+        <input type="hidden" id="id_finnger10" name="finnger10" alt="" value=""></input>
+        <input type="hidden" id="id_template10" name="template10" alt="" value=""></input>
+        <input type="hidden" id="id_delfp" name="delfp" alt="" value=""></input>
+        <input type="hidden" id="id_actflag" name="actflag" alt="" value=""></input>
+    </tr>
+    {% endif %}
+    <script type="text/javascript">
+        if(!$.browser.msie){
+            $("#id_fp_register").attr({disabled:"true", title: "{% trans '登记指纹功能只支持IE浏览器' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function(){
+            });
+        }
+        else
+        {
+            var flag = false;
+            for(var i in zkonline)
+            {
+                if(i == "FPEngineVersion")
+                {
+                   flag = true;
+                }
+            } 
+            if(!flag)
+            {
+                 $("#id_fp_register").attr({disabled:"true", title: "{% trans '请安装指纹仪驱动' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function()
+                 {
+                 });      
+            }
+        }
+    </script>
+    
+{% endblock %}
+
+{% load i18n %}
+
+{% block addjs %}
+{% if "ONLY_POS"|filter_config_option %}
+    $(function(){
+       $(".tbl_data_edit>tbody>tr").eq(8).hide()
+    })
+  {%endif%}
+flag={% if request.user.is_superuser %}true{% else %}false{% endif %}
+function toggleShowPwd(show)
+{
+	if(show)
+	{
+		$('#id_ResetPassword').parent().parent().show();
+		$('#id_Password').parent().parent().show();
+		$('#id_ResetPassword').val('');
+		$('#id_Password').val('');
+	}
+	else
+	{
+		$('#id_ResetPassword').parent().parent().hide();
+		$('#id_Password').parent().parent().hide();
+		$('#id_ResetPassword').val('111111');
+		$('#id_Password').val('111111');
+	}
+}
+
+function toggleShowSuper(show)
+{
+
+	var dept=$('#id_AuthedDept')
+	if(show)
+	{
+        
+		$('#id_groups').parent().parent().show();
+		$('#id_AuthedArea').parent().parent().parent().parent().parent().show()
+		$('#id_AuthedDept').parent().parent().parent().parent().parent().show()
+	}
+	else
+	{	
+        //alert($('#id_groups').parent().parent().val()+"false");	
+		$('#id_groups').parent().parent().hide();
+		$('#id_AuthedDept').parent().parent().parent().parent().parent().hide()
+		$('#id_AuthedArea').parent().parent().parent().parent().parent().hide()		
+	}
+}
+
+//登记用户的指纹
+function userRegsFp()
+{
+    if(!$.browser.msie)
+    {
+       return false;
+    } 
+    var flag = false;
+    for(var i in zkonline)
+    {
+       if(i == "FPEngineVersion")
+       {
+          flag = true;
+       }
+    } 
+
+    if(!flag)
+    {
+      return false;
+    }
+
+	var tmpadd="";
+    var tfids=$("#id_fpidnum"+tmpadd).val();
+	var fp=$("#id_finnger"+tmpadd).val();
+	var oldidscount=0;
+	var tmp=0;
+    $("#id_actflag").val('delete');
+	if(tfids!="" || fp!="")
+	{
+	    var te=tfids+","+fp;
+	    if(te.substr(0,1)==",")
+	    {
+	        te=te.substr(1);
+	    }    
+	    if(te.substr(te.length-1,1)==",")
+	    {
+	        te=te.substr(0,te.length-1);
+	    }
+	    tmp=te.split(",");
+	    oldidscount=tmp.length
+	    if( fp!="")   //同一次登记指纹，第二次以上打开登记窗口
+	    {
+	        var tt=fp.split(",")
+	        oldidscount=oldidscount-tt.length
+	    }
+	    var ids=""
+	    for(var i=0;i<10;i++)
+	    {
+	        var bln=false
+	        for(var j=0;j<tmp.length;j++)
+	        {
+	            if(i==tmp[j])
+	            {
+	                bln=true;
+	                break;
+	            }
+	        }
+	        if(bln)
+	        {
+	            ids+="1"
+	        }
+	        else
+	        {
+	            ids+="0"
+	        }
+	    }
+	    zkonline.CheckFinger=ids;
+    }
+    else
+    {
+        zkonline.CheckFinger="0000000000"
+    }
+
+    if($("#id_tlng").val()=='zh-cn')
+    {
+        zkonline.SetLanguageFile("zkonline.chs")  //设置为中文界面
+    }
+    if($("#id_tlng").val()!='zh-cn')
+    {
+        zkonline.SetLanguageFile("zkonline.en")  //设置为英文界面
+    }
+    
+    if (zkonline.Register()){
+        var fingerids=[];
+        var template=[];
+        if($("#id_finnger"+tmpadd).val()!="")
+        {
+            var f=$("#id_finnger"+tmpadd).val().split(",");
+            var t=$("#id_template"+tmpadd).val().split(",");
+            for(var i=0;i<f.length;i++)
+            {
+                fingerids.push(f[i]);
+                template.push(t[i]);
+            }
+        }
+        //登记9.0 模板
+        for(i=1;i<=10;i++)
+        {
+            if(zkonline.GetRegFingerTemplateEx('9',i).length>2)
+            {
+                fingerids.push(i-1);
+                var t=zkonline.ConvertTemplateToEmStr( zkonline.GetRegFingerTemplateEx('9',i));
+                template.push(t);
+            }
+        }
+    
+        var count=0
+        if(oldidscount>0)
+        {
+            count=fingerids.length+oldidscount
+            var tid=tfids.split(",")
+            for(var i=0;i<fingerids.length;i++)
+            {
+                for(var j=0;j<tid.length;j++)
+                {
+                    if(fingerids[i]==tid[j])
+                    {
+                        count-=1;                    
+                    }
+                }
+            }
+        }
+        else
+        {
+            count=fingerids.length
+        };
+        $("#id_finnger"+tmpadd).val(fingerids.toString());
+        $("#id_template"+tmpadd).val(template.toString());
+        $("#div_id_finngerT"+tmpadd).html("{% trans '已登记指纹 ' %}"+count );
+        $("#id_actflag").val('register')
+        
+        //登记10.0模板
+        tmpadd="10"
+        var fingerids10=[];
+        var template10=[];
+        if($("#id_finnger"+tmpadd).val()!="")
+        {
+            var f=$("#id_finnger"+tmpadd).val().split(",");
+            var t=$("#id_template"+tmpadd).val().split(",");
+            for(var i=0;i<f.length;i++)
+            {
+                fingerids10.push(f[i]);
+                template10.push(t[i]);
+            }
+        }
+    
+        for(i=1;i<=10;i++)
+        {
+            if(zkonline.GetRegFingerTemplateEx('10',i).length>2)
+            {
+                fingerids10.push(i-1);
+                var t=zkonline.ConvertTemplateToEmStr( zkonline.GetRegFingerTemplateEx('10',i));
+                template10.push(t);
+            }
+        }
+        var count=0
+        if(oldidscount>0)
+        {
+            count=fingerids10.length+oldidscount
+            var tid=tfids.split(",")
+            for(var i=0;i<fingerids10.length;i++)
+            {
+                for(var j=0;j<tid.length;j++)
+                {
+                    if(fingerids10[i]==tid[j])
+                    {
+                        count-=1;                    
+                    }
+                }
+            }
+        }
+        else
+        {
+            count=fingerids10.length
+        }
+        $("#id_finnger"+tmpadd).val(fingerids10.toString());
+        $("#id_template"+tmpadd).val(template10.toString());
+    }
+        
+    //删除指纹
+    if(tfids!="")
+    {
+        tmp = tfids.split(",");
+        var dbfpid = "";
+        var delid = [];
+        var index = 0;
+        var fpidcount = tmp.length
+        var fpid = zkonline.CheckFinger
+        for(var i=0;i<10;i++)
+        {
+            var bln=false
+            for(var j=0;j<fpidcount;j++)
+            {
+                if(i==tmp[j])
+                {
+                    bln=true;
+                    break;
+                }
+            }
+            if(bln)
+            {
+                dbfpid+="1"
+            }
+            else
+            {
+                dbfpid+="0"
+            }
+        }
+        if( dbfpid.localeCompare(fpid) != 0)
+        {
+            for(var i=0; i<10; i++)
+            {
+                if(dbfpid.substr(i,1) == "1")
+                {
+                    if(dbfpid.substr(i,1)!=fpid.substr(i,1))
+                    {
+                        delid[index++] = i;
+                    }                        
+                }
+            }
+        }
+        fpidcount = fpidcount - delid.length;
+        $("#id_delfp").val(delid.toString());
+        $("#div_id_finngerT"+tmpadd).html("{% trans '已登记指纹 ' %}"+fpidcount );            
+    }
+}
+
+$(function(){
+    $("#id_fpidnum").parent().parent().hide();
+    $("#id_fpcount").parent().parent().hide();
+    $("#id_tlng").parent().parent().hide();
+    var divedit=$("#id_edit_form")
+	$(".btn_showDeptTree").eq(0).css({"z-index":"2"})
+	$(".btn_showDeptTree").eq(1).css({"z-index":"1"})
+	$("#id_Password").addClass("required").after("<br/><span class='color_gray'>{%trans '长度必须大于4位，小于18位，默认密码为111111'%}</span>")
+	$("#id_ResetPassword").addClass("required").after("<br/><span class='color_gray'>{%trans '长度必须大于4位，小于18位，默认密码为111111'%}</span>")
+
+
+	if(!flag)
+		$("#id_is_superuser").parent().parent().hide();
+	else
+		$("#id_is_superuser").parent().parent().show();
+	
+	$('#id_is_resetPw').click(function()
+	{
+		toggleShowPwd(this.checked);
+	})
+	$('#id_is_superuser').click(function()
+	{
+		toggleShowSuper(!this.checked);
+	})
+    
+	if(divedit.find("#id_username").val()!="")
+	{
+		$("#div_id_finngerT").html("{% trans '已登记指纹' %}" + divedit.find("#id_fpcount").val());
+	}
+
+{% if isAdd %}
+	$('#id_is_staff').attr("checked","checked")
+	$('#id_is_resetPw').parent().parent().hide();
+	$("#id_username").addClass("required wZBaseCharField");
+{% else %}
+	$.each($('#id_is_resetPw'),function(){
+		if($(this).attr("checked"))
+			toggleShowPwd(this.checked);
+		else
+			toggleShowPwd(false);
+	});
+	$('#id_username').attr('readonly','True')
+{% endif %}
+	
+	if($('#id_is_superuser').length==0 || $('#id_is_superuser').attr('checked'))
+			toggleShowSuper(false)
+	//为备注文字添加灰色样式
+	$("#id_username").parent().addClass("color_gray");
+	$(".btn_showDeptTree").parent().addClass("color_gray");
+	$("#id_is_staff").parent().addClass("color_gray");
+	$("#id_is_superuser").parent().addClass("color_gray");
+	$("#id_first_name").addClass("wZBaseCharField");
+	$("#id_last_name").addClass("wZBaseCharField");
+	$("#id_email").addClass("wZBaseCharField");
+    //alert($('#id_groups').html().length)
+	if($('#id_groups').length>0){
+	    if($('#id_groups').html().length <= 10)
+	    {
+	        $('#id_groups').text(gettext('当前没有可用的角色,请先添加角色'));
+	    }
+	}     
+})
+
+{% endblock %}
+
+
+

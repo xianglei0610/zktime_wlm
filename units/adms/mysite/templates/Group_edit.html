@@ -1,0 +1,41 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+    {% if "IACCESS_WITH_ATT"|filter_config_option %}
+        if(!contain_att_temp)
+        {
+            $("#id_permissions").find("a[href *='#id_tab_att']").attr("style", "display:none");
+        }
+    {% endif %}
+    {% if "mysite.elevator"|hasApp %} 
+        $("#id_permissions").find("a[href *='#id_tab_elevator']").attr("style", "display:none");
+    {% endif %}
+   
+//    function before_submit()
+//    {
+//        alert("kkkkkkkk")
+//        $('#AccLevelSet:checkbox').each(function(){    
+//            if (this.checked)
+//            { 
+//                var flag = true;  
+//                alert("true")   
+//                $('#FloorLevelSetPage_367').attr('checked',flag);   
+//        });
+//        $('#AccTimeSeg:checkbox').each(function(){    
+//            if (this.checked)
+//            { 
+//                flag = true;     
+//                $('#ElevatorTimesegSetPage_366').attr('checked',flag);   
+//        });       
+//        return true;
+//    }
+////    
+//    function before_save_continue()
+//    {
+//        $("#acc_linkageio_opt").hide();
+//        $("#acc_linkageio_action").hide();
+//        $("#acc_linkageio_video").hide();
+//    }
+    
+    
+{% endblock %}

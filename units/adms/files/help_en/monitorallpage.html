@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Real-time monitoring -&gt; Monitoring all</div>
+<div class="help_mainContant">
+  <h2>Real-time Monitoring</h2>
+  <br />
+  Monitor the statuses and real-time events of doors  under the access control panels in the system in real-time, including normal  events and exceptional events (including alarm events).<br /><br />
+   <h3>Monitoring all </h3><br />
+The system will, by default, show the monitoring of all doors under the control panels within the current user’s access level. The user can monitor one (or more) door(s) by [Area], [Control panel] or [Door].<br />
+  <br />
+    <b>Remote Opening/Closing:</b> Including the operations of single door and all current doors. In single door operation, move the cursor to the door icon, click [Remote opening/closing] in the pop up menu. In all current doors operation, click [Close all current doors] in the main interface to fulfill the operation. ;<br />
+	<br />
+	When you remote close the door, self-define the open time interval is enabled, 15 seconds by default. You can select [Enable Intraday Normal Open Time Zone], and the normal open time zone intraday will take effect. You can also set the door state to normal open directly, and no time zone intraday can effect the door state any more (namely normally open for 24 hours).<br />
+	  
+	<br />
+	If you want to close the door, please select [Disable Intraday Normal Open Time Zone] first, to avoid other normal open time zones take effect and open the door. And then select [Remote Closing] to fulfill the operation.<br />
+  <br />
+  <b>Cancel all alarms:</b>Once alarming doors appear on the interface, the system will alarm. Click to cancel the alarms of the control panels for alarming doors. If Cancel Alarms is successful, the system will automatically stop alarming.<br />
+ 
+  <br />
+  <b>Note: </b>If a control panel have multiple  door alarms at the same time, you need only execute one cancel operation at one  of these door to cancel all the alarm in this control panel.<br />
+ <br />Upon Door Status Monitoring, if the number of doors on  the current interface &lt;=64, the system will, by default, show the doors in  pictures to monitor door statuses. Once the number exceeds 64, the system will  automatically list the doors.<br /><br />
+    When putting the cursor on a door, it will show  relevant parameters and operations: device, door number, door name, remote  opening, and remote closing. Icons in different colors represent statuses as  follows: <br />
+  <br />
+  <table cellspacing="0" cellpadding="0" class="monitor_all_doors">
+    <tr>
+		<td><p align="center"><strong>Icon</strong></p></td>
+		<td><p align="center"><img  src="/media/images/iaccess/door_alarm.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_closed.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_opened.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_nosensor.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_disabled.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_default.jpg" /></p></td>
+		<td><p align="center"><img src="/media/images/iaccess/door_open_timeout.jpg" /></p></td>
+    </tr>
+    <tr>
+		<td><p align="center"><strong>Status</strong></p></td>
+		<td><p align="center">Door alarming</p></td>
+		<td><p align="center">Door closed when online</p></td>
+		<td><p align="center">Door opened when online</p></td>
+		<td><p align="center">Door sensor unset</p></td>
+		<td><p align="center">Device banned </p></td>
+		<td><p align="center">Door Offline</p></td>
+		<td><p align="center">Door opening timeout</p></td>
+    </tr>
+  </table>
+  <br />
+  <b>Event monitoring:</b><br /><br />
+    The system automatically acquires monitored device  event records, including normal access control events and exceptional access  control events (including alarm events). Alarm events appear in red.  Exceptional events excluding alarm events appear in orange. Normal events  appear in green.<br /><br />
+    Meanwhile, when an alarm event record appears on the  event monitoring interface, the “Find alarm event” prompt will appear on the  upper right corner. After the user clicks the link, the system will redirect to  the alarm event monitoring interface by opening a new window (or tab page).<br /><br />
+    On the current event monitoring interface, the recent  records are on the top, enabling the user to see without dragging the  scrollbar. Meanwhile, the interface will show up to some 100 records.<br />
+    <br />
+    Click [Find alarm event] on the upper right corner to  access [Alarm event] interface, and the user will see alarm events monitored in  [Event monitoring] before page turn and alarm events after the current time  point.<br /><br />
+</div>
+</body>
+</html>

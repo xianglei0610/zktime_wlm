@@ -1,0 +1,29 @@
+{% extends "data_list.html" %}
+{% block headjs%}
+<script type="text/javascript" src="/media/jslib/jquery.treeview.js"></script>
+<script type="text/javascript" src="/media/jslib/jquery.treeview.async.js"></script>
+
+<script src="/media/jslib/dept-emp.treeview.js"></script>
+<link rel="stylesheet" type="text/css" href="/media/css/jquery.treeview.css" />
+{% endblock %}
+
+{% load i18n %}
+
+{% block content %}
+  <ul id="black">
+  
+  </ul>
+  
+{% endblock %}
+
+{% block getdatalist %}
+{% endblock %}
+
+{% block addjs %}
+    $(document).ready(function(){
+    		$("#black").treeview({
+    			url: "../iclock/ouputtreejson"
+    		})
+    	});    
+{% endblock %}
+ 

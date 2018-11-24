@@ -1,0 +1,123 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="id_monitor_events" class="div_box acc_monitor_280" style="{% block monitor_events_style %}min-height: 20em;{% endblock %}">
+    <h1>{% trans "事件监控" %}</h1>
+    <div id="id_show_alarm" class="link_alarm_unsure displayN">
+            <a>{% trans '发现访客来访超时事件' %}</a>
+    </div>
+    <div id="id_showTbl">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="vertical-align:top;border:0px;">
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{% trans '被访人编号' %}</th>
+                                    <th>{% trans '被访人' %}</th>
+                                    <th>{% trans '部门' %}</th>
+                                    <th>{% trans '职务' %}</th>
+                                    <th>{% trans '访客' %}</th>
+                                    <th>{% trans '访客编号' %}</th>
+                                    <th>{% trans '卡号' %}</th>
+                                    <th>{% trans '来访单位' %}</th>
+                                    <th>{% trans '来访事由' %}</th>
+                                    <th>{% trans '来访人数' %}</th>
+                                    <th>{% trans '进入地点' %}</th>
+                                    <th>{% trans '进入时间' %}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rt_content">
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td style="vertical-align:top;border:0px;width:1px;overflow:hidden;">
+                    <div style="height:260px;width:0px; overflow:hidden"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block getdatalist %}{% endblock %}
+
+{% block show_tip_info %}{% endblock %}
+{% block base_variables %}{% endblock %}
+{% block monitor_log %}{% endblock %}
+{% block addjs_base %}
+    {% if request.user|HasPerm:"contenttypes.can_VisitorPreviewPage" %}
+    //用于向服务器端获取访客来访超时数据
+    //logid = {% if logid %}{{ logid }}{% else %}-1{% endif %};//-1为初始值
+    var row = "row0";//第一次加载页面时初始化该值
+    function OnRefresh() 
+    { 
+        if($("#id_monitor_events").find("#rt_content tr").length > 100) 
+        { 
+            $("#id_monitor_events").find("#rt_content").find("tr:gt(100)").remove(); 
+        } 
+
+        getUrl = '/{{ request.surl }}visitor/VisitorMonitor/?type=alarm'; 
+        $.ajax({ 
+            type: "GET", 
+            url: getUrl, 
+            dataType: "json", 
+            async: true, 
+            success: function(rtlog) 
+            {
+                //logid = rtlog.alarm_id;
+                rtlisthtml = ""; 
+                if(rtlog.data != "") 
+                { 
+                    rtlisthtml = ""; 
+                    for(var index in rtlog.data) 
+                    { 
+                        var datas = rtlog.data[index];
+                        rtlisthtml = '<tr class="AlarmLog '+row+'" value="'+1+'" class="select_row">';
+                        rtlisthtml += '<td align="center">'+33+'</td>'
+                        		   + '<td>'+22+'</td>'
+                        		   + '<td>'+11+'</td>'
+                                   + '<td>'+11+'</td>' 
+                                   + '<td>'+datas.name+'</td>'
+                                   + '<td>'+datas.pin+'</td>'
+                                   + '<td>'+datas.card+'</td>'
+                                   + '<td>'+datas.visit_company+'</td>' 
+                                   + '<td>'+datas.visit_reason+'</td>'
+                                   + '<td>'+datas.visit_number+'</td>'
+                                   + '<td>'+datas.place+'</td>'
+                                   + '<td>'+datas.visit_time+'</td></tr>'; 
+
+                        $("#id_monitor_events").find("#rt_content").prepend(rtlisthtml); 
+                        if(row == "row0")
+                        {
+                            row = "row1";
+                        }
+                        else
+                        {   
+                            row = "row0";
+                        }                        
+                    } 
+                } 
+      
+                window.setTimeout('OnRefresh()', 3000)//等三秒执行刷新函数       
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                window.setTimeout('OnRefresh()', 3000)//等*秒执行刷新函数
+            }            
+        }); 
+    } 
+    
+    window.setTimeout('OnRefresh()', 1000)//第一次等1秒执行刷新函数   
+    $("#id_page_load").remove();//去掉刷新图标
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--can_MonitorAlarmPage-->
+   
+{% endblock %}
+

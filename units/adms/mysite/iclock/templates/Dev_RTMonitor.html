@@ -1,0 +1,156 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block headjs %}
+{% if request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+<script src="{{ MEDIA_URL }}/jslib/check_browser.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+    <div id="id_monitor_events" class="div_box acc_monitor_380" style=" min-height: 35em;">
+        <h1>{% trans "设备监控" %}</h1>
+        <div id="id_showTbl">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="vertical-align:top;border:0px;">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">{% trans '设备名称' %}</th>
+                                        <th width="15%">{% trans '序列号' %}</th>
+                                        <th width="20%">{% trans '操作类型' %}</th>
+                                        <th width="20%">{% trans '当前状态' %}</th>
+                                        <th width="15%">{% trans '待执行命令条数' %}</th>
+                                        <th  width="10%" >{% trans '操作' %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rt_content">
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="vertical-align:top;border:0px;width:1px;overflow:hidden;">
+                        <div style="height:260px;width:0px; overflow:hidden"></div>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+    {% endif %}<!--contenttypes.can_DevRTMonitorPage -->
+{% endblock %}
+
+{% block getdatalist %}
+
+{% endblock %}
+
+
+{% block addjs %}
+    {% if request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+    var gdata = null;  
+    
+    //用于向服务器端获取实时数据 
+    var row=null;
+    function OnRefresh() 
+    {   
+        getUrl='/{{ request.surl }}iaccess/GetDevLog/';
+        $.ajax({ 
+            type:"GET", 
+            url:getUrl, 
+            dataType:"json", 
+            async:true, 
+            success:function(rtlog) 
+            {
+                rtlisthtml=""
+                row="row0";
+                for(var index in rtlog.data) 
+                { 
+                    datas = rtlog.data[index];
+                    if (datas.ret >= 0)
+                    {
+                        rtlisthtml += '<tr class="CommonLog '+row+'">';
+                    }
+                    else if(datas.ret < -1000 && datas.ret > -2000)//警告事件
+                    {
+                        rtlisthtml += '<tr class="IllegalLog '+row+'">';
+                    }
+                    else//报警事件
+                    {
+                        rtlisthtml += '<tr class="AlarmLog '+row+'">';
+                    }
+                    
+                    var cmd=datas.op_type;
+                    if(cmd.length>30)
+                    {
+                        cmd=datas.op_type.substr(0,26)+"...";
+                    }
+                    
+                    rtlisthtml += '<td width="20%">'+datas.devname+'</td>'
+                    		    + '<td width="15%">'+datas.sn+'</td>'
+                    		    + '<td width="20%">'+cmd+'</td>'
+                    		    + '<td width="20%">'+datas.op_state+'</td>'
+                    		    + '<td width="15%">'+datas.CmdCount+'</td>'
+                    		    + '<td width="10%" id="device_'+datas.id+'" value="'+datas.id+'"><a href="javascript:void(0);">{% trans '取消' %}</a></td></tr>'
+                
+                    if(row == "row0")
+                    {
+                        row = "row1";
+                    }
+                    else
+                    {   
+                        row = "row0";
+                    } 
+                }
+                $("#id_monitor_events").find("#rt_content").empty(); 
+                $("#id_monitor_events").find("#rt_content").append(rtlisthtml); 
+                if($("#id_monitor_events").find("#rt_content tr").length>0)
+                {
+                    check_brower_version(true);
+                }
+                else
+                {
+                     check_brower_version(false);
+                }
+                
+                $("td[id^='device_'] a").click(function(){
+                    if(confirm(gettext("确定要清除命令队列？")))
+                    {
+                        var val=$(this).parent().attr("value");
+                        var operateURL =  '/{{ request.surl }}iaccess/ClearCmdCache/?devid='+val;
+                        $.ajax({
+                            type:"POST", 
+                            url:operateURL, 
+                            dataType:"json", 
+                            async:false, 
+                            success:function(data)
+                            {
+                                if(data.ret>0)
+                                {
+                                    alert(gettext("清除缓存命令成功！请及时手动同步数据到设备，以确保系统中和设备中权限一致！"));
+                                }
+                            },
+                            error:function (XMLHttpRequest, textStatus, errorThrown) 
+                            {
+                                alert(gettext("清除缓存命令失败!"));
+                            }
+                        });
+                    }
+                });
+                
+                window.setTimeout('OnRefresh()', 3000)//等3秒执行刷新函数
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                window.setTimeout('OnRefresh()', 3000)//等3秒执行刷新函数
+            } 
+        }); 
+    }     
+    window.setTimeout('OnRefresh()', 1000)//第一次刷新等1s执行刷新函数
+    {% else %}<!--contenttypes.can_DevRTMonitorPage -->
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_DevRTMonitorPage -->
+{% endblock %}

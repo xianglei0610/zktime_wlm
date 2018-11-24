@@ -1,0 +1,44 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+{%if "POS_IC"|filter_config_option%}
+       $("#page_help").attr("href",$("#page_help").attr("href").replace("merchandise","ic_merchandisepage"));
+{%else%}
+       $("#page_help").attr("href",$("#page_help").attr("href").replace("merchandise","merchandisepage"));
+{%endif%}
+
+//function isva()
+//{
+//    wgCheckNo('code','div_id_code','#div_id_code','{{dbapp_url}}','pos','Merchandise')
+//}
+
+
+function check_code(obj)
+   {
+      
+       var div=$("#div_id_code");
+       var v=$("#id_code").val();
+       var v_int=parseInt(v,10); 
+       div.html("");
+       if (v_int==0||!CheckNumber(v))
+       {
+           div.html("&times;"+gettext("不合法"));
+           return;
+       }
+      
+       wgCheckNo('code','div_id_code','#div_id_code','{{dbapp_url}}','pos','Merchandise')
+   }
+
+
+$(function(){
+$('#id_edit_form').validate({
+    	                        rules: {
+    	                            "money": {required:true,min:1,max:9999,"maxlength":8,isMoney:true}
+                                    }
+                                }
+    	            );
+                    });
+
+$(".tbl_data_edit>tbody>tr >td").eq(1).after("<td><div  class='floatL Link_blue1 lineH22'><a href='javascript:void(0)' onclick='check_code(this)'>{%trans '验证'%}</a></div><div id='div_id_code' class='floatL color_orange lineH22'></div><td>")
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% if request.user|HasPerm:"iaccess.add_accfirstopen" or request.user|HasPerm:"iaccess.change_accfirstopen" %}
+    {% autoescape off %}
+        <table style="margin-left:10px">
+            <tr id="id_door">
+            </tr>
+            <tr>
+                {{ form.timeseg|field_as_td_h }}
+            </tr>
+        </table>
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+    {% endautoescape %}
+    {% endif %}<!--add/change_accfirstopen-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_accfirstopen" or request.user|HasPerm:"iaccess.change_accfirstopen" %}
+        //多卡开门组合名称的value值隐藏不显示
+        $("#id_door").append('<th style="padding-top:3px\9;*padding:0px;"><label class="required" for="id_comb_name">'+gettext("当前门:")+'</label></th><td style="padding-top:3px;padding-top:0px\9;*padding-top:4px;">'+door_name+'</td><input type="hidden" value="'+door_id+'" name="door"></input>');
+    {% else %}      
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_accfirstopen-->
+{% endblock %}
+

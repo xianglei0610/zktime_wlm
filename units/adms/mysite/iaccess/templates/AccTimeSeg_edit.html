@@ -1,0 +1,283 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script src="{{ MEDIA_URL }}/jslib/timeinput.widget.js"></script>
+{% endblock %}
+
+{% block form %}
+{% if request.user|HasPerm:"iaccess.add_acctimeseg" or request.user|HasPerm:"iaccess.change_acctimeseg" %}
+    {% autoescape off %}
+    <table class="timeseg_edit_table">
+        <tr>
+            {{ form.timeseg_name|field_as_td_h }}
+        </tr>
+        <tr>
+            {{ form.memo|field_as_td_h }}
+        </tr>
+        <tr>
+            {{ form.timeseg_type|field_as_td_h }}
+        </tr>
+        <tr><td colspan="7"></td></tr>
+        <!--<tr><td colspan="7"><hr color="#AAA" size="1px"/></td>-->
+        <table class="timeseg_edit_table_inner">
+            <tr>
+                <td id="id_blank1" class="blank_bgcolor" colspan="1">
+                    <div class="out">
+                        <b>{% trans "时间" %}</b>
+                        <em>{% trans "日期" %}</em>
+                    </div>
+                </td>
+                <td class="blue_bgcolor"  colspan="2">{% trans "时间区间1" %}</td>
+                <td class="blue_bgcolor"  colspan="2">{% trans "时间区间2" %}</td>
+                <td class="blue_bgcolor"  colspan="2">{% trans "时间区间3" %}</td>
+            </tr>
+            <tr>
+                <td id="id_blank2" class="blank_bgcolor">&nbsp;</td>
+                <td class="blue_bgcolor" >{% trans "开始时间" %}</td>
+                <td class="blue_bgcolor" >{% trans "结束时间" %}</td>
+                <td class="blue_bgcolor" >{% trans "开始时间" %}</td>
+                <td class="blue_bgcolor" >{% trans "结束时间" %}</td>
+                <td class="blue_bgcolor" >{% trans "开始时间" %}</td>
+                <td class="blue_bgcolor" >{% trans "结束时间" %}</td>
+            </tr>
+            
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期一" %}</td>
+                {{ form.monday_start1|field_as_td_h_tz }}
+            
+                {{ form.monday_end1|field_as_td_h_tz }}
+            
+                {{ form.monday_start2|field_as_td_h_tz }}
+            
+                {{ form.monday_end2|field_as_td_h_tz }}
+
+                {{ form.monday_start3|field_as_td_h_tz }}
+
+                {{ form.monday_end3|field_as_td_h_tz }}
+            </tr>
+
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期二" %}</td>
+                {{ form.tuesday_start1|field_as_td_h_tz }}
+
+                {{ form.tuesday_end1|field_as_td_h_tz }}
+
+                {{ form.tuesday_start2|field_as_td_h_tz }}
+
+                {{ form.tuesday_end2|field_as_td_h_tz }}
+
+                {{ form.tuesday_start3|field_as_td_h_tz }}
+
+                {{ form.tuesday_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期三" %}</td>
+                {{ form.wednesday_start1|field_as_td_h_tz }}
+
+                {{ form.wednesday_end1|field_as_td_h_tz }}
+
+                {{ form.wednesday_start2|field_as_td_h_tz }}
+
+                {{ form.wednesday_end2|field_as_td_h_tz }}
+
+                {{ form.wednesday_start3|field_as_td_h_tz }}
+
+                {{ form.wednesday_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期四" %}</td>
+                {{ form.thursday_start1|field_as_td_h_tz }}
+
+                {{ form.thursday_end1|field_as_td_h_tz }}
+
+                {{ form.thursday_start2|field_as_td_h_tz }}
+
+                {{ form.thursday_end2|field_as_td_h_tz }}
+
+                {{ form.thursday_start3|field_as_td_h_tz }}
+
+                {{ form.thursday_end3|field_as_td_h_tz }}
+            </tr>
+
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期五" %}</td>
+                {{ form.friday_start1|field_as_td_h_tz }}
+
+                {{ form.friday_end1|field_as_td_h_tz }}
+
+                {{ form.friday_start2|field_as_td_h_tz }}
+
+                {{ form.friday_end2|field_as_td_h_tz }}
+
+                {{ form.friday_start3|field_as_td_h_tz }}
+
+                {{ form.friday_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期六" %}</td>
+                {{ form.saturday_start1|field_as_td_h_tz }}
+
+                {{ form.saturday_end1|field_as_td_h_tz }}
+
+                {{ form.saturday_start2|field_as_td_h_tz }}
+
+                {{ form.saturday_end2|field_as_td_h_tz }}
+
+                {{ form.saturday_start3|field_as_td_h_tz }}
+
+                {{ form.saturday_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "星期日" %}</td>
+                {{ form.sunday_start1|field_as_td_h_tz }}
+
+                {{ form.sunday_end1|field_as_td_h_tz }}
+
+                {{ form.sunday_start2|field_as_td_h_tz }}
+
+                {{ form.sunday_end2|field_as_td_h_tz }}
+
+                {{ form.sunday_start3|field_as_td_h_tz }}
+
+                {{ form.sunday_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "假日类型1" %}</td>
+                {{ form.holidaytype1_start1|field_as_td_h_tz }}
+
+                {{ form.holidaytype1_end1|field_as_td_h_tz }}
+
+                {{ form.holidaytype1_start2|field_as_td_h_tz }}
+
+                {{ form.holidaytype1_end2|field_as_td_h_tz }}
+
+                {{ form.holidaytype1_start3|field_as_td_h_tz }}
+
+                {{ form.holidaytype1_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "假日类型2" %}</td>
+                {{ form.holidaytype2_start1|field_as_td_h_tz }}
+            
+                {{ form.holidaytype2_end1|field_as_td_h_tz }}
+            
+                {{ form.holidaytype2_start2|field_as_td_h_tz }}
+            
+                {{ form.holidaytype2_end2|field_as_td_h_tz }}
+            
+                {{ form.holidaytype2_start3|field_as_td_h_tz }}
+            
+                {{ form.holidaytype2_end3|field_as_td_h_tz }}
+            </tr>
+
+            <tr>
+                <td class="blue_bgcolor">{% trans "假日类型3" %}</td>
+                {{ form.holidaytype3_start1|field_as_td_h_tz }}
+            
+                {{ form.holidaytype3_end1|field_as_td_h_tz }}
+            
+                {{ form.holidaytype3_start2|field_as_td_h_tz }}
+            
+                {{ form.holidaytype3_end2|field_as_td_h_tz }}
+            
+                {{ form.holidaytype3_start3|field_as_td_h_tz }}
+            
+                {{ form.holidaytype3_end3|field_as_td_h_tz }}
+            </tr>
+        </table><!--inner table end-->
+    </table><!--outer table end-->
+    {% if form.non_field_errors %}
+    <tr><td>{{ form.non_field_errors }}</td></tr>
+    {% endif %}
+
+    {% endautoescape %}
+{% endif %}<!--add/change_acctimeseg-->
+{% endblock %}
+
+{% block addjs%}
+    {% if request.user|HasPerm:"iaccess.add_acctimeseg" or request.user|HasPerm:"iaccess.change_acctimeseg" %}
+        $(function(){ 
+            var varelevtar_or_iaccess=$('#id_app_menu').find("a").attr("href");
+            
+            if(varelevtar_or_iaccess.indexOf("elevator") > 0 ) 
+            {
+            
+                $("#id_timeseg_type").val("2")
+                $("#id_timeseg_type").hide()
+                $("#id_timeseg_type").parent().parent().hide()
+                
+                str = $("#id_span_title").html();
+                var tem = gettext("当前位置");
+                
+                index = str.indexOf(tem); 
+                //alert(index)
+                str = str.substring(0,index) + gettext("当前位置：梯控系统->梯控时间段->增加")
+                $("#id_span_title").html(str);
+                $(".icon_help_current").remove();
+                
+            }  
+            else
+            {
+                $("#id_timeseg_type").val("1")
+                $("#id_timeseg_type").hide()
+                $("#id_timeseg_type").parent().parent().hide()
+            
+            }
+        });
+
+        
+        
+        var time_inputs = new Array();
+        $("div[id*='_start'], div[id*='_end']").each(function(){
+            //alert($(this).attr("id"))
+            var div_id = $(this).attr("id");
+            time_inputs.push(new TimeZoneBox(div_id+"_span" , div_id));//span便于区分
+        });
+
+        //合并两个单元格
+        $("#id_blank1").attr("rowspan","2");
+        $("#id_blank2").remove();
+        
+        //初始化
+        for(t in time_inputs)
+        {   
+            time_inputs[t].setValue($("#id_"+time_inputs[t].id.replace("_span", "")).val());
+        }
+        
+        function before_submit()
+        {
+            for(t in time_inputs)
+            {
+                var real_id = time_inputs[t].id.replace("_span", "")
+                $("#id_"+real_id).val(time_inputs[t].getValue());
+            }
+            
+            var has_error = false;
+            $("input[id*='_span_']").each(function(){
+                if($(this).val() == "")
+                {
+                    $(this).addClass("error");
+                    has_error = true;
+                }
+            });
+            if(has_error)
+            {
+                alert(gettext("请在文本框内输入有效的时间！"));
+                return false;
+            }
+            return true;
+        }
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_acctimeseg-->
+{% endblock %}

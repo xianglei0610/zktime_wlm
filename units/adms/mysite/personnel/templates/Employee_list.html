@@ -1,0 +1,15 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+{% block row_operations %}
+row_operations:["op_edit","View_detail"{% block extend_row_operations %}{% endblock %}],
+{% endblock %} 
+{% block extend_disabled_actions %}
+	{% if request.user|HasPerm:"personnel.browse_employee" %}
+		 {% get_config_option "EMPLOYEE_DISABLED_ACTIONS" %}
+	{% else %}
+	    $("#id_search").remove();
+	    alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+	    window.location.href="/{{ request.surl }}accounts/login/";
+	{% endif %}<!--personnel.browse_employee-->
+{% endblock %}

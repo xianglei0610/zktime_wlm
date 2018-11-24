@@ -1,0 +1,122 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block addjs %}
+
+{% endblock %}
+
+{% block headjs %}
+<script src="/media/jslib/meetingCalculate.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+{% block content %}
+<div style="margin:0px 10px 10px 10px;">
+	<input type="hidden" id="id_current_report" value="1" />
+	<div id="id_divsearch" class="calculate_divsearch">
+		<div style="margin:5px 0px;">
+		<form id="id_calculateform" method="post">
+			<table>
+            <tr style="vertical-align:middle">
+                <td>
+                    <div class="floatL lineH22">{% trans "选择会议" %}</div>
+                </td>
+                <td>
+                    <div>
+						<input id="showMeetingAll" type="text"  readonly="readonly"></input>
+						<span class="btn_showEmpBox_meeting">
+							<img id="showMA" src="/media/img/sug_down_on.gif"  align="absmiddle" alt="选择会议"></img>
+						</span>
+
+						<div id="test_div" class="checks_div"  style="display:none;z-index:11;width:160px;height:100px;position:absolute;left:70px;top:153px;overflow-y:scroll;overflow-x:hidden;border: 1px solid #7f9db9;background-color: #f7f7f7;padding: 2px;"></div>
+                    </div>
+                </td>
+			
+		{% autoescape off %}
+			<td><div id="show_user">{{empfield|field_as_label_tag}}</div></td>
+			<td><div id="show_emp_widget">{{empfield.as_widget}}</div></td>
+		{% endautoescape %}
+		<!--
+                <td>
+                    <div class="floatL lineH22">{% trans "选择人员" %}</div>
+                </td>
+                <td>
+                    <div id="show_emp_tree" class="floatL displayN"></div>
+                </td>
+                -->
+                <td>
+                    <div id="check_type" class="floatL lineH22">{% trans "选择考勤状态" %}</div>
+                </td>
+                <td>
+                    <div id="show_type">
+						<input id="showMeetingCheckType" type="text" readonly="readonly"></input>
+						<span class="btn_showEmpBox_meetingcheck">
+							<img id="showMA2" src="/media/img/sug_down_on.gif"  align="absmiddle" alt="选择考勤状态"></img>
+						</span>
+
+						<div id="test_div2" class="checks_div2"  style="display:none;z-index:11;width:160px;height:100px;position:absolute;left:483px;top:153px;overflow-y:scroll;overflow-x:hidden;border: 1px solid #7f9db9;background-color: #f7f7f7;padding: 2px;"></div>
+                    </div>
+                </td>
+            <!--  </tr>
+			<tr>
+				<td><div class="lineH22">{% trans "开始日期" %}</div></td><td><input type="text" class="wZBaseDateTimeField dp-applied" readonly="True" name="ComeTime" id="id_cometime"/></td>
+				<td><div class="lineH22">{% trans "结束日期" %}</div></td><td><input type="text" class="wZBaseDateTimeField dp-applied" readonly="True" name="EndTime" id="id_endtime"/></td>-->
+				<td><div style="margin:-3px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href="#" class="Link_blue1" >{% trans '查询' %}</a></div></td>
+				
+					<td><div style="margin:-3px 0px 0px 5px;"><span class="action_calculate">&nbsp;</span><a id="id_calculate" href="javascript:void(0)" class="Link_blue1">{% trans '统计' %}</a></div></td>
+					<td>
+						<div style="margin:-3px 0px 0px 5px;">
+							<span class="action_export">&nbsp;</span>
+									<a id="id_model_export" class="Link_blue1" href="javascript:void(0)">
+										{% trans "导出" %}
+									</a>
+						</div>
+					</td>
+				
+			
+			</tr>
+			<tr><td colspan="3">
+			<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+			</tr>
+			</table>
+			<input type="hidden" name="DeptIDs" value="" />
+			<input type="hidden" name="isForce" value="0" />
+			<input type="hidden" name="UserIDs" value="" />
+		</form>
+		</div>
+	</div>
+	<div id="calculatetabs"><!--height:440px;overflower:auto; style="width:860px;"-->
+	    <ul class="tabs">
+	    	<li><a href="#caltabs-1" onclick="OriginalRecord('')">{% trans '会议签到签退' %}</a></li>
+	    	<li><a href="#caltabs-2" onclick="ValidRecord('')">{% trans '会议考勤明细' %}</a></li>
+			<li><a href="#caltabs-4" onclick="DetailMeeting('')">{% trans '会议统计详情' %}</a></li>
+        
+			<li><a href="#caltabs-5" onclick="StatisticsMeeting('')">{% trans '会议统计汇总' %}</a></li>
+	   		
+	   		
+	    </ul>
+		<div  class="calculatediv" id="caltabs-1">
+			<div id="subtabs-1">
+			</div>
+		</div>
+		<div  class="calculatediv" id="caltabs-2">
+			<div id="subtabs-2">
+			</div>
+		</div>
+		<div  class="calculatediv" id="caltabs-4">
+			<div id="subtabs-4">        
+			</div>
+		</div>
+		<div  class="calculatediv" id="caltabs-5">
+			<div id="subtabs-5">        
+			</div>
+		</div>
+	</div>
+</div>
+<div id="id_attexcept_desc"></div>
+
+
+
+
+{% endblock %}
+

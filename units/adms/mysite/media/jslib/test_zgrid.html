@@ -1,0 +1,159 @@
+
+<html>
+	<head>
+		<title>
+		</title>
+		<script src="jquery.js"></script>
+		<script src="i18n.js"></script>
+		<script src="jquery.plus.js"></script>
+		<script src="jquery.zcommon.js"></script>
+		<script src="jquery.zgrid.js"></script>
+		<script src="jquery.tools.min.js"></script>
+<script>
+/******测试开始*********/
+
+function format_obj(obj, level) //用于显示一个对象
+{
+	if(!level) level=0;
+	var prefix="";
+	var pi=0;
+	while(pi<level){
+		pi++;
+		prefix+="\t";
+	}
+	if(typeof obj=="object")
+	{
+		if(obj.selector) //obj是一个jQuery对象
+		{
+			return prefix+"$\""+obj.selector+"\", length="+obj.length;
+		}
+		if(obj.nodeName) //obj是一个DOM对象
+		{
+			return prefix+obj;
+		}
+		var ps=[prefix+"{"];
+		for(i in obj)
+			ps.push(prefix+i+":"+format_obj(obj[i], level+1));
+		ps.push(prefix+"}");
+		return ps.join("\n");
+	}
+	return prefix+obj;
+}
+
+$(function(){
+    var header_test=["header1","header2","header3","header4","header5"];
+    var data_test=[
+                 [111,12,13,14,'objone'],[222,22,23,24,'objtwo'],
+                 [333,32,33,34,'objthree'],[444,42,43,44,'objfour'],
+                 [555,52,53,54,'objfive'],[666,62,63,64,'objsix']
+                ];
+    var fields_test=["id","columntwo","columnthree","columnfour","columnfive"];
+    var $test_div=$("#id_test");
+    var test_opt={
+        heads:header_test,
+        data:data_test,
+        fields:fields_test,
+        disable_cols:["id","columnfive"],
+        data_verbose_column:"columnfive",
+        multiple_select:false,
+        show_head:true,
+        actions:{
+            "OpAddTimeTable":
+                {
+                    verbose_name:"add timetable",
+                    help_text:"add timetable",
+                    param:0,
+                    for_select:true,
+                    confirm:true,
+                    only_one:true,
+                    on_click:"/abc/myself/"
+                },
+            "OpDeleteTimeTable":
+                {
+                    verbose_name:"delete timetable",
+                    help_text:"delete timetable",
+                    params:0,
+                    for_select:true,
+                    confirm:true,
+                    only_one:false,
+                    on_click:function(grid){alert(grid.g.get_selected().query_string);}
+                }
+        },
+        row_operations:[
+            "OpAddTimeTable","OpDeleteTimeTable",{
+            "OpDeleteTimeTabless":
+                            {
+                                verbose_name:"delete timetable",
+                                help_text:"delete timetable",
+                                params:0,
+                                for_select:true,
+                                confirm:true,
+                                only_one:false,
+                                on_click:function(grid){alert(grid.g.get_selected().query_string);}
+                            }
+            },[
+				"OpAddTimeTable",
+				"OpDeleteTimeTable",{
+				"groupThree":{
+                          op1:{
+                               verbose_name:"delete timetable",
+                               help_text:"delete timetable",
+                               params:0,
+                               for_select:true,
+                               confirm:true,
+                               only_one:false,
+                               on_click:function(grid){alert(grid.g.get_selected().query_string);}
+                           }
+						}
+				}
+				]
+        ] 
+    };
+
+
+    //init
+    $test_div.grid(test_opt);
+   //set "on_row_click","on_dbl_click","on_selected","on_all_selected","on_pager","selected"
+
+    $test_div.on_row_click(function(grid,key, row_data){ //单击
+        return confirm("on_row_click\n"+format_obj({grid:grid, key:key, row_data:row_data}));
+    });
+    $test_div.on_dbl_click(function(grid,key, row_data){//双击
+        return confirm("on_dbl_click\n"+format_obj({grid:grid, key:key, row_data:row_data}));
+    });
+    $test_div.on_selected(function(grid, selected, index, key, $row_data){
+        return confirm("on_selected\n"+format_obj({grid:grid, selected: selected, index: index, key:key, row_data:$row_data}));
+    });
+    $test_div.on_all_selected(function(grid,selected){
+     	return confirm(format_obj({"fun":"on_all_selected", grid: grid, selected: selected}));
+    });
+    $test_div.on_pager(function(grid,page_num){
+    	return confirm(format_obj({"fun":"on_pager", grid: grid, page_num:page_num}));
+    });
+
+    //test get_selected()
+    var ret=$("#id_btn_test").click(function(){
+       alert(format_obj({get_selected:$test_div.get_selected()}));
+    });
+});
+/******测试结束*********/
+</script>
+	<style>
+table {
+	border: solid #ccc 1px;
+	background-color: #eed;
+}
+table td {
+	background-color: #ffd;
+}
+table th {
+	background-color: #ddc;
+}
+	</style>
+	</head>
+	<body>
+		<div id="id_test">h</div>
+		<input type="button" id="id_btn_test" value="btn_test"/>
+		<div id="obj_tooltip"></div>
+	</body>
+</html>

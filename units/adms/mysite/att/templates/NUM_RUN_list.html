@@ -1,0 +1,362 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/picture.css" />
+	<script type="text/javascript" src="/media/jslib/NUM_RUN.js"></script>
+{% endblock %}
+{% block addjs %}
+
+var data=[
+{% for item in latest_item_list %}
+["{{ item.Num_runID }}","{{ item.Name }}","{{ item.StartDate }}","{{ item.EndDate }}","{{ item.Cycle }}","{{ item.get_Units_display }}","{{ item.Units }}"],{% endfor %}
+]
+
+fieldHeaders=["{{ cl.FieldName.Name }}","{{ cl.FieldName.StartDate }}","{{ cl.FieldName.EndDate }}","{{ cl.FieldName.Cycle }}","{{ cl.FieldName.Units }}"];
+//options.disableCols=[0,6];
+//options.canSelectRow=true;
+weekStartDay=0;
+schClass=[];
+$(function(){
+	
+	//if ($.browser.msie&&$.browser.version<8.0)
+	if ($.browser.msie)	
+	{
+	$(".list_outBox").css({width:"100%"});
+	//$(".portlet-header").css({width:"100%"});	
+	//$(".rightBox").css({width:"100%"});
+	//$(".indexBody").css({"overflow-y":"hidden"});
+	//$(".indexBody").css({"overflow-x":"hidden"});	
+	$(".tabBodyR").css({height:"20px"})	;
+	$("#id_search").find("table").eq(0).css({width:"96%"});
+	}
+    $("#tz").html("<div align='center'><h4><span class='icon_Shift_Detail'>&nbsp;</span>{%trans "点击班次，显示该班次时间段明细"%}</h4></div>");
+
+    $.ajax({ 
+        type: "POST",
+        url:"{{dbapp_url}}../att/getschclass/",
+        dataType:"json",
+        success:function(json){
+                    schClass=json;
+                }
+    });
+	$div=$("#id_datalist")
+	$div.on_row_click(//单击
+	        function(grid,index,key, row_data){
+	            //alert("on_row_click k="+index);
+				data=$("#id_datalist").get(0).g.data;
+				var rowData=data[index-1];
+				//alert(rowData);
+				$("#id_showTbl h1").text(rowData[1]+"  "+gettext('时间段明细'));
+				show_shift_Detail(rowData);
+				
+	            return true;
+	        }
+	    );
+	
+});
+function fun_num_run(grid){
+
+  $("#"+grid).get(0).gEvents["click_row"].obj.click(function(){
+	var rowData=data[parseInt($(this).find("td>:first").val())-1];
+	
+	show_shift_Detail(rowData);
+	
+	});
+}
+function PageSelectRow(rowData)
+{
+	//alert(rowData);
+    show_shift_Detail(rowData);  
+}
+function show_shift_Detail(rowData)
+{   
+    var Shift_id=rowData[0];
+    $("#id_Shift_Detail fieldset legend").html(rowData[1]+"&nbsp;&nbsp;&nbsp;{% trans '时段明细' %}");
+    queryStr="Shift_id="+Shift_id+"&unit="+rowData[4]+"&weekStartDay="+weekStartDay;
+    $.ajax({
+        type:"POST",
+        url: "../../../att/shift_detail/",
+        data:queryStr,
+        dataType:"json",
+        success:function(json){
+            var unit=rowData[4];
+            if(unit==1)   //按周显示班次明细
+            {
+                var days=rowData[2]*7; 
+                $("#tz").html(createTZTable(json,getTZWeekLabel,days));
+            }
+            else if(unit==0)  //按天显示班次明细
+            { 
+                var days=rowData[2]*1; 
+                $("#tz").html(createTZTable(json,getTZDayLabel,days));
+            }
+            else           //按月显示班次明细
+            { 
+                var days=rowData[2]*31; 
+                $("#tz").html(createTZTable(json,getTZDayLabel,days));
+            }
+//            $(".tzbar span").mouseover(function(){ 
+//                var schName=$(this).attr("alt3");
+//				$("#id_numrun_tip").css({"background-color":"#0066a6","color":"#ffffff","padding":"1px 5px 1px 5px "});
+//                $("#id_numrun_tip").html(schName);
+//                var offset=$(this).position();
+//            	if($("#id_numrun_tip").css("visibility")=="hidden"){
+//            		$("#id_numrun_tip").css({"z-index":16,"visibility":"visible","position":"absolute","top":(offset.top+170),"left":(offset.left+970)})//提示信息定位
+//            		$("#id_numrun_tip").mouseover(function(){
+//            			$(this).css({"z-index":16,"visibility":"visible","position":"absolute","top":(offset.top+170),"left":(offset.left+970)})
+//            		
+//            		}).mouseout(function(){
+//            			$("#id_numrun_tip").css("visibility","hidden");
+//            		});
+//            	}
+//            	else
+//            		$("#id_numrun_tip").css("visibility","hidden");
+//            }).mouseout(function(){
+//                $("#id_numrun_tip").css("visibility","hidden")
+//            }); 
+            $("#tip").html("<div align='center'><h4><span class='icon_Shift_Detail'>&nbsp;</span>{%trans "双击班次时段，可以删除该时段"%}</h4></div>");
+            $(".tzbar").dblclick(function(){
+                var start=$(this).attr("alt0");
+                var end=$(this).attr("alt1");
+                if(start!=undefined&&end!=undefined){
+                    ret=window.confirm(gettext("确定删除该时段吗？"));
+                    if(ret)
+                    {   
+                        var queryStr="shift_id="+Shift_id+"&start="+start+"&end="+end+"&unit="+rowData[4]+"&weekStartDay="+weekStartDay;
+                        $.ajax({ type: "POST",
+                                url: "../../../att/deleteShiftTime/",
+                                data:queryStr,
+                                dataType:"text",
+                                success: function(retdata){
+									if(retdata.indexOf("result=0")==0){
+										for(row in data)
+										   if(data[row][0]==Shift_id)
+											   selected_data=data[row];
+										actionSucess_NoReload(retdata,selected_data)
+									}
+									else
+									{
+										var i=retdata.indexOf("errorInfo=\"");
+										alert(retdata.substr(i+11,retdata.length-i-13));
+									}
+								
+								
+								
+								},
+                                error: function(request, errorMsg){
+                                   alert($.validator.format(gettext('操作失败 {0} : {1}'), options.title, errorMsg)); 
+                                   }
+                           });
+            
+                        
+                    }
+                }
+            });
+            
+        }
+     });
+}
+
+function getTZDayLabel(index)
+{
+	return "第 "+(index+1)+" 天"
+}
+function getTZWeekLabel(index)
+{  
+    
+    //index+=parseInt(weekStartDay); 
+	return ["{% trans '星期日' %}","{% trans '星期一' %}","{% trans '星期二' %}","{% trans '星期三' %}","{% trans '星期四' %}","{% trans '星期五' %}","{% trans '星期六' %}"][index % 7];
+}
+
+var week=[
+		"{% trans '星期日' %}",
+	     "{% trans '星期一' %}",
+	     "{% trans '星期二' %}",
+	     "{% trans '星期三' %}",
+	     "{% trans '星期四' %}",
+	     "{% trans '星期五' %}",
+	     "{% trans '星期六' %}"
+];
+function getSchClass_html()
+{
+	var options_html="";
+	for(i=0;i<schClass.length;i++)
+		options_html+="<option value='"+schClass[i].SchclassID+"'>"+schClass[i].SchName+"("+schClass[i].StartTime.substr(0,5)+"-"+schClass[i].EndTime.substr(0,5)+")</option>"
+	return options_html;
+}
+function getDates_html(d)
+{
+    var dates_html="<tr><td>"
+           +"<div id='select_div'>"
+           +"<input type='checkbox' id='is_select_all_dates' onclick='check_all_for_row_dates(this.checked);' />"
+           +"({%trans '选择:'%} <span id='selected_count_dates'>0</span>)"
+       +"</td></tr>";
+    var cycle=d[4];
+    var unit=d[6];
+    var days;
+    if(unit==0)
+      days=cycle;
+    else if(unit==1)
+       days=cycle*7;
+    else if(unit==2)
+       days=cycle*31;
+    for(var i=0;i<days;i++)
+       dates_html+="<tr><td><input type='checkbox' class='class_select_dates' alt='"+i+"' onclick='showSelected_dates();'>"+((unit==1)?getTZWeekLabel(i):getTZDayLabel(i))+"</input></td></tr>";
+   return dates_html;
+}
+function showSelected_dates() {
+    var c = 0;
+    $.each($(".class_select_dates"),function(){
+			if(this.checked) c+=1;})
+    $("#selected_count_dates").html("" + c);
+}
+
+function check_all_for_row_dates(checked) {
+
+    if (checked) {
+        $(".class_select_dates").attr("checked", "true");
+    } else {
+        $(".class_select_dates").removeAttr("checked");
+    }
+    showSelected_dates();
+}
+
+function getSelected_Dates()
+{
+    var sdates=[];
+    $.each($(".class_select_dates"),function(){
+            if(this.checked) 
+                sdates.push(this.alt)
+    });
+    return sdates;
+}
+function actionSucess_NoReload(retdata)
+{
+	if(retdata.indexOf("result=0")==0){
+		$.unblockUI();
+        show_shift_Detail(selected_data); 
+	}
+	else
+	{
+		var i=retdata.indexOf("errorInfo=\"");
+		alert(retdata.substr(i+11,retdata.length-i-13));
+	}
+
+}
+
+function doAction(url, action)
+{
+    var result=getSelected(data, options.keyFieldIndex)
+    shift_ids=result.ss
+    for(row in data)
+       if(data[row][0]==shift_ids[0])
+           selected_data=data[row];
+	if (action == 'addShiftTimeTable')
+		createDlgShift();
+    if (action == 'deleteAllShiftTimeTbl'){
+        $.blockUI("<h1>"+selected_data[1]+"time-table deleting...</h1>");
+        $.ajax({ type: "POST",
+                    url: "../../../att/deleteAllShiftTime/?shift_id="+shift_ids,
+                    success: actionSucess_NoReload,
+                    error: function(request, errorMsg){
+                       alert($.validator.format(gettext('操作失败 {0} : {1}'), options.title, errorMsg)); $.unblockUI();
+                       }
+               });
+       
+    }
+}
+// 如果为弹性班次,则显示相关操作
+function is_row_operations_show(rowdata){
+	return rowdata[0]!=1
+}
+
+function after_save_return(){
+    $("#tz").html("<div align='center'><h4><span class='icon_Shift_Detail'>&nbsp;</span>{%trans "点击班次，显示该班次时间段明细"%}</h4></div>");
+    $("#tip").html("");
+}
+
+function createDlgShift()
+{
+    var block_html="<div class='dialog' style='width:600px;'>"
+                        + 		"<div class='dheader'><span>"+selected_data[1]+"   {%trans "增加时段" %}</span><span class='close' onclick='javascript:$.unblockUI();'></span></div>"
+                        + 		"<div class='dcontent'><form id='id_edit_form'>"
+                        +           "<table align='center'>"
+                                        +"<tr><td>&nbsp;</td></tr>"
+                                        +"<tr>"
+                                        +"<td><fieldset><legend>{%trans '时段表:'%}</legend>"
+                                        +"<div style='padding-left:35px;'><select id='id_sTimeTbl_sel' multiple='multiple' size='10' style='width:240px !important; align:center'>"+getSchClass_html()+"</select></div></fieldset>"
+                                        +"{% trans '请按Ctrl选择更多的时段表' %}"
+                                        +"<fieldset><legend></legend><input type='checkbox' id='is_overtime' name='is_OT'>{% trans '设计超时？' %}</input>"
+                                        +"<div id='show_ot' style='padding-left:3px;'>{% trans '超时:' %}<input type='text' id='id_overTime' size='5' name='OverTime'></input>{% trans '分钟' %}</div>"
+                                        +"</fieldset></td>"
+                                        
+                                        +"<td>"
+                                        +"<fieldset><legend>{%trans '日期:'%}</legend>"
+                                        +"<div style='height:230px;width:200px;overflow-y:scroll'><table >"+getDates_html(selected_data)+"</table></div></fieldset>"
+                                        +"</td>"                
+                                        +"</tr>"
+                                        +"<tr><td><span id='id_error_sec'></span></td></tr>"
+                                        +"<input type='hidden' value='' name='sTimeTbl' id='id_sTimeTbl' />"
+                                        +"<input type='hidden' value='' name='sDates' id='id_sDates' />"
+                                        +"</td></tr>"
+                                        
+                        +            "</table></form>"
+                        +       "</div>"
+                        +createSubmitButton()
+                        +       "</div>"
+    
+        $.blockUI(block_html);
+        blockUI_center();
+        $("#btnShowOK").click(function(){
+            var overTime=$("#id_overTime").val();
+            var sTimeTbl=$("#id_sTimeTbl_sel").val();
+            var sDates=getSelected_Dates();
+            if(sTimeTbl==null || sDates.length==0)
+                $("#id_error_sec").html("<ul class='errorlist'><li>{%trans '时段和日期必须选择一个！'%}</li></ul>");
+            else{ 
+                $("#id_error_sec").css("display","none");
+                $("#id_sTimeTbl").val(sTimeTbl);
+                $("#id_sDates").val(sDates);
+                var queryStr=$("#id_edit_form").formSerialize()+"&shift_id="+shift_ids[0]+"&cycle="+selected_data[4]+"&unit="+selected_data[6]+"&weekStartDay="+weekStartDay;
+                $.ajax({ type: "POST",
+                    url: "../../../att/addShiftTimeTable/",
+                    data:queryStr,
+                    dataType:"text",
+                    success: actionSucess_NoReload,
+                    error: function(request, errorMsg){
+                        alert($.validator.format(gettext('操作失败 {0} : {1}'), options.title, errorMsg)); $.unblockUI();
+                        }
+                });
+            }
+        });
+
+}
+extraBatchOp=[
+{action:{% if user|HasPerm:"iclock.addShiftTimeTable_num_run" %} function(url){doAction(url, 'addShiftTimeTable')}{% else %}''{% endif %}, title: '{%trans "增加时段"%}'},
+{action:{% if user|HasPerm:"iclock.deleteAllShiftTimeTbl_num_run" %} function(url){doAction(url, 'deleteAllShiftTimeTbl')}{% else %}''{% endif %}, title: '{%trans "删除时段"%}'}
+];
+{% endblock %}
+
+
+{% block id_main_div %}
+<div style="margin:0px 0px 10px 0px;">
+	<table style="width:100%;">
+		<tr style="height:430px;">
+		  <td style="float:left;width:68%;" valign="top">
+			<div id="id_datalist" class="div_box" >
+				<h1>{% trans "班次列表" %}</h1>
+			</div>
+		  </td>
+		  <td style="float:right; width:30%;" valign="top">
+			<div id="id_extend">
+				<div id="id_showTbl" class="div_box" >
+					<h1>{%trans "时间段明细"%}</h1>
+					<div id="tz" style="display:block"></div>
+				</div>
+				<div id="tip" style="display:block"></div>
+			</div>
+		  </td>
+		</tr>
+	</table>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Attendance System Management -&gt; Attendance calculation and reports</div>
+<div class="help_mainContant">
+  <h2>Attendance calculation and reports</h2><br />
+
+  <h3>Attendance calculation </h3><br />
+  <b> Punch  selection rules:</b><br /><br />
+    For check-in, the punch before work that is closest to  the expected check-in time will be chosen. For example, if the on-duty time is  9:00, and check-in falls at 8: 55 and 9:01, then 8:55 will be chosen. For  check-out, the punch after work that is closest to the expected check-out time  will be chosen. For example, if the off-duty time is 18:00, and punches fall at  18:01 and 18:20, then 18:01 will be chosen as the check-out time;<br />
+  <br /><b> Calculation  process:</b><br />
+    First, determine the shift of each person on the day,  and then determine the work type of each person on the day, then choose  punches, then get exception list, and then get holiday for working an extra  shift. When choosing work type, just choose the holiday setting for the 100  days prior to the current date. Get attendance parameters. Finally, calculate  and save into the database.<br />
+  <br /><b> Calculation  condition:</b><br />
+    Calculated when the date is &gt;= induction date, and  is &lt;=departure date. If attendance check is not required, no attendance data  of the person will appear in attendance calculation.<br />
+  <br /><b> Work  type judgment rules:</b><br />
+    If there is neither scheduling nor temporary  scheduling, the system will believe that the day is a weekend. Meanwhile, the  attendance of the day will be calculated based on a flexible shift. If Whether  delay calculated as overtime is checked, the overtime will be calculated as per  attendance parameter setting, and then be rounded as per the rounding rules. If  the working duration setting is 0, the interval will be deemed as overtime, and  will be directly calculated as overtime on workday.<br />
+  <br /><b> Rounding  rules:</b><br />
+    Round-down, round-off and round-up:<br />
+    To round down, if the value of the calculated item,  after producing its remainder, exceeds the minimum unit, the excess will be  removed.<br />
+    To round off, if the value of the calculated item,  after producing its remainder, exceeds a half of the minimum unit, it will be  carried a minimum unit; if it is smaller than a half of the minimum unit, it  will be directly removed.<br />
+    To round up, if the value of the calculated item, after  producing its remainder, exceeds the minimum unit, it will be carried a minimum  unit.<br />
+  <br /><b> Scheduling  rules:</b><br />
+    1. When normal scheduling exists, the system will  believe that the day is a workday, but if a temporary scheduling is added, the  system will believe that the added temporary scheduling timetable is an  overtime interval.<br /><br />
+    2. If there is neither scheduling nor temporary  scheduling, the system will believe that the day is a weekend. If an employee  comes to work, it will be calculated based on flexible shift, and be calculated  as overtime on weekend. If it is a holiday, it will be calculated as overtime  on holiday (A problem that may occur is that if a newly recruited employee is  not scheduled, his/her attendance may be equally calculated as overtime on  weekends).<br /><br />
+    3. If there is no scheduling but temporary scheduling,  the system will determine whether or not the record of holiday for working an  extra shift exists on the day. If existing, the type of holiday for working an  extra shift will prevail. Otherwise, it will be calculated based on regular  working.<br /><br />
+    4. Finding scheduling first:<br />
+    (1) If there is scheduling, it will be calculated based  on scheduling, and meanwhile temporary scheduling will be searched. If  temporary scheduling exists, calculation will be based on the fact whether  “Effect only temporary scheduling” or “After additional to existing scheduling”  is chosen for temporary scheduling. The work type of temporary shift can be  specified upon temporary scheduling.<br />
+    (2) If there is no scheduling, temporary scheduling  will be searched. If temporary scheduling exists, it will determine whether or  not the record of holiday for working an extra shift exists. If such record  exists, it will determine work type as per the type of holiday for working an  extra shift. Otherwise, calculation will still be based on regular working;<br />
+    (3) If there is neither scheduling nor temporary  scheduling, calculation will be based on flexible scheduling, and at this time,  it will determine whether or not the record of holiday for working an extra  shift exists. If such record exists, it will calculate as per the type of  holiday for working an extra shift. If such record does not exist, it will  calculate as overtime in rest time.<br />
+    5. If holiday setting exists, the day will be a  holiday. If punching records exist on the holiday, it will be calculated as  overtime on holiday. If in addition, scheduling record exists on the day, the  overtime on holiday will be calculated as per the shift setting. If scheduling  record does not exist, the overtime on holiday will be calculated as a flexible  shift. If the employee’s record of holiday for working an extra shift exists on  that holiday, the attendance of the day will be calculated as per the type of  holiday for working an extra shift.<br /><br />
+  <h3>Attendance reports</h3><br />
+  Attendance reports list the attendance of a queried  person on each day in the specified period, and create statistics of absent, late/  early leave, overtime and exceptions for check. If the results conflict, you can  adjust shifts, append log, exception or holiday for working an extra shift, and  directly modify report data as required.<br />
+    Click [Attendance] - [ report], select personnel,  select start and end dates, and click [Statistics] to show attendance reports.  If no person is selected, by default it will calculate all personnel. After  calculation, the [Log result] will appear below. To view specific information,  the user can directly click the form to switch to corresponding data area. In  the left operation area, the user can append log, append exception, temporary  scheduling, and add scheduling, etc.<br />
+  <br /><b>Note: </b>The statistics can only  cover the dates of the month, or the number of days can not exceed the number  of days of the month of the start date.<br /><br />
+  <b>Meanings of signs:</b><br /><br />
+    Sick leave: minute (B) Personal leave: minute (G)  Maternity leave: minute (C) Home leave: day (T) Annual leave: day (S)  Mandatory/Actual attendance: day ( ) Tardiness: minute( &gt;) Early leave:  minute ( &lt; ) Leave: hour (V) Absent: day (A) Overtime: hour(+) Failure of  check-in:([) Failure of check-out:(]) Free overtime: hour (F). For the addition  and modification of signs, see 8.1 Attendance parameters.<br />
+  <br /><b> Statistical  results.</b><br />
+  <br />
+    The attendance status is the original record status,  and the corrected status is the status name corrected for attendance  statistics.<br /><br />
+    For example, if someone punches card at 15:00 for  dining outside, because it falls at the check-in time, so it will be corrected  as check-in.<br />
+  <br />
+    <b> Daily  attendance statistics</b><br />
+    <br />
+    The table shows personnel daily attendance status,  attendance statistics, overtime statistics, exceptions and exception summary in  a specified period, and show them in the list in the form of sign or number or  sign plus number.<br /><br />
+    For example, the attendance status of someone on July 6  is shown as G840V, G represents personal exception (minute), V represents exception  (hour), so G840V represents the 14 hours in the exception summary and the 840  minutes in personal exception.<br />
+  <br /><b> Attendance  details</b><br /><br />
+  <br />
+    The table shows the scheduling, attendance, overtime  and holiday statistics of all personnel as per date. Attendance details are the  attendance record statistics of personnel in each attendance timetable.<br /><br />
+  <b>Expected check-in/ Expected check-out,  failure of check-in/ failure of check-out: </b>1 represents “Yes”, and 0 represents “No”;<br />
+  <b>Attendance duration: </b>the interval between personnel check-in time  and check-out time;<br />
+  <b>Exception: </b>Refers to exceptions other than on-duty and  off-duty, such as personnel exceptions;<br />
+  <b>Working minutes:</b> The interval between on-duty time and  off-duty time of personnel scheduling.<br />
+  <b>?</b><b> </b><b>Note: </b>Absent, attendance  duration, working minutes and timetable duration in this table are all in  minutes without variation.<br />
+  <br /><b> Exception  detail</b><br />
+  <br />
+    The list shows the summary of exception records in the  selected period. Valid duration (minutes) is the interval between the exception  record start time and end time.<br />
+  <br /><b> Attendance  summary:</b><br />
+  <br />
+    The list shows the attendance summary of each person in  this duration, including attendance, exception and overtime details, namely,  the summary of attendance details.<br /><br />
+    Exception records are calculated as per exception type.  The data in the “exception” column of the report = the sum of all exception  data. For example: exception = sick leave + personal leave+ maternity leave +  home leave + annual leave + self-defined exception.<br /><br />
+    Taking personnel 000015010 as an example, Mandatory  attendance: 14 days, Actual attendance: 2.87 days, Tardiness: 0, Early leave:  60 minutes, Absent: 0, Overtime 3 hours, Times of mandatory checks: 36,  Check-in: 3 times, Check-out: 2 times, Failure of check-in: 15 times, Failure  of check-out: 16 times, Working duration: 23:25 hours, Attendance duration:  121:36 hours, Workdays: 14 days, Overtime on workdays: 545 minutes, exception:  0.<br />
+  <br /><b> AC log</b><br /><br />
+  <br />
+    The list shows the attendance records of all attendance  personnel.<br />
+  <br /><b> Append log table</b><br />
+  <br />
+    The list shows the name list of all append logs in the  selected duration.<br />
+    Exception summary<br />
+    <br />
+    The list shows the exception summary of personnel in  the selected duration, namely, the summary of exception details.<br /><br />
+  <br />
+</div>
+</body>
+</html>

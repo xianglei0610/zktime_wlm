@@ -1,0 +1,54 @@
+{% extends "pos_informaform.html" %}
+{% load i18n %}
+
+{% block id_main_div %}
+    {% if request.user|HasPerm:"contenttypes.can_PosFormPage" %}
+    {% if request.user|HasPerm:"contenttypes.can_MealPage" %}
+    <div><li id="id_model_export" style="display:none"><a class="action_Model_Export" href="javascript:void(0)" alt="export"></a></li></div>
+<div style="display:none">   
+        <li>
+        <div id="id_log_url">   
+        <a id="id_log_dialog" href="javascript:void(0);" ref="/{{request.surl}}worktable/get_search_form/base/LogEntry/" query="{{ log_search }}" class=""><span class="action_log"></span>{% trans "日志记录" %}</a>							   
+        </div>
+        </li>
+    </div>		
+
+    <div id="id_datalist" class="div_box h280"><h1>{% trans "餐别资料" %}</h1>
+    </div>
+    {% endif %}<!--browse_accrtmonitor-->
+    {% endif %}<!--contenttypes.can_AllEventReportPage-->
+{% endblock %}
+
+{% block acc_reportform %}
+    {% if request.user|HasPerm:"contenttypes.can_PosFormPage" %}
+    {% if request.user|HasPerm:"contenttypes.can_MealPage" %}
+    $("#id_datalist").model_grid({
+        "model_url": "{{ dbapp_url }}personnel/Meal/",
+        "model_actions": true,
+        "object_actions": false,
+       // "obj_edit": false,
+        "record_per_page": 15,
+        "max_no_page": 20,        
+        "disabled_actions": ["OpClearAbnormityLogs","_delete","_add","_clear","_change"],
+        "multiple_select": null,
+        "action_onclick_continue": false,
+        "row_operations": true,
+        "init_after_get_jdata": function(){
+            $("#id_datalist div.action").append('<li id="id_log"><a alt="log" href="javascript:void(0)" class="action_Model_log">'+gettext("日志记录")+'</a></li>')
+//            $("#id_export").click(function(){
+//                $("#id_model_export").click();
+//            });
+            $("#id_log").click(function(){
+                                       $("#id_log_dialog").click();
+                                   });
+            
+        }
+
+    });
+    {% endif %}<!--browse_accrtmonitor-->
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_AllEventReportPage-->
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block pre_addfields %}
+    <tr>
+        <th><label for="id_import_data">{% trans "选择需要导入的文件" %}:</label></th>
+        <td>
+            <input type="file" name="import_data" class="wZBaseFileField" id="id_import_data">
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>{% trans "只支持.xls和.csv 格式文件" %}
+        &nbsp;<a target="_blank" href="/data/system/help/?p=/file/{{ LANGUAGE_CODE }}/help/department_import.html">{% trans "如何获取?" %}</a>
+        </td>
+    </tr>
+    <tr>
+        <td clospan="2">
+            <input name = "app_label" type="hidden"  value="{{ app_label }}" />
+            <input name = "model_name" type="hidden" value="{{ model_name }}" />
+        </td>
+    </tr>
+    
+    
+{% endblock %}
+
+{% block addjs %}
+    
+{% endblock %}

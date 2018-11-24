@@ -1,0 +1,131 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %} 
+<tr><td>
+  <table width="100%" border="0" cellspacing="" cellpadding="3" id="tbl_iccard_edit">
+	  <tr>
+		  <th height="20">{{ form.SchName|field_as_label_tag }}</th>
+		  <td colspan="5">{{form.SchName.as_widget }}</td>
+		  <td>{{form.SchName.errors }}</td>
+		  <td></td>
+	</tr>
+	<tr>
+	  <td height="5" colspan="8"></td>
+	</tr>
+  <tr>
+     <th height="20">{{ form.CheckInTime1|field_as_label_tag }}</th>
+     <td>{{form.CheckInTime1.as_widget }}</td>
+     <td>{{form.CheckInTime1.errors }}</td>
+     
+     <th height="20">{{ form.CheckOutTime1|field_as_label_tag }}</th>
+     <td>{{form.CheckOutTime1.as_widget }}</td>
+     <td>{{form.CheckOutTime1.errors }}</td>
+ </tr>
+  <tr>
+      <th height="20">{{ form.StartTime|field_as_label_tag }}</th>
+      <td>{{form.StartTime.as_widget }}</td>
+      <td>{{form.StartTime.errors }}</td>
+      
+      <th height="20">{{ form.EndTime|field_as_label_tag }}</th>
+      <td>{{form.EndTime.as_widget }}</td>
+      <td>{{form.EndTime.errors }}</td>
+  </tr>
+  <tr>
+      <th height="20">{{ form.CheckInTime2|field_as_label_tag }}</th>
+      <td>{{form.CheckInTime2.as_widget }}</td>
+      <td>{{form.CheckInTime2.errors }}</td>
+      
+      <th height="20">{{ form.CheckOutTime2|field_as_label_tag }}</th>
+      <td>{{form.CheckOutTime2.as_widget }}</td>
+      <td>{{form.CheckOutTime2.errors }}</td>
+  </tr>
+	<tr>
+	  <td height="5" colspan="8"></td>
+	</tr>
+	<tr>
+    <th height="20">{{ form.CheckIn|field_as_label_tag }}</th>
+    <td>{{form.CheckIn.as_widget }}</td>
+    <td>{{form.CheckIn.errors }}</td>
+    
+    <th height="20">{{ form.CheckOut|field_as_label_tag }}</th>
+    <td>{{form.CheckOut.as_widget }}</td>
+    <td>{{form.CheckOut.errors }}</td>
+</tr>
+	<tr>
+      <th height="20">{{ form.LateMinutes|field_as_label_tag }}</th>
+      <td>{{form.LateMinutes.as_widget }}</td>
+      <td>{{form.LateMinutes.errors }}</td>
+      
+      <th height="20">{{ form.EarlyMinutes|field_as_label_tag }}</th>
+      <td>{{form.EarlyMinutes.as_widget }}</td>
+      <td>{{form.EarlyMinutes.errors }}</td>
+  </tr>
+
+
+
+<tr>
+      <th height="20">{{ form.shiftworktime|field_as_label_tag }}</th>
+      <td>{{form.shiftworktime.as_widget }}</td>
+      <td>{{form.shiftworktime.errors }}</td>
+      
+      <th height="20">{{ form.WorkDay|field_as_label_tag }}</th>
+      <td>{{form.WorkDay.as_widget }}</td>
+      <td>{{form.WorkDay.errors }}</td>
+  </tr>
+<tr>
+      <th height="20">{{ form.IsOverTime|field_as_label_tag }}</th>
+      <td>{{form.IsOverTime.as_widget }}</td>
+      <td>{{form.IsOverTime.errors }}</td>
+      
+      <th id = '' height="20">{{ form.OverTime|field_as_label_tag }}</th>
+      <td>{{form.OverTime.as_widget }}</td>
+      <td>{{form.OverTime.errors }}</td>
+  </tr>
+  
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+   
+
+  </table>
+</td></tr>
+
+
+{% endautoescape %}
+{% endblock %}
+
+
+{% block addjs %}
+$(function(){
+	$("#id_SchName").css({width:"250px"});
+	if ($("#id_IsOverTime").val()=="0"){
+		$("#id_OverTime").parent().hide();
+		$("#id_OverTime").parent().prev().hide();
+		$("#id_OverTime").parent().next().hide();
+	}
+	$("#id_OverTime").after("分钟后签退记加班");
+	if($("#id_edit_form").find("#id_model_pk").val()=="None"){
+		$("#id_StartTime").val("09:00:00");
+		$("#id_EndTime").val("18:00:00");
+		
+		$("#id_CheckInTime1").val("08:00:00");
+		$("#id_CheckInTime2").val("10:00:00");
+		
+		$("#id_CheckOutTime1").val("17:00:00");
+		$("#id_CheckOutTime2").val("19:00:00");
+		
+	}
+	$("#id_IsOverTime").change(function(){
+		if  ($("#id_IsOverTime").val()=="0"){
+			$("#id_OverTime").parent().hide();
+			$("#id_OverTime").parent().prev().hide();
+			$("#id_OverTime").parent().next().hide();
+		}else{
+			$("#id_OverTime").parent().show();
+			$("#id_OverTime").parent().prev().show();
+			$("#id_OverTime").parent().next().show();
+		}
+	});
+});
+{% endblock %}

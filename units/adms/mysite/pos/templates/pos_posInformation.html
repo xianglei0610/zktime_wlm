@@ -1,0 +1,91 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block headjs %}
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+<link href="{{ MEDIA_URL }}/css/app_guide.css" rel="stylesheet" /> 
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+{% endblock %}
+
+{% block extend_js %}
+
+
+<script>
+$(function(){
+$('#id_tab').remove();
+})
+
+    function setFrom(url)
+    {
+    var   iframe   =   document.getElementById( "Id_content");
+    iframe.src   =url;
+//    $.ajax({
+//            url:url,
+//            dataType:"html",
+//            type:"POST",
+//            success:function(data){
+//                iframe.src   =url;
+//            }
+//        });
+            
+//        setTimeout(function()
+//        {
+//                iframe.contentWindow.document.write( " <div   style= 'height:   100%;   background-color:   yellow '> loading... </div> ");
+//                iframe.contentWindow.document.close();
+//                iframe.src=url
+//        }, 1);
+    } 
+</script>
+
+{% endblock %}
+
+
+
+{% block for_special_menu %}<!-- 特殊菜单？ span_class:ds_DoorMngPage is for bg img, CSS in base.css-->
+	<div>
+		<ul class="Link_blue2" >
+		<li>
+            	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/SplitTime/');"><span class="ds_DoorMngPage"></span>分段定值</a><div class="div_leftBottomLine"></div>
+            </li>
+            <li>
+                        	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/BatchTime/')"><span class="ds_DoorMngPage"></span>消费时间段设置</a><div class="div_leftBottomLine"></div>
+                        </li>
+
+            <li>
+        <a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/ICcard/')"><span class="ds_DoorMngPage"></span>卡类资料</a><div class="div_leftBottomLine"></div>
+                </li>
+
+            <li>
+                        	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/Dininghall/')"><span class="ds_DoorMngPage"></span>餐厅资料</a><div class="div_leftBottomLine"></div>
+                        </li>
+
+            <li>
+                        	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/Meal/')"><span class="ds_DoorMngPage"></span>餐别资料</a><div class="div_leftBottomLine"></div>
+                        </li>
+
+            <li>
+                        	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/Merchandise/')"><span class="ds_DoorMngPage"></span>商品资料</a><div class="div_leftBottomLine"></div>
+                        </li>
+
+            <li>
+                        	<a href="javascript:void(0)" onclick="setFrom('{{request.dbapp_url}}pos/KeyValue/')"><span class="ds_DoorMngPage"></span>键值资料</a><div class="div_leftBottomLine"></div>
+                        </li>
+            
+        
+       
+        
+			
+		 
+			<!-- 	<li id="id_li_import" class="displayY">
+			   <div id="id_model_import"><a href="javascript:void(0)"><span class="action_import"></span>{% trans "导入" %}</a></div>
+			   <div class='div_leftBottomLine'></div>
+			</li>-->
+
+			
+    	</ul>
+	</div>
+{% endblock %}
+
+{% block content %}
+<iframe id="Id_content" src="{{request.dbapp_url}}pos/SplitTime/" width="100%" height="500px;" frameborder="0"></iframe>
+{% endblock %}

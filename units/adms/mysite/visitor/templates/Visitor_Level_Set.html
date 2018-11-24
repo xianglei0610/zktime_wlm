@@ -1,0 +1,171 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block model_extend %}{%endblock%}
+{% block content %}
+    <div style="margin-left:10px;">
+        <form method="post" onkeydown="if(event.keyCode==13){return false;}"  id="id_edit_form" enctype="multipart/form-data">
+        <div>
+            <div class="div_box1"><h2>{% trans "访客门禁权限组设置" %}</h2>
+                <table id="id_access_info_tbl" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="text-align:right;">
+                            {% trans "门禁权限组:" %}
+                        </td>
+                        <td align="left">
+                            <div>
+                                <input type="text" id="level_name" name="level_name" size="1"></input>
+                                <input type="button" id="id_query_level" class="select_EmpSubmit" title={% trans "查询" %} value=""></input>
+                                <input type="checkbox" id="id_select_all" name="level_name" size="1"></input>
+                                <label>{% trans "全选" %}</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <div id="id_level" style="border:1px solid #71A8D8"></div></div>
+                        </td>
+                    </tr>
+                    <tr class="displayN"><th></th><td><input type="checkbox" name="level_changed" class="wZBaseBooleanField" id="id_level_changed"></td></tr>
+                </table>  
+                <div>
+                    <span class="icon_note">&nbsp;</span>
+                    <font color="#FF6600">
+                        {% trans "访客门禁权限组设置是选择哪些通道可给访客通过。"%}
+                    </font>
+                </div>
+            </div>
+        </div>
+        <span id="id_error" style="display:none;"></span>
+        <div class="editformbtn">
+            <div class="lineH22 img_padding">
+                <span class="action_OK"></span>
+                <a id="OK" href="javascript:void(0)" class="Link_blue1">{% trans "确定" %}</a>
+            </div>
+        </div>
+        <input type="hidden" name="down_event_hours" id="id_down_event_hours" value=""/>
+        </form>
+    </div>
+    
+{% endblock %}
+{% block extend_js %}
+    {% if "mysite.iaccess"|hasApp %}
+    <script type="text/javascript">
+    $(function(){
+        $.ajax({ 
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/GetData/?func=level",
+            dataType:"json",
+            async:false,
+            success:function(json){
+                var level_list="<ul id='levelSingleBrowser' class='level_list'>";
+                if (json.length>0)
+                {   
+                    for(index in json)
+                    {
+                        level_list+='<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                    }
+                    level_list+='</ul>';
+                }
+                else
+                {
+                    level_list+='<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                }
+                $("#id_level").append(level_list);
+                default_visitor_level();
+            }
+        });
+        
+        $("#level_name").keydown(function(event){//按回车键直接查询
+            if(event.keyCode==13)
+            {
+               $("#id_query_level").click();
+            }
+        });
+        //查找权限组
+        $("#id_query_level").click(function(){
+            var level_name = $("#level_name").val();
+            $.ajax({ 
+                type: "POST",
+                url:"/{{ request.surl }}iaccess/GetData/?func=level&level_name="+level_name,
+                dataType:"json",
+                async:false,
+                success:function(json){
+                    var level_list = "<ul id='levelSingleBrowser' class='level_list'>";
+                    if (json.length>0)
+                    {   
+                        for(index in json)
+                        {
+                            level_list += '<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                        }
+                        level_list += '</ul>';
+                    }
+                    else
+                    {
+                        level_list += '<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                    }
+                    $("#id_level").empty();
+                    $("#id_level").append(level_list);
+                    default_visitor_level();
+                }
+            });
+        });
+        
+        //权限组全选按钮--darcy20110726
+        $("#id_select_all").click(function(){
+            var select_all = $("#id_select_all").attr("checked");
+            $("#id_level input").each(function(){
+                
+                if(select_all)
+                {
+                    $(this).attr("checked", "checked");
+                }
+                else
+                {
+                    $(this).attr("checked", "");
+                }
+            });
+        });
+    });
+    
+    function default_visitor_level()
+    {
+        var is_visitor_level = 1;
+        $.ajax({
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/GetData/?func=visitor_level&key="+is_visitor_level,
+            dataType:"json",
+            async:false,
+            success:function(json){
+                $("#levelSingleBrowser input").each(function(){
+                    value = $(this).attr("value");
+                    for(var j in json)
+                    {
+                        if(value == json[j])
+                        {
+                            $(this).attr("checked","checked");
+                        }
+                    }
+                });
+            }
+        });        
+    }
+    
+    $("#OK").click(function(){
+        $("#id_edit_form").ajaxSubmit({
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/update_visitor_level/", 
+            dataType:"json",
+            success:function(msgback){
+                $("#id_error").attr("style", "display:block");
+                if (msgback.ret == 0){
+                    $("#id_error").html('<ul class="successlist"><li><font color="blue">'+gettext("设置成功！")+'</font></li></ul>');
+                }else{
+                    $("#id_error").html('<ul class="successlist"><li><font color="red">'+msgback.ret+'</font></li></ul>');
+                }
+            }
+        })
+    });    
+    </script>
+    {% endif %}
+{% endblock %}

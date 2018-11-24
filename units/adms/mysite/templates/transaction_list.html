@@ -1,0 +1,45 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+
+{% block additionDataOptions %}
+options.showStyle=true;
+options.addition_fields=['UserID.PIN','UserID.EName','WorkCode','Reserved','<th>{%trans "照片"%}</th>|thumbnailUrl','TTime|shortTime'];
+options.exception_fields=['UserID', 'TTime'];
+
+function strOfData(rowData)
+{
+	return rowData[data.field["UserID.PIN"]]+" {% trans "在" %} "+rowData[data.field["TTime|shortTime"]]+" {% trans "考勤记录" %}";
+}
+
+function showBox(data)
+{
+	var html="";
+	if(data.length>0)
+	{
+		for(var i=0;i<data.length;i++)
+		{
+			var img=data[i][9];
+			if(img<"<")
+				img="<img src='/media/img/transaction/noimg.jpg' />";
+			html+="<div id='ic_"+data[i][0]+"' class='AIClockBox'>"
+				+"<div class='iclockButton'>"
+				+"<input type='checkbox' class='class_select' onclick='showSelected();' id='id_row_"+i+"' />"
+				+img+"<br />"+data[i][1]+"&nbsp;"+data[i][2]+"<br />"+data[i][3]
+				+"</div>"
+				+"<div id='tt_"+data[i][0]+"' class='iclockTT'>"
+				+"<span>"+data[i][5]+",&nbsp;&nbsp;&nbsp;&nbsp;"+data[i][4]+"<br/>"
+				+data[i][8]+"<br/>"
+				+"{%trans '工作代码'%}: "+data[i][6]+",&nbsp;{%trans '保留'%}: "+data[i][7]+"<br/>"
+				+"</span>"
+				+"</div>"
+				+"</div>"
+		}
+	}
+	else
+		html+="<div class='NoIclock'>{%trans "无数据!" %}</div>"
+	return html;
+
+}
+{% endblock %}
+

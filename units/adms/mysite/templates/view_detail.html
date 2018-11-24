@@ -1,0 +1,68 @@
+{% load i18n %}
+{% block title %}
+<div class="class_div_edit">
+    <div id="id_span_title" class="portlet-header sfActive">
+    <span title="{% trans '关闭' %}" class="ui-icon ui-icon-closethick cursorP"></span>
+    <span class='icon_SiteMap'>&nbsp;</span>{% trans "当前位置：" %}
+        {% if position %} 
+            {{position}} 
+        {% else %} 
+            <span id="id_rel_log">{{ app_menu|translate_str }}</span> -> {{ title|translate_str|escape }}
+        {% endif %}->{{ verbose_name|escape }}
+    </div>
+    {% endblock %}
+
+    <div>
+        <div id="id_view_detail">
+            <form id="id_edit_form">
+            <table cellpadding="3" class="table_detail" style="margin:10px;">
+            <tbody>
+            {% for k,v in fields.items %}
+                {% ifequal forloop.counter0|divisibleby:"2" 1 %}<tr>{% endifequal %}
+                    <th>{{ k }}</th>
+                    <td width="180">{{ v }}&nbsp;</td>
+                {% ifequal forloop.counter0|divisibleby:"2" 0 %}</tr>{% endifequal %}
+                {% if forloop.last %}
+                    {% ifequal forloop.counter0|divisibleby:"2" 1 %}</tr>{% endifequal %}
+                {% endif %}
+            {% endfor %}
+            </tbody>
+            </table>
+            </form>
+        </div>
+        {% block headjs %}
+        <script>
+            var timer=setInterval(function(){
+                var btns=$("div.editformbtn");
+                if(btns.length>0){
+                    btn_ok=btns.find("a#OK").unbind("click");
+                    clearInterval(timer);
+                    btn_ok.bind("click",function(){
+                        var grid=$("#id_datalist").get(0);
+                        var varDivEdit=$("div.class_div_edit");
+                        var varClose=function(){
+                            if(grid.g.do_action_template){
+                                varDivEdit.empty();
+                            }else{
+                                varDivEdit.remove();
+                            }
+                            $(grid).show();
+                            if(grid.g){
+                                $.zk._hide_switch(false,grid.g.do_action_masker_div);//隐藏
+                            }else{
+                                $.zk._hide_switch(false);
+                            }
+                            
+                            if(typeof(after_close)!="undefined"){
+                                after_close();
+                            }
+                        }
+                        varClose();
+                    });
+                }
+            },1);
+            
+        </script>
+        {% endblock %}
+    </div>
+</div>

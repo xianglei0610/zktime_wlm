@@ -1,0 +1,64 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form%}
+{% autoescape off %}
+<table class = "tbl_data_edit"  cellpadding="3px">
+<tr id="tr_devices">
+	{{form.devices|field_as_td_h}}
+</tr>
+<tr>
+    <td>
+		{% trans "设备" %}:
+	</td>
+	<td>
+		<div id="id_device_group">
+    	<ul id="show_device" style="list-style:none;line-height:3.5PX">
+    	</ul>
+		</div>
+    </td>
+</tr>
+</table>
+{% if form.non_field_errors %}
+			<tr><td>{{ form.non_field_errors }}</td></tr>
+		{% endif %}
+{% endautoescape %}
+{% endblock%}
+{% block addjs%}
+{% if request.user|HasPerm:"iclock.add_dstime" %}
+    $("#id_devices").parent().parent().hide();
+	$.ajax({
+		url:"/{{ request.surl }}iclock/get_acc_dev/",
+		type:"GET",
+		dataType:"json",
+		success:function(data)
+		{
+			var html = "";
+			for(var i=0;i<data.length;i++)
+			{
+				html = html+"&nbsp;&nbsp;&nbsp;<li><input type='checkbox' value='"+data[i][0]+"' />&nbsp;&nbsp;"+data[i][1]+"</li>";
+
+			}
+			$("#show_device").html(html);
+		}
+	});
+	var devs_id = "";
+	var before_submit = function(){
+		$("#show_device").find(":checkbox[checked]").each(function(){
+			devs_id = this.value+"-"+devs_id;
+		})
+		if(devs_id != "")
+		{
+			$("#id_devices").val(devs_id);
+		}else
+		{
+			alert(gettext("请选择需要设置的对象!"));
+			return false;
+		}
+		return true;
+	}
+{% else %}
+    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+    window.location.href = "/{{ request.surl }}accounts/login/";
+{% endif %}
+{% endblock%}

@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load dbapp_tags %}
+<html>
+    <title>
+    </title>
+    <body>
+      {% block perm_info %} {% trans '没有权限访问此模块' %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,183 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% trans "无标题文档" %}</title>
+<style  type="text/css" > 
+	.bc td{
+		vertical-align:middle;
+		text-align:center;
+		word-break:keep-all;
+		/*width:140px;*/
+		padding-right:3px;
+	  	word-break:keep-all;
+		word-wrap: normal;
+		white-space:nowrap;
+		height:25px;
+		}
+	
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.div_fileform tr{
+
+	vertical-align:middle;
+}
+	 
+</style>
+<script>
+var lang_code="{{lang_code}}";
+$(function(){
+	var opt=$("#select3").find("option");
+	var lng=""
+	if(lang_code=="en")
+	{
+		lng="_en"
+	}
+	
+	if(opt.length>0)
+	{
+		if($(opt[0]).attr("value")=="employee")
+		{
+			$("#id_div_showpic").addClass("employee_pic"+lng)
+		}
+		else
+		{
+			$("#id_div_showpic").addClass("department_pic"+lng)
+		}
+	}
+	
+});
+</script>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center"  font-size:12px  text-align: justify;text-align: center;>
+<tr>
+<div id="id_div_showpic">
+<div class="div_showpic_text color_orange">{% trans "示例" %}</div>
+</div>
+</tr>
+  <tr>
+    <td>
+    <div class="div_fileform">
+	<form name="txtfileform" action="/data/import/get_import" method="post" enctype="multipart/form-data">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2" class="table">
+      <tr>
+        <td width="103" bgcolor="#F1FCFE">{% trans "选择导入表" %}</td>
+        <td>
+        <select name="tablename" id="select3">
+        {% for tblname,tblvalue in tables.items %}
+          <option value="{{ tblname }}">{{ tblvalue}}</option>
+         {% endfor %}
+        </select></td>
+        </tr>
+      <tr>
+        <td bgcolor="#F1FCFE"><span style="text-align: right">{% trans "导入文件" %}</span></td>
+        <td><input type="file" name="file" id="txtfilename" /></td>
+        </tr>
+      <tr>
+        <td bgcolor="#F1FCFE"><span style="text-align: left">{% trans "文件格式" %}</span></td>
+        <td><input type="radio" name="filetype" id="radio" value="xls" />{% trans "XLS文件" %} 
+  <input name="filetype" type="radio" id="radio7" value="txt" checked="checked" />
+{% trans "TXT文件，CSV文件" %} </td>
+      </tr>
+      <tr>
+        <td bgcolor="#F1FCFE"><span style="text-align: left">{% trans "分隔符" %} </span></td>
+        <td><input name="sparator" type="radio" id="radio8" value="0" checked="checked" />
+{% trans "智能查找" %}
+  <input name="sparator" type="radio" id="radio4" value="2" />
+{% trans "其它" %}
+<input type="text" name="sparatorvalue" id="textfield6"  value=","/></td>
+      </tr>
+      <tr>
+        <td bgcolor="#F1FCFE">{% trans "标题" %}</td>
+        <td><input type="radio" name="header" id="radio9" value="0" />
+{% trans "无标题" %}
+  <input name="header" type="radio" id="radio10" value="1" checked="checked" />
+{% trans "有标题，标题在文件中第" %}
+<input type="text" width="50"  name="headerln" value="1"/>
+{% trans "行" %}</td>
+      </tr>
+      <tr>
+        <td bgcolor="#F1FCFE">{% trans "起始行" %}</td>
+        <td>{% trans "记录从第" %}
+          <input type="text" width="50" value="2" name="recordln" />
+{% trans "行起开始导入" %}</td>
+      </tr>
+      <tr>
+        <td bgcolor="#F1FCFE">{% trans "文件编码" %}</td>
+        <td><select name="selectunicode" id="select">
+          <option value="gb18030">{% trans "简体" %}</option>
+          <option value="big5">{% trans "繁体" %}</option>
+          <option value="utf8">utf8</option>
+        </select></td>
+      </tr>
+      <tr>
+        <td colspan="2"><span style="text-align: center">
+          <input name="button" type="button" class="btn" id="btnUpload"  value={% trans "上传文件" %} ></input>
+        </span></td>
+        </tr>
+    </table>
+      </form></div>
+    
+    
+    </td>
+  </tr>
+  <tr>
+    <td height="39" colspan="4"><b>{% trans "记录与表字段对应关系" %}</b></td>
+  </tr>
+  <tr>
+    <td height="180" colspan="4">
+    <div><form  id="fileimport">
+    <div id="showlist" style="height:140px;vertical-align:top;width:100%; position:relative; overflow:auto; border:1px solid #969696;"><!-- width:620px; -->
+      <table  border="0" cellspacing="0" cellpadding="0"  class="bc table" style=" text-align: center; font-weight: bold; overflow:auto">
+        
+        </table>
+    </div>
+      
+    <table id="tbl_bottom" border="0" cellspacing="0" cellpadding="0" class="table" style="margin:5px 0px" width="100%" >
+      <tr>
+        <td width="103" bgcolor="#F1FCFE">{% trans "数据出错处理方式" %}</td>
+        <td><input name="errmode" type="radio" id="radio5" value="1" checked="checked" />
+{% trans "跳过出错行，继续执行导入" %}
+  <input type="radio" name="errmode" id="radio6" value="2" />
+{% trans "中断整个导入,清除已导入记录" %}</td>
+        </tr>
+      <tr>
+        <td bgcolor="#F1FCFE"> {% trans "关联记录处理" %}</td>
+        <td><input name="addrelate" type="radio" id="radio2" value="1" checked="checked" />
+          {% trans "自动增加到关联表" %}
+            <input type="radio" name="addrelate" id="radio11" value="2" />
+          {% trans "不增加关联记录，跳过当次记录" %}</td>
+        </tr>
+      <tr>
+        <td colspan="2" align="center" class="displayN">
+        <input type="hidden" name="txtworksheet" value="" />
+        <input type="hidden" name="unicode" value="" />
+          <input type="hidden" name="txtfiletype" value="" />
+          <input type="hidden" name="txttablename" value="" />
+          <input type="hidden" name="txtfilename" value="" />
+          <input type="hidden" name="sparatorvalue" value="" />
+          <input type="hidden" name="headln" value="" />
+          <input type="hidden" name="recordln" value="" />
+</td>
+      </tr>
+    </table>
+		<div class="btns_class">
+	      <input type="button"  value={% trans "导入" %}  id="btnImport" class="btn" />         
+          <input type="button" id="btnReturn"  value={% trans "退出" %} class="btn" />
+		</div>
+    </form>
+    </div>
+    
+   </td>
+  </tr>
+
+</table>
+</body>
+</html>

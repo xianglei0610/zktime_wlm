@@ -1,0 +1,4 @@
+{% for k in fields %}{% if forloop.last %}{{ k }}{% else %}{{ k }},{% endif %}{% endfor %}
+{% for k in tdata %}
+{% for d in k %}{% if forloop.last %}{{ d }}{% else %}{{ d }},{% endif %}{% endfor %}
+{% endfor %}

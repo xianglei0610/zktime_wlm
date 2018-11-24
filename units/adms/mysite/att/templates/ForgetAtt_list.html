@@ -1,0 +1,126 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block getdatalist %}
+{% endblock %}
+{% block content %}
+<div id="content" ></div>
+{% endblock %}
+{% block op_for_tab %}
+{% endblock %}
+
+
+{% block addjs %}
+function getOptions()
+{
+	options_html=""
+	for(var i=0;i<states.length;i++)
+		options_html+="<option value='"+i+"'>"+states[i]+"</option>"
+	return options_html;
+}
+$(function(){
+EmpAndDept={{ForgetAtt_list}};
+states=EmpAndDept.states;
+var selectEmpoloyee=""
+
+$("#content").html(""
++"<div class='form_help'>"
+		+"<span class='icon_Shift_Detail'>&nbsp;</span>{%trans ' 当某一部分或者全体员工因故未签到、签退，可使用本功能给员工添加签到、签退记录，其修改情况可在出勤记录查询功能中查询' %}"
+		+"<br />{% trans '单击部门不选人员则按整个部门及其下属部门进行集体补记录，否则按所选人员进行补记录' %}</div>"
++"<div class='module' style='position:relative;margin:10px;'>"
++"<table style='margin-bottom: 2px;'><tr>"
+	+"<th style='vertical-align:top;text-align:right;width:55px;'><label class='required'>{% trans '人员:'%} </label></th>"
+	+"<td style='vertical-align:top;'><div id='show_dept_emp_tree' style='min-height: 200px;'></div></td></tr>"
+	+"<tr><td colspan='2' style='vertical-align:top;width:40%;'><div id='id_conditions'>"
+		+"<form id='id_edit_form' method='POST'><table id='id_setField'>"
+
++"<tr><th><label for='id_checktype' class='required'>{% trans '补签方式:'%}</label></th>"
+		+"<td><select style='width:120px !important;' id='id_checktype' name='checktype'>"+getOptions()+"</select></td><tr>"
+
+		+"<tr><th><label for='id_checkdate' class='required'>{% trans '日期:'%}</label></th>"
+		+"<td><input type='none' id='id_checkdate' name='checkdate' value='' size='11' maxlength='10' class='vDateOnlyField'/></td></tr>"
+
+		+"<tr><th><label for='id_checktime' class='required'>{% trans '时间:'%}</label></th>"
+		+"<td><input type='none' id='id_checktime' name='checktime' value='' size='9' maxlength='8' class='vTimeField'/></td></tr>"
+		
+		+"<tr><th><label for='id_reson'>{% trans '原因:'%}</label></th>"
+		+"<td><input style='width:120px !important;' type='text' id='id_reson' name='reson' value='' /></td></tr>"
+		+"<input type='hidden' id='id_hidden_emp' value='' name='UserIDs' />"
+        +"<input type='hidden' id='id_hidden_depts' value='' name='deptIDs' />"
+		+"<tr><th> </th><td></td></tr>"
+		+"<tr><th></th><td><span class='action_SaveandContinue'></span><a id='id_submit'class='Link_blue1' href='javascript:void(0)' >{%trans "提交" %}</a>&nbsp;&nbsp;&nbsp;&nbsp;<span class='action_Cancel'></span><a class='Link_blue1' onclick='window.history.back(); return false;' href='javascript:void(0)'>{%trans "返回" %}</a></td></tr>"
+		+"<tr><th> </th><td></td></tr>"			
+		+"<tr><td colspan='2'><span id='id_error'></span></td></tr>"
+	+"</table></form></div></td>"
++"</tr></table></div>"
+);
+$.ajax({
+	url:"../../att/choice_widget_for_select_emp/?multiple=true",
+	type:"POST",
+	dataType:"html",
+	success:function(sdata){
+		//alert($("#show_dept_emp_tree"));
+		$("#show_dept_emp_tree").html(sdata);
+		
+	}
+});
+//递交
+$("#id_submit").click(function(){
+	var usr_ids=[]
+	$("#show_dept_emp_tree").find(".zd_Emp>div:last .div_store_emp input").each(function(index,elem){
+		usr_ids[index]=$(this).val();
+	});
+	if(usr_ids.length==0){
+		alert("you should  select one person at least!");
+		return;
+	}
+	$("#id_hidden_emp").val(usr_ids.join(","));
+	var opt={
+		url:"../../att/SaveForget/",
+		dataType:"text",
+		type:"POST",
+		success:function(retdata){
+			if(retdata.indexOf("result=0")==0){
+					$("#id_error").css("display","block");
+					$("#id_error").html("<ul class='errorlist'><li>{%trans '保存成功,如需查看，请浏览<统计与报表-->签卡记录表>'%}</li></ul>");				
+				}
+			else
+				{
+					$("#id_error").css("display","block");
+					var i=retdata.indexOf("message=\"");
+					var message=retdata.substr(i+18)
+			
+					//$("#id_error").html("<ul class='errorlist'><li>{%trans '保存失败!'%}</li></ul>");
+					$("#id_error").html("<ul class='errorlist'><li>"+message+"</li></ul>");
+				}
+		}
+	}
+	$("#id_edit_form").ajaxSubmit(opt);
+});
+
+var currDate=new Date();
+$("#id_checkdate").val(currDate.getFullYear()
+						+"-"
+						+(currDate.getMonth()+1<10?"0"+(currDate.getMonth()+1):currDate.getMonth()+1)
+						+"-"
+						+currDate.getDate()
+						);
+$("#id_checktime").val(currDate.toLocaleTimeString());
+
+});
+{% endblock %}
+
+<style>
+form th {
+text-align:left;
+padding-top:4px;
+vertical-align: top;
+}
+#id_setField th{text-align:right;}
+.form_help {background-color: #ccddee; padding: 10px; margin:10px;}
+</style>
+
+
+
+
+
+

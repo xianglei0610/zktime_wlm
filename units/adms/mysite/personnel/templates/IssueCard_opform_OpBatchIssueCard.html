@@ -1,0 +1,684 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %}
+
+<tr style="display:None">
+<td>
+	{{ form.pin_width }}
+	</td>
+</tr>
+
+<tr style="display:None">
+	<td>
+		<input type="hidden" id="id_empids" name="empids" value=""></input>
+		<input type="hidden" id="id_cardnos" name="cardnos" value=""></input>
+	</td>
+</tr>
+<tr>
+
+	<td>
+		<table cellspacing="3">
+			<tr height="19px">
+				<th valign="bottom">{% trans '输入起始人员编号:' %}</th><td><input type="text" name="startpin" id="id_startpin"></input></td>
+			</tr>
+			<tr height="19px">
+				<th valign="bottom">{% trans '输入结束人员编号:' %}</th><td><input type="text" name="endpin" id="id_endpin"></input>
+				<span id="id_genemps" class="Link_blue1"> <a href="javascript:void(0)" >{% trans '查询人员列表'%}</a></span>
+				<!-- <span id="id_changeemps" class="Link_blue1"> <a href="javascript:void(0)" >{% trans '更改人员编号'%}</a></span> -->
+				</td>
+			</tr>
+			
+			{% if "POS"|filter_config_option %}	
+			    <tr height="19px">{{ form.blance|field_as_td_h }}</tr>		
+				<tr height="19px">{{ form.mng_cost|field_as_td_h }}</tr>
+				<tr height="19px">{{ form.card_cost|field_as_td_h }}</tr>
+				<tr height="19px">{{ form.cardPwd|field_as_td_h }}</tr>
+				<tr height="19px">{{ form.cardtype|field_as_td_h }}</tr>
+			{%endif%} 
+			<tr height="19px"><th text-align="right"><label for="id_cardtype">{% trans '未分配卡人员数量' %}:</label></th><td>
+			<div id="div_id_remainnumber" class="color_orange" style="padding-top:3px;padding-top:0px\9;"></div></td></tr>
+			<tr height="19px">
+				<td colspan=2>
+					<div id="div_id_showmore" class="div_box" style="width:400px"><h1>&nbsp;</h1><div class="div_addcard">
+					   <table id="tbl_datalist" class="table table1" width="100%"><thead>
+							<tr id="id_tr_old"><th>{% trans '人员编号' %}</th><th>{% trans '姓名' %}</th><th>{% trans '姓氏' %}</th><th>{% trans '部门名称' %}</th></tr></thead>
+					   </table>
+					</div></div>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td>
+
+		<table cellspacing="3">
+						{% if "ISSUECARD_GET_CARD_WAY"|filter_config_option %}
+						<tr height="19px">
+							<th valign="middle" style="text-align:right">{% trans '卡号获取方式' %}:</th>
+							<td width="150px">
+								<select id="get_card_way" style="width:150px">
+									<option value="1" selected="selected">{% trans '发卡器'%}</option>
+									<option value="2">{% trans '门禁控制器' %}</option>
+								</select></td>
+							<td>
+								<div style="display:block"></div>
+							</td>
+						</tr>
+						{%else%}
+						<tr height="19px">
+							<th valign="middle" style="text-align:right">&nbsp;</th>
+							<td width="150px">&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						{% endif %}
+													
+						{% if "POS"|filter_config_option %}			
+							<tr height="19px"><th></th><td></td><td></td></tr>
+							<tr height="19px"><th></th><td></td><td></td></tr>
+							<tr height="19px"><th></th><td></td><td></td></tr>
+							<tr height="19px"><th></th><td></td><td></td></tr>
+							<tr height="19px"><th></th><td></td><td></td></tr>
+							<tr class="batchIssCafd_tr"><th></th><td></td><td></td></tr>
+						{%endif%} 
+						<tr id="get_card"  height="19px">
+							<th valign="middle" style="text-align:right">{% trans '输入卡号:' %}</th>
+							<td width="150px"><input type='text' id='id_cardno'  style="width:146px" maxlength="20"/>
+							</td>
+							<td valign="bottom">
+								<span class="Link_blue1"> <a href="javascript:void(0)" onclick="issue_conf()">{% trans '确定' %}</a></span>
+								<span id="id_clearcard" class="Link_blue1"> <a href="javascript:void(0)" >{% trans '清除' %}</a></span>
+							</td>
+						</tr>
+						<tr id="device_tr" class="displayN" height="19px">
+							<th valign="middle">{% trans '刷卡位置'%}:</th>
+							<td>
+								<input  id="id_door_name" readonly='true' style="width:146px" /><span class='btn_showDeptTree wZBaseCharField input_showDeptTree'>
+									<img onclick='show_devices()' src='/media/img/sug_down_on.gif'>
+									<div id='id_show_devices'></div>
+								</span>
+							</td>
+							<td valign="bottom">
+								<span style="width:110px;line-height:10px; display:block; position:relative;" class="Link_blue1">
+									<a id="read_card" href="javascript:void(0)">{% trans '开始读取' %}</a>&nbsp;&nbsp;
+									<span id="id_reading" class="displayN" ><img align="top" src="/media/images/searching.gif">{% trans "读取中..." %}</span>
+								</span>
+							</td>
+						</tr>
+						<tr height="19px">
+							<th valign="middle">
+								{% trans '已发卡数:' %}
+							</th>
+							<td>
+								<div id="div_id_issuecardnumber" class="color_orange" style="padding-top:3px;padding-top:0px\9;"></div>
+							</td>
+							<td><div style="width:110px; display:block">&nbsp;</div></td>
+						</tr>
+													
+
+			<tr>
+				<td colspan="3">
+					<div id="div_id_showdetail" class="div_box" style="width:400px"><h1>&nbsp;</h1>
+						<div class="div_addcard">
+							<table class="table table1" width="100%" id="id_tbl_old"><thead>
+								<tr id="tr_first">
+									<th>{% trans '序号' %}</th>
+									<th>{% trans '人员编号' %}</th><th>{% trans '姓名' %}</th><th>{% trans '姓氏' %}</th><th>{% trans '部门名称' %}</th><th>{% trans '卡号' %}</th>
+								</tr></thead>
+							</table>
+						</div>
+					</div>
+				 </td>
+			</tr>
+		</table>
+
+	</td>
+	
+</tr>
+<tr>
+<td id="card_emp_number">
+
+</td>
+</tr>
+{% endautoescape %}
+{% endblock %}
+
+
+{% block addjs %}
+$(function(){
+	$(".tbl_data_edit").children().children().children("td").css({padding:"0px"});
+	$(".tbl_data_edit").find("input").css({width:"140px"});
+	
+	
+	{% if "POS_ID"|filter_config_option %}
+			$('#id_edit_form').validate({
+												rules: {
+													"blance": {required:true,min:0,max:9999,isMoney:true},
+													"card_cost": {required:true,min:0.0,max:999,isMoney:true},
+													"mng_cost": {required:true,min:0.0,max:999,isMoney:true},
+													"Password": {required:true,"digits":true,"maxlength":6},
+													"cardno": {required:true,"digits":true,"maxlength":10}
+												},
+												errorPlacement: function(error, element) {
+																var ele_id = element.attr("id")
+																if ( ele_id == "id_pop_emp" )
+																	error.appendTo (element.next());
+																else
+																	error.appendTo (element.parent());
+															}
+												
+												
+												
+									});
+	{%endif%}
+})
+var emps=[];  //后台取出的人员列表
+var cards=[]; //批量发卡卡号存储变量
+var card_emp = []; //存储分配后的卡号和员工号
+var curi=0;   //当前处理行号
+var cure=0;   //记录未分配的人员数组下标
+var cur_emp = 0;//未分配人员数量
+var empid=[] //记录员工id号,用于后台处理
+var pin_width=$("#id_pin_width").val();
+$("#id_cardtype option[index=0]").remove()
+var $div=$("form#id_edit_form");
+
+$div.find("#id_genemps").click(function(){
+   $("#tbl_datalist tbody").remove()
+	get_emps();
+});
+$div.find("#id_clearcard").click(function(){
+	funclear();
+});
+$("#id_changeemps").click(function(){
+	$div.find("#id_startpin").val("");
+	$div.find("#id_startpin").removeAttr("readonly");
+	$div.find("#id_endpin").val("");
+	$div.find("#id_endpin").removeAttr("readonly");
+
+	$("#id_tbl_old tbody").remove()
+	$div.find("#id_startpin").focus();
+});
+$('form#id_edit_form').find('#id_cardno').keydown(function(event){
+
+	if(event.keyCode==13)
+	{
+	    var cardno=$div.find("#id_cardno").val();
+		issue(cardno);
+	}
+});
+$div.find("#id_cardno").attr("readonly",true);
+$("#id_cardPwd").change(function()
+{
+	var t=/^([0-9])+$/;
+	pwd = $("#id_cardPwd").val();
+	if (!t.test(pwd))
+	   {
+			alert(gettext('人员密码必须为整数'));
+			$("#id_cardPwd").val("");
+			return ;
+		}
+});//默认密码
+$div.find("#div_id_issuecardnumber").html("<label>"+curi+"</label>");
+$("#div_id_remainnumber").html("<label>"+cur_emp+"</label>");
+$("#get_card_way").change(function(){
+	if(this.value == 1)
+	{
+		$("#get_card").attr("class","");
+		$("#device_tr").attr("class","displayN");
+		$("#id_card").focus();
+	}else if(this.value == 2)
+	{
+		$("#device_tr").attr("class","");
+		$("#get_card").attr("class","displayN");
+	}
+});
+var door_tree_bl=false;
+function show_devices(){
+	if(!door_tree_bl)
+	{
+		if($("#id_door").html()==null){
+			$.ajax({
+				url:"/{{request.surls}}iaccess/GetData/?func=get_doors_tree",
+				dataType: "html",
+				success:function(data_html){
+					//$("#id_show_devices").after(data);
+					document.getElementById("id_show_devices").innerHTML = data_html;
+					$("#id_door").find("ul").each(function(){
+						$(this).attr("style","display:none");
+					})
+					//remove_single_perm_node($("#id_door .filetree"));
+					$("#id_door .filetree").treeview();
+					check_root("id_door"); 
+					check_selected("id_door");
+					$("#id_door").find("p").click(function(){
+						get_child(this);
+					});
+					$("#id_door").css({padding:"0px",height:"auto"});
+					$("#id_show_devices").css({width:$("#id_door").width()});
+					$("#id_door").find("ul").each(function(){
+						$(this).attr("style","");
+					})
+					$($("#id_door").find("ul")[0]).before('<div style="padding-top: 3px; height: 18px;" class="title"><span class="span_selectNone Link_blue1" onclick="door_tree_display(this)" style="padding-top: 4px;"><a href="javascript: void(0)">{% trans "撤销选择" %}</a>&nbsp;&nbsp;</span><span class="close btn" onclick="confirm_tree(this)">{% trans "确定" %}</span></div>');
+					$($("#id_door").find("ul")[0]).attr("style","height: 220px; overflow: auto;")
+					
+				}
+			});
+		}
+		$("#id_door").attr("class","");
+		door_tree_bl=true;
+	}
+}
+
+//确定
+function confirm_tree(tag){
+	$(tag).parent().parent().attr("class","displayN");
+	door_tree_bl = false;
+}
+//撤销选择
+function door_tree_display(tag){
+    $("#id_door").attr("class","displayN");
+	door_tree_bl = false;
+	$("#id_door").find("p").each(function(){
+		$(this).attr("class","t");
+	});
+	$("#id_door_name").val("");
+}
+
+var id_doors = [];
+//递归调用 获得最后一级标签的text
+function get_child(tag){
+	if($(tag).attr("class")=="t s" && $(tag).find("input").length!=0){//为最后一级标签时
+		if($("#id_door_name").val().indexOf($(tag).text())<0){
+			$("#id_door_name").val($.trim($("#id_door_name").val())+" "+$(tag).text());//当选择该项时，将其添加到文本框中
+			var id_s = $(tag).find("input")[0].id.split("_")[1];
+			id_doors.push(id_s);
+		}
+	}else if(($(tag).attr("class")=="t" || $(tag).attr("class") == "t u") && $(tag).find("input").length!=0)
+	{
+		$("#id_door_name").val($("#id_door_name").val().replace($(tag).text(),""));//当取消选择时，在文本框中去掉当前选项
+		var id_d = $(tag).find("input")[0].id.split("_")[1];
+		var index = get_index(id_d,id_doors,false);
+		id_doors.splice(index,1);
+	}else if($(tag).find("input").length==0)//为父标签时
+	{
+		$($(tag).next()).find("p").each(function(){
+			get_child(this);
+		});
+	}
+}
+//开始从后台获取刷的卡号
+var read_card_bl = false;
+var stop_post;
+var log_id;
+var time_now;
+$("#read_card").click(function(){
+    if(cur_emp == 0 && !read_card_bl)
+	{
+	    return;
+	}
+	if($("#id_door_name").val()!="")
+	{
+		if(!read_card_bl)
+		{
+			$(this).html("{% trans '停止读取' %}");
+			$("#id_reading").attr("class","");
+			read_card_bl = true;
+			//每隔2s发送一次请求，获取新刷的卡号
+			stop_post = setInterval("get_card_number()",2000);
+		}else
+		{
+			$(this).html("{% trans '开始读取' %}");
+			$("#id_reading").attr("class","displayN");
+			read_card_bl = false;
+			clearInterval(stop_post);
+		}
+	
+	}else{
+		alert(gettext("请选择刷卡位置！"));
+	}
+});
+
+function get_card_number(){
+	var doors = id_doors.join("_");
+	$.ajax({
+		url:"/{{request.surl}}iaccess/get_card_number/?doors="+doors+"&log_id="+log_id+"&time_now="+time_now,
+		dataType:"json",
+		type:"POST",
+		success:function(data){
+			if(data.length>=2)
+			{
+				for(var j=0;j<data.length-1;j++){
+					if(!contains(cards,data[j][1]))
+					{
+						issue(data[j][1]);
+					}
+				}
+				//cards=[];
+				log_id = data[data.length-2][0];
+				time_now = data[data.length-1];//最后一条记录为开始读取时间
+			}else if(data.length == 1)
+			{
+			    time_now = data[data.length-1];
+			}
+		}
+	});
+}
+
+function validcardno(s)
+{
+	var t=/^([0-9])+$/;
+
+	return t.test(s);
+
+}
+
+function funclear()
+{
+
+    $('form#id_edit_form').find('#id_cardno').val("");
+}
+
+function issue_conf()
+{
+	var cardno=$div.find("#id_cardno").val();
+	issue(cardno);
+}
+
+var msg = false;
+function CardIsUse(cardno)
+{
+
+   
+	$.ajax({
+			url:"/{{request.surl}}data/personnel/IssueCard/?cardno="+parseFloat(cardno)+"",
+			dataType:"json",
+			type:"POST",
+			async:false,
+			success:function(data){
+				if(data.data.length>0)
+				{
+				   msg = false;
+				}
+	            else
+	              {
+	               msg = true;
+	              }
+			}
+		});
+		
+		return msg;
+	
+}
+
+
+function issue(cardno)
+{
+    var $div=$("form#id_edit_form");
+    var cardno=cardno;
+    if(validcardno(cardno))
+    {
+		if(cardno==0)
+		{
+			alert("{% trans '卡号不正确' %}");
+			return;
+		}
+        for(var i=0;i<cards.length;i++)
+        {
+            if(cards[i]==cardno)
+            {
+                alert("{% trans '此卡已使用!' %}");
+                return;
+            }
+
+        }
+		if (!CardIsUse(cardno))
+		{
+			alert("{% trans '此卡已使用!' %}");
+			return;
+			
+		}
+        cards.push(cardno);//保存卡号
+        var html="";
+        var curemp=emps[curi];
+        empid.push(curemp[0]);//保存用户ID
+        html="<tr><td>"+ (curi+1) +"</td><td>"+curemp[1]+"</td><td>"+ curemp[2]+"</td><td>"+curemp[3]+"</td><td>"+curemp[4]+"</td><td>"+ cards[curi]+"</td></tr>"
+        $div.find("#tr_first").after(html);
+        $div.find("#id_cardno").val("");
+        curi+=1;
+		cure+=1;
+		cur_emp = cur_emp-1;
+        if (cure>=emps.length)
+        {
+
+            $("#id_startpin").focus()
+            $div.find("#id_startpin").attr("readonly",false);
+            $div.find("#id_endpin").attr("readonly",false);
+            $div.find("#id_cardno").attr("readonly",true);
+
+            $div.find("#div_id_issuecardnumber").html("<label>"+curi+"</label>");
+            $div.find("#div_id_remainnumber").html("<label>"+cur_emp+"</label>");
+
+            $("#id_tr_old").parent().next().find("tr:first").remove()
+
+            return ;
+        }
+        fillcuremp();
+        $("#id_tr_old").parent().next().find("tr:first").remove()
+
+    }
+    else
+    {
+        alert("{% trans '卡号不正确' %}");
+    }
+
+}
+function fillcuremp()
+{
+    var $div=$("form#id_edit_form");
+    $div.find("#div_id_issuecardnumber").html("<label>"+curi+"</label>");
+    $div.find("#div_id_remainnumber").html("<label>"+cur_emp+"</label>");
+}
+
+function get_index(num,array,is_emp)
+{
+	for(var i=0;i<array.length;i++)
+	{
+		if(!is_emp)
+		{
+			if(array[i] == num)
+			{
+				return i;
+			}
+		}else{
+			if(array[i][1] == num)
+			{
+				return i;
+			}
+		}
+	}
+	return -1;
+}
+
+function get_range(start,end)
+{
+    if (end-start>100)
+    {
+        alert(gettext('每次发卡数量不能超过100'));
+        return [];
+    }
+    var v=[]
+    for(var i=start;  i<=end;i++)
+    {
+        v.push(i);
+    }
+    return v;
+}
+
+//获得未分配人员
+function get_emps()
+{   
+	cur_emp = 0;
+    $("#div_id_remainnumber").html("<label>"+cur_emp+"</label>");
+    var $div=$("form#id_edit_form");
+
+    var startpin=$div.find("#id_startpin").val();
+    var endpin=$div.find("#id_endpin").val();
+	if(startpin.length>pin_width)
+	{
+		alert(gettext("起始编号长度不能超过")+pin_width+gettext("位"));
+		return;
+	}
+	if(endpin.length>pin_width)
+	{
+		alert(gettext("结束编号长度不能超过")+pin_width+gettext("位"));
+		return;
+	}
+	startpin=fillPIN(startpin)
+	endpin=fillPIN(endpin)
+    if(startpin=='')
+    {
+        alert('{% trans "起始编号不能为空" %}');
+        return;
+    }
+    if(endpin=='')
+    {
+        alert('{% trans "结束编号不能为空" %}');
+        return;
+    }
+    pin=[]
+	if(startpin.length!=endpin.length)
+	{
+		alert(gettext('起始人员编号与结束人员编号的长度位数不同！'));
+		return
+	}
+    pin.push(startpin);
+    pin.push(endpin);
+	/*
+    ret=get_range(startpin,endpin);
+    if( ret.length==0)
+    {
+        return;
+    }
+	*/
+    $.ajax({
+		url:"/{{request.surl}}personnel/select_emp_data/?all_emp=filed_card&PIN__range=('" +pin[0].toString()+"','"+pin[1].toString()+"')",
+        //url:"/{{request.surl}}personnel/getmodeldata/personnel/Employee/?fields=id,PIN,EName,lastname,DeptID__name&stamp=1",
+        //data:"PIN__range=('" +pin[0].toString()+"','"+pin[1].toString()+"')",
+        //data:"PIN__in="+ret.toString()+"&Card__exact=",
+        dataType:"json",
+        type:"POST",
+        success:function(data){
+            emps=data.data;
+            cure=0;
+            if (emps.length>0)
+            {
+                //fillcuremp(emps[curi]);
+                var tbl=$div.find("#tbl_datalist")
+                for(var i=0;i<emps.length;i++)
+                {   
+					var curemp=emps[i];
+                    if(!contains(empid,curemp[0]))
+                    {
+						tbl.append("<tr><td>"+curemp[1]+"</td><td>"+curemp[2]+"</td><td>"+curemp[3]+"</td><td>"+curemp[4]+"</td></tr>");
+						cur_emp = cur_emp+1;
+					}
+                }
+				if(cur_emp == 0)
+				{
+					alert("{% trans '该人员编号段内不存在人员' %}");
+					return;
+				}
+//                $div.find("#id_startpin").attr("readonly",true);
+//                $div.find("#id_endpin").attr("readonly",true);
+                $div.find("#id_cardno").attr("readonly",false);
+                $div.find("#id_cardno").focus();
+				$div.find("#div_id_issuecardnumber").html("<label>"+curi+"</label>");
+				$div.find("#div_id_remainnumber").html("<label>"+cur_emp+"</label>");
+
+
+
+            }
+            else
+            {
+                alert("{% trans '该人员编号段内不存在人员' %}");
+            }
+        }
+    });
+}
+
+function selectAll(tag){
+	if(tag.checked==true)
+	{
+		$("#tbl_datalist").find("input").each(function(){
+			this.checked=true;
+		});
+	}else
+	{
+		$("#tbl_datalist").find("input").each(function(){
+			this.checked="";
+		});
+	}
+}
+
+function fillPIN(pin)
+{
+	var t=""
+	for(var i=0;i<pin_width;i++)
+	{
+		t=t+"0"
+	}
+	t=t+pin
+	return t.substr(t.length-pin_width)
+}
+
+$("#auto_issue").click(function(){
+	if(read_card_bl)
+	{
+		alert(gettext("请先点击停止读取！"));
+		return;
+	}
+	issue();
+});
+
+function contains(array,value){
+	for(var i=0;i<array.length;i++){
+		if(array[i]==value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
+function before_submit()
+{
+	if(read_card_bl)
+	{
+		alert(gettext("请先点击停止读取！"));
+		return false;
+	}
+	
+	if(empid.length==0)
+	{
+		alert(gettext("没有已分配人员！"));
+		return false;
+	}
+	$('form#id_edit_form').find('#id_empids').val(empid.toString());
+	$('form#id_edit_form').find('#id_cardnos').val(cards.toString());
+    return true;
+}
+function after_close(){
+	if(read_card_bl)
+	{
+		clearInterval(stop_post);
+	}
+	
+}
+ $(window).unload( function () { clearInterval(stop_post)} );//离开页面时停止读取卡号
+{% endblock %}
+
+
+
+

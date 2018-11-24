@@ -1,0 +1,375 @@
+<OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+</OBJECT>
+
+<COMMENT style="display:None">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+        codebase="ZKOnline.ocx"                
+        
+    </EMBED>
+</COMMENT>
+
+
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %} 
+  <table width="100%" id="edit_card" border="0" cellspacing="0" cellpadding="3">
+<tr/>
+    <tr>
+       <td>
+           <div id="id_personnel_info" class="div_box1 floatL" style='width:98%'>
+               <h2>{% trans '人事资料' %}</h2>
+                   <table id="id_pos_info_tbl" border="0" cellspacing="0" cellpadding="0">
+                   <tr>
+                     {{form.sys_card_no|field_as_td_h}}
+                         <td  >{{form.sys_card_no.errors }}</td>
+                        {{form.labor|field_as_td_h}}
+                        <td  >{{form.labor.errors }}</td>
+                     </tr>
+                    <tr>
+                        {{form.name|field_as_td_h}}
+                        <td>{{form.name.errors }}</td>
+                        {{form.Dept_name|field_as_td_h}}
+                        <td>{{form.Dept_name.errors }}</td>
+                   </tr>
+                   </table>
+           </div>
+       </td>
+</tr>
+    <tr>
+           <td>
+               <div id="id_card_info" class="div_box1 floatL" style='width:98%'>
+                   <h2>{% trans '卡上资料' %}</h2>
+                       <table id="id_pos_info_tbl" border="0" cellspacing="0" cellpadding="3">
+                       <tr>
+                           <th><label for="c_sys_no">卡账号:</label></th>
+                              <td>
+                                 <input id="c_sys_no" class="wZBaseCharField" type="text" maxlength="10" value="" name="c_sys_no" readonly="" style="background-color: scrollbar;">
+                              </td>
+                
+                           <th><label for="c_card_no">物理卡号:</label></th>
+                             <td>
+                                <input id="c_card_no" class="wZBaseCharField" type="text" maxlength="10" value="" name="c_card_no" readonly="" style="background-color: scrollbar;">
+                             </td>
+                       </tr>
+                       
+                       <tr>
+                            <th><label for="c_blance">卡余额（元）:</label></th>
+                               <td>
+                                  <input id="c_blance" class="wZBaseCharField" type="text" maxlength="10" value="" name="c_blance" readonly="" style="background-color: scrollbar;">
+                               </td>
+                 
+                            <th><label for="c_serial_no">卡流水号:</label></th>
+                              <td>
+                                 <input id="c_serial_no" class="wZBaseCharField" type="text" maxlength="10" value="" name="c_serial_no" readonly="" style="background-color: scrollbar;">
+                              </td>
+                        </tr>
+                        <tr>
+                            <th><label for="id_card_allow_serial_no">补贴流水号:</label></th>
+                              <td>
+                                 <input id="id_card_allow_serial_no" class="wZBaseCharField" type="text" maxlength="10" value="" name="card_allow_serial_no" readonly="" style="background-color: scrollbar;">
+                              </td>
+                            <th><label for="id_card_password">超额密码:</label></th>
+                         <td>
+                            <input id="id_card_password" class="wZBaseCharField" type="text" maxlength="10" value="" name="card_password" readonly="" style="background-color: scrollbar;">
+                         </td>
+                            
+                        </tr>
+                        <tr>
+                                <th><label for="id_card_issue_date">发卡日期:</label></th>
+                                <td>
+                                   <input id="id_card_issue_date" class="wZBaseCharField" type="text" maxlength="10" value="" name="card_issue_date" readonly="" style="background-color: scrollbar;">
+                                </td>
+                                
+                                <th><label for="c_type">卡类:</label></th>
+                                <td>
+                                   <input id="c_type" class="wZBaseCharField" type="text" maxlength="100" value="" name="c_type" readonly="" style="background-color: scrollbar;">
+                                </td>
+                       </tr>
+                            
+                       
+                       </table>
+               </div>
+           </td>
+    </tr>
+    <tr>
+           <td>
+               <div id="id_sys_info" class="div_box1 floatL" style='width:98%'>
+                   <h2>{% trans '数据库资料' %}</h2>
+                       <table id="id_pos_info_tbl" border="0" cellspacing="0" cellpadding="0">
+                       <tr>
+                          {{form.blance|field_as_td_h}}
+                           <td  >{{form.blance.errors }}</td>
+                        {{form.Password|field_as_td_h}}
+                        <td  >{{form.Password.errors }}</td>
+                        
+                      </tr>
+                      <tr>
+                         
+                          {{form.issue_date|field_as_td_h}}
+                         <td  >{{form.issue_date.errors }}</td>
+                         {{form.type|field_as_td_h}}
+                         <td  >{{form.type.errors }}</td>
+                     </tr>
+           </table>
+               </div>
+           </td>
+    </tr>
+    
+    
+
+
+    <tr>
+        <td><input type="hidden" id="operate_type" name="operate_type"   value="8"> </input></td>
+    </tr>
+    
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+   
+    <div>   {{ form.non_field_errors }} </div>
+    <div id="id_info"><div>
+    <input type="hidden" id="id_password"   value="{% get_system_pwd request.session %}"> </input>
+    <input type="hidden" id="id_main_fan"   value="{% get_main_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_minor_fan"  value="{% get_minor_fan_area request.session %}"> </input>
+    <input type="hidden" id="id_max_money"  value="{% get_max_money request.session %}"> </input>
+  </table>
+
+
+{% endautoescape %}
+{% endblock %}
+{% block edit_buttons %}
+    {% if "POS_IC"|filter_config_option %}
+        <div class="editformbtn" style="display:none">
+            <div class="lineH22 img_padding"><span class="action_OK"></span><a id="OK" href="javascript:void(0)" class="Link_blue1">确定</a></div>
+            <div class="lineH22 img_padding"><span class="action_Cancel"></span><a id="Cancel" href="javascript:void(0)" class="Link_blue1">取消</a></div>
+        </div>
+        <div class="editformbtn">
+            <button type="button" disabled="disabled" style="color: rgb(136, 136, 136)"  id="read_card">读卡</button>
+            <button type="button" disabled="disabled" style="color: rgb(136, 136, 136)"  id="btn_write_card">写卡</button>
+            <button type="button"  id="btnclose" onclick ="from_close();">关闭</button>
+        </div>
+    {%endif%}
+{% endblock %}
+
+{% block addjs %}
+//获取系统参数值
+var sys_pwd = $("#id_password").val();
+var main_fan = $("#id_main_fan").val();
+var minor_fan = $("#id_minor_fan").val();
+var max_money = $("#id_max_money").val();
+var reval="";
+//页面显示设置
+$("#id_sys_card_no").attr("readonly",true);
+$("#id_card_serial_no").attr("readonly",true);
+$("#id_labor").attr("readonly",true);
+$("#id_name").attr("readonly",true);
+$("#id_blance").attr("readonly",true);
+$("#id_card_blance").attr("readonly",true);
+$("#id_inserter_blance").attr("readonly",true);
+$("#id_Dept_name").attr("readonly",true);
+
+
+{% if "POS_IC"|filter_config_option %}
+     $("#edit_card>tbody>tr").eq(0).hide()
+      $("#id_type option[index=0]").remove()
+     $('#id_sys_card_no').css("backgroundColor","scrollbar");
+     $('#id_card_serial_no').css("backgroundColor","scrollbar");
+     $('#id_labor').css("backgroundColor","scrollbar");
+     $('#id_name').css("backgroundColor","scrollbar");
+     $('#id_Dept_name').css("backgroundColor","scrollbar");
+     $('#id_blance').css("backgroundColor","scrollbar");
+     $('#id_card_blance').css("backgroundColor","scrollbar");
+     $('#id_inserter_blance').css("backgroundColor","scrollbar");
+        if(isOnline()){
+        $("#read_card").click(function() {
+            reval = readCard();
+            if (reval.length>4)
+               {
+                   $("#id_card").val(reval);
+                   var cardInfo = zkonline.ZK_PosReadICCard(0,stringToBytes(sys_pwd),main_fan,minor_fan).split(',');
+                   if (cardInfo.length >1)
+                    {
+                        var sys_card_no = cardInfo[1].split('=')[1];
+                        get_card_number(sys_card_no,cardInfo);
+                    }
+                    else
+                    {check_card(cardInfo);}
+               }
+            else
+               {
+                   check_card(reval);
+               }
+       });
+    
+        $("#btn_write_card").click(function() {
+            reval = readCard();
+            if (reval.length>4)
+               {
+                   write_card();
+               }
+            else
+               {
+                   check_card(reval);
+               }
+            
+        });
+    }
+   
+{%endif%}
+
+
+$("#pos_money").find("label").css({"font-size":"25px","font-weight":"bold"});
+$("#pos_money").find("#id_money").css({"height":"30px","font-size":"25px","width":"110px"});
+
+$("#id_card").change(function(){
+   var card = $("#id_card").val();
+   get_card_number(card,"");
+});
+
+$('#id_edit_form').validate({
+                                rules: {
+                                    "Password": {required:true,"digits":true,"maxlength":6}
+                                }
+                    });
+
+function write_card()
+    {
+        if ($('#id_edit_form').valid())
+        {
+            
+            if ($("#c_card_no").val() == reval )//验证卡号是否一致
+            {
+                if(funValidCard())
+                {
+                    var pwdbyte = stringToBytes(sys_pwd);//系统密码
+                    var cardno = $("#id_sys_card_no").val();//卡编号
+                    var money = Number($("#id_blance").val());//写卡金额
+                    var overpwd = Number($("#id_Password").val());
+                    var issueDate = $("#id_issue_date").val();
+                    var cardType = Number($('#id_type option:selected').text().split("---")[1]);//卡类型编号
+                    var is_d=new Date( $("#id_issue_date").val().replace(/-/g,"/"))
+                    if(is_d<new Date())
+                    {
+                        var rval = zkonline.ZK_PosUpdateParam(0,pwdbyte,overpwd,issueDate,cardType,main_fan,minor_fan);
+                        if (rval.toString() == '0')//写卡成功
+                        {
+                           if(funChangeCardInfo())//保存数据
+                            {
+                               $("#id_info").remove();                
+                               $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="successlist"><li>卡资料修改成功</li></ul></div>');                             
+                            }
+                            else
+                            {
+                                var overpwd = Number($("#id_card_password").val());
+                                var issueDate = $("#id_card_issue_date").val();
+                                var cardType = Number($("#c_type").val());
+                                var return_val = zkonline.ZK_PosUpdateParam(0,pwdbyte,overpwd,issueDate,cardType,main_fan,minor_fan);
+                                $("#id_info").remove();                
+                                $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡资料修改失败，操作已经回滚</li></ul></div>');                             
+                                $("#btn_write_card").attr("disabled","disabled");
+                            }
+                        }
+                        else
+                        {
+                            check_card(rval);
+                        }
+                    }
+                    else
+                    {
+                        $("#id_info").remove();                
+                        $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>发卡日期不能大于今天</li></ul></div>');                             
+    //                    $("#btn_write_card").attr("disabled","disabled");
+                    }
+                }
+                else
+                {
+                    $("#btn_write_card").attr("disabled","disabled");
+                }
+                
+            }
+            else
+            {
+                 $("#id_info").remove();                
+                 $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡号不一致，写卡失败！</li></ul></div>');                
+                 $("#btn_write_card").attr("disabled","disabled");
+            }
+        }
+    }
+
+
+
+function get_card_number(sys_card_no,cardInfo){
+    $("#id_info").remove();;
+	$.ajax({
+		url:"/{{request.surl}}personnel/get_issuecard_info/?cardno="+sys_card_no+"",
+		dataType:"json",
+		type:"POST",
+		success:function(data){
+			if(data.ret == 1)
+			{
+                {% if "POS_IC"|filter_config_option %}
+//                    var cardInfo = zkonline.ZK_PosReadICCard(0,stringToBytes(sys_pwd),main_fan,minor_fan).split(',');
+//                    alert(cardInfo);
+                    if (cardInfo[4].split('=')[1] != '255')//管理卡
+                    {
+                        $("#id_sys_card_no").val(cardInfo[1].split('=')[1]);
+                        $("#c_card_no").val(reval);
+                         $("#c_sys_no").val(cardInfo[1].split('=')[1]);
+                        $("#c_serial_no").val(cardInfo[7].split('=')[1]);
+                        $("#c_blance").val(Number(cardInfo[6].split('=')[1]) / 100);
+                        $("#id_card_allow_serial_no").val(cardInfo[8].split('=')[1]);
+                        $("#id_card_password").val(cardInfo[2].split('=')[1]);
+                        $("#id_Password").val(cardInfo[2].split('=')[1]);
+                        $("#id_card_issue_date").val(cardInfo[3].split('=')[1]);
+                        $("#id_issue_date").val(cardInfo[3].split('=')[1]);
+//                        $("#c_type").val(cardInfo[4].split('=')[1]);
+                        c_type = cardInfo[4].split('=')[1]
+                        var count=$("#id_type option").length;
+                        for(var i=0;i<count;i++)  
+                         {           
+                            if($("#id_type").get(0).options[i].text.split('---')[1] == c_type)  
+                                {  
+                                    $("#id_type").get(0).options[i].selected = true;  
+                                    break;  
+                                }  
+                         }
+                        
+                        $("#c_type").val($('#id_type option:selected').text());
+                        $("#id_labor").val(data.user_pin);
+                        $("#id_name").val(data.user_name);
+                        $("#id_blance").val(data.blance);
+                        $("#id_Dept_name").val(data.dept_name);
+                        var card_status = data.cardstatus;
+                        if (page_valid(card_status,'8'))
+                           {
+                            $("#btn_write_card").attr("disabled","");
+                            $("#btn_write_card").attr('style','none');
+                           }
+                        else
+                            {
+                                $("#btn_write_card").attr("disabled","disabled");
+                            }
+                        
+                    }
+                    else
+                    {
+                        $("#id_info").remove();   
+                        $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>当前卡片为管理卡或者操作卡，操作失败！</li></ul></div>');
+                        $("#btn_write_card").attr("disabled","disabled");
+                    }
+                {%endif%}
+			}
+            else
+            { 
+                $("input[type=text]").val("");
+                $("#btn_write_card").attr("disabled","disabled");
+                $("#id_edit_form").append('<div id="id_info" style="display: block;"><ul class="errorlist"><li>卡号不存在</li></ul></div>');
+            }
+
+		}
+	});
+}
+
+{% endblock %}

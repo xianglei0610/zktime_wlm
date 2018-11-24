@@ -1,0 +1,89 @@
+
+
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% autoescape off %} 
+    
+          
+        <table>
+            <tr>
+                <th height="20">{{ form.numberMeeting|field_as_label_tag }}</th>
+                <td width="210">{{form.numberMeeting.as_widget }}</td>
+                <td width="80" class="displayN">{{form.numberMeeting.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.nameMeeting|field_as_label_tag }}</th>
+                <td width="210">{{form.nameMeeting.as_widget }}</td>
+                <td width="80" class="displayN">{{form.nameMeeting.errors }}</td>
+            </tr>            
+            <tr>
+                <th height="20">{{ form.roomMeeting|field_as_label_tag }}</th>
+                <td width="210">{{form.roomMeeting.as_widget }}</td>
+                <td width="80" class="displayN">{{form.roomMeeting.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.startTime|field_as_label_tag }}</th>
+                <td width="210">{{form.startTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.startTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.endTime|field_as_label_tag }}</th>
+                <td width="210">{{form.endTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.endTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.lateAllow|field_as_label_tag }}</th>
+                <td width="210">{{form.lateAllow.as_widget }}</td>
+                <td width="80" class="displayN">{{form.lateAllow.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.leaveAllow|field_as_label_tag }}</th>
+                <td width="210">{{form.leaveAllow.as_widget }}</td>
+                <td width="80" class="displayN">{{form.leaveAllow.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.startCheckInTime|field_as_label_tag }}</th>
+                <td width="210">{{form.startCheckInTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.startCheckInTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.endCheckInTime|field_as_label_tag }}</th>
+                <td width="210">{{form.endCheckInTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.endCheckInTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.startCheckOutTime|field_as_label_tag }}</th>
+                <td width="210">{{form.startCheckOutTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.startCheckOutTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.endCheckOutTime|field_as_label_tag }}</th>
+                <td width="210">{{form.endCheckOutTime.as_widget }}</td>
+                <td width="80" class="displayN">{{form.endCheckOutTime.errors }}</td>
+            </tr>
+            <tr>
+                <th height="20">{{ form.remark|field_as_label_tag }}</th>
+                <td width="210">{{form.remark.as_widget }}</td>
+                <td width="80" class="displayN">{{form.remark.errors }}</td>
+            </tr>
+            
+            
+            
+        </table>
+       {% if form.non_field_errors %}
+               <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+       
+    {% endautoescape %}
+{% endblock %}
+
+{% block addjs%}
+    $(function(){
+        $("#id_roomMeeting option[value='']").remove();
+        $("#id_roomMeeting").prepend("<option value='' >-----------</option>");
+    })
+{% endblock %}
+
+

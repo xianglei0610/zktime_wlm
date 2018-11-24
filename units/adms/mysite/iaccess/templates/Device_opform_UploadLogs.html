@@ -1,0 +1,88 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs%}
+{% if request.user|HasPerm:"iclock.uploadlogs_device" %}
+    var tb = '<tr id="devices_list">'
+                +'<td>'
+                    +'{% trans "设备" %}:'
+                +'</td>'
+                +'<td>'
+                    +'<div id="id_device_group">'
+                    +'<ul id="show_device" style="list-style:none;line-height:3.5PX">'
+                    +'</ul>'
+                    +'</div>'
+                +'</td>'
+            +'</tr>';
+    $(".tbl_data_edit").append(tb);
+    $("#id_sd_file").parent().parent().hide();
+    $("#id_get_records_2").click(
+        function(){
+            $("#id_sd_file").parent().parent().show();
+            //$("#id_get_records_1").parent().parent().parent().parent().parent().hide();
+        }
+    );
+    $("#id_get_records_0,#id_get_records_1").click(
+        function(){
+            $("#id_sd_file").parent().parent().hide();
+            //$("#id_get_records_1").parent().parent().parent().parent().parent().hide();
+        }
+    );
+    if($("html").find("#id_common_opt").length == 0)
+    {
+        $("#devices_list").hide();
+    }
+    else
+    {
+//        $("#id_get_records_2").parent().hide();
+        $("#id_devices").parent().parent().hide();
+        $.ajax({
+            url:"/{{ request.surl }}iclock/get_acc_dev/",
+            type:"GET",
+            dataType:"json",
+            success:function(data)
+            {
+                var html = "";
+                for(var i=0;i<data.length;i++)
+                {
+                    html = html+"&nbsp;&nbsp;&nbsp;<li><input type='radio' name ='check_devices'  value='"+data[i][0]+"' />&nbsp;&nbsp;"+data[i][1]+"</li>";
+
+                }
+                $("#show_device").html(html);
+                var ok_html = '<button class="btn" id="id_OK_real" type="button">{% trans "确定" %}</button>'
+                $("#id_OK").parent().prepend(ok_html);
+                $("#id_OK").hide();
+                $("#id_OK_real").click(function(){
+                    var checked = $("#show_device").find(":radio[checked]");
+                    if(checked.length == 0)
+                    {
+                        alert(gettext('没有选择要操作的对象')+"!");
+                        return false;
+                    }
+                    else
+                    { 
+                        var device_id = checked.val();
+                        var selected = $(".tbl_data_edit").find(":radio[checked]").val();
+                        $.ajax({
+                            url:"{{request.dbapp_url}}iclock/Device/_op_/UploadLogs/?&K="+device_id,
+                            type:"POST",
+                            data:"get_records="+selected,
+                            dataType:"html",
+                            success:function(data)
+                            {	
+                                var ret_msg = $(data).find(".errorlist").parent().parent().html();
+                                $("#id_info").find("div").html(ret_msg);
+                                $("#id_info").html($(data).find(".errorlist"));
+                                $("#id_info").find("div").css({"width":"250px", "margin-left":"93px"});
+                            }
+                        });
+                    }
+                });             
+            }
+        });
+    }
+{% else %}
+    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+    window.location.href = "/{{ request.surl }}accounts/login/";
+{% endif %}
+{% endblock%}

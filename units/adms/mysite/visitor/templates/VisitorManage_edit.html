@@ -1,0 +1,655 @@
+<OBJECT classid="clsid:285A9058-12DF-4B1D-AEA1-0FD2412CC761" width="20" height="20" id="zkissonlinex" class="displayN">
+</OBJECT>
+<COMMENT class="displayN">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:285A9058-12DF-4B1D-AEA1-0FD2412CC761"
+        codebase="ZKISSOnlineX.ocx"                
+        width=20 height=20
+    </EMBED>
+</COMMENT>
+<object classid="clsid:5EB842AE-5C49-4FD8-8CE9-77D4AF9FD4FF" id="IdrControl1" width="100" height="100" codebase="idr.cab" class="displayN">
+</object>
+
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% autoescape off %}
+    {% if "mysite.visitor"|hasApp %}  
+    <tr>
+        <td>
+        <div id="id_emp_info" class="div_box1 floatL">
+            <h2>{% trans '来访宾客资料' %}</h2>
+            <table id="ic_visitor_info_tbl" border="0" cellspacing="0" cellpadding="0" class="displayB">
+                <tr>
+                    {{ form.certificate_type|field_as_td_h }}
+                    <td>&nbsp;</td>
+                    <td rowspan="7">
+                        <div class="div_img floatL">
+                        <div class="displayN">{{form.chkph}}</div>
+                        <div class="displayN">{{form.install_language}}</div>
+                        <div class="ar_r_t"><div class="ar_l_t"><div class="ar_r_b"><div class="ar_l_b"><img id='id_img_visitor' width="120px" height="140px" src="{% if instance.certificate_photo %}/{{request.surl}}file/{{ instance.certificate_photo.url }}{% else %}error.jpg{% endif %}" onerror="this.src='{{ MEDIA_URL }}/images/userImage.gif'"  alt="visitor photo"/></div></div></div></div></div>
+                    </td>
+                    {{ form.visitor_number|field_as_td_h }}
+                    <td><input type="hidden" name="visitor_pin" id="id_visitor_pin" /></td>
+                    <td><input type="hidden" name="visit_state" id="id_visit_state" value="1" /></td>
+                    <td><input type="hidden" name="is_has_visited" id="id_is_has_visited" value="0" /></td>
+                </tr>
+                <tr>
+                    <th height="20"><label class="required" for="id_PIN">{%trans '姓名' %}:</label></th>
+                    <td><input id="id_visitor_name" class="wZBaseCharField required" type="text" maxlength="9" name="visitor_name" /></td>
+                    <td>&nbsp;</td>
+                    {{ form.visit_reason|field_as_td_h }}
+                </tr>
+                <tr>
+                    <th>{% trans '性别' %}:</th>
+                    <td>
+                        <select name="gender" class="wZBaseCharField" id="id_gender">
+                            <option selected="selected" value="">---------</option>
+                            <option value="M">{% trans '男' %}</option>
+                            <option value="F">{% trans '女' %}</option>
+                        </select>                    
+                    </td>
+                    <td>&nbsp;</td>
+                    {{ form.car_number|field_as_td_h }}
+                    <td><input type="hidden" name="capture_photo" id="id_capture_photo" /></td>
+                    <td><input type="hidden" name="certificate_photo" id="id_certificate_photo" /></td>
+                </tr>
+                <tr>
+                    {{ form.certificate_number|field_as_td_h}}
+                    <td><a href="javascript:void(0)" id="id_read_certificate">{% trans '读取' %}</a>&nbsp;<a href="javascript:void(0)" id="id_scan_certificate" onClick="aaa()">{% trans '扫描' %}</a></td>
+                    {{ form.park_number|field_as_td_h }}
+                </tr>
+                <tr>
+                    <th>{% trans '住址' %}:</th>
+                    <td><input id="id_home_address" type="text" maxlength="50" name="home_address" /></td>
+                    <td>&nbsp;</td>
+                    <th width="70px">{% trans '部门' %}:</th>
+                    <td><input id="id_dept" type="text" name="dept" /></td>
+                    <td><input type="hidden" name="visited_emp" id="id_visited_emp" /></td>
+                </tr>
+                <tr>
+                    {{ form.visitor_company|field_as_td_h }}
+                    <td>&nbsp;</td>
+                    <th>{% trans '被访人' %}:</th>
+                    <td><input id="id_visited_name" type="text" maxlength="9" name="visited_name" /><input type="button" id="id_query_emp" class="select_EmpSubmit" title={% trans '查询' %}></input></td>
+                </tr>
+                <tr>
+                    <th>{% trans '卡号'%}:</th>
+                    <td><input type="text" name="card" id="id_card" /><input type="hidden" name="visitor_level" id="id_visitor_level" /></td>
+                    <td><a href="javascript:void(0)" id="id_read_card">{% trans '读取'%}</a>&nbsp;<a href="javascript:void(0)" id="id_set_level">{% trans '权限'%}</a></td>
+                    <th>{% trans '电话' %}:</th>
+                    <td><input id="id_ophone" type="text" maxlength="9" name="ophone" /></td>
+                </tr>
+            </table>
+        </div>
+        
+        </td>
+    </tr>    
+    <tr>
+        <td>
+            <div id="id_Att_info" class="div_box1 floatL">
+                <h2>{% trans '进入资料' %}</h2>
+                    <table id="id_Att_info_tbl" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td rowspan="3" width="230px" align="center">
+                                <div id="id_cap_div" style="width:180px;height:140px;border:  1px solid #CAE2F9;"></div>                               
+                            </td>
+                            <th width="80px"><label for="id_place">{% trans '进入地点' %}:</label></th>
+                            <td width="300px"><input type="text" maxlength="100" name="entrance" class="wZBaseCharField" id="id_entrance"></td>
+                        </tr>
+                        <tr>
+                            {{ form.enter_time|field_as_td_h }}
+                        </tr>
+                        <tr>
+                            {{ form.accompanying_article|field_as_td_h }}
+                        </tr>
+                        <tr>
+                            <td align="center"><input type="button" name="start_preview" id="id_start_preview" value={% trans "开始预览"%}  />&nbsp;<input type="button" name="capture" id="id_capture" value={% trans "启动拍摄" %} />&nbsp;<input type="button" name="clear_photo" id="id_clear_photo" value={% trans "清空图片" %} /></td>
+                        </tr>
+                    </table>
+            </div>
+        </td>
+    </tr>
+    {% endif %}
+    
+    
+    {% endautoescape %}
+{% endblock %}
+
+
+
+{% block addjs %}
+    {% if "mysite.iaccess"|hasApp %}
+
+    //获取当前时间
+    function get_date(option)
+    {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var d = date.getDate();
+        var time = date.toLocaleTimeString()
+    
+        if (month.toString().length == 1)
+        {
+            month = "0" + month;
+        }
+        if (d.toString().length == 1)
+        {
+            d = "0" + d;
+        }
+        if (option == 1)
+        {
+            date = year + "-" + month + "-" + d;
+        }
+        else if (option == 2)
+        {
+            date = year + "-" + month + "-" + d + " " + time; 
+        } 
+        else
+        {
+            date = year.toString() + month.toString() + d.toString() + date.getHours().toString() + date.getMinutes().toString() + date.getSeconds().toString() + date.getMilliseconds().toString();
+        }
+        return date;     
+    }
+    
+    $("#id_help").parent().remove();//去掉帮助
+    
+    if ($("#id_enter_time").val() == "")
+    {
+        $("#id_enter_time").val(get_date(2));//进入时间
+    }
+    if ($("#id_visitor_number").val() == "")
+    {
+        $("#id_visitor_number").val(1);//来访人数默认为1
+    }
+    $("#id_accompanying_article").attr("rows", "5");//改变携带物品的行数
+    
+    
+    
+    var c_number = $("#id_certificate_number").val();
+    if (c_number == "" || c_number == null)//新增
+    {
+        $.ajax({
+            url: "/{{ request.surl }}visitor/get_visitor_pin/?func=get_visitor_pin",
+            type: "GET",
+            dataType: "json",
+            success:function(datas) {
+                $("#id_visitor_pin").val(datas.pin);
+            }
+        });            
+    }
+    else//编辑
+    {
+        $.ajax({
+            url: "/{{ request.surl }}visitor/get_visitor_by_edit/?c_number=" + c_number,
+            type: "GET",
+            dataType: "json",
+            success:function(datas) {
+                $("#id_visitor_pin").val(datas.visitor_pin);
+                $("#id_gender").val(datas.gender);
+                $("#id_home_address").val(datas.home_address);
+                $("#id_visitor_name").val(datas.visitor_name);
+                $("#id_entrance").val(datas.entrance);
+                
+                $("#id_dept").val(datas.dept);
+                $("#id_visited_name").val(datas.visited_name);
+                $("#id_ophone").val(datas.tele);
+                $("#id_visited_emp").val(datas.visited_emp_id);
+            }
+        }); 
+    }
+    
+
+    var photo_path = "";
+
+    //获取图片的保存路径
+    $.ajax({
+        url: "/{{ request.surl }}visitor/ProcessVisitorOption/?func=get_option",
+        type: "GET",
+        dataType: "json",
+        success:function(datas) {
+            if (datas.photo_path != undefined)
+            {
+                photo_path = datas.photo_path + "\\";
+            }
+        }
+    });         
+
+    
+    //调用身份证读卡器，渲染
+    $("#id_read_certificate").click(function(){
+        if ($("#id_certificate_type").val() == 1)//第二代身份证
+        {
+            //注意：第一个参数为对应的设备端口，USB型为1001，串口型为1至16
+            var photo_name = get_date(3) + ".bmp";
+            var photo = photo_path + photo_name;
+            var result = IdrControl1.ReadCard("1001", photo);
+            if (result ==1 )
+            {
+                $("#id_visitor_name").val(IdrControl1.GetName());
+                $("#id_gender").val(IdrControl1.GetSex());
+                $("#id_certificate_number").val(IdrControl1.GetCode());
+                $("#id_home_address").val(IdrControl1.GetAddress());
+                IdrControl1.GetPhotobuf();
+                $("#id_img_visitor")[0].src = "/file//photo//" + photo_name;
+                $("#id_certificate_photo").val("photo/" + photo_name);
+                
+                
+                if ($("#id_certificate_number").val() != "")
+                {
+                    //查看是否有来访过
+                    $.ajax({
+                        url: "/{{ request.surl }}visitor/get_visitor_by_add/?func=c_number&number=" + $("#id_certificate_number").val(),
+                        type: "GET",
+                        dataType: "json",
+                        success:function(datas) {
+                            if (datas.visitor_pin != undefined)
+                            {
+                                $("#id_visitor_pin").val(datas.visitor_pin);
+                                $("#id_visitor_company").val(datas.company);
+                                $("#id_car_number").val(datas.car_number);
+                                $("#id_is_has_visited").val(1);
+                            }
+                        }
+                    }); 
+                }
+            }
+            else
+            {
+                if (result == -1)
+                {
+                    alert(gettext("端口初始化失败！"));
+                }
+                if (result == -2)
+                {
+                    alert(gettext("请重新将卡片放到读卡器上！"));
+                }
+                if (result == -3)
+                {
+                    alert(gettext("读取数据失败！"));
+                }
+                if (result == -4)
+                {
+                    alert(gettext("生成照片文件失败，请检查设定路径和磁盘空间！"));
+                }
+            }     
+        }
+    });
+    
+    //扫描证件
+    $("#id_scan_certificate").click(function(){
+        var result = zkissonlinex.InitExternalLibrary();
+        if (result == 0)
+        {
+            var c_number = $("#id_certificate_type").val();
+            result = zkissonlinex.LoadIdcardLibrary();
+            if (result == 0) {
+                var all_photo_name = photo_path + get_date(3) + "all.jpg";//证件相片地址
+                var photo_name = get_date(3) + ".jpg";//头部相片名称
+                var photo = photo_path + photo_name;//头部相片地址
+                
+                if (c_number == 1)//二代身份证
+                {
+                    result = zkissonlinex.RecogNewIdcardALL(all_photo_name, true, 0x7f, photo);
+                }
+                else if (c_number == 2)//防伪身份证
+                {
+                    result = zkissonlinex.RecogIdcardExALL(all_photo_name, true, 0, 0x7f, photo, 3);
+                }
+                else if (c_number == 3)//普通身份证
+                {
+                    result = zkissonlinex.RecogIdcardExALL(all_photo_name, true, 0, 0x7f, photo, 1);
+                }
+                else if (c_number == 4)//驾照
+                {
+                    result = zkissonlinex.RecogDPALL(all_photo_name, true, 0x7f, photo);
+                }
+                else if (c_number == 5)//护照
+                {
+                    result = zkissonlinex.RecogPassPortALL(all_photo_name, true, 0x7f, photo);
+                }
+                if (result == "" || result == null)
+                {
+                    alert(gettext("请选择正确的证件类型或调整证件的位置！"));
+                }
+
+                
+                 //result的返回结果格式 "name:张三,sex:男,number:11223344,other:"
+                visitor = result.split(",");
+                var name = visitor[0].split(":")[1];
+                var gender = visitor[1].split(":")[1];
+                var home_address = visitor[4].split(":")[1];
+                var c_number = visitor[7].split(":")[1];
+
+                $("#id_visitor_name").val(name);
+                $("#id_gender").val(gender);
+                $("#id_certificate_number").val(c_number);
+                $("#id_home_address").val(home_address);
+                $("#id_img_visitor")[0].src = "/file//photo//" + photo_name;
+                $("#id_certificate_photo").val("photo/" + photo_name);  
+                
+                if ($("#id_certificate_number").val() != "")
+                {
+                    //查看是否有来访过
+                    $.ajax({
+                        url: "/{{ request.surl }}visitor/get_visitor_by_add/?func=c_number&number=" + $("#id_certificate_number").val(),
+                        type: "GET",
+                        dataType: "json",
+                        success:function(datas) {
+                            
+                            if (datas.visitor_pin != undefined )
+                            {
+                                $("#id_visitor_pin").val(datas.visitor_pin);
+                                $("#id_visitor_company").val(datas.company);
+                                $("#id_car_number").val(datas.car_number);
+                                $("#id_is_has_visited").val(1);
+                            }
+                        }
+                    }); 
+                }
+            }
+            else
+            {
+                alert(gettext("加载核心失败！"));
+            }
+        }
+        else
+        {
+            alert(gettext("初始化失败！"));
+        }
+    });
+    
+    
+    
+    //开始预览
+    $("#id_start_preview").click(function(){
+        if ($.browser.msie)//火狐浏览器下会出错
+        {
+            $("#id_cap_div").append('<object classid="clsid:34681DB3-58E6-4512-86F2-9477F1A9F3D8" id="id_cap" width="180px" height="140px" codebase="../cabs/ImageCapOnWeb.cab#version=2,0,0,0"></object>');
+            document.all.id_cap.SwitchWatchOnly();  //切换到只显示摄像头画面形式，隐藏编辑按钮等图标.
+            
+            document.getElementById('id_cap').start();
+            $("#id_start_preview").val(gettext('停止预览'));
+            $("#id_start_preview").attr("id","id_end_preview");
+        }
+        else
+        {
+            alert(gettext("目前该功能仅支持IE系列及IE内核的浏览器，请更换！"));
+        }
+    });
+    
+    //停止预览
+    $("#id_end_preview").click(function(){
+        //alert("tz");
+        document.getElementById('id_cap').stop();
+        $("#id_end_preview").val(gettext('开始预览'));
+        $("#id_end_preview").attr("id","id_start_preview");
+    });
+    
+    
+    //拍摄
+    $("#id_capture").click(function(){
+        document.getElementById('id_cap').cap();
+        photo_name = get_date(3) + ".jpg";
+        photo = photo_path + photo_name;
+        document.getElementById('id_cap').savetoFile(photo);
+        $("#id_capture_photo").val("photo/" + photo_name);
+    });
+    
+    
+
+    //清空图片
+    $("#id_clear_photo").click(function(){
+        document.getElementById('id_cap').clear();
+    });
+
+    
+    //查询被访人
+    $("#id_query_emp").click(function(){
+        var set_emp_form = '<div id="id_set_emp_form" class="div_box" style="z-index:3;">'
+                +'<h1>'+gettext("被访人信息")+'</h1>'
+                +'<div id="show_emp_tree">'
+                +'</div>'
+                +'<div class="btns_class"><button class="btn" id="id_set_emp" type="button">'+gettext("确定")+'</button>'
+                +'<button class="btn" id="id_cancel" type="button">'+gettext("取消")+'</button></div>'
+            +'</div>';
+            
+        //加载控件
+        $.ajax({
+            url: "/personnel/choice_widget_for_select_emp/?multiple=T&name=mutiple_emp",
+            type: "POST",
+            dataType: "html",
+            success:function(sdata){  
+                $("#show_emp_tree").html(sdata);
+            }
+        });
+        
+        $(set_emp_form).dialog();
+        $("#overlay").css("left","20%");
+        $("#overlay").css("right","20%");
+        $(".btns_class").css("clear","left");
+        //取消按钮
+        $("#id_set_emp_form").find("#id_cancel").click(function(){
+            $("#id_close").click();
+        });  
+        
+        $("#id_set_emp").click(function(){
+            emp_id = $('input:checkbox[name="mutiple_emp"]').val();//选择的人员id值
+            if (emp_id == null)
+            {
+                alert(gettext('请选择人员！'));
+                return;
+            }
+            
+            //按被访人编号获取被访人信息，渲染页面
+            $.ajax({
+                url: "/{{ request.surl }}visitor/get_visited_emp/?emp_id="+emp_id,
+                type: "GET",
+                dataType: "json",
+                success:function(datas) {
+                    $("#id_close").click();
+                    $("#id_visited_emp").val(datas.emp_id);
+                    $("#id_dept").val(datas.dept);
+                    $("#id_visited_name").val(datas.name);
+                    $("#id_ophone").val(datas.ophone);
+                }
+            });
+        });
+    });
+    
+    $("#id_set_level").click(function(){
+        var set_card_form = '<div id="id_set_card_form" class="div_box" style="z-index:1;">'
+                +'<h1>'+gettext("设置权限")+'</h1>'
+                +'<div>'
+                    +'<table height="100px">'
+                        +'<tr>'
+                            +'<td style="text-align:right;">'+gettext("访客门禁权限组" )+':</td>'
+                            +'<td align="left">'
+                               +'<div>'
+                                   +'<input type="text" id="level_name" name="level_name"></input>'
+                                   +'<input type="button" id="id_query_level" class="select_EmpSubmit" title='+gettext("查询")+'></input>'
+                                   +'<input type="checkbox" id="id_select_all" name="level_name" size="1"></input>'
+                                   +'<label>'+gettext("全选")+'</label>'
+                               +'</div>'
+                           +'</td>'
+                       +'</tr>'
+                       +'<tr>'
+                           +'<td>&nbsp;</td>'
+                           +'<td>'
+                               +'<div id="id_level" style="border:1px solid #71A8D8"></div>'
+                           +'</td>'
+                       +'</tr>'
+                       +'<tr id="set_valid_time" height="25">'
+                            +'<th><label for="id_set_valid_time">'+gettext("设置有效时间")+':</label></th>'
+                            +'<td>'
+                                +'<table>'
+                                    +'<tr>'
+                                        +'<td width="20px"><input type="checkbox" name="set_valid_time" class="wZBaseBooleanField" id="id_set_valid_time"></td>'
+                                        +'<td><label for="id_acc_startdate" class="required">'+gettext("启用门禁日期")+':</label><input type="text" size="12" id="id_acc_startdate" name="acc_startdate"><a title="" class="dp-choose-date" href="javascript:void(0)">&nbsp;</a><br/>'
+                                        +'<label for="id_acc_enddate" class="required">'+gettext("结束门禁日期")+':</label><input type="text" size="12" id="id_acc_enddate" name="acc_enddate"><a title="" class="dp-choose-date" href="javascript:void(0)">&nbsp;</a></td>'
+                                    +'</tr>'
+                                +'</table>'
+                            +'</td>'
+                           
+                       +'</tr>'
+                    +'</table>'
+                +'</div>'
+                +'<div class="btns_class"><button class="btn" id="id_set_card" type="button">'+gettext("确定")+'</button>'
+                +'<button class="btn" id="id_cancel" type="button">'+gettext("取消")+'</button></div>'
+            +'</div>';
+            
+        $(set_card_form).dialog();
+        
+        $.ajax({ 
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/GetData/?func=level&is_visitor=1",
+            dataType:"json",
+            async:false,
+            success:function(json){
+                var level_list="<ul id='levelSingleBrowser' class='level_list'>";
+                if (json.length>0)
+                {   
+                    for(index in json)
+                    {
+                        level_list+='<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                    }
+                    level_list+='</ul>';
+                }
+                else
+                {
+                    level_list+='<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                }
+                $("#id_level").append(level_list);
+                $("#id_acc_startdate").val(get_date(1));
+                $("#id_acc_enddate").val(get_date(1));
+            }
+        });
+       
+        //按回车键直接查询
+        $("#level_name").keydown(function(event){
+            if(event.keyCode==13)
+            {
+                $("#id_query_level").click();
+            }
+        });
+        
+        //取消按钮
+        $("#id_set_card_form").find("#id_cancel").click(function(){
+            $("#id_close").click();
+        });        
+        
+        //查询权限组
+        $("#id_query_level").click(function(){
+            var level_name = $("#level_name").val();
+            $.ajax({ 
+                type: "POST",
+                url:"/{{ request.surl }}iaccess/GetData/?func=level&is_visitor=1&level_name="+level_name,
+                dataType:"json",
+                async:false,
+                success:function(json){
+                    var level_list = "<ul id='levelSingleBrowser' class='level_list'>";
+                    if (json.length>0)
+                    {   
+                        for(index in json)
+                        {
+                            level_list += '<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                        }
+                        level_list += '</ul>';
+                    }
+                    else
+                    {
+                        level_list += '<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                    }
+                    $("#id_level").empty();
+                    $("#id_level").append(level_list);
+                    
+                    var pin = $("#id_PIN").val();
+                    $.ajax({ 
+                        type: "POST",
+                        url:"/{{ request.surl }}iaccess/GetData/?func=selected_level&key="+pin,
+                        dataType:"json",
+                        async:false,
+                        success:function(json){
+                            $("#levelSingleBrowser input").each(function(){
+                                value = $(this).attr("value");
+                                for(var j in json)
+                                {
+                                    if(value == json[j])
+                                    {
+                                        $(this).attr("checked","checked");
+                                        old_levels.push(value);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+          
+        //权限组全选按钮
+        $("#id_select_all").click(function(){
+            var select_all = $("#id_select_all").attr("checked");
+            $("#id_level input").each(function(){
+                
+                if(select_all)
+                {
+                    $(this).attr("checked", "checked");
+                }
+                else
+                {
+                    $(this).attr("checked", "");
+                }
+            });
+        });
+          
+
+
+        //编辑
+        if($("#id_edit_form").find("#id_PIN").val()!="")
+        {
+            if($("#id_datalist").get(0)!=undefined)//解决保存并继续时同时上传用户图片的报错(用户PIN重复时)
+            {
+                //只有编辑的时候才需要
+                var key = $("#id_PIN").val();
+                $.ajax({ 
+                    type: "POST",
+                    url:"/{{ request.surl }}iaccess/GetData/?func=selected_level&key="+key,
+                    dataType:"json",
+                    async:false,
+                    success:function(json){
+                        $("#levelSingleBrowser input").each(function(){
+                            value = $(this).attr("value");
+                            for(var j in json)
+                            {
+                                if(value == json[j])
+                                {
+                                    $(this).attr("checked","checked");
+                                    old_levels.push(value);
+                                }
+                            }
+                        });
+                    }
+                });             
+                
+            }  
+        } 
+        
+        //选择访客可通过的权限
+        $("#id_set_card").click(function(){
+            var chk_value =[];    
+            $('input[name="level"]:checked').each(function(){    
+               chk_value.push($(this).val());    
+            });   
+            
+            $("#id_visitor_level").val(chk_value);
+            $("#id_close").click();
+        });
+    });
+
+    {% endif %}
+    
+{% endblock %}
+

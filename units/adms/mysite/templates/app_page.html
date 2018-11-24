@@ -1,0 +1,48 @@
+{% extends "base_page_frame.html" %}
+{% load i18n %}
+{% load dbapp_tags %}
+
+{% block extracss %}
+
+{% endblock %}
+
+{% block datalist_content %}
+
+	<div class="leftBox" style="top: 115px;">
+	    {% block model_extend %}
+	
+	    {% endblock %}
+	</div>
+
+	 <div class="rightBox">
+	        <div id="id_tab" >
+	            <div class="portlet-header sfActive">
+	                {% block position %}
+	                <ul><li class="floatL"><span class='icon_SiteMap'>&nbsp;</span>{% trans "当前位置：" %}{% if position %} {{ position }} {% else %}<span id="id_rel_log">{{ current_app|translate_str }}</span> -> {% if title|translate_str %}{{ title|translate_str|cap }} {% else %}{% endif %}{% endif %}</li></ul>
+	                {% endblock %}
+	                <ul><li  class="floatR"><a href="{{ request.dbapp_url }}system/help/?p=/file/{{ LANGUAGE_CODE }}/help/{% if help_model_name %}{{ help_model_name|lower }}{% else %}{{ model_name|lower }}{% endif %}.html" target="_blank" title="{% trans '当前页帮助' %}" class="icon_help_current"></a></li></li></ul>
+	            </div>
+	        </div>
+	        {% block content %}
+	    	{% endblock %}
+	
+	</div>
+{% endblock %}
+
+
+{% block extend_js %}
+<script language="JavaScript">
+		$("body input.date").each(function(){
+			var $this = $(this);
+			var opts = {};
+			if ($this.attr("format")) opts.pattern = $this.attr("format");
+			if ($this.attr("yearstart")) opts.yearstart = $this.attr("yearstart");
+			if ($this.attr("yearend")) opts.yearend = $this.attr("yearend");
+			$this.datepicker(opts);
+		})
+</script>
+	{% block end_block %}
+	{% endblock %}  
+{% endblock %}  
+
+

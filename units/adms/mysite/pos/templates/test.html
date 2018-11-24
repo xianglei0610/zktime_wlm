@@ -1,0 +1,15 @@
+{ 
+heads:["Id","人员","卡号","发卡时间","卡余额","是否可用","卡序列","描述"],        
+fields: ["id","hum","card_id","issue_date|fmt_datetime","card_balance","isvalid","card_sequ","data_verbose_column"],
+data:   [
+			["1","000000123 123","0.0","0","老大","老二","补贴"]
+		],
+record_count:1,
+        item_from:1,
+        current_page:1,
+        page_limit:50,
+        page_count:1,
+        order_by:"",
+        'options':{"detail_model": [], "title": "\u53d1\u5361\u8bb0\u5f55", "layout_types": ["table"], "app_label": "pos", "parent_models": {"Employee": "hum"}, "exception_fields": [], "addition_fields": [], "children_models": {}, "model": "CardInfo", "addition_columns": [], "key_field": "id"},
+        'actions':{}
+}

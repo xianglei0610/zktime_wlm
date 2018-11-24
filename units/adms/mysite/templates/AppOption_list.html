@@ -1,0 +1,37 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"base.browse_appoption" %}
+        $("#id_datalist").model_grid({
+            "dbapp_url": "{{ dbapp_url }}",
+            "model_url": "{{ model_url }}",
+            "disabled_actions": ["_change"],
+            "init_after_get_jdata": function(){
+                $(".class_select_col").remove();
+                $("tr[id^='id_row']").each(function(){
+                	if($(this).find('a').html() == "dbversion")
+                	{
+                		$(this).children().next().next().next().html("");
+                	}
+        		})
+            },
+            "reload_after_get_jdata":function(){
+                $(".class_select_col").remove();
+                $("tr[id^='id_row']").each(function(){
+        			if($(this).find('a').html() == "dbversion")
+                	{
+                		$(this).children().next().next().next().html("");
+                	}
+        		})
+            },
+            "cached_data": false
+        });
+    {% else %}<!--base.browse_appoption-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--base.browse_appoption-->
+
+{% endblock %}
+

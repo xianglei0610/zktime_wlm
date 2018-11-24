@@ -1,0 +1,125 @@
+{% extends "Elevator_Floor_Set.html" %}
+{% load i18n %}
+
+{% block acc_door_set %} 
+    {% if request.user|HasPerm:"contenttypes.can_FloorMngPage" %}
+    var device_id = 0;
+    $("#id_sys_cur_model").val("Device");
+    $("#id_datalist_main").append("<div id='id_edit_door'></div>");
+    $("#id_datalist").model_grid({
+        "dbapp_url": "{{ dbapp_url }}",
+        "model_url": "{{ dbapp_url }}iclock/Device/", 
+        "init_query": ["device_type__exact=2","is_elevator__exact=1"],
+        "base_query": ["device_type__exact=2","is_elevator__exact=1"],
+        "model_actions": false ,
+        "object_actions": true, 
+        "obj_edit": true,
+        "async": false,
+        "layout_types": [],  
+        "record_per_page": 80,      
+        "disable_cols": ['device_type','Fpversion','transaction_count','fw_version','area.areaname','sn','acpanel_type','show_last_activity','get_dstime_name','show_fp_mthreshold','fp_count','dining.name','consume_model'],
+        "disabled_actions": ['_change','OpAddDeviceMsg','OpCheckAttInfo','OpUpAttInfo','RemoteUpgrade','ClearData','OpBrowseLog','ClearPicture','ClearTransaction','OpReloadData','OpReloadLogData','Resume','Pause','RefreshDeviceInfo','Resume','Syncdata','_delete','Reboot','OpChangeMThreshold','OpRemoveDSTime','OpSetDSTime','OpUpgradeFirmware'],
+        "init_after_get_jdata": function(){
+            $("#id_datalist").get(0).g.a_div.after("<div class='floatL' style='_position:relative;_z-index:10;'><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+            var $app_menu = $("#id_datalist").get(0).g.a_div;
+            var $menu_more = $(".action_more_list");
+            var min_width = 380;
+            resize_menu($app_menu, $menu_more,min_width, "id_action_more");
+            $("#id_special_menu").remove()
+            $('.nav li').sfHover();
+            
+            {% if request.user|HasPerm:"iaccess.browse_accdoor" %}
+            //默认打开第一个控制器的门
+            $(".child_show:first").click(); 
+            {% endif %}<!-- browse_accdoor -->
+        },
+        "reload_after_get_jdata":function(){
+            {% if request.user|HasPerm:"iaccess.browse_accdoor" %}
+            if(device_id != 0)
+            {
+                $("#id_datalist .dt_bdiv:first>table>tbody>tr[data="+device_id+"] .child_show").click();
+                //device_id=0;
+            }
+            {% endif %}<!-- browse_accdoor -->
+        },
+        "row_operations": ['op_edit']{% if request.user|HasPerm:"iaccess.browse_accdoor" %},
+        "detail_opt": {
+            "dbapp_url": "{{ dbapp_url }}",
+            "model_actions": false,
+            "object_actions": true,
+            "obj_edit": true,
+            "async": false,
+            "scrollable": false,
+            "model_url": "{{ dbapp_url }}iaccess/AccDoor/",
+            "show_pager": false,
+            "multiple_select": null,
+            "disable_cols": ["accfirstopen_set|detail_list_set","accmorecardset_set|detail_list_set",],
+            "do_action_masker_div": [$("#id_datalist")],//操作所需要覆盖的div
+            "do_action_template": $("#id_edit_door"),  
+            "sort_fields": ["door_no"],                 
+            "row_operations": ['op_edit'],
+            "disabled_actions": ['_change','_delete'],
+            "init_after_get_jdata": function(){
+                //$("#child_iaccess_AccDoor #id_show_style").remove();
+                $("#child_iaccess_AccDoor .action").remove();
+              
+            },
+            "reload_after_get_jdata": function(){
+                //$("#child_iaccess_AccDoor .pages,#id_show_style").remove();
+                $("#child_iaccess_AccDoor .action").remove();
+            }            
+        }
+        {% else %}
+        ,"need_plus_sign": false
+        {% endif %}<!-- browse_accdoor -->
+    });
+    //查询后
+    after_query = function()
+    {     
+        $(".child_show:first").click();
+    }
+    
+    after_submit = function()
+    {
+        if(device_id != 0)
+        {
+            $("#id_datalist .dt_bdiv:first>table>tbody>tr[data='+device_id+'] .child_show").click();
+            //device_id=0;
+        }
+    }
+       
+    $("#child_iaccess_AccDoor .action").remove();//ie下的无效隐藏div直接删除
+    
+    {% else %}
+        $("#id_datalist").remove();
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_DoorMngPage -->
+    
+{% endblock %}
+{% block addjs%}
+	$(function(){
+    str = $("#door_no").html();
+    if (str)
+    {
+        str = str.replace(gettext("门"),gettext("楼层"))
+        $("#door_no").html(str);
+    }
+    
+    str = $("#lock_active").html();
+    if (str)
+    {
+        str = str.replace(gettext("门"),gettext("楼层"))
+        $("#lock_active").html(str);
+    }
+
+    str = $("#door_name").html();
+    if (str)
+    {
+        str = str.replace(gettext("门"),gettext("楼层"))
+        $("#door_name").html(str);
+    }
+
+    } )
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs %}
+$(function(){
+    $("#id_blance").parent().prev().find("label").css({"font-size":"25px","font-weight":"bold"});
+    $("#id_blance").css({"height":"30px","font-size":"25px","width":"110px"});
+    $('#id_edit_form').validate({
+          	                        rules: {
+          	                            "blance": {required:true,min:0.0,max:9999,"maxlength":8,isMoney:true}}
+          	                        }
+          	            );
+    
+})
+{% endblock %}

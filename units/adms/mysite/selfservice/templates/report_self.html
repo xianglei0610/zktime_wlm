@@ -1,0 +1,18 @@
+{% extends "app_page_attreport.html" %}
+{% load i18n %}
+{% block worktable %}{% endblock %}
+{% block option_settings %} {% endblock %}
+{% block change_pwd %}
+    <a id="id_btn_changePW" ref="/{{request.surl }}selfservice/password_change/" href='javascript:void(0);' >
+        {% trans '修改密码' %}
+    </a>
+{% endblock %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/calculateReport.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/change_pwd_self.js"></script>
+<script type="text/javascript" src="/media/jslib/calculateReport.js"></script>
+{% endblock %}
+{% block selfservices %}
+    <input type="hidden" id="id_self_services" value="{{request.session.employee.pk }}"/> 
+{% endblock %}
+{% block select_emp %} {% endblock %}

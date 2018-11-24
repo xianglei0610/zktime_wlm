@@ -1,0 +1,133 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% trans "无标题文档" }</title>
+<style type="text/css">
+.exportselect{
+	width:180px;
+	}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+</style>
+<style type="text/css">
+<!--
+-->
+</style>
+<script>
+var lang_code="{{lang_code}}"
+$(function(){
+$("[name='format']").change(function(){
+ var v=$("[name='format']").val()
+	if (v=='pdf')
+	{	
+		$("[name='format']").parent().parent().next().addClass("displayN");
+		$("#exportform").attr("target","_blank");
+	}
+	else
+	{
+		$("#exportform").attr("target","_blank");
+		if (v=='txt')
+		{
+			$("#exportform").attr("target","_self");
+		}
+		if(lang_code=="zh-cn")
+		{
+			$("[name='format']").parent().parent().next().removeClass("displayN")
+		}
+		else
+		{
+			$("[name='format']").parent().parent().next().addClass("displayN")
+		}
+	}
+	});
+	$("#recordstart").keydown(function(event){
+		$("input[name='t'][value=3]").attr("checked","checked");
+	});
+	
+	$("#recordend").keydown(function(event){
+		$("input[name='t'][value=3]").attr("checked","checked");
+	});
+	
+})
+</script>
+</head>
+
+<body style="text-align:center">
+<form id="exportform"  method="GET" target="_blank">
+<table width="330" border="0" cellspacing="0" cellpadding="2" class="table">
+  <tr>
+    <td width="87" valign="middle" bgcolor="#f1fcfe">{% trans '当前导出表' %}</td>
+    <td background="#f1fcfe">
+    <select name="model"  class="exportselect" >
+    	{% for k,v in models.items %}
+        {% ifequal k model_name  %}
+        	<option value="{{k}}" selected="selected">{{v}}</option>       
+        {% endifequal %}
+        {% endfor %}
+    </select>    </td>
+  </tr>
+  <!-- 
+  <tr>
+    <td height="76">选择模板</td>
+    <td>    <select name="templatename" size="5"  class="exportselect" >
+    	{% for k,v in template.items%}
+    	<option value="{{k}}">{{v}}</option>
+        {% endfor %}
+    </select></td>
+  </tr>
+   -->
+  <tr>
+    <td valign="middle" bgcolor="#f1fcfe">{% trans '文件类型' %}</td>
+    <td background="#f1fcfe">    <select  name="format" class="exportselect" >
+    	{% for k,v in filetype.items%}
+    	<option value="{{k}}">{{v}}</option>
+        {% endfor %}
+    </select></td>
+  </tr>
+  <tr class="displayN">
+    <td valign="middle" bgcolor="#f1fcfe">{% trans '文件编码' %}</td>
+    <td background="#f1fcfe">    <select  name="filecode" class="exportselect" >
+    	{% for k,v in filecoding.items%}
+    	<option value="{{k}}">{{v}}</option>
+        {% endfor %}
+    </select></td>
+  </tr>
+<tr><td colspan="2" bgcolor="#f1fcfe">{% trans '导出方式:' %}</td>
+</tr>
+<tr><td colspan="2" background="#f1fcfe" style="padding-left:10px;">
+<input type="radio"  name="t" value="1" checked="checked">{% trans '全部记录(最多导出10000条最新记录)' %}</input>
+<div id="id_div_choicerecords" style="margin-top:5px"><ul>
+  
+	<li class="floatN displayN"><input type="radio"  name="t" value="2"  >{% trans '按页导出' %}</input>
+		<ul style="margin:3px 0px 3px 16px;">	
+			<li class="floatL">
+				{% trans '以每页' %}<input type="text" size="2" maxlength="2" value="15" id="pagerecords"></input>{% trans '条记录为单位,' %}			</li>
+			<li class="floatL">
+				{% trans '从' %}<input type="text" size="4" maxlength="4" value="1" id="pagestart"></input>{% trans '页到' %}
+				<input type="text" size="4" value="10" id="pageend" maxlength="4"></input>{% trans '页' %}			</li>
+		</ul>
+	</li>
+	<li class="clearB" id="id_li_records"><input type="radio"   name="t" value="3" >{% trans '选择记录数导出' %}</input>
+	    <ul style="margin:3px 3px 3px 16px;">
+	      <li>{% trans '从第' %}<input type="text" value="1" id="recordstart" size="4" maxlength="8"></input>{% trans '条起，共导出' %}
+	        <input type="text" value="100" id="recordend" size="4" maxlength="5"></input>{% trans '条记录' %}	        </li>
+		 </ul>
+	</li>
+  </ul>
+</div></td></tr>
+</table>
+  <div class="btns_class">
+	<input type="submit" value={% trans "导出" %}  id="btnExport" class="btn" />      
+	<input type="button" value={% trans "退出" %}  id="btnReturn" class="btn" />
+	<input type="hidden" name="txtviewname"  class="btn40" />
+  </div>
+
+</form>
+</body>
+</html>

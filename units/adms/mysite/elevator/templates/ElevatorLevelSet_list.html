@@ -1,0 +1,106 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block leftBoxMiddle %}
+{% endblock %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_FloorLevelSetPage" %}
+        var progress_interval = null;
+        $(".icon_help_current").remove();
+        $("body").append("<div id='gz_processStatus' style='position: absolute; display:none; top: 0px; left: 0px; width:100%; height:100%; opacity: 0.6;filter:alpha(opacity=60); z-index:999999; background-color:#000000;'></div>"
+                            +"<div id='show_process_status' style='display: none; position: absolute; line-height: 200px;  text-align: center; left: 35%; top: 40%; background-color:#E8F5FE;border:6px solid #A9C9E2; padding:0px 0px 10px 0px; z-index:999999'><div style='border:0px solid #A9C9E2; margin:1px 1px 5px 1px; font-size:14px; padding:2px; background-color:#CEEBFB'>"+gettext('数据下载进度')+"</div>" +"<div id='detail_process' style='margin-bottom:3px;'>"
+                               +"<table><tr><td width='130px' align='right'><label id='labledetail'>"+gettext("设备名称")+"</label></td><td width='200px' align='left' style='padding-top:3px;'><span class='progressBar' id='spaceuseddetail'>0%</span></td></tr></table>"
+                            +"</div><div id='total_process'>"
+                               +"<table><tr><td width='130px' align='right'>"+gettext("总进度")+"</td><td width='200px' align='left' style='padding-top:3px;'><span class='progressBar' id='spaceusedtol'>0%</span></td></tr></table>"
+              				+"</div></div>");
+
+        $("#id_datalist").model_grid({
+            "model_action_container": $("#id_op_for_tab"),
+            "dbapp_url": "{{ dbapp_url }}",
+            "model_url": "/data/iaccess/AccLevelset/?exception_fields=emp",//电梯权限组
+            "init_query": ["levelset_type__exact=2"],
+            "base_query": ["levelset_type__exact=2"],
+            "row_operations": ["op_edit","_delete"],
+            "disable_cols": ["emp","emp_count"],
+            "sort_fields": ["level_name"],
+            "disabled_actions": ["_change","OpAddEmpToLevel","OpDelEmpFromLevel","OpAddtoVisitorLevel","OpDelFromVisitorLevel"],
+            "init_after_get_jdata": function(){
+                after_submit = function()
+                {
+                    OnRefreshComProgress();
+                    progress_interval = window.setInterval('OnRefreshComProgress()', 2000);//等3秒执行刷新函数#OnRefreshComProgress()
+                }
+            },
+            "cached_data": false
+        });
+    {% else %}<!--browse_acclevelset-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_accinterlock-->
+{% endblock %}
+
+{% block addjs %}    
+    {% if request.user|HasPerm:"contenttypes.can_FloorLevelSetPage" %}
+        var reqid = 0;
+        var temp_detail = -1;
+        var temp_tol = -1;   
+        function OnRefreshComProgress()
+        {
+            var stamp0 = new Date().getTime();
+            $.ajax({
+                url: "/{{ request.surl }}iaccess/downdata_progress/?reqid="+reqid,
+                type: "GET",
+                dataType: "json",
+                success: function(pgdata)
+                {
+                    if(pgdata)
+                    {
+                        if (pgdata.index > 0)
+                        {
+                            rtlisthtml = "";
+                            datas = pgdata.data[0];
+                            $("#labledetail").text(datas['dev']);
+                            if(temp_detail != datas['progress'])
+                            {
+                                //alert(datas['progress']);
+                                $("#spaceuseddetail").progressBar(datas['progress'], {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                                temp_detail = datas['progress'];
+
+                            }
+                            if(temp_tol != datas['tolprogress'])
+                            {
+                                $("#spaceusedtol").progressBar(datas['tolprogress'], {barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                                temp_tol = datas['tolprogress'];
+                            }
+                            $("#show_process_status").show();
+                            $("#gz_processStatus").show();
+
+                        }
+                        else if (pgdata.index == 0)
+                        {
+                            $("#show_process_status").hide();
+                            $("#gz_processStatus").hide();
+                            $("#spaceuseddetail").progressBar(0, {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                            $("#spaceusedtol").progressBar(0, {increment:100,barImage: '/media/images/progressbg_green.gif?'+stamp0});
+                            clearInterval(progress_interval);
+
+                        }
+                    }
+                }
+            });
+        }
+    {% else %}<!--browse_acclevelset-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_accinterlock-->
+
+{% endblock %}
+
+
+
+
+
+

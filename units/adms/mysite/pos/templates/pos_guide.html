@@ -1,0 +1,150 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+    <link href="{{ MEDIA_URL }}/css/app_guide.css" rel="stylesheet" />
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+{% endblock %}
+
+{% block content %}
+<div id="content" >
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+           <td colspan="7">
+               <div class="section">
+                   <h2>
+                       <div class="back"></div>
+                       <span>{% trans '消费流程' %}</span>
+                   </h2>
+               </div>
+           </td>
+       </tr>
+
+      <tr>
+          <td rowspan="5" align="center">
+  		<div class="posguide_di">
+  		<div class="posguide_ico"></div>
+  		<div class="posguide_icobiao">
+  		<span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}personnel/Employee/','Employee')">人员</a></span><p>人员资料登记<p /></div>
+  		</div>		</td>
+          <td rowspan="5" align="center"><div class="icon_arrow_r"></div> </td>
+          <td align="center">
+  		<div class="posguide_di">
+              <div class="posguide_ico1"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('/pos/DeviceManage/','DeviceManage')" href="javascript:void(0)">设备管理</a></span><p>消费设备管理</p></div>
+          </div>		</td>
+          <td align="center">&nbsp;</td>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico7"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)">退款</a></span><p>退款操作</p></div>
+          </div></td>
+          <td colspan="2" align="center">&nbsp;		</td>
+      </tr>
+      <tr>
+          <td align="center">&nbsp;</td>
+          <td colspan="4" align="center">&nbsp;</td>
+      </tr>
+      <tr>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico2"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)">卡管理</a></span><p>卡常用操作</p> </div>
+          </div></td>
+          <td align="center"><div class="icon_arrow_r"></div></td>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico5"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)">充值</a></span> <p>充值操作</p></div>
+          </div></td>
+          <td align="center"><div class="icon_arrow_r"></div></td>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico6"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/LeaveLog/','LeaveLog')" href="javascript:void(0)">离职管理</a></span><p>人员离职</p></div>
+          </div></td>
+      </tr>
+      <tr>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+      </tr>
+      <tr>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico3"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)">挂失/解挂</a></span>
+                      <p>卡挂失/解挂操作</p>
+              </div>
+          </div></td>
+          <td align="center"></td>
+          <td align="center"><div class="posguide_di">
+              <div class="posguide_ico8"></div>
+              <div class="posguide_icobiao"> <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)" >退卡</a></span><p>退卡操作</p></div>
+          </div>		
+  		</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">	
+  		</td>
+      </tr>
+  </table>
+  <br />
+  <br />
+<tr>
+            <td colspan="7">
+                <div class="section">
+                    <h2>
+                        <div class="back"></div>
+                        <span>{% trans '其它' %}</span>
+                    </h2>
+                </div>
+            </td>
+        </tr>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+          <td align="center">
+  				<div class="posguide_di_xiao">
+  		<div class="posguide_ico9"></div>
+  		<div class="posguide_icobiao_xiao">
+  		<span><a onclick="window.open('{{request.dbapp_url}}pos/CarCashSZ/','CarCashSZ')" href="javascript:void(0)">卡现金收支</a></span><p>现金收支原始记录表
+  		<p /></div>
+  		</div>				</td>
+          <td align="center">
+  				<div class="posguide_di_xiao">
+  				    <div class="posguide_ico10"></div>
+  		    <div class="posguide_icobiao_xiao">
+  		        <span><a onclick="window.open('{{request.dbapp_url}}pos/Allowance/','Allowance')" href="javascript:void(0)">补贴</a></span><p>补贴管理<p /></div>
+              </div></td>
+        {% if "POS_ID"|filter_config_option %}  
+          <td align="center">
+  				<div class="posguide_di_xiao">
+  				    <div class="posguide_ico11"></div>
+  		    <div class="posguide_icobiao_xiao">
+  		        <span><a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)">换卡</a></span><p>换卡操作<p /></div>
+              </div></td>
+            {%endif%}
+          <td align="center">
+  				<div class="posguide_di_xiao">
+  				    <div class="posguide_ico12"></div>
+  		    <div class="posguide_icobiao_xiao">
+  		        <span><a onclick="window.open('/page/pos/ConsumerReport/','ConsumerReport')" href="javascript:void(0)">消费报表</a></span><p>消费明细报表<p /></div>
+              </div>
+  		</td>
+          <td align="center"><div class="posguide_di_xiao">
+  				    <div class="posguide_ico13"></div>
+  		    <div class="posguide_icobiao_xiao">
+  		        <span><a onclick="window.open('/page/pos/ConsumerSummaryReport/','ConsumerSummaryReport')" href="javascript:void(0)">统计报表</a></span><p>现金收支统计报表<p /></div>
+          </div></td>
+      </tr>
+  </table>
+  
+</div>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+{% block op_for_tab %}
+{% endblock %}
+{% block export %}
+{% endblock %}
+{% block addjs %}
+$("#id_tab").remove();
+{% endblock %}

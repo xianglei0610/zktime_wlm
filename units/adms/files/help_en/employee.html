@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -&gt; Personnel System Management -&gt; Personnel management</div>
+<div class="help_mainContant">
+	<h2>Personnel management</h2>
+	<br />
+<h3>Add personnel </h3><br />
+
+	Click [Personnel] - [Personnel] - [Add] to show personnel  profile edit interface.<br />
+
+        <br />
+        <b>The fields are as follows:</b><br />
+        <br />
+		<b>Personnel number: </b>By default, the length shall not exceed 9  digits. A number with a length of less than 9 digits will be preceded with 0  automatically to complete 9 digits. To use a longer number, the user can find  units\adms\attsite.inifile under the installation directory, open it and change  the 9 in PIN_WIDTH=9 into another  number (less than 16 digits and less than the device support max digits). For  example, the access control panel supports 9 digits at most, so the personnel  number need to be less than 9 digits. Numbers can not be repeated. Click  [Verify] to see if it is repeated or not;<br />
+        <br />
+		<b>Department: </b>Select from the pull-down menu and click  [OK]. If the department was not set previously, you can only select the default  [Company Name] department;<br />
+        <br />
+		<b>ID card number: </b>Repetition is not allowed. Click [Verify] to  check repetition. 15-digit and 18-digit ID card numbers are supported;<br />
+		<div class="zkecoatt">
+        <br />
+		<b>Register fingerprint: </b>Register personnel fingerprint for access  control or attendance use. For details, see register fingerprint in 5.2.2   Personnel Maintenance;<br /></div>
+        <b>Card number:</b> Assign a card number to the person for  access control or attendance use. This can be done manually or by using card issuer.  For details, see personnel card issue in 5.2.2 Personnel  Maintenance;<br />
+        <br />
+		<div class="zkeco"><b>Password: </b>Set personnel password. A black-and-white  attendance machine supports only 5-digit passwords, a color attendance machine  supports 8-digit passwords, and an access control panel only supports 6-digit  passwords. If a password exceeds the specified length, the system will truncate  it automatically;<br /></div>
+		<div class="acc">
+		<b>Password: </b>Set personnel password. An access control panel only supports 6-digit passwords. If a password exceeds the specified length, the system will truncate it automatically. 
+
+
+If you need to modify the password, please clear the old password in the box and input the new one;
+		</div>
+		<div class="att">
+		<b>Password: </b>Set personnel password. A black-and-white attendance machine supports only 5-digit passwords, a color attendance machine supports 8-digit passwords. If a password exceeds the specified length, the system will truncate it automatically;
+		</div>
+        <br />
+		<b>Personal photo: </b>The best size is 120×140 pixels, for saving  space. For details, see upload personal photo in    <a href="employee.html">Personnel Maintenance</a>;<br />
+        <br />
+		<b>Employment date: </b>By default it is the current date. <div class="zkecoatt">The  employment date will serve as the attendance calculation start date. Attendance  records prior to this date will not be counted in the statistical results.<br /></div> <br />
+		 <br />
+		 <b>Register Fingerprint: : </b>Enroll the personnel fingerprint or duress fingerprint. The person can login the system by pressing the enrolled fingerprint. If the person presses the duress fingerprint, it will trigger the alarm and send the signal to the system;<br />
+		<div class="zkeco">
+	  <br />
+	  <B>Attendance settings and access control settings:</B><br /></div>
+	  <div class="zkecoatt">
+  <br />
+  <b>Attendance settings: </b>Select attendance area (if not selected, the  default area is the headquarters) and attendance is required or not (the  default is “Yes”. If “No”, the person will not be counted into the attendance  statistical results);<br />
+	  For some management personnel or temporary personnel  not subject to attendance, you can set “No” for them.<br /></div>
+	  <div class="zkecoacc">
+  <br />
+  <b>Access control settings: </b>Select access levels, start and end dates of  access validity time, multi-card opening personnel groups (Presetting is  required. For details, see 7.3.3 Multi-Card  Opening);<br />
+	   <br />
+	   Validity time are set for temporary access control,  where the door can be opened only during this time period. If not ticked, the  setting will be always valid.<br /></div>
+	   <br />
+	   After editing personnel information, click [OK] to save  and quit, and added personnel will be shown in the personnel list.<br />
+	  <br />
+<b>Note:  </b>The number of a person, whether departed or in service, must be unique.  The system, when verifying, will automatically search the number in the  departure library.<br /><br />
+
+	  The personnel information list, by default, is  displayed as a table. If graphic display is selected, photos and numbers will  be shown. <br />
+
+	<br />
+	  <div class="zkecoatt">
+<h3><b>Register fingerprint</b></h3><br />
+	  Before fingerprint registration, please confirm the  fingerprint driver is installed on the computer. To register personnel  fingerprints, 9.0 fingerprint scanner and 10.0 fingerprint scanner can be  selected.<br />
+	  How to select from 9.0 fingerprint scanner and 10.0  fingerprint scanner:<br />
+	  If the algorithm version of the device is 9.0  fingerprint scanner, use 9.0 fingerprint scanner; if the algorithm version is  10.0 fingerprint scanner, select 10.0 fingerprint scanner.<br />
+	  When 10.0 fingerprint scanner is selected, license is  required to register fingerprint scanner. Click [Register] button to  automatically generate id.txt file under the installation directory of the  software. You need to send this file to our company to acquire license file  zkfinger.lic, and then put the license file under the system32 folder of the  system disk, such as C:\WINDOWS\system32.<br />
+  <br />
+
+<b>Fingerprint registration  steps:</b><br /><br />
+
+	  (1) Click [Personnel] - [Personnel], select personnel,  and click [Register fingerprint] to pop up the fingerprint registration edit interface:<br />
+  <div class="alignC"><img width="518" height="115" src="employee_clip_image014.jpg" /></div><br />
+	  If you have enrolled the fingerprint, the number of enrolled  fingerprints will show after corresponding item. <br />
+	  (2) Now we take [9.0 fingerprint scanner registration]  as an example. Click it to pop up the fingerprint registration interface.<br />
+  <div class="alignC"><img width="255" height="259" src="employee_clip_image016.jpg" /></div><br />
+	  (3) Click the finger which fingerprint is to be  enrolled. After the finger finishes 3 times press on the FP Sensor, the system  prompt “Succeed in fingerprint registration”, shown as blow： <br />
+  <div class="alignC"><img width="261" height="263" src="employee_clip_image018.jpg" /></div><br />
+	  (4) The previously enrolled fingerprint will show on  this picture. Click [OK] to save and close the current interface, return to  previous window..<br />
+	  To delete the fingerprints, please click on the  enrolled finger twice, the system prompts the following confirm window, decide  to delete or not.<br />
+  <div class="alignC"><img width="264" height="266" src="employee_clip_image020.jpg" /></div><br />
+  <br /></div>
+<h3><b>Upload personal photo:</b></h3>
+<br />
+
+	  Click [Personnel] - [Personnel], tick the personnel  (only one person can be selected), click [Upload personal photo], enter the  edit interface, click [browse] and select a photo, and click [OK] to save and exit.<br />
+	<br />
+	<br />
+</div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/posreport.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+
+{% block export %}
+	<input type="hidden" id="id_all_emp" value="all"/>
+	{% if request.user|HasPerm:"pos.can_PosReport" %}
+		<li id="id_li_export">
+			<div id="id_model_export"><a href="javascript:void(0)"><span class="action_export"></span>{% trans "导出" %}</a></div>
+			<div class='div_leftBottomLine'></div>
+		</li>    
+   {% endif %} 
+{% endblock %}
+
+
+{% block addjs %}
+var dbapp_url="{{dbapp_url}}";
+{%if "POS_IC"|filter_config_option%}
+$(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("report","ic_report"));
+{%endif%}
+
+function getPubOpt(app,model,where)
+{
+	var pubopt={
+		dbapp_url:"{{dbapp_url}}", 
+		model_url:"{{dbapp_url}}"+app+"/"+model+"/",                      //根目录地址
+		record_per_page: 15,                 //每页记录数
+		max_no_page: 50,                 //记录数少于该数据时，不分页显示
+		row_operations: false,               //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+		obj_edit:false,
+		disabled_actions: ['_add','_delete','_clear'],
+		model_actions:false,
+		object_actions:false,
+		scrollable:{heigh:340},
+		disable_cols:['UserID_id','UserID.pk','cardstatus'],
+		obj_edit:false,
+		init_query:where	
+	}
+	if (model=='IssueCard')
+	   pubopt.disable_cols.push("cardstatus");
+	return pubopt;
+	
+	
+	
+}
+
+function getPubOpt_lost(app,model,where) //卡挂失
+{
+    var aa= ""
+	var pubopt={
+		dbapp_url:"{{dbapp_url}}", 
+		model_url:"{{dbapp_url}}"+app+"/"+model+"/",                      //根目录地址
+		record_per_page: 15,                 //每页记录数
+		max_no_page: 50,                 //记录数少于该数据时，不分页显示
+		row_operations: false,               //对象操作true表示全部显示(默认)，false表示全部不显示，对象表示操作["New","Delete",["Leave",...]]
+		obj_edit:false,
+		disabled_actions: ['_add','_delete','_clear'],
+		model_actions:false,
+		object_actions:false,
+		scrollable:{heigh:340},
+		disable_cols:['UserID_id','UserID.pk','get_attpic'],
+		obj_edit:false,
+		init_query:where	
+	}
+	return pubopt;
+}
+
+
+function getDataOpt(datajson,url)
+{
+	
+		hiddencol=["userid","data_verbose_column"]
+	
+	var data=[]
+	var fn=datajson.fieldnames;
+	
+	
+	for(var j=0;j<datajson.datas.length;j++)
+	{
+		var td=datajson.datas[j];
+		var tmp=[]
+		for(var i=0;i<fn.length;i++)
+		{			
+			tmp.push(encodeTxt(td[fn[i]]));			
+		}
+		data.push(tmp);
+	}
+	var opt={
+	  heads:datajson.fieldcaptions,//是一个列表，表示显示在列表表头上的文字; 
+	  fields:datajson.fieldnames,//是一个列表，表示显示在列表表头上的文字; 
+	  data:data,//二维列表，表示多行的数据；
+	  disable_cols:hiddencol,//不可见的列
+	  key_field:"id",  //关键字段名
+	  data_verbose_column:"", //数据显示字段名，为空字符串
+	  show_head: true,//显示头
+	  actions: {},//是一个对象，表示定义在该数据模型上的操作列表，其每一个操作是一个json对象
+	  base_url: "", //表示当前数据页面的URL; 
+	  row_operations: [],//为一个列表，表示要放在对当前记录进行的操作栏的操作名（字符串）
+	  multiple_select: null,//是否多选
+	  page_count: datajson.page_count, //每页显示的数据行
+	  current_page: datajson.page, //页号
+	  record_count: datajson.item_count, //如果为零，则不在页面上显示总记录数
+	  layout: "table",
+	  scrollable:{heigh:340},
+	  grid_name:"",//记录的名字
+	  tbl_id:"id_tbl",//"table"-表格形式显示, "icon"-大图标形式显示, "compact"-小图标形式显示 
+	 // a_div:$('<div class="action Link_blue1"></div>'),//默认操作的div
+	 // p_div:$('<div  class="pages floatR Link_blue2"></div>'),//默认放置分页的div
+	  //t_div:$('<div class="list_outBox"></div>'),//默认放置列表的div
+	 // grid_div:$('<div class="grid clearL"></div>'),//整个控件默认的div
+	  on_pager:function(grid,p){  			  		
+	  		var gd=grid;	  		
+	  		$("#id_calculateform").append("<input type='hidden' name='p' value='"+p +"' \>");
+	  		if($("#id_calculateform").find("input[name='pa']").length==0)	  
+	  			$("#id_calculateform").append("<input type='hidden' name='pa' value='T' \>");
+	  		var u_url=url	
+	  		var option={
+				url:u_url,	
+				dataType:"json",					
+				type:"POST",
+				success:function(data){	
+					$.extend(gd.g,getDataOpt(data,u_url));									
+					gd.g.reload_data();					
+				}
+			}
+			$("#id_calculateform").ajaxSubmit(option);
+			$("#id_calculateform").find("input[name='p']").remove();
+	  	return false;
+	  }
+	};
+	
+	return opt
+	
+	
+}
+
+function show_hall(data)
+{
+
+    if(data.halls != "")
+    {   
+        for(a in data.halls)
+        {
+            $("#monitor_hall select").append('<option value="'+data.halls[a][0]+'">'+data.halls[a][1]+" "+data.halls[a][2]+'</option>');
+        }
+		
+    }
+	if(data.meals !="")
+	{
+		for(m in data.meals)
+		{	
+			$("#monitor_meal select").append('<option value="'+data.meals[m][0]+'">'+data.meals[m][1]+" "+data.meals[m][2]+'</option>');
+		}
+	
+	}
+	if(data.operates !="")
+	{
+		for(m in data.operates)
+		{	
+			$("#monitor_operate select").append('<option value="'+data.operates[m][1]+'">'+data.operates[m][1]+'</option>');
+		}
+		
+	}
+}
+
+function Query_Load(url)
+{
+    $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "json",
+        async: false,
+        success: function(data)
+        {
+            show_hall(data);
+        //show_meetingemps(data); 
+        }
+    });        
+}
+
+var stamp = new Date().getTime();
+url = "/{{ request.surl }}pos/getdiningroom/?stamp="+ stamp;
+Query_Load(url)
+
+
+
+{% endblock %}
+
+
+
+
+<style>
+.calculatediv{
+	width:300px;
+	overflow:auto;
+	}
+
+
+</style>
+{% block content %}
+{% endblock %}
+{% block content_end %}
+
+<div style="margin:35px 10px 10px 115px;">
+<input type="hidden" id="id_current_report" value="1" />
+<div id="id_divsearch" class="calculate_divsearch">
+	<div class="clearB" style="margin:5px 0px;">
+    <form id="id_calculateform" method="post">
+    	<table>
+    	 <tr style="vertical-align:middle" >
+		{% autoescape off %}
+			<td><div id="emp_labor">{{empfield|field_as_label_tag}}<div></td><td><div id="show_emp_tree">{{empfield.as_widget}}</div></td>
+		{% endautoescape %}
+		
+			<td>{% trans '开始日期' %}</td><td style="marg"><input type="text" class="date dp-applied" format="yyyy-MM-dd"  style="width:90px;" readonly="True" name="ComeTime" id="id_cometime"/></td>
+			<td>{% trans '结束日期' %}</td><td><input type="text" class="date dp-applied" format="yyyy-MM-dd" style="width:90px;" readonly="True" name="EndTime" id="id_endtime"/>&nbsp;</td>
+		 	<!--<td><div id="monitor_hall"><label>{% trans "餐厅" %}</label><select style="width:160px"><option value="0">{% trans "全部餐厅" %}</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+		 	<td><div id="monitor_meal"><label>{% trans "餐别" %}</label><select style="width:160px"><option value="0">{% trans "全部餐别" %}</option></select></div></td>
+		 	<td><div style="margin:-3px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href="#" class="Link_blue1" >{% trans '查询' %}</a></div></td>
+			<td><div style="margin:-3px 0px 0px 5px;"><span class="action_calculate">&nbsp;</span><a id="id_calculate" href="javascript:void(0)" class="Link_blue1">{% trans '统计' %}</a></div></td>
+         -->
+		<td><div id="check_operate" ><input style="margin-top: 0px;" id="id_is_operate"  type="checkbox" checked="checked" />&nbsp;<label>{% trans "按操作员统计" %}</label></div></td>
+		<td><div id="monitor_hall"><label>{% trans "餐厅" %}</label><select style="width:80px"><option value="0">{% trans "全部餐厅" %}</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+		<td><div id="monitor_meal"><label>{% trans "餐别" %}</label><select style="width:80px"><option value="0">{% trans "全部餐别" %}</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+		<td><div id="monitor_operate"><label>{% trans "操作员" %}</label><select style="width:80px"><option value="0">{% trans "全部" %}</option></select></div></td>
+				<td><div id="monitor_pos_model">
+				<label for="id_pos_model">{% trans "消费模式" %}:</label>
+				<select id="search_id_pos_model" name="" fieldname="pos_model">
+				<option value="0">全部</option>
+				<option value="1">定值模式</option>
+				<option value="2">金额模式</option>
+				<option value="3">键值模式</option>
+				<option value="4">计次模式</option>
+				<option value="5">商品模式</option>
+				<option value="6">计时模式</option>
+				<option value="7">记账模式</option>
+				</select></div></td>
+		   
+		</tr>
+		<tr>
+			
+		</tr>
+		
+		<tr><td colspan="3">
+        <div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+        </tr>
+        </table>
+        <input type="hidden" name="DeptIDs" value="" />
+        <input type="hidden" name="isForce" value="0" />
+        <input type="hidden" name="UserIDs" value="" />
+		<input type="hidden" name="Dining" value="" />
+		<input type="hidden" name="Meal" value="" />
+		<input type="hidden" name="Operate" value="" />
+		<input type="hidden" name="pos_model" value="" />
+		<input type="hidden" name="check_operate" value="checked" />
+    </form>
+  
+	</div>
+</div>
+<div id="calculatetabs"><!--height:440px;overflower:auto style="width:860px;-->
+
+	    <ul class="tabs">
+	     
+			<li><a href="#caltabs-1" onClick="consumeCollect('')">{% trans '个人消费汇总表' %}</a></li>
+
+			<li><a href="#caltabs-2" onClick="allowanceCollect('')">{% trans '部门汇总表' %}</a></li>
+			
+			<li><a href="#caltabs-3" onClick="rechargeCollect('')">{% trans '餐厅汇总表' %}</a></li>
+			
+			<li><a href="#caltabs-4" onClick="refundRepord('')">{% trans '设备汇总表' %}</a>
+			
+			<li><a href="#caltabs-6" onClick="szRepord('')">{% trans '收支统计表' %}</a>
+			<!--
+			<li><a href="#caltabs-5" onClick="businessReport('')">{% trans '日现金实收表' %}</a>
+			
+			<li><a href="#caltabs-7" onClick="expendReport('')">{% trans '营业报表' %}</a>
+			
+			<li><a href="#caltabs-8" onClick="monthReport('')">{% trans '月结算表' %}</a>
+			-->
+			
+		
+		
+	    </ul>
+		<div  class="calculatediv" id="caltabs-1">
+			<div id="subtabs-1">        
+			</div>
+		</div>
+        <div class="calculatediv" id="caltabs-2" >
+			<div id="subtabs-2">
+        
+			</div>
+		</div>
+        <div class="calculatediv" id="caltabs-3" >
+			<div id="subtabs-3">
+			</div>
+		</div>
+		<div class="calculatediv" id="caltabs-4" >
+			<div id="subtabs-4">
+			</div>
+		</div>
+		<div class="calculatediv" id="caltabs-6" >
+							<div id="subtabs-6">
+						      
+							</div>
+						</div>
+		
+		
+		<div class="calculatediv" id="caltabs-5" >
+			<div id="subtabs-5">
+		      
+			</div>
+		</div>
+		<div class="calculatediv" id="caltabs-7" >
+							<div id="subtabs-7">
+						      
+							</div>
+						</div>
+		<div class="calculatediv" id="caltabs-8" >
+									<div id="subtabs-8">
+								      
+									</div>
+								</div>
+		
+		
+		
+		
+		
+       
+	
+		
+</div>
+<div id="id_posexcept_desc"><span >汇总列名解释:</span><span style = 'font-weight:bold;' class="color_orange">《计次结算》= 设备计次模式汇总；《纠错合计》= 设备纠错记录汇总；《实消费次数结算》=《消费次数》—《纠错次数》；<br/>《设备金额结算》=《消费合计》— 《纠错合计》— 《补单合计》；《系统金额结算》=《设备金额结算》+《补单合计》；</span></div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,11 @@
+
+{% load i18n %}
+{% block title %}{% trans '系统登录' %}{% endblock %}
+
+{% block content %}
+
+
+<h2>{%trans "欢迎使用Iclock 数据服务系统！"%}{{ permission }}</h2>
+
+{{ content }}
+{% endblock %}

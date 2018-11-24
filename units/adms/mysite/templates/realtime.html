@@ -1,0 +1,175 @@
+{% load i18n %}
+<html><head>
+<script src="{{ MEDIA_URL }}/jslib/i18n.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.plus.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.perciformes.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/i18n_{{ LANGUAGE_CODE }}.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/base.css" />
+
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/themes/hot-sneaks/jquery-ui-1.7.2.custom.css" />
+<script src="{{ MEDIA_URL }}/jslib/jquery-ui-1.7.2.custom.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/datalist.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/widgets.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.tools.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/sf.css" media="screen" />
+<script src="{{ MEDIA_URL }}/jslib/scrollable.js"></script>
+
+<script>
+
+//该函数通过ajax从服务器端获取json数据，然后将数据按照格式加以组织再进行显示
+//header不需要每次请求，直接写在了模板里面。或者第一次get的时候传递过来
+//(function($){
+//
+//})(jQuery);
+
+window.setTimeout("controlMonitor()",100);//加载完html再加载脚本
+
+var intervalID=null;
+
+var getUrl="";
+
+function controlMonitor()
+{
+    var control=$("#id_controlMonitor");
+     
+    control.find("#id_startMonitor").click(function(){
+            $("#id_startMonitor").attr("disabled","disabled");
+            $("#id_stopMonitor").attr("disabled","");
+            getUrl="/iaccess/rtMonitor/Detail/";
+            intervalID=window.setInterval('OnRefresh(getUrl)',3000);//每三秒执行刷新函数
+    });
+    
+    control.find("#id_stopMonitor").click(function(){
+        $("#id_startMonitor").attr("disabled","");
+        $("#id_stopMonitor").attr("disabled","disabled");
+        window.clearInterval(intervalID);
+    });
+    
+    control.find("#id_clearAll").click(function(){
+        var records=$("#rt_tb").find("tbody tr")
+        if(records.length==0)
+        {
+            alert("没有需要清除的数据！");
+        }
+        else
+        {
+            records.remove();
+        }
+    });
+    
+//    $("#rt_tb").find("tbody").change(function(){
+//        alert("44");
+//    });
+//    
+}
+
+function OnRefresh(getUrl)
+{   
+if($("#rt_tb").find("tbody tr").length>100)
+{
+    $("#rt_tb").find("tbody tr").remove();
+}
+
+    
+    $.ajax({
+    		type:"GET",
+    		url:getUrl,
+    		dataType:"json",
+    		async:true,
+    		success:function(rtdata)
+            {
+                rtlisthtml="";
+                for(var index in rtdata)
+                {
+                    rtlisthtml+="<tr>";
+                    data=rtdata[index]
+                    rtlisthtml+="<td>"+data.time+"</td>"+"<td>"+data.controller+"</td>"+"<td>"+data.status+"</td>"+"<td>"+data.verify+"</td>";
+                    rtlisthtml+="</tr>";
+                }
+                $("#id_real_time_info").find("#rt_tb").append(rtlisthtml);
+    		}
+    });
+}
+
+//function pageSwitchEvent()
+//{
+//    var rbEvent=$("#id_pageswitch").find("input#id_rbevent");
+//    var rbAlarm=$("#id_pageswitch").find("input#id_rbalarm");
+//    
+//    rbEvent.attr("checked","checked");
+//    if(rbAlarm.attr("checked")==true) 
+//    {
+//        rbAlarm.attr("checked","");
+//    }
+//
+//    $("#rt_tb").find("tbody tr").remove();
+//    alert(intervalID);
+//    getUrl="/iaccess/rtMonitor/Event/";
+//
+//    window.clearInterval(intervalID);
+//    intervalID=null;
+//    intervalID=window.setInterval('OnRefresh(getUrl)',10000);//每三秒执行刷新函数
+//    alert(intervalID);
+//}
+//
+//function pageSwitchAlarm()
+//{
+//    var rbEvent=$("#id_pageswitch").find("input#id_rbevent");
+//     var rbAlarm=$("#id_pageswitch").find("input#id_rbalarm");
+//     
+//     rbAlarm.attr("checked","checked");
+//     if(rbEvent.attr("checked")==true) 
+//     {
+//         rbEvent.attr("checked","");
+//
+//     }
+//    $("#rt_tb").find("tbody tr").remove();
+//    alert(intervalID);
+//    window.clearInterval(intervalID);
+//     getUrl="/iaccess/rtMonitor/Alarm/";
+////     controlMonitor(getUrl);
+//
+//
+//intervalID=null;
+//    intervaID=window.setInterval('OnRefresh(getUrl)',10000);//每三秒执行刷新函数
+//    alert(intervalID);
+//}
+//
+
+</script>
+</head>
+
+<body>
+<div>
+<div class="portlet-header"><b>{% trans "实时" %}</b></div>
+<div class="portlet-content" style="position:relative;">
+<div id="id_rtlist">
+    <div id="id_doorstate">
+    doorstate
+    </div>
+    
+    <div id="id_controlMonitor" style="text-align:right">
+      <!--<input id="id_rbevent" name="id_rbevent" type="radio" value="Event" checked="checked" onclick="pageSwitchEvent()"/>-->
+      <!--<input id="id_rbalarm" name="id_rbalarm" type="radio" value="Alarm" onclick="pageSwitchAlarm()" />-->
+     <input id="id_startMonitor" name="id_startMonitor" type="button" value="StartMonitor" />
+     <input id="id_stopMonitor" name="id_startMonitor" type="button" disabled="disabled" value="StopMonitor" />
+    <input id="id_clearAll" name="id_clearAll" type="button" value="ClearAll" />    
+    </div>
+
+   <div id='id_real_time_info'>
+                <table id='rt_tb' width=100% border=0>
+                    <thead id="rt_Header">
+                       <tr bgcolor=#dfcceb>
+                            <td >{% trans '日期时间' %}</td><td>{% trans '控制器' %}</td><td >{% trans '状态' %}</td><td>{% trans '验证' %}</td>
+                       </tr>
+                    </thead>
+                    <tbody id="rt_content"></tbody>
+                </table>
+    </div>
+    
+</div>
+</div>
+</div>
+</div>
+</body></html>

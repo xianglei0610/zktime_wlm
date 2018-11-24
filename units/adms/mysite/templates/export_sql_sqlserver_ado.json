@@ -1,0 +1,209 @@
+{% load i18n %}
+{
+    "personnel.Employee":{
+            "params":"", 
+            "use_perms":"True", 
+            "verbose_fields":{
+                "5":"Gender"
+            },
+            "head":["{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '卡号' %}","{% trans '部门编号' %}","{% trans '部门名称' %}","{% trans '性别' %}","{% trans '手机' %}","{% trans '生日' %}","{% trans '指纹模板' %}","{% trans '面部模板' %}","{% trans '考勤区域' %}"],
+            "db_fields":["badgenumber","name","card_no","code","DeptName","gender", "pager", "Birthday","TEMP","FACE","SUM_AREA"],
+            "sql": "
+                SELECT badgenumber,name,card_no,code,DeptName,gender, pager, Birthday,TEMP,FACE,SUM_AREA 
+                    from (
+                SELECT badgenumber,name,card_no,code,DeptName,gender, pager, Birthday,TEMP,FACE,SUM_AREA,ROW_NUMBER() OVER ( ORDER BY badgenumber ASC) as row_num
+                        FROM(
+                            SELECT   
+                                    u.defaultdeptid,u.badgenumber, u.name,d.code,d.DeptName,u.gender,pager,
+                                    u.Birthday,
+		                           (
+		                                select fg_detail.fg_cnt+',' from 
+										(SELECT Fpversion+':'+(case when COUNT(1)>0 then '有' else '无' end) as fg_cnt FROM finger_template t 
+												WHERE t.pin=u.badgenumber group by t.Fpversion) as fg_detail 
+												for xml path('')
+		                            )as TEMP,
+		                            (
+		                                select fa_detail.fa_cnt+',' from 
+										(SELECT face_ver+':'+(case when COUNT(1)>0 then '有' else '无' end) as fa_cnt FROM face_template f  
+												WHERE f.pin=u.badgenumber group by f.face_ver) as fa_detail 
+												for xml path('')
+		                            )as FACE,
+                            (SELECT areaname 
+                                FROM ( 
+                                    SELECT 
+                                       areaname + ',' 
+                                    FROM (
+                                        SELECT DISTINCT areaname 
+                                        FROM personnel_area a,userinfo_attarea ua
+                                        where ua.area_id=a.id and ua.employee_id=u.userid 
+                                    ) AS SUM_COL 
+                                    FOR XML PATH('') 
+                                )as SUM_AREA(areaname)
+                            ) as SUM_AREA,
+                            (select cardno from (select cardno from personnel_issuecard i where cardstatus = '1' and i.userid_id = u.userid)as isu )as card_no
+                            from userinfo u, departments d
+                            where u.defaultdeptid= d.DeptId and not(u.status=3) and not(u.status=999)
+                                %s
+                        ) AS RECORDS %s 
+                        )as b where row_num>%s and row_num<=%s 
+                    ",
+                    "admin_sql": "
+                        SELECT badgenumber,name,card_no,code,DeptName,gender, pager, Birthday,TEMP,FACE,SUM_AREA 
+                            from (
+                        SELECT badgenumber,name,card_no,code,DeptName,gender, pager, Birthday,TEMP,FACE,SUM_AREA,ROW_NUMBER() OVER ( ORDER BY badgenumber ASC) as row_num
+                                FROM(
+                                    SELECT   
+                                            u.defaultdeptid,u.badgenumber, u.name,d.code,d.DeptName,u.gender,pager,
+                                            u.Birthday,
+				                           (
+				                                select fg_detail.fg_cnt+',' from 
+												(SELECT Fpversion+':'+(case when COUNT(1)>0 then '有' else '无' end) as fg_cnt FROM finger_template t 
+														WHERE t.pin=u.badgenumber group by t.Fpversion) as fg_detail 
+														for xml path('')
+				                            )as TEMP,
+				                            (
+				                                select fa_detail.fa_cnt+',' from 
+												(SELECT face_ver+':'+(case when COUNT(1)>0 then '有' else '无' end) as fa_cnt FROM face_template f  
+														WHERE f.pin=u.badgenumber group by f.face_ver) as fa_detail 
+														for xml path('')
+				                            )as FACE,
+                                    (SELECT areaname 
+                                        FROM ( 
+                                            SELECT 
+                                               areaname + ',' 
+                                            FROM (
+                                                SELECT DISTINCT areaname 
+                                                FROM personnel_area a,userinfo_attarea ua
+                                                where ua.area_id=a.id and ua.employee_id=u.userid
+                                            ) AS SUM_COL 
+                                            FOR XML PATH('') 
+                                        )as SUM_AREA(areaname)
+                                    ) as SUM_AREA,
+                                    (select cardno from (select cardno from personnel_issuecard i where cardstatus = '1' and i.userid_id = u.userid)as isu )as card_no
+                                    from userinfo u, departments d 
+                                    where u.defaultdeptid= d.DeptId and not(u.status=3) and not(u.status=999)
+                                ) AS RECORDS %s 
+                                )as b where row_num>%s and row_num<=%s 
+                            "
+                    
+                    
+    },
+        "iclock.Transaction":{
+                   "params":"",  
+                   "use_perms":"True", 
+                   "verbose_fields":{
+                       "3":"State"
+                   },
+                   "head":["{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '考勤时间' %}","{% trans '考勤状态' %}","{% trans '设备序列号' %}"],
+                   "db_fields":["badgenumber","name", "checktime", "checktype","sn_name"],
+                   "sql": " 
+                        SELECT badgenumber,name,checktime,checktype,sn_name from (
+                        SELECT badgenumber,name,checktime,checktype,sn_name,ROW_NUMBER() OVER ( ORDER BY  checktime DESC, badgenumber ASC) as row_num
+                        FROM (
+                            select  u.userid,u.badgenumber as badgenumber,u.name as name,checktime,checktype,sn_name
+                                from checkinout,userinfo u
+                                where u.badgenumber=checkinout.pin
+                                %s
+                        )
+                         AS RECORDS %s  
+                           ) as b where row_num>%s and row_num<=%s ",
+                   "admin_sql":" 
+                     SELECT badgenumber,name,checktime,checktype,sn_name from (
+                     SELECT badgenumber,name,checktime,checktype,sn_name,ROW_NUMBER() OVER ( ORDER BY  checktime DESC, badgenumber ASC) as row_num
+                     FROM (
+                         select  userinfo.userid,userinfo.badgenumber as badgenumber,userinfo.name as name,checktime,checktype,sn_name
+                             from checkinout,userinfo 
+                             where userinfo.badgenumber=checkinout.pin
+                     )
+                      AS RECORDS %s  
+                        ) as b where row_num>%s and row_num<=%s "
+                           },
+        "iaccess.AccRTMonitor":{
+                    "params":"",
+                    "use_perms":"False", 
+                    "verbose_fields":{
+                        "6":"in_address",
+                        "7":"out_address",
+                        "8":"verified",
+                        "9":"state",
+                        "10":"event_type",
+                        "11":"trigger_opt"
+                    },
+                    "head":["{% trans '时间' %}","{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '卡号' %}","{% trans '设备' %}","{% trans '门事件点' %}","{% trans '辅助输入点' %}","{% trans '辅助输出点' %}","{% trans '验证方式' %}","{% trans '出入状态' %}","{% trans '事件描述' %}","{% trans '联动触发条件' %}"],
+                    "db_fields":["time","pin","name","card_no","device_name","door_name","in_address","out_address","verified","state","event_type","trigger_opt"],
+                    "sql":"
+                        SELECT time,pin,name,card_no,device_name,door_name,in_address,out_address,verified,state,event_type,trigger_opt
+                        FROM (
+                            select ROW_NUMBER() OVER ( ORDER BY time DESC) as row_num,
+                            a.time,a.pin,u.name,a.card_no,a.device_name,a.door_name,a.in_address,
+                            a.out_address,a.verified,a.state,a.event_type,a.trigger_opt
+                            from acc_monitor_log a left join userinfo u on a.pin = u.badgenumber %s                           
+                        )
+                        AS RECORDS where row_num > %s and row_num <= %s
+                    "
+        },
+        "personnel.IssueCard":{
+                                    "params":"",
+                                    "use_perms":"False", 
+                                    "verbose_fields":{
+                                        "6":"card_privage",
+                                        "5":"cardstatus"
+                                    },
+                                    "head":["{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '部门编号' %}","{% trans '部门名称' %}","{% trans '卡号' %}","{% trans '卡状态' %}","{% trans '发卡日期' %}"],
+                                    "db_fields":["badgenumber","name","code","DeptName","cardno","cardstatus","issuedate"],
+                                    "sql":"
+                                      SELECT badgenumber,name,code,DeptName,cardno,cardstatus,convert(varchar, issuedate, 23) as issuedate
+                                       From(
+                                        SELECT ROW_NUMBER() OVER ( ORDER BY issuedate ASC) as row_num,
+                                        badgenumber,name,code,DeptName,cardno,cardstatus,issuedate
+                                        FROM (
+                                            select UserID_id,
+                                            userinfo.badgenumber as badgenumber,userinfo.name as name,issuedate,
+                                            dbo.departments.code,dbo.departments.DeptName, 
+                                            cardno,sys_card_no,card_privage,blance,cardstatus
+                                            from personnel_issuecard 
+                                            left join dbo.userinfo  on userinfo.userid = personnel_issuecard.UserID_id 
+                                            left join departments  on departments.deptid = dbo.userinfo.defaultdeptid 
+                                            where
+                                            personnel_issuecard.status!='999' and cardstatus ='1' and card_privage = '0'
+                                                                     
+                                        )
+                                        AS RECORDS  %s )as b where row_num > %s and row_num <= %s
+                                    "
+                        },
+                        
+                        
+                        "pos.ICConsumerList":{
+                                                    "params":"",
+                                                    "use_perms":"False", 
+                                                    "verbose_fields":{
+                                                        "6":"type_name",
+                                                        "9":"pos_model",
+                                                        "17":"log_flag"
+                                                    },
+                                                    "head":["{% trans '人员编号' %}","{% trans '姓名' %}","{% trans '部门编号' %}","{% trans '部门名称' %}","{% trans '卡号' %}","{% trans '卡账号' %}","{% trans '类型名称' %}","{% trans '操作金额' %}","{% trans '余额' %}","{% trans '消费类型' %}","{% trans '餐厅名称' %}","{% trans '餐别名称' %}","{% trans '设备序列号' %}","{% trans '设备流水号' %}","{% trans '卡流水号' %}","{% trans '消费时间' %}","{% trans '上传时间' %}","{% trans '记录标志' %}"],
+                                                    "db_fields":["user_pin","user_name","code","DeptName","card","sys_card_no","type_name","money","balance","pos_model","din_name","meal_name","dev_sn","dev_serial_num","card_serial_num","pos_time","convey_time","log_flag"],
+                                                    "sql":"
+                                                       SELECT user_pin,user_name,code,DeptName,card,sys_card_no,type_name,money,balance,pos_model,din_name,meal_name,dev_sn,dev_serial_num,card_serial_num,pos_time,convey_time,log_flag
+                                                       From( 
+                                                       SELECT user_pin,user_name,
+                                                       code,
+                                                       DeptName, card,sys_card_no,dev_sn,card_serial_num,dev_serial_num,pos_time,convey_time,
+                                                       type_name,money,balance,pos_model, din_name, meal_name,log_flag,dining_id,meal_id,
+                                                       ROW_NUMBER() OVER ( ORDER BY pos_time ASC) as row_num  
+                                                       FROM ( 
+                                                       select user_id,user_pin,user_name,
+                                                       dbo.departments.code,
+                                                       dbo.departments.DeptName, card,sys_card_no,dev_sn,card_serial_num,dev_serial_num,pos_time,convey_time,
+                                                       type_name,pos_icconsumerlist.money,balance,pos_model, dbo.iclock_dininghall.name as din_name,dbo.personnel_meal.name as meal_name,log_flag,pos_icconsumerlist.dining_id,pos_icconsumerlist.meal_id 
+                                                       from  dbo.pos_icconsumerlist
+                                                       left join iclock_dininghall on  iclock_dininghall.id = pos_icconsumerlist.dining_id  
+                                                       left join departments on departments.deptid = pos_icconsumerlist.dept_id 
+                                                       left join personnel_meal on personnel_meal.id = pos_icconsumerlist.meal_id ) AS RECORDS %s)
+                                                       as b 
+                                                       where row_num > %s and row_num <= %s
+                                                    "
+                                        }
+        
+        
+}

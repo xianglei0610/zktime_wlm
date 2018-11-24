@@ -1,0 +1,228 @@
+<script type="text/javascript">
+	$(function(){
+
+		// Tabs
+		$('#tabs').tabs('#tabs >div');
+
+	});
+</script>
+<style type="text/css">
+
+	.ss td{
+			border-bottom:1px solid;
+			border-right:1px solid;
+		}
+	.lineclick{
+		cursor:pointer;
+		height:20px;
+		vertical-align:middle;
+		line-height:20px;
+	}
+		.lineclick td{
+		*line-height:28px;
+	}
+		.lineclick input,.lineclick table{
+		float:left;
+	}
+	.lineclick table{ clear:right;}
+	.lineclick input{ clear:left;
+	margin-top:3px;}
+	.tblbutton {
+		width:100%;
+			 
+		}
+	.fieldstxt{
+		width:30px;
+		height:12px;
+		*height:16px;
+		}
+	.lstfields{
+
+		margin-right:5px;
+		}
+}
+	
+</style>	
+<table width="500" height="345" border="0" align="center" cellpadding="0" cellspacing="0" style=" font-size:12px">
+<tr>
+    <td width="500" height="315"><div style="width:100%; height:310px;  color: #595959; vertical-align:top">
+    <div id="tabs" style="height:305px">
+            <ul>
+            {% if has_action %}
+              <li><a href="#tabs-1">Action</a></li>
+             {% endif %}
+              <li><a href="#tabs-2">Fields</a></li>
+              {% if has_filter %}
+              <li><a href="#tabs-3">Filter</a></li>
+              {% endif %}
+              <li><a href="#tabs-4">Other</a></li>
+          </ul>
+          {% if has_action %}
+		<div id="tabs-1" style="overflow:auto;" >
+        
+        <table width="523" style="overflow:auto; ">		
+			{% for fun,val in actions.items %}			
+					<tr>
+					<td width="11"></td>
+					<td width="215" >{{ val }}</td>
+					<td width="281" ><table width="279" border="0" cellspacing="0" cellpadding="0">
+					  <tr>
+					    <td width="143"><input type="radio" name="_fun_{{ fun }}" id="_fun_{{ fun }}_true" value="true"  checked="checked" />{% trans "显示"%}</td>
+					    <td width="136"><input type="radio" name="_fun_{{ fun }}" id="_fun_{{ fun }}_false" value="false"  />{% trans "隐藏" %}</td>
+				      </tr>
+					  </table></td>
+				</tr>
+            
+        	    {% endfor %}
+    	    </table>
+ 		  </div>
+          {% endif %}
+            <div id="tabs-2">
+            <table height="100%" style="overflow:auto;">
+            <tr><td width="523" height="190">
+              <table><tr><td width="434">
+                <div style="height:220px ; width:434px; overflow:auto; border:1px solid; padding-top:2px; padding-left:2px">
+                  <ul id="allfields">
+                    
+                    {% for fld ,des in fields.items %}
+                    <li class="lineclick">
+                    <input type="checkbox" name="_col_{{ fld }}"  class="lstfields"  value="true" /> 
+                    <table><tr><td style="width:200px">
+                     {{ des }}</td><td style="width:40px">
+                    {% trans "列宽" %}</td><td>
+                    <input type="text"  class ="fieldstxt"  name="_txt_{{ fld }}" value="80" /></td></tr></table>
+                    </li>
+                    {% endfor %}
+                    </ul>
+                  </div></td>
+                <td width="84"><table  align="center" >
+                  <tr>
+                    <td width="100" height="35"><span style="text-align: center">
+                      <input name="btnToUp" type="button" id="btnToUp"   value={%trans "上移"%} class="tblbutton"/>
+                    </span></td>
+                  </tr>
+                  <tr>
+                    <td height="35"><span style="text-align: center">
+                      <input name="btnToDown" type="button" id="btnToDown"  class="tblbutton" value={% trans "下移" %}/>
+                    </span></td>
+                  </tr>
+                  <tr>
+                    <td height="35"><span style="text-align: center">
+                      <input type="button"  id="btnSelectAll" value={% trans "全选" %} class="tblbutton" />
+                    </span></td>
+                  </tr>
+                  <tr>
+                    <td height="35"><span style="text-align: center">
+                      <input type="button"  id="btnRe" value={% trans "反选" %} class="tblbutton" />
+                    </span></td>
+                  </tr>
+                  <tr>
+                    <td height="35"><span style="text-align: center">
+                      <input type="button"  id="btnUnselect" value={% trans "清除" %} class="tblbutton" />
+                    </span></td>
+                  </tr>
+                  <tr>
+                    <td height="35"><span style="text-align: center">
+                      <input name="btnAdjust" type="button" id="btnAdjust"   value={% trans "调整显示" %}  class="tblbutton"/>
+                    </span></td>
+                  </tr>
+                </table></td>
+                </tr>
+                
+                
+                </table>
+            </td></tr>
+            <tr><td height="29">
+              <table width="518">
+                <tr>
+                  <td width="60" height="21">First sort</td>
+                  <td width="96"><select name="firstsort">
+                    <option>---</option>
+						{% for fld , des in modelfields.items %}
+                    	  <option value="{{ fld }}">{{ des }}</option>
+                          {% endfor %}
+                  	  </select></td>
+                  <td width="63"><select name="sort1">
+                    <option value="---">---</option>
+                    <option value="asc">asc</option>
+                    <option value="desc">desc</option>
+                    </select></td>
+                  <td width="10">&nbsp;</td>
+                  <td width="79">Second sort</td>
+                  <td width="111"><select name="secondsort">
+                    <option>---</option>
+						{% for fld , des in modelfields.items %}
+                    	  <option value="{{ fld }}">{{ des }}</option>
+                          {% endfor %}
+
+                        </select></td>
+                  <td width="67"><select name="sort2">
+                    <option value="---">---</option>
+                    <option value="asc">asc</option>
+                    <option value="desc">desc</option>
+                    </select></td>
+                  </tr>
+                </table>
+            </td></tr>
+            </table>
+          </div>
+          {% if has_filter %}
+            <div id="tabs-3" >
+              <table width="522">
+			{% for fld ,des in viewfilter.items %}
+              <tr><td width="12">&nbsp;</td>
+                <td width="246">{{ des }}</td>
+                <td width="127"><input type="radio" name="_filter_{{ fld }}" id="_filter_{{ fld }}_true" value="true"  checked="checked" />{% trans "显示"%}</td>
+                <td width="117"><input type="radio" name="_filter_{{ fld }}" id="_filter_{{ fld }}_false" value="false"  />{% trans "隐藏" %}</td>
+              </tr>
+            {% endfor %}
+            
+          </table>
+          </div>
+          {% endif %}
+          <div id="tabs-4" style="overflow:auto;width:520px"" >
+          	<table>
+            	<tr><td>one page record count </td><td><input name="_other_reccount" type="text" value="15"/></td></tr>
+            	<tr><td>view type</td><td>	<select name="viewtype" >
+                {% for v in viewtype %}
+                <option>{{ v }}</option>
+                {% endfor %}
+                </select></td></tr>
+            </table>
+
+          </div>
+       
+    </div>
+    </div>
+    </td>
+ </tr>
+ <tr><td><table width="523" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="116" height="29" style="  text-align: center; vertical-align:middle">{% trans "视图名称" %}</td>
+      <td width="251">        
+          <input type="text" name="viewname" id="viewname"  width="100"  />        
+      </td>
+      <td width="156" style="  vertical-align:middle; text-align: left">
+        <input type="checkbox" name="defaultview"  value="true" /> {% trans "默认视图" %}
+      </td></tr></table>
+     </td>
+ </tr>
+ <tr>
+   <td><table><tr>
+  <td width="161" style=" vertical-align:middle; text-align: left">&nbsp;</td>
+  <td width="83" style=" vertical-align:middle; text-align: left"><input type="button" name="btnNew" id="btnNew" value={% trans "新建" %} style="width:90%; vertical-align:middle" /></td>
+      <td width="81" align="center"><span style=" vertical-align:middle; text-align: left">
+        <input type="button" name="btnDelete" id="btnDelete" value={% trans "删除" %} style="width:90%; vertical-align:middle" />
+      </span></td>
+      <td width="90" align="center"><input type="button" name="btnSaveview" id="btnSaveview" value={% trans "保存" %} style="width:90%; vertical-align:middle" /></td>
+      <td width="84" align="center">        
+        <input type="button" name="btnReturn" id="btnReturn" value={% trans "返回" %} style="width:90%; vertical-align:middle"  />
+      </td>
+    </tr>
+  </table>
+ 
+ </td></tr>
+
+</table>
+
+

@@ -1,0 +1,84 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %} 
+ 
+<tr><td>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+	<tr>
+       <th height="20">{{ form.country|field_as_label_tag }}</th>
+       <td>
+	   {{form.country.as_widget }}
+	   </td>
+       <td>{{form.country.errors }}</td>
+    </tr>
+	<tr>
+       <th height="20">{{ form.state|field_as_label_tag }}</th>
+       <td>{{form.state.as_widget }}</td>
+       <td>{{form.state.errors }}
+    </tr>
+    
+    <tr>
+        {{form.city_name|field_as_td_h}}
+      <td  >{{form.city_name.errors }}</td>
+      
+    </tr>
+    <tr>
+        {{form.city_code|field_as_td_h}}
+	 
+      <td  >{{form.city_code.errors }}<div id = "yanzheng" class="floatL Link_blue1 lineH22"><a href="javascript:void(0)" onclick="wgCheckNo('city_code','div_id_code',this,'{{dbapp_url}}','personnel','City')">{%trans '验证'%}</a></div><div id='div_id_code'  class="floatL color_orange lineH22"></div></td>
+     
+    </tr>
+    
+
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+   
+
+  </table>
+</td></tr>
+{% endautoescape %}
+{% endblock %}
+{% block addjs %}
+$("label[for='id_code']").attr("class","required");
+
+	$('#id_country').change( function() {
+				
+		var url="/{{ request.surl }}personnel/select_state/personnel/State/?country=";
+        var v=$(this).val();
+		if (v=="")
+			return;
+		url+=v;	
+		$.ajax({
+			type: "POST",
+			url:encodeURI(url),
+			dataType: "json",
+			success: function(msg){	
+                var html_list = [];
+                html_list.push( "<option value=''>--------</option>");
+                if(msg.length != 0){
+                    for(var i =0;i<msg.length;i++){
+                        var row = "<option value='"+msg[i][0]+"'>"+msg[i][1] + "  "+msg[i][2]+"</option>";
+                        html_list.push(row);
+                    }
+                }
+                $("#id_state").html(html_list.join(""));
+			}
+		});
+	});
+	$(function(){
+		if($("#id_edit_form").find("#id_city_code").val()!=""){
+			$("#yanzheng").hide();
+		 }else{
+			$("#yanzheng").show();
+		 }
+	});
+
+
+  
+       
+  
+{% endblock %}

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "UploadUserInfoz_update">
+		<content engine = "default">
+			<![CDATA[
+					update iclock %(where)s
+			]]>
+			<part id = "fp_count_true">
+				<![CDATA[
+					set user_count=%(user_count)s,fp_count=%(fp_count)s where id=%(dev_id)s
+					
+				]]>
+			</part>
+			<part id = "fp_count_false">
+				<![CDATA[
+					set user_count=%(user_count)s where id=%(dev_id)s
+				]]>
+			</part>
+		</content>	
+		
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "set_multicard_select">
+		<content engine = "default">
+			<![CDATA[
+				 select userid from userinfo where morecard_group_id in (select group_id from acc_morecardgroup where comb_id in (select id from acc_morecardset where door_id=%(door_id)s))
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			
+		</content>	
+		
+		<content engine = " ">
+			<![CDATA[
+	                   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "set_user_privilege_select">
+		<content engine = "sqlserver_ado">
+			<![CDATA[
+					SELECT DISTINCT R4.badgenumber AS PIN,R2.level_timeseg_id,
+					           (select sum(power(2,door_no - 1)) from 
+					               (select L.acclevelset_id as La,NL.acclevelset_id,NR1.door_no 
+					                   from acc_levelset_door_group as NL 
+					                   INNER JOIN acc_levelset_emp as NR on NL.acclevelset_id=NR.acclevelset_id 
+					                   LEFT JOIN acc_door as NR1 on NR1.id=NL.accdoor_id 
+					                   where NL.acclevelset_id=L.acclevelset_id and NR.employee_id=R3.employee_id and NR1.device_id = R1.device_id 
+					               ) as NRz group by La 
+					           ) as lev 
+					           FROM acc_levelset_door_group AS L 
+					           LEFT JOIN acc_door AS R1 ON R1.id=L.accdoor_id 
+					           LEFT JOIN acc_levelset AS R2 ON R2.id = L.acclevelset_id 
+					           LEFT JOIN acc_levelset_emp AS R3 ON R3.acclevelset_id = L.acclevelset_id 
+					           LEFT JOIN userinfo AS R4 ON R4.userid = R3.employee_id 
+					           WHERE R1.device_id=%(devID)s AND R3.employee_id in %(EmpID)s 
+					           group by 
+					           L.acclevelset_id,R1.device_id,R2.level_timeseg_id,R3.employee_id,R4.badgenumber 
+					
+				]]>
+		</content>	
+		
+		<content engine = "postgresql">
+			<![CDATA[
+					SELECT DISTINCT R4.badgenumber AS PIN,R2.level_timeseg_id,
+					             (SELECT SUM(POWER(2,NR1.door_no - 1)) 
+					                     FROM acc_levelset_door_group NL 
+					                     INNER JOIN acc_levelset_emp NR ON NL.acclevelset_id=NR.acclevelset_id 
+					                     LEFT JOIN acc_door NR1 ON NR1.id=NL.accdoor_id 
+					                     WHERE NL.acclevelset_id=L.acclevelset_id and NR.employee_id=R3.employee_id AND NR1.device_id=R1.device_id 
+					             ) AS lev 
+					             FROM acc_levelset_door_group L 
+					             LEFT JOIN acc_door R1 ON R1.id=L.accdoor_id 
+					             LEFT JOIN acc_levelset R2 ON R2.id = L.acclevelset_id 
+					             LEFT JOIN acc_levelset_emp R3 ON R3.acclevelset_id = L.acclevelset_id 
+					             LEFT JOIN userinfo R4 ON R4.userid = R3.employee_id 
+					             WHERE R1.device_id=%(devID)s AND R3.employee_id in %(EmpID)s 
+					             GROUP BY 
+					             L.acclevelset_id,R1.device_id,R2.level_timeseg_id,R3.employee_id,R4.badgenumber
+	                   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		
+		<content engine = "default">
+			<![CDATA[
+					SELECT DISTINCT R4.badgenumber AS PIN,R2.level_timeseg_id,
+					           (SELECT SUM(POWER(2,NR1.door_no - 1)) 
+					                   FROM acc_levelset_door_group NL 
+					                   INNER JOIN acc_levelset_emp NR ON NL.acclevelset_id=NR.acclevelset_id 
+					                   LEFT JOIN acc_door NR1 ON NR1.id=NL.accdoor_id 
+					                   WHERE NL.acclevelset_id=L.acclevelset_id and NR.employee_id=R3.employee_id AND NR1.device_id=R1.device_id 
+					           ) AS lev 
+					           FROM acc_levelset_door_group L 
+					           LEFT JOIN acc_door R1 ON R1.id=L.accdoor_id 
+					           LEFT JOIN acc_levelset R2 ON R2.id = L.acclevelset_id 
+					           LEFT JOIN acc_levelset_emp R3 ON R3.acclevelset_id = L.acclevelset_id 
+					           LEFT JOIN userinfo R4 ON R4.userid = R3.employee_id 
+					           WHERE R1.device_id=%(devID)s AND R3.employee_id in %(EmpID)s 
+					           GROUP BY 
+					           L.acclevelset_id,R1.device_id,R2.level_timeseg_id,R3.employee_id,R4.badgenumber 
+					
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+			
+	</sql>
+	<sql id="search_accuser_bydevice_select">
+		<content engine = "default">
+			<![CDATA[
+				select distinct employee_id from acc_levelset_emp where acclevelset_id in ( select distinct acclevelset_id from  acc_levelset_door_group  where accdoor_id in (select id from acc_door where device_id=%(devID)s))
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	<sql id="delete_emp_bylevel_select">
+		<content engine = "default">
+			<![CDATA[
+						select distinct userinfo.userid from userinfo 
+			               where userinfo.userid in %(EmpID)s 
+			                     and userinfo.userid not in ( 
+			               select acc_levelset_emp.employee_id from acc_levelset_emp 
+			               where acc_levelset_emp.acclevelset_id in ( 
+			               select acc_levelset_door_group.acclevelset_id from acc_levelset_door_group  
+			               where acc_levelset_door_group.accdoor_id  in( 
+			               select acc_door.id from acc_door 
+			               where acc_door.device_id= %(DevID)s)))
+				]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		
+	
+	</sql>
+	
+	
+	<sql id="OpAddEmpToLevel_insert2">
+		<content engine = "default">
+			<![CDATA[
+				insert into acc_levelset_emp(acclevelset_id,employee_id) values(%(levelsetID)s,%(EmpID)s)
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id="OpAddEmpToLevel_insert1">
+		<content engine = "default">
+			<![CDATA[
+					insert into acc_levelset_emp(acclevelset_id,employee_id) 
+					select '%(levelsetID)s',userid from userinfo where defaultdeptid in %(EmpID)s and userid not in 
+					(select employee_id from acc_levelset_emp where acclevelset_id='%(levelsetID)s')
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id="process_event_log_insert">
+		<content engine = "default">
+			<![CDATA[
+				insert into checkinout(sn_name, pin, checktime) values('%(sn_name)s', %(pin)s, '%(checktime)s')
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id="process_event_log_select3">
+		<content engine = "default">
+			<![CDATA[
+				select badgenumber, userid from userinfo
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id="process_event_log_select2">
+		<content engine = "default">
+			<![CDATA[
+				select badgenumber, checktime from checkinout c, userinfo u where c.pin=u.badgenumber and checktime>"%(dateStr)s"
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id="process_event_log_select1">
+		<content engine = "default">
+			<![CDATA[
+				select time,pin,card_no,device_id,door_id,in_address,verified,state,event_type,trigger_opt from acc_monitor_log where device_id=%(DevID)s and time>'%(time1)s'
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		
+		<content engine = "postgresql">
+			<![CDATA[
+				select time,pin,card_no,device_id,door_id,in_address,verified,state,event_type,trigger_opt from acc_monitor_log where device_id=%(DevID)s and time>='%(time1)s'
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+			
+	</sql>
+	
+	
+	<sql id="sync_to_att_insert">
+		<content engine = "default">
+			<![CDATA[
+				if not exists(select id from checkinout where pin = '%(pin)s' and checktime= '%(checktime)s') 
+				insert into checkinout(pin,sn_name,checktime) values('%(pin)s','%(sn_name)s','%(checktime)s')
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id="checkdevice_and_savecache_update">
+		<content engine = "default">
+			<![CDATA[
+				update iclock set last_activity = '%(last_activity)s' where id = %(DevID)s
+				
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id="get_card_number_select">
+		<content engine = "default">
+			<![CDATA[
+				select id,card_no from acc_monitor_log %(where)s
+				
+			]]>
+			<part id = " undefined_true">
+				<![CDATA[
+					where create_time>='%(time_now)s' and event_type=27 and door_id in %(door_list)s and card_no not in(select cardno from personnel_issuecard where cardstatus!=1)
+				]]>
+			</part>
+			<part id="undefined_false ">
+				<![CDATA[
+					where id>%(log_id)s and event_type=27 and door_id in %(door_list)s and card_no not in(select cardno from personnel_issuecard where cardstatus!=1)
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id="parse_event_to_sql_insert">
+		<content engine = "default">
+			<![CDATA[
+				INSERT INTO acc_monitor_log(change_operator,change_time,create_operator,create_time,delete_operator,delete_time,status,time,
+				pin,card_no,device_id,device_sn,device_name,door_id,door_name,in_address,verified,state,event_type,trigger_opt,out_address) 
+				values(NULL,NULL,NULL,%s,NULL,NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		
+		</content>	
+	</sql>
+	
+	
+	
+</sqlgroup>

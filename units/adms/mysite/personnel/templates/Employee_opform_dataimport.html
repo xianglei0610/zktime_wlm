@@ -1,0 +1,69 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block pre_addfields %}
+	<tr>
+		<td>
+			<table>
+			    <tr>
+			        <th><label for="id_import_data">{% trans "选择需要导入的文件" %}:</label></th>
+			        <td>
+			            <input type="file" name="import_data" class="wZBaseFileField" id="id_import_data">
+			        </td>
+			    </tr>
+			    <tr>
+			        <th></th>
+			        <td>{% trans "只支持.xls和.csv 格式文件" %} &nbsp;<!--<a target="_blank" href="/data/system/help/?p=/file/{{ LANGUAGE_CODE }}/help/employee_import.html">{% trans "如何获取?" %}</a>--></td>
+			    </tr>
+			    <tr>
+			        <th><label for="id_import_data">{% trans "如果遇到人员编号重复的记录" %}:</label></th>
+			        <td>
+			            <input name = "duplicate_pin" type="radio" checked = "checked" value="0">{% trans "不导入" %}</input>&nbsp;
+			            <input name = "duplicate_pin" type="radio" value="1">{% trans "覆盖" %}</input>
+			        </td>
+			    </tr>
+			</table>
+		</td>
+		<td width = "30px"></td>
+		<td>
+			<table>
+			    <tr>
+			    	<th><label for="model_show">{% trans "导入模版示例" %}:</label></th>
+			        <td id= "model_show">
+			        	<div width="300" height="200">
+			        		<img  src="{{ MEDIA_URL }}/images/emp_import_exam.jpg">
+			        	</div>
+			        </td>
+			    </tr>
+				<tr>
+			    	<th><label for="id_import_desc">{% trans "说明" %}:</label></th>
+			    	<td>
+			    		<br/>
+						<p>1、导入模板需要表头 </p>
+						<p>2、"人员编号"，"姓名"，"部门编号"是必选字段，其他字段是可选的</p>
+						<p>3、所有字段的格式必须为文本格式</p>
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<th></th>
+			        <td>
+			        	<a target="_blank" href="/{{request.surl}}file/import_templates/employee_import.xls">{% trans ">> 获取导入模版" %}</a>
+			        </td>
+			    </tr>
+			</table>	
+		</td>
+	</tr>
+
+    <tr>
+        <td clospan="2">
+            <input name = "app_label" type="hidden"  value="{{ app_label }}" />
+            <input name = "model_name" type="hidden" value="{{ model_name }}" />
+        </td>
+    </tr>
+    
+    
+{% endblock %}
+
+{% block addjs %}
+    
+{% endblock %}

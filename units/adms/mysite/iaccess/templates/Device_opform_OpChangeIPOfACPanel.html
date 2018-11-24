@@ -1,0 +1,125 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script src="{{ MEDIA_URL }}/jslib/ipinput.widget.js"></script>
+{% endblock %}
+
+{% block form %}
+{% autoescape off %}
+<table class = "tbl_data_edit"  cellpadding="3px">
+	<tr id="tr_newip">
+		{{ form.newip|field_as_td_h}}
+	</tr>
+	<tr id="tr_gateway">
+		{{form.gateway|field_as_td_h}}
+	</tr>
+	<tr id="tr_subnet_mask">
+		{{form.subnet_mask|field_as_td_h}}
+	</tr>
+	<tr>
+		<th><label class="required">{%trans "输入新的IP地址"%}:</label></th>
+		<td id="tag_id_newip"></td>
+	</tr>
+	<tr>
+		<th><label class="required">{%trans "输入子网掩码"%}:</label></th>
+		<td id="tag_id_subnet_mask"></td>
+	</tr>
+	<tr>
+		<th><label class="required">{%trans "输入网关地址"%}:</label></th>
+		<td id="tag_id_gateway"></td>
+	</tr>
+	
+</table>
+{% if form.non_field_errors %}
+			<tr><td>{{ form.non_field_errors }}</td></tr>
+		{% endif %}
+
+{% endautoescape %}
+{% endblock %}
+
+{% block loading %}
+
+{% endblock %}
+
+{% block addjs %}
+	{% if request.user|HasPerm:"iclock.opchangeipofacpanel_device" %}
+	var id_newip_box=new IpV4Box("newip","tag_id_newip");
+	var id_gateway_box=new IpV4Box("gateway","tag_id_gateway",0);
+	var id_subnet_mask_box=new IpV4Box("netmask","tag_id_subnet_mask",0);
+	$("#tr_newip").hide();
+	$("#tr_gateway").hide();
+	$("#tr_subnet_mask").hide();
+	var dev_id = 0;
+	$(".select_row").each(function(){
+		if($(this).attr("checked"))
+		{
+			dev_id = $(this).parents("tr").attr("data");
+		}
+	});
+	
+	$.ajax({
+		url:"/{{ request.surl }}iaccess/GetData/?func=get_dev_ipinfo&dev_id=" + dev_id,
+		type:"GET",
+		dataType:"json",
+		success:function(data)
+		{
+			id_newip_box.setValue(data["ipaddress"]);
+			if(data["netmask"]!=null)
+			{
+				id_subnet_mask_box.setValue(data["netmask"]);
+			}
+			if(data["gateway"]!=null)
+			{
+				id_gateway_box.setValue(data["gateway"]);
+			}
+		}
+
+	});
+	
+    var before_submit = function()
+	{
+		$("#id_newip").attr("value",id_newip_box.getValue());
+		$("#id_gateway").attr("value",id_gateway_box.getValue());
+		$("#id_subnet_mask").attr("value",id_subnet_mask_box.getValue());
+		var newip = $("#id_newip").val();
+		var gateway = $("#id_gateway").val();
+		var subnet_mask = $("#id_subnet_mask").val();
+
+		var reg_ip = /^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/;
+		if(!reg_ip.test(newip))
+		{
+			alert(gettext("请输入有效的IPv4地址！"));
+			$("#id_newip").focus();
+			return false;
+		}
+		
+		if(!reg_ip.test(gateway))
+		{
+			alert(gettext("请输入有效的网关地址！"));
+			$("#id_gateway").focus();
+			return false;
+		}
+
+		if(!reg_ip.test(subnet_mask))
+		{
+			alert(gettext("请输入有效的子网掩码！"));
+			$("#id_subnet_mask").focus();
+			return false;
+		}
+		
+		after_init = undefined;//
+		return true;
+    }
+
+	var after_cancel = function()
+	{
+		$("#id_datalist").get(0).g.load_data();
+		after_cancel = undefined;//加载数据后取消
+	}
+        
+	{% else %}
+		alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+		window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!-- iclock.opchangeipofacpanel_device -->
+{% endblock%}

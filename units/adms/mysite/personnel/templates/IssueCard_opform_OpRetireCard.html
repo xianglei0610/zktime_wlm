@@ -1,0 +1,21 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs %}
+$(function(){
+//    $("#id_blance").parent().prev().find("label").css({"font-size":"25px","font-weight":"bold"});
+//    $("#id_blance").css({"height":"30px","font-size":"25px","width":"110px"});
+    {% if not "POS"|filter_config_option %}
+        $(".tbl_data_edit>tbody>tr").eq(2).hide()
+    {% endif %}
+    
+    {% if "POS"|filter_config_option %}
+        $('#id_edit_form').validate({
+              	                        rules: {
+              	                            "card_cost": {required:true,min:0.0,max:9999,"maxlength":8,isMoney:true}}
+              	                        }
+              	            );
+        
+    {% endif %}
+})
+{% endblock %}

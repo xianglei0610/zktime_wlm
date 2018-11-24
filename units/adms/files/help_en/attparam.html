@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Attendance System Management -&gt; Attendance parameters</div>
+<div class="help_mainContant">
+  <h2>Attendance parameters</h2><br />
+
+  Since attendance system varies with companies, it is  required to manually set attendance parameters to ensure accurate attendance  calculation. Attendance parameter setting is a major method that reflects an  enterprise’s attendance system.<br /><br />
+    Click to enter the main interface of [Attendance] - [Attendance  parameters]. When the user the first time to use the system, the interface will  show the default setting of system parameters, and the user can modify them as  required:<br /><br />
+    <br />
+  <b>Basic setting:</b><br /><br />
+  <b>The shortest shift timetable  should exceed N minutes: </b>The  working duration must be ≥N+1 minutes;<br />
+  <b>The longest shift timetable  should not exceed N minutes: </b>The  working duration must be &lt;N minutes;<br />
+  <b>Valid attendance entries  should have an interval longer than N minutes: </b>When there are repeated records, valid records will be  those nearest to the check-in/ check-out time, and must be ≥N+1 minutes from  previous records. For example: When this value is set as 5 minutes, and there  is a valid record at 8:10, then other records between 8:10-8:15 are invalid,  and only the records after 8:15 are valid.<br />
+  <b>Calculation:</b><br />
+    The following check-in and check-out settings are only  valid when Must check-in and Must check-out in the time zone setting are set as  “Yes”.<br />
+  <b>Late/ early leave for over N  minutes recorded as absence: </b>Late/  early leave for ≥N+1 minutes is recorded as absence;<br />
+  <b>Work without  check-in/check-out entry is recorded as late/ early leave for N minutes:</b> Work without check-in/check-out entry is  recorded as late/ early leave for N minutes;<br />
+  <b>Work without  check-in/check-out entry is recorded as absence: </b>Work without check-in/check-out entry is recorded as  absence.<br />
+  <b>Off-duty N minutes later,  check-out recorded as overtime: </b>Check-out N+1 minutes after check-out time is recorded as overtime for  N+1 minutes (To enable this item, “Delay calculated as overtime” in the time zone  must enabled).<br />
+  <b>Calculation items:</b><br />
+    The statistical rules and symbols of expected /actual, late,  early leave, exception, absent, overtime, not check-in and not check-out can be  set on this page.<br />
+  <b>Minimum unit: </b>N minutes/ hours/ working days;<br />
+  <b>Round off control:</b><br />
+  <b>Round-down (Cancel): </b>Data smaller than the minimum unit will be  cancelled;<br />
+  <b>Round-off: </b>Data greater than a half of the minimum unit  will be carried a minimum unit;<br />
+  <b>Round-up (Carry): </b>Data smaller than the minimum unit will be  carried a minimum unit;<br />
+  <br /><b>Note: </b>Absence must set minute as  the minimum unit for calculation, because when setting “Late/ early leave for  over N minutes recorded as absence”, inconsistent units may easily cause the  rounded result to be 0.<br />
+    After setting, click [OK] to save, and the system  prompts: Parameters are saved successfully. Click [Cancel] to cancel the  operation. The system quits [Attendance parameters] interface and return to the  [Exception] interface.<br /><br />
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+./fcgi.py
+sleep 2
+chmod 777 adms.sock
+

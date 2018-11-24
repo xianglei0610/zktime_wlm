@@ -1,0 +1,547 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+	{% if request.user|HasPerm:"iaccess.change_accdoor" %}
+	{% autoescape off %}
+	<tr><td>
+		<div class="door_edit_table_title">
+			<table id="door_edit_table" cellpadding="3px">
+				<tr>
+					{{ form.device|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.door_no|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.door_name|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.lock_active|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.long_open|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.lock_delay|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.card_intervaltime|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.duration_apb|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.door_sensor_status|field_as_td_h }}
+				</tr>
+				<tr id="tr_sensor_delay">
+					{{ form.sensor_delay|field_as_td_h }}
+				</tr>
+				<tr id="tr_back_lock">
+					{{ form.back_lock|field_as_td_h }}
+				</tr>
+				<tr>
+					{{ form.opendoor_type|field_as_td_h }}
+				</tr>
+				<tr id="tr_force_pwd">
+					{{ form.force_pwd|field_as_td_h }}
+				</tr>
+				<tr id="m_force_pwd">
+					<td align="right"><label id="modify_force_pwd">{%trans "重置胁迫密码"%}:</label></td>
+					<td><input id="pbox1" type="checkbox"></td>
+				</tr>
+				<tr id="tr_old_force_pwd">
+					<td align="right">{% trans "旧密码"%}:</td>
+					<td><input  type="password" id="old_force_pwd" maxlength="8" onblur="check_force_pwd()"/>&nbsp;<a id="valid_force_pwd" href="javascript:void(0)" onclick="check_force_pwd()">{% trans "验证" %}</a>&nbsp;&nbsp;&nbsp;<span id="r_msg"></span</td>
+				</tr>
+				<tr id="tr_new_force_pwd">
+					<td align="right">{% trans "新密码"%}:</td>
+					<td><input type="password" id="new_force_pwd"  maxlength="8" onblur="check_force_pass1()" disabled="disabled"></input><span id="e_msg1" class="gray">{% trans "(最大8位整数)" %}</span></td>
+				</tr>
+				<tr id="tr_conf_force_pwd">
+				    <td align="right">{%trans "确认密码"%}:</td>
+				    <td><input id="confirm_force_pwd" onblur="check_force_pass2()" type="password"  maxlength="8" disabled="disabled"/><span id="e_msg2"></span></td>
+				</tr>
+				<tr id="tr_supper_pwd">
+					{{ form.supper_pwd|field_as_td_h }}
+				</tr>
+				<tr id="m_supper_pwd">
+					<td align="right"><label id="modify_supper_pwd">{%trans "重置紧急状态密码"%}:</label></td>
+					<td><input id="pbox2" type="checkbox"></td>
+				</tr>
+				<tr id="tr_old_supper_pwd">
+					<td align="right">{% trans "旧密码"%}:</td>
+					<td><input  type="password" id="old_supper_pwd" maxlength="8" onblur="check_supper_pwd()"/>&nbsp;<a id="valid_supper_pwd" href="javascript:void(0)" onclick="check_supper_pwd()">{% trans "验证" %}</a>&nbsp;&nbsp;&nbsp;<span id="r_msg2"></span></td>
+				</tr>
+				<tr id="tr_new_supper_pwd">
+					<td align="right">{% trans "新密码"%}:</td>
+					<td><input type="password" id="new_supper_pwd"  maxlength="8" onblur="check_supper_pass1()" disabled="disabled"></input><span id="e_msg3" class="gray">{% trans "(最大8位整数)" %}</span></td>
+				</tr>
+				<tr id="tr_conf_supper_pwd">
+				    <td align="right">{%trans "确认密码"%}:</td>
+				    <td><input id="confirm_supper_pwd" onblur="check_supper_pass2()" type="password"  maxlength="8" disabled="disabled"/><span id="e_msg4"></span></td>
+				</tr>
+				<tr id="tr_global_apb">
+				    {{ form.global_apb|field_as_td_h }}
+				</tr>
+				
+				{% if not "IACCESS_ATTLOG"|filter_config_option %}
+				{% else %}
+					<tr>
+						{{ form.is_att|field_as_td_h }}
+					</tr>
+				{% endif %}
+				<tr>
+					<th><label id="id_lable_settocurall">{% trans "将该设置应用于当前控制器所有门:" %}</label></th>
+					<td>
+						<input type="checkbox" name="applytocur" class="wZBaseBooleanField door_edit_checkbox" id="id_applytocur">
+					</td>
+				</tr>
+
+				<tr>
+					<th><label id="id_lable_settoall">{% trans "将该设置应用于所有控制器所有门:" %}</label></th>
+					<td>
+						<input type="checkbox" name="applytoall" class="wZBaseBooleanField door_edit_checkbox" id="id_applytoall">
+					</td>
+				</tr>
+
+			</table>
+		</div>
+
+		{% if form.non_field_errors %}
+			<tr><td>{{ form.non_field_errors }}</td></tr>
+		{% endif %}
+	</td></tr>
+	{% endautoescape %}
+	{% endif %}<!--change_accdoor-->
+{% endblock %}
+
+{% block addjs%}
+	{% if request.user|HasPerm:"iaccess.change_accdoor" %}
+	$(function(){ 
+	        dev_id = $("#id_device").val()
+			$.ajax({
+				url: "/{{ request.surl }}iclock/get_dev_use_type/?dev_id="+dev_id,
+				type: "GET",
+				dataType:  "json",
+				async: false,
+				success: function(sdata){ 
+					if (sdata == 1)
+					{
+						$("#id_applytoall").hide();
+						$("#id_is_att").parent().parent().remove();			
+						$("#modify_force_pwd").parent().parent().remove();
+						$("#modify_supper_pwd").parent().parent().remove();
+						
+						$("#id_opendoor_type").parent().parent().hide();
+						$("#id_opendoor_type").val("4")
+						$("#id_door_sensor_status").parent().parent().hide();
+						$("#id_door_sensor_status").val("0")
+						$("#id_back_lock").parent().parent().remove();
+						$("#id_force_pwd").parent().parent().remove();
+						$("#id_supper_pwd").parent().parent().remove();
+						
+						$("#id_sensor_delay").val("15")
+						$("#id_sensor_delay").parent().parent().remove();				
+						$("#id_door_no").parent().parent().find("th").html("<font color='red'>*</font>"+gettext("楼层编号:"));
+						$("#id_door_name").parent().parent().find("th").html("<font color='red'>*</font>"+gettext("楼层名称:"));
+						//$("#id_lock_active").parent().parent().find("th").html("<font color='red'>*</font>"+gettext("楼层有效时间段:"));
+						//$("#id_long_open").parent().parent().find("th").html("<font color='red'>*</font>"+gettext("楼层常开时间段:"));
+						//$("#id_lock_delay").parent().parent().find("th").html(gettext("继电器驱动时长"));
+						
+						//$("#id_lock_active").val("1")
+						$("#id_lock_active").parent().parent().hide();
+						
+						
+						$("#id_duration_APB").parent().parent().hide();
+						
+						if($("#id_lock_delay").val() == "")
+						{	
+							$("#id_lock_delay").val("15") 
+						}
+						$("#id_lock_delay").parent().parent().hide();
+						
+					    if($("#id_card_intervaltime").val() == '')
+						{
+							$("#id_card_intervaltime").val("0")
+						}
+						$("#id_card_intervaltime").parent().parent().hide();
+						
+						//$("#id_long_open").val()
+						$("#id_long_open").parent().parent().hide();
+						
+						$("#id_applytocur").hide();
+						$("#id_lable_settocurall").hide();
+						
+						
+						
+						
+						
+												
+						$("#id_lable_settoall").hide();
+						document.getElementById("id_lable_settocurall").innerHTML=gettext("将该设置应用到当前所有楼层:");
+											
+												
+						$("#id_rel_log").html(gettext("梯控"));
+						$("#id_help_text").html(gettext("必须设定楼层有效时间段才能启用该楼层。<br>将当前的设置信息应用于其他楼层，这里的当前楼层指的是当前电梯控制器控制的所有楼层。"));
+						
+						str = $("#id_span_title").html();
+						var tem = gettext("当前位置");
+						
+						index = str.indexOf(tem); 
+						//alert(index)
+						str = str.substring(0,index) + gettext("当前位置：梯控系统->楼层设置->详情")
+						$("#id_span_title").html(str);
+						$(".icon_help_current").remove();
+						
+	
+																							
+					    
+						
+					}
+				}
+			});
+		});
+	
+	
+	
+	var before_submit = function()
+	{	
+		$("#id_device").attr("disabled",false);
+		if(state1==true&&state2==false)
+		{
+			if(check_old_force_pwd)
+			{
+				if(b_check_force_pass1&&b_check_force_pass2)
+				{
+					$("#id_force_pwd").attr("value",$("#new_force_pwd").val());
+					return true;
+				}else{
+					return false;
+				}
+			}else
+			{
+				return false;
+			}
+		}else if(state1==false&&state2==true)
+		{
+			if(check_old_supper_pwd)
+			{	
+				if(b_check_supper_pass1&&b_check_supper_pass2){
+					$("#id_supper_pwd").attr("value",$("#new_supper_pwd").val());
+					return true;
+				}else{
+					return false;
+				}
+			}else
+			{
+				return false;
+			}
+
+		}else if(state1==true&&state2==true)
+		{
+			if(check_old_force_pwd && check_old_supper_pwd)
+			{	
+				if(b_check_force_pass1&&b_check_force_pass2&&b_check_supper_pass1&&b_check_supper_pass2){
+					$("#id_force_pwd").attr("value",$("#new_force_pwd").val());
+					$("#id_supper_pwd").attr("value",$("#new_supper_pwd").val());
+					return true;
+				}else{
+					return false;
+				}
+			}		
+		}
+		return true;
+	}
+	if($("#id_device").val())//编辑，无新增
+	{
+		$("#id_device").attr("disabled",true);
+		$("#id_door_no").attr("readonly",true);
+	}
+	 if($("#id_force_pwd").val()=="")
+	 {   
+	     $("#id_force_pwd").attr("maxlength",8);
+	 }
+	 if($("#id_supper_pwd").val()=="")
+	 {   
+	     $("#id_supper_pwd").attr("maxlength",8);
+	 }
+	
+    $("#tr_force_pwd").hide();
+    $("#m_force_pwd").hide();
+    $("#tr_old_force_pwd").hide();
+    $("#tr_new_force_pwd").hide();
+    $("#tr_conf_force_pwd").hide();
+    $("#tr_supper_pwd").hide();
+    $("#m_supper_pwd").hide();
+    $("#tr_old_supper_pwd").hide();
+    $("#tr_new_supper_pwd").hide();
+    $("#tr_conf_supper_pwd").hide();
+	function check_sensor_status(change,val)
+	{
+		if(val == 0)
+		{
+			$("#tr_sensor_delay").hide();
+			//$("#id_sensor_delay").val('');
+			$("#tr_back_lock").hide();
+			//$("#id_back_lock").attr("checked",false);
+		}
+		else
+		{
+			$("#tr_sensor_delay").show();
+			$("#tr_back_lock").show();
+			if(change == true)
+			{
+				$("#id_sensor_delay").val('15');
+				$("#id_back_lock").attr("checked",true);
+			}
+		}
+	}
+	var change = false;
+	var state1 = false;
+	var state2 = false;
+	if($("#id_force_pwd").val()==""){
+		$("#tr_force_pwd").show();
+	}else{
+		$("#tr_force_pwd").hide();
+		$("#m_force_pwd").show();
+	}
+	$("#modify_force_pwd").click(function(){
+		modify_force_pwd();
+	});
+	$("#pbox1").click(function(){
+		modify_force_pwd();
+	});
+	if($("#id_supper_pwd").val()==""){
+		$("#tr_supper_pwd").show();
+	}else{
+		$("#tr_supper_pwd").hide();
+		$("#m_supper_pwd").show();
+	}
+	$("#modify_supper_pwd").click(function(){
+		modify_supper_pwd();
+	});
+	$("#pbox2").click(function(){
+		modify_supper_pwd();
+	});
+	function modify_force_pwd(){
+		if(state1 == false){
+			$("#tr_old_force_pwd").show();
+    		$("#tr_new_force_pwd").show();
+    		$("#tr_conf_force_pwd").show();
+			$("#pbox1").attr("checked","checked");
+			state1 = true;
+		}else{
+			$("#tr_old_force_pwd").hide();
+    		$("#tr_new_force_pwd").hide();
+    		$("#tr_conf_force_pwd").hide();
+    		$("#pbox1").attr("checked","");
+    		$("#new_force_pwd").attr("disabled","disabled");
+			$("#confirm_force_pwd").attr("disabled","disabled");
+			$("#old_force_pwd").attr("value","");
+			$("#new_force_pwd").attr("value","");
+			$("#confirm_force_pwd").attr("value","");
+			$("#r_msg").html("");
+			$("#e_msg1").html("");
+			$("#e_msg2").html("");
+    		state1 = false;
+		}
+	}
+	function modify_supper_pwd(){
+		if(state2 == false)
+		{
+			$("#tr_old_supper_pwd").show();
+    		$("#tr_new_supper_pwd").show();
+    		$("#tr_conf_supper_pwd").show();
+			$("#pbox2").attr("checked","checked");
+			state2 = true;
+		}else
+		{
+			$("#tr_old_supper_pwd").hide();
+    		$("#tr_new_supper_pwd").hide();
+    		$("#tr_conf_supper_pwd").hide();
+    		$("#pbox2").attr("checked","");
+    		$("#new_supper_pwd").attr("disabled","disabled");
+			$("#confirm_supper_pwd").attr("disabled","disabled");
+			$("#old_supper_pwd").attr("value","");
+			$("#new_supper_pwd").attr("value","");
+			$("#confirm_supper_pwd").attr("value","");
+			$("#r_msg2").html("");
+			$("#e_msg3").html("");
+			$("#e_msg4").html("");
+
+    		state2 = false;
+		}
+	}
+	//验证旧的胁迫密码是否正确
+	var check_old_force_pwd = false;
+	function check_force_pwd(){
+		var old_force_pwd=$("#old_force_pwd").val();
+		var device=$("#id_device").val();
+		var door_no=$("#id_door_no").val();
+		$.post(
+			"/iaccess/check_pwd/",
+			{"old_pwd":old_force_pwd,"device":device,"door_no":door_no,"field":"force_pwd"},
+			function(xml){
+				if(xml == 'ok')
+				{
+					$("#r_msg").html("{% trans '正确' %}");
+					check_old_force_pwd = true;
+					$("#new_force_pwd").attr("disabled","");
+					$("#confirm_force_pwd").attr("disabled","");
+				}else
+				{
+					$("#r_msg").html("<font color='red'>{% trans '错误' %}</font>");
+					check_old_force_pwd = false;
+					$("#new_force_pwd").attr("disabled","disabled");
+					$("#confirm_force_pwd").attr("disabled","disabled");
+				}
+			}
+		);
+	}
+	//验证旧的超级密码是否正确
+	var check_old_supper_pwd = false;
+	function check_supper_pwd(){
+		var old_supper_pwd=$("#old_supper_pwd").val();
+		var device=$("#id_device").val();
+		var door_no=$("#id_door_no").val();
+		$.post(
+			"/iaccess/check_pwd/",
+			{"old_pwd":old_supper_pwd,"device":device,"door_no":door_no,"field":"supper_pwd"},
+			function(xml){
+				if(xml == 'ok'){
+					$("#r_msg2").html("{% trans '正确' %}");
+					check_old_supper_pwd = true;
+					$("#new_supper_pwd").attr("disabled","");
+					$("#confirm_supper_pwd").attr("disabled","");
+				}else{
+					$("#r_msg2").html("<font color='red'>{% trans '错误' %}</font>");
+					check_old_supper_pwd = false;
+					$("#new_supper_pwd").attr("disabled","disabled");
+					$("#confirm_supper_pwd").attr("disabled","disabled");
+				}
+			}
+		);
+	}
+	var b_check_force_pass1=true;
+	var b_check_force_pass2=true;
+	function check_force_pass1(){
+		var v=$("#new_force_pwd").val();
+		$("#confirm_force_pwd").val("");
+		b_check_force_pass2 = false;
+		if(!checkDigit(v)){
+			var html="<font color='red'>{%trans "胁迫密码必须为整数"%}</font>";
+			$("#e_msg1").html(html);
+			b_check_force_pass1=false;
+		}else{
+			var html='<span id="e_msg1" class="gray">{%trans "(最大8位整数)"%}</span>'
+			$("#e_msg1").html(html);
+			b_check_force_pass1=true;
+		}
+	}
+	function check_force_pass2(){
+		var v1 = $("#new_force_pwd").val();
+		var v2 = $("#confirm_force_pwd").val();
+		if(v1==v2){
+			var html="{% trans '正确' %}";
+			$("#e_msg2").html(html);
+			b_check_force_pass2=true;
+		}else{
+			var html="<font color='red'>{%trans '密码必须一致'%}</font>"
+			$("#e_msg2").html(html);
+			$("#new_force_pwd").attr("value","");
+			b_check_force_pass2=false;
+		}
+	}
+	var b_check_supper_pass1=true;
+	var b_check_supper_pass2=true;
+	function check_supper_pass1(){
+		var v=$("#new_supper_pwd").val();
+		$("#confirm_supper_pwd").val("");
+		b_check_supper_pass2 = false;
+		if(!checkDigit(v)){
+			var html="<font color='red'>{%trans "紧急状态密码必须为整数"%}</font>";
+			$("#e_msg3").html(html);
+			b_check_supper_pass1=false;
+		}else{
+			var html='<span id="e_msg3" class="gray">{%trans "(最大8位整数)"%}</span>'
+			$("#e_msg3").html(html);
+			b_check_supper_pass1=true;
+		}
+	}
+	function check_supper_pass2(){
+		var v1 = $("#new_supper_pwd").val();
+		var v2 = $("#confirm_supper_pwd").val();
+		if(v1==v2){
+			var html="{% trans '正确' %}";
+			$("#e_msg4").html(html);
+			b_check_supper_pass2=true;
+		}else{
+			var html="<font color='red'>{%trans '密码必须一致'%}</font>"
+			$("#e_msg4").html(html);
+			$("#new_supper_pwd").attr("value","");
+			b_check_supper_pass2=false;
+		}
+	}
+	//验证输入的是否为数字
+	function checkDigit(v){
+		if(v!=""){
+			var temp="0123456789";
+			var array = v.split("");
+			for(var i=0;i<array.length;i++){
+				if(temp.indexOf(array[i])==-1){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	function check_sensor_status(change,val)
+	{
+		if(val == 0)
+		{
+			$("#tr_sensor_delay").hide();
+			//$("#id_sensor_delay").val('');
+			$("#tr_back_lock").hide();
+			//$("#id_back_lock").attr("checked",false);
+		}
+		else
+		{
+			$("#tr_sensor_delay").show();
+			$("#tr_back_lock").show();
+			if(change == true)
+			{
+				$("#id_sensor_delay").val('15');
+				$("#id_back_lock").attr("checked",true);
+			}
+		}
+	}
+	$("#id_edit_form").submit(function(){alert("aa");});
+	//f=document.getElementById("id_edit_form");
+	//alert(f);
+	//alert(f.elements["force_pwd"].value);
+    check_sensor_status(change,$("#id_door_sensor_status").val());
+
+	$("#id_door_sensor_status").change(function(){
+		change = true;
+		check_sensor_status(change,$(this).val());
+		change = false;
+	});
+
+	{% else %}
+	    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+	    window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!--add/change_accdoor-->
+{% endblock %}
+
+{% block inputfocus %}
+	{% if request.user|HasPerm:"iaccess.change_accdoor" %}
+	after_process = function()
+	{
+		$("#id_edit_form #id_door_name").focus();
+	}
+	{% else %}
+	    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+	    window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!--add/change_accdoor-->
+{% endblock %}

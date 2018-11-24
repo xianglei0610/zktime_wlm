@@ -1,0 +1,28 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% autoescape off %} 
+        <table>
+            <tr>
+                <th height="20">{{ form.meetingIds|field_as_label_tag }}</th>
+                <td width="210">{{form.meetingIds.as_widget }}</td>
+                <td width="80" class="displayN">{{form.meetingIds.errors }}</td>
+            </tr>
+            
+        </table>
+    {% endautoescape %}
+    {% if form.non_field_errors %}
+        <tr><td>{{ form.non_field_errors }}</td></tr>
+    {% endif %}
+    
+{% endblock %}
+
+{% block addjs%}
+$(function(){
+   $("#id_meetingIds option[value='']").remove();
+    $("#id_meetingIds").prepend("<option value='' selected>----------------</option>");
+
+})
+    
+{% endblock %}

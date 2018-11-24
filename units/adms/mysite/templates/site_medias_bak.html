@@ -1,0 +1,10 @@
+{% block extracss %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/menu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/base.css+sf.css" />
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}/css/rtl.css{% endblock %}" />
+{% endif %}
+<link href="{{ MEDIA_URL }}/css/css.css+corner.css+tabs.css+jquery.clockpick.css+jquery.treeview.css+datepiker.css" rel="stylesheet" />
+
+<script src="{{ MEDIA_URL }}/jslib/appconfig.js+i18n.js+jquery.js+jquery.plus.js+jquery.zcommon.js+i18n_{{ LANGUAGE_CODE }}.js+jquery.zgrid.js+datalist.js+datalistadd.js+widgets.js+jquery.tools.min.js"></script>
+{% block extrajs %}{% endblock %}

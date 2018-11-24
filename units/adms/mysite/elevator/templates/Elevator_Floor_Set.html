@@ -1,0 +1,20 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_FloorSetPage" %}
+        $(".icon_help_current").remove();
+        if("{{ position }}" == "")
+        {
+            window.location.href = $("#id_special_menu ul:first li a").attr("href");//跟模型相关的页面在此重定向
+        }
+        {% block acc_door_set %}{% endblock %}
+    {% else %}
+        $(".icon_help_current").remove();
+        $("#id_datalist").remove();
+        $("#id_search").remove();        
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!-- contenttypes.can_DoorSetPage --> 
+
+{% endblock %}

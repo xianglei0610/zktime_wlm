@@ -1,0 +1,25 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+//$('#id_edit_form').validate({
+//        	                        rules: {
+//        	                            "money": {required:true,min:0,max:9999,"maxlength":8,isMoney:true}
+//                                        }
+//                                    }
+//        	            );
+
+    $("#id_is_pass").parent().parent().css({display:"none"});
+    $("#id_is_ok").parent().parent().css({display:"none"});
+    $("#id_batch").parent().parent().css({display:"none"});
+})
+
+{%if "POS_IC"|filter_config_option%}
+$("#id_edit_form>table>tbody>tr").eq(5).find("label").addClass("required");
+$("#page_help").attr("href",$("#page_help").attr("href").replace("allowance","ic_allowance"));
+$("#id_edit_form>table>tbody>tr").eq(2).hide();
+{%endif%}
+{%if "POS_ID"|filter_config_option%}
+$("#id_edit_form>table>tbody>tr").eq(5).hide();
+{%endif%}
+{% endblock %}

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>考勤计算与报表</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+    </style>
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+    <link href="css/help.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="help_body1"; style="line-height: 150%">
+	<div class="help_position"><span class="help_positionIcon">系统帮助</span> -> 考勤系统管理 -&gt; 考勤计算与报表</div>
+<div class="help_mainContant">
+  <h2><a name="_Toc358123156">7.7 </a>考勤计算与报表</h2>
+  <h3><a name="_Toc358123157"></a><a name="_8.6.1_考勤计算"></a><a name="_7.6.1_考勤计算"></a>7.7.1 考勤计算</h3>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 取卡规则</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>签到取应签到之前的最接近的原则，如9点上班，签到有8：55，9：01，则取8：55分为签到，签退取应签退之后的最接近的原则，如18：00下班，如有18：01，18：20的卡，则取18：01为签退时间；<strong></strong></p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 计算流程</strong></p>
+    </li>
+  </ul>
+  <p>先判断每个人当天的班次，再判断每个人在当天的工作类型，再取卡，取请假列表；再取调休资料；取工作类型时候只取当前日期的前100天的节假日设置；取考勤参数；最后计算，并保存进数据库。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 计算先决条件</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>日期≥入职日期，并且人员的“是否考勤”设置为“是”时才计算。如果不需要考勤，那在考勤计算中就不会出现该人员的任何考勤数据。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 取整规则</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>分为<strong>向下取整</strong>、<strong>四舍五入</strong>和<strong>向上取整</strong>：</p>
+  <p><strong>向下取整</strong>时，被计算的项目的值在求余后超出最小单位时，其多余的部分将被舍弃；</p>
+  <p><strong>四舍五入</strong>时，被计算的项目的值在求余之后超出最小单位的一半时候，将会进位一个最小单位，如果小于最小单位的一半时，将会直接舍弃；</p>
+  <p><strong>向上取整</strong>时，如果计算的项目的值在求余之后超出最小单位，将会进位一个最小单位。</p>
+  <h3><a name="_Toc358123158"></a>7.7.2 考勤报表</h3>
+  <p>考勤报表是将所查询人员在指定时期内的每日考勤状况在表中列出，并统计旷工、迟到/早退、加班、请假的时间，便于对应核查是否与实际情况有出入。如果查看结果不符，可以根据需要调整班次，添加补签卡、请假单或调休单，以及直接修改日报数据。</p>
+  <p>点击【考勤】<img src="arrow.png" width="18" height="13">【考勤报表】，进入<strong>考勤报表</strong>页面：</p>
+  <p align="center"><img width="671" height="205" src="clip_image003_0024.jpg"></p>
+  <p><strong>考勤报表</strong>的查看方法如下：</p>
+  <p>1、单击<strong>选择人员</strong>后的<img width="11" height="11" src="clip_image005_0023.jpg">按钮，在弹出的人员选择框中选择需查看考勤报表信息的人员（可多选或全选），人员的选择，请参见<strong><a href="addenda1.html">附录1 常用操作</a></strong>中的<span class="style1">1. 人员选择</span>。</p>
+  <p>2、设置<strong>开始日期</strong>和<strong>结束日期</strong>。日期的设置方法，请参见<strong><a href="addenda1.html">附录1 常用操作</a></strong>中的<span class="style1">2. 选择日期</span>。</p>
+  <p>3、单击【查询】按钮，查看被选中的人员在设置的开始和结束日期内的考勤报表信息。</p>
+  <p><strong><img src="Note.jpg" width="34" height="36">备注</strong>：直接单击<strong>报表名称</strong>即可显示对应的报表信息。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 统计结果详情表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>此表统计的是有效的考勤记录</p>
+  <p>考勤状态为原始记录状态，更正状态是根据人员的排班时段和打卡时间，按照考勤计算规则判断人员是上班签到还是下班签退，统计时将以此状态进行统计。</p>
+  <p align="center"><img width="839" height="451" src="clip_image007_0016.jpg"></p>
+  <p>（1）、用户可根据需要导出考勤报表，可导出为“xls”、“pdf”或“csv”格式的文件。导出报表的具体方法，请参见<strong>附录</strong><strong>1 </strong><strong>常用操作</strong>中的<strong>5. </strong><strong>导出</strong>。</p>
+  <p>（2）、用户根据需要选择考勤报表需显示的字段（打勾选中后，即显示）。</p>
+  <p>（3）、用户可根据需要（左右拖动）自定义列宽。</p>
+  <p>（4）、用户可根据需要自定义考勤报表每页的记录显示条数。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：统计只能当月日期，或者天数不能超过开始日期的月份天数。<strong></strong></p>
+  <p><strong>各表中标识含义如下所示</strong>：<strong></strong></p>
+  <p>病假:分钟( B )事假:分钟( G )产假:分钟( C )探亲假:天( T )年假:天( S )应到/实到:天( )迟到:分钟( &gt; )早退:分钟( &lt; ) 请假:小时( V )旷工:天( A )加班:小时( + )未签到:( [ )未签退:( ] )自由加班:小时( F )。标识的增加与修改请参见<a href="AttParam.html">7.1 考勤参数</a>。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 每日考勤统计表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p align="center"><img width="826" height="369" src="clip_image009_0011.jpg"></p>
+  <p>该表显示在选定期间内，人员每日考勤状态、考勤统计、加班统计、请假及请假汇总等，并以符号或数字或符号加数字的形式显示在列表中。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 考勤明细表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p align="center"><img width="823" height="530" src="clip_image011_0007.jpg"></p>
+  <p>该表按日期显示所有人员的排班情况、出勤情况、加班、节假日统计等。考勤明细表是人员在每个考勤时段的考勤记录统计表。</p>
+  <p><strong>应签到</strong><strong>/</strong><strong>应签退</strong>、<strong>无签到</strong><strong>/</strong><strong>无签退</strong>：1表示“是”，0表示“否”；</p>
+  <p><strong>出勤时长</strong>：人员签到时间与签退时间的时间间隔；</p>
+  <p><strong>例外情况</strong>：指的是人员除上下班之外的异常情况，如人员请假等事项；</p>
+  <p><strong>工作分钟</strong>：时段的“工作时间(分钟)”中，实际已出勤的有效时长。</p>
+  <p><strong><img src="attention.jpg" width="38" height="27">注意</strong>：此表的旷工、出勤时长、工作分钟、时段时间的数据都是以分钟为单位显示，不以按照统计项目中变更的单位设置变化。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 考勤汇总表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p align="center"><img width="825" height="367" src="clip_image013_0005.jpg"></p>
+  <p>列表显示每个人员在此期间内的考勤情况汇总，包括出勤、请假、加班等的明细表。即考勤明细表的汇总表。</p>
+  <p>请假记录按所属的假类归类计算。报表中“请假”列的数据=各个假类数据的总和，<strong>例如</strong>：请假=病假+事假+产假+探亲假+年假+自定义假类。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 请假汇总表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p align="center"><img width="822" height="311" src="clip_image015_0002.jpg"></p>
+  <p>报表汇总选择日期范围内，所有有效请假记录的有效时间、请假类型。有效时间（分钟）即该请假记录开始时间与结束时间的间隔分钟数。</p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 汇总最早与最晚</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>统计考勤结果中每个人每天打卡数据中最早与最晚的打卡数据。<strong></strong></p>
+  <p align="center"><img width="792" height="341" src="clip_image017_0009.jpg"></p>
+  <ul>
+    <li>
+      <p><img src="redpoint.png" width="13" height="13"> <a name="OLE_LINK38"></a><a name="OLE_LINK37"><strong>考勤异常明细表</strong></a><strong></strong></p>
+    </li>
+  </ul>
+  <p>列表显示所有考勤异常明细情况。</p>
+  <p align="center"><img width="784" height="448" src="clip_image019_0011.jpg"></p>
+  <ul>
+    <li>
+      <p><strong><img src="redpoint.png" width="13" height="13"> 打卡详情表</strong><strong></strong></p>
+    </li>
+  </ul>
+  <p>列表显示所选人员的打卡详细情况。</p>
+  <p align="center"><img width="783" height="320" src="clip_image021_0005.jpg"></p> 
+</div>
+</body>
+</html>

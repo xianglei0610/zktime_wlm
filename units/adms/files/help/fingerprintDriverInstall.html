@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>系统帮助</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">系统帮助</span> -> 软件的安装与卸载 -> 指纹仪驱动安装</div>
+	<div class="help_mainContant">
+		<h2>指纹仪驱动安装 </h2><br />
+		<p>使用软件的指纹登记指纹功能前，需要先安装<b>指纹仪驱动程序</b>。</p> <br />
+		<p>1.安装过ZK4000或以前版本指纹仪驱动的电脑，需要先卸载指纹仪驱动（ZKFinger200/URU4000/URU40000B驱动），操作步骤如下： </p>
+	    <br />
+	    <p>（1）运行控制面板中的【添加/删除程序】，卸载指纹仪驱动程序； </p>
+	    <p>（2）点击开始—运行—Regedit，查看： </p>
+	    <p>HKEY_LOCAL_MACHINE\Software\DigitalPersona键值，如果有则删除； </p>
+	    <br />
+	    <p>（3）查看系统安装目录下system32 目录（win98为windows\system）下的DP*.dll ，如果有则全部删除；</p>
+	    <br />
+	    <p>（4）查看Program files\zksoftware\ZKFinger200目录，如果有则整个删除。 </p>
+	    <p>卸载完成后，重新启动计算机，安装指纹仪驱动程序。 </p>
+        <br />
+
+		<p>2.软件安装时会提示安装指纹驱动。如果安装软件时未安装指纹仪驱动，可直接通过如下方式安装指纹仪驱动程序。操作步骤如下： </p> <br />
+		<p><a href="/worktable/download_fingerprint_driver" id="id_download_fingerprint_driver">指纹仪驱动在线下载，请点击这里</a></p> <br />
+		<ol>
+			<p>注： 以下图片可能与您使用光盘安装时显示内容不符，请以光盘安装程序为准。</p>
+		</ol> <br />
+		<p>（1）执行光盘中的【driver】文件夹中的【setup.exe】开始安装，进入指纹仪驱动程序安装界面，如下图所示，点击【下一步】。</p>
+	    <br /> 
+		<div class="alignC"><img src="images/help_images/FingerprintDriverSetup_clip_image002.jpg" alt="图（1）" width="502" height="360" align="absmiddle" /></div><br />
+		<p>（2）安装程序窗口中会询问安装哪些组件，如下图所示，建议选择完全安装，然后单击【下一步】。 </p>
+        <br />
+		<div class="alignC"><img src="images/help_images/FingerprintDriverSetup_clip_image004.jpg" alt="图（2）" width="499" height="360" /></div><br />
+	    <p>（3）开始安装指纹仪驱动程序，安装完成后程序提示完成对话框，并询问是否需要立即重启电脑，如下图所示。电脑重启后驱动程序才能生效，您可以选择立即重启，也可以选择稍后再重启。</p>
+	    <br />
+		<div class="alignC"><img src="images/help_images/FingerprintDriverSetup_clip_image006.jpg" alt="图（3）" width="498" height="360" /></div><br />
+		<br />
+		
+		<p>3.注意事项</p> <br />
+		<p><a href="/worktable/download_fingerprint_driver" id="id_download_fingerprint_driver">指纹仪驱动在线下载，请点击这里</a></p> <br />
+		<br />
+		<p>（1）如果您正在使用Win7操作系统，在没有以管理员身份打开浏览器的情况下，将可能无法正常登记指纹。将当前服务器站点添加到浏览器的可信任站点中，可避免上述问题发生，步骤如下：</p>
+		<br />
+		<p>打开IE浏览器的【Internet选项】-【安全】-【可信站点】，将当前服务器的地址添加到区域即可，如下图。</p> 
+		<div class="alignC"><img src="images/help_images/trust_site.jpg" alt="图（4）" width="498" height="360" /></div><br />
+		<br />
+	</div>
+	
+</body>
+</html>

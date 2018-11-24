@@ -1,0 +1,23 @@
+{% extends "base_site.html" %}
+{% load i18n %}
+{% block content %}
+<form id='frmComebackDb'name='frmComebackDb' method='POST' enctype='multipart/form-data'>
+<div class='container' style='margin-top:0px; width:420px;'>	
+
+{{ content }}
+
+	<div>
+		<span style='width:150:'><label>{%trans "上传文件位置"%}:</label></span>
+		<span style='float:left'>
+			<input type='file' class='text' value='' name='fileUpload' id='fileUpload'/>
+		</span>	
+	</div>
+&nbsp;
+</br>&nbsp;</br>&nbsp;<p />&nbsp;<p />
+<div>
+<input name='submit' value='{%trans "确 定"%}' type='submit' class='button first'/>
+<input type="submit" value="{%trans "返回"%}" onclick="window.history.back(); return false;">
+</div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,592 @@
+{% extends "Acc_Monitor_All.html" %}
+{% load i18n %}
+
+{% block add_headjs %}
+{% if request.user|HasPerm:"contenttypes.can_ElectroMapPage" %}
+<script src="{{ MEDIA_URL }}/jslib/electro_map.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block monitor_doors_maps %}
+    {% if request.user|HasPerm:"contenttypes.can_ElectroMapPage" %}
+    <div id="id_electro_map" class="div_box" style="height: 80px;"><h1>{% trans "电子地图" %}</h1>
+        <!--操作-start-->
+        <div id="id_map_ops" class="grid Link_blue1">
+            <div class="floatL">
+            	<table>
+                    <div id="id_map_loading">{% trans "正在获取系统内用户授权范围内的所有地图......" %}</div>
+                    <tr>
+                        {% if request.user|HasPerm:"iaccess.add_accmap" %}<td><div class="action nowrap displayN anymap"><a id="id_add_map" relgo="{{request.dbapp_url}}iaccess/AccMap/_new_/" href="javascript:void(0)">{% trans "添加地图" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.delete_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_del_map" href="javascript:void(0)">{% trans "删除地图" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.change_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_edit_map" relgo="{{request.dbapp_url}}iaccess/AccMap/" href="javascript:void(0)">{% trans "编辑地图" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.opadddoorsontomap_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_add_door" href="javascript:void(0)">{% trans "添加门" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.opsavemapdoorpos_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_save_doorpos" href="javascript:void(0)">{% trans "保存位置信息" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.openlargemapdoor_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_bigger" href="javascript:void(0)">{% trans "放大" %}</a></div></td>{% endif %}
+                        {% if request.user|HasPerm:"iaccess.opreducemapdoor_accmap" %}<td><div class="action nowrap displayN nomap"><a id="id_smaller" href="javascript:void(0)">{% trans "缩小" %}</a></div></td>{% endif %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--操作-end-->
+        <!--判空-start-->
+        <div id="id_map_judge">{% trans "当前系统中没有添加地图或者您没有权限查看已有地图！" %}</div>
+        <!--判空-end-->
+        <!--地图显示-start-->
+        <div id="id_map_show" class="map_show">
+            <ul class="tabs">
+            </ul>
+        </div>
+        <!--地图显示-end-->
+    </div>
+    {% endif %}<!--can_ElectroMapPage-->
+{% endblock %}<!--end of monitor_doors_maps-->
+
+{% block monitor_events_style %}height: 30em;{% endblock %}
+{% block monitor_datalist_style %}height:300px;{% endblock %}
+
+{% block right_click_menu %}
+<!--右键菜单的源-start-->
+<div class="contextMenu displayN" id="id_mapdoor_menu">
+    <ul>
+        <li id="id_del_door" class="door_ops"><img src="/media/img/icon_deletelink.gif" />{% trans "移除门" %}</li>
+    </ul>
+</div>
+<!--右键菜单的源-end-->
+{% endblock %}
+
+{% block addjs_base %}{% endblock %}
+{% block getdatalist %}{% endblock %}
+
+    {% if request.user|HasPerm:"contenttypes.can_ElectroMapPage" %}
+    {% block electro_map %}
+
+    {% if request.user|HasPerm:"iaccess.opsavemapdoorpos_accmap" %}
+    //门图标的拖动---start
+    var ie = document.all;//只有ie支持document.all
+    var ff = document.getElementById&&!document.all;//非ie浏览器，如 ff等
+    var isdrag = false;
+    var x = 0, y = 0;
+    var drag_obj = null;//全局变量。用来表示需要drag的图片对象
+    
+    function movemouse(e)
+    {
+        if (isdrag)
+        {
+            drag_obj.style.left = (ff ? tx + e.clientX - x : tx + event.clientX - x) + "px";
+            drag_obj.style.top  = (ff ? (ty + e.clientY - y) : (ty + event.clientY - y)) + "px";//ff下加px，否则某些ff版本不起作用
+            return false;
+        }
+    }
+    function onmouseup(e)
+    {
+        if(drag_obj)
+        {
+            isdrag=false;
+            if($(drag_obj).css("top").replace("px", "") < 8)
+            {
+                $(drag_obj).css("top", "8px");
+            }
+            if($(drag_obj).css("left").replace("px", "") < 8)
+            {
+                $(drag_obj).css("left", "8px");
+            }
+        }
+    }
+    function selectmouse(e)
+    {
+        var current_obj = ff ? e.target : event.srcElement;//当前选择的对象(含非图片）
+//        var topelement = ff ? "HTML" : "BODY";
+//        while(current_obj.tagName != topelement && current_obj.className != "can_drag")//标签名不等于根标签<html>和<body>.while 循环的意思就是取他的祖先节点（除body和html外的）
+//        {
+//            current_obj = ff ? current_obj.parentNode : current_obj.parentElement;//主要处理不能拖动的图片（无实际意义）
+//        }
+    
+        if (current_obj.className == "can_drag")//candrag 用来区别哪些图片可以拖动
+        {
+            isdrag = true;
+            drag_obj = current_obj;
+            tx = parseInt(drag_obj.style.left + 0);
+            ty = parseInt(drag_obj.style.top + 0);
+            x = ff ? e.clientX : event.clientX;
+            y = ff ? e.clientY : event.clientY;
+            document.onmousemove = movemouse;
+            return false;
+         }
+    }
+    document.onmousedown = selectmouse;//相当于selectmouse(document.onmousedown)
+    document.onmouseup = onmouseup;
+    //document.onmouseup = new Function("isdrag=false; check_top_left_zero(document.onmouseup)");//离开光标时还原全局变量的值
+    //门图标的拖动---end
+    {% endif %}
+    
+    {% block init_image_mode %}
+        var const_door_count = 2000;
+    {% endblock %}
+
+    //初始化电子地图-start
+    function init_maps()
+    {
+        $("#id_map_loading").show();
+        var stamp0 = new Date().getTime();
+        $.ajax({
+            type: "POST",
+            url: "/{{ request.surl }}iaccess/ElectroMap/?func=init_maps&stamp="+stamp0,
+            dataType: "json",
+            async: true,
+            success: function(init_data)
+            {
+                $("#id_map_loading").hide();
+                $(".anymap").show();
+                $("#id_map_show div").remove();
+                $("#id_map_show .tabs").empty();
+                var maps = init_data.maps;
+                
+                if(maps == "")
+                {
+                    $("#id_map_judge").show();
+                    $("#id_map_show").hide();
+                    $(".nomap").hide();
+                    gdev_filter = "&door_id=-1";//实时监控查询条件变更
+                }
+                else
+                {
+                    $("#id_map_judge").hide();
+                    $("#id_electro_map").css("height","500px");
+                    $("#id_map_show").show();
+                    $(".nomap").show();
+                    //地图信息
+                    for(a in maps)
+                    {
+                        //$("#id_map_show").append('<div id="id_map_'+maps[a][0]+'" name="'+maps[a][1]+'" style="background:url(\'../../../file/map/'+maps[a][0]+'.jpg\') no-repeat scroll; width: 800px; height: 400px;overflow: scroll; height: 510px;"></div>');
+                        var img_style = "";
+                        if(maps[a][2] != 0 && maps[a][3] != 0)
+                        {
+                            img_style = 'style="width:'+maps[a][2]+'px;height:'+maps[a][3]+'px"';
+                        }
+                        $("#id_map_show").append('<div id="id_map_'+maps[a][0]+'" data="'+maps[a][0]+'" class="map_div" name="'+maps[a][1]+'" style="overflow: scroll; width:1020px; height: 400px; position: absolute;">'
+                                                + '<img class="map" src="../../../file/map/'+maps[a][0]+'.jpg?'+stamp0+'" '+img_style+' />'
+                                                + '</div>');
+                        $("#id_map_show .tabs").append('<li><a pk="'+maps[a][0]+'" href="#id_map_'+maps[a][0]+'">'+maps[a][1]+'</a></li>');
+                    }
+                    
+                    //门信息
+                    gdata = init_data.doors_pos;//位置信息(含门信息）
+                    //var all_doors_id = new Array();
+                    for(p in gdata)
+                    {   
+                        //all_doors_id.push(gdata[p][0]);
+                        $("#id_map_"+gdata[p][5]+" .map").before('<div id="door_'+gdata[p][0]+'" data="'+gdata[p][0]+'" style="float: left; position: absolute;">'
+                                                                + '<img id="id_img_row_'+p+'"  index="'+p+'" name="'+gdata[p][4]+'-'+gdata[p][0]+'-'+gdata[p][5]+'" '
+                                                                + 'src="/media/images/iaccess/door_default.jpg" onmouseout="tip_info_exit(this);" onmouseover="index_tip_info(this);"'
+                                                                + ' style="left:'+gdata[p][7]+'px; top:'+gdata[p][8]+'px; width:'+gdata[p][6]+'px; position: opposite;" class="can_drag">'
+                                                                + '</div>');//name 记录id+门id+地图id，扩展用
+                    }
+                    //gdev_filter = "&door_id=" + all_doors_id;
+                    $(".can_drag").contextMenu('id_mapdoor_menu',
+                    {
+                        menuStyle: {
+                            width: '120px'
+                        },
+                        bindings:
+                        {
+                            'id_del_door': function(t)
+                            {
+                                del_door_from_map(t);
+                            }
+                        }
+                    });
+                    $("#id_map_show").tabs("#id_map_show > div");//tab--此行代码不能放到ajax后
+                    tabs_width = $(".tabs").width();
+                    $(".map_div").each(function(){$(this).width(tabs_width)});//滚动条的宽度自适应
+
+                    //获取地图上当前tab页上的门用于实时监控
+                    var current_map_pk = $("#id_map_show .tabs .current").attr("pk");//需要改变
+                    var map_doors = new Array();
+                    $("#id_map_"+current_map_pk+" .can_drag").each(function(){
+                        map_doors.push($(this).parent().attr("data"));
+                    });
+                    if(map_doors != "")
+                    {
+                        gdev_filter = "&door_id=" + map_doors;//实时监控查询条件变更
+                    }
+                    //处理tab页切换时的实时监控条件-start
+                    $("#id_map_show .tabs li a").each(function(){
+                        $(this).click(function(){
+                            var map_doors_click = new Array();
+                            $("#id_map_"+$(this).attr("pk")+" .can_drag").each(function(){
+                                map_doors_click.push($(this).parent().attr("data"));
+                            });
+                            if(map_doors_click != "")
+                            {
+                                gdev_filter = "&door_id=" + map_doors_click;//实时监控查询条件变更
+                            }
+                        });
+                    });
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-617");
+            }
+        });
+    }
+    init_maps();
+    //初始化电子地图-end
+    
+    //向当前地图添加门-start
+    $("#id_add_door").click(function(){
+        var map_pk = $("#id_map_show .tabs .current").attr("pk");//需要改变
+        var stamp2 = new Date().getTime();
+        $.ajax({
+            type: "POST",
+            url: "/{{ request.surl }}iaccess/ElectroMap/?func=get_doors&map_pk="+map_pk+"&stamp="+stamp2,
+            dataType: "html",
+            async: true,
+            success: function(doors_left_html)
+            {
+                //弹出框的形式获取
+                var pop_up_form = '<div id="id_pop_up_form" class="pop_up_form_map div_box">'
+                                        +'<h1>'+gettext("添加门到当前地图")+'</h1><table>'
+                                        +'<tr><td id="td_door_group"></td></tr>'
+                                +'</table>'
+                                +'<div class="btns_class"><button class="btn" id="id_OK" type="button">'+gettext("确定")+'</button>'
+                                +'<button class="btn" id="id_Cancel" type="button">'+gettext("取消")+'</button></div>'
+                                +'</div>';
+                
+                $(pop_up_form).dialog()
+                
+                //if($.browser.msie) 
+                //{
+                    document.getElementById("td_door_group").innerHTML = doors_left_html;
+                    remove_single_perm_node($("#id_door_group .filetree"));
+                    $("#id_door_group .filetree").treeview();
+                    check_root("id_door_group"); 
+                    check_selected("id_door_group");
+                //}
+                //else
+                //{
+                    //$("#id_pop_up_form tr td").html(doors_left_html);
+                //}
+                //var aa = data.split("script>");
+                //alert(aa.length);
+                //alert(aa[aa.length-1])
+                //$("#id_pop_up_form tr td").html(data);
+                $("#id_pop_up_form").find("#id_Cancel").click(function(){
+                    $("#id_close").click();
+                });
+
+                $("#id_pop_up_form").find("#id_OK").click(function(){
+                    var doors_add_id = new Array;//要添加的门的id
+                    $(".s").each(function(){
+                        doors_add_id.push($(this).find("input").attr("value"));
+                    });
+
+                    if(doors_add_id == "")
+                    {
+                        alert(gettext("请选择要添加的门！"));
+                        return false;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/{{ request.surl }}iaccess/ElectroMap/?func=add_doors&map_pk="+map_pk+"&doors_add_id="+doors_add_id+"&stamp="+ stamp2,
+                        dataType: "json",
+                        async: true,
+                        success: function(data2)
+                        {
+                            if(data2.ret > 0)
+                            {
+                                alert(gettext("操作成功！"));
+                                window.location.reload();
+                            }
+                            else
+                            {
+                                alert(gettext("操作失败！"));
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown)
+                        {
+                           alert(gettext("服务器处理数据失败，请重试！错误码：")+"-618"); 
+                        }
+                    });
+                    $("#id_close").click();
+                });
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-619");
+            }
+        });
+    });
+
+    //向当前地图添加门-end
+
+    //移除当前地图上的门-start
+    function del_door_from_map(t)
+    {
+        var map_pk = $("#id_map_show .tabs .current").attr("pk");//需要改变
+        var door_del_id = $(t).parent().attr("data");//要删除的门的id
+        var stamp3 = new Date().getTime();
+        $.ajax({
+            type: "POST",
+            url: "/{{ request.surl }}iaccess/ElectroMap/?func=del_door&map_pk="+map_pk+"&door_del_id="+door_del_id+"&stamp="+ stamp3,
+            dataType: "json",
+            async: true,
+            success: function(data3)
+            {
+                if(data3.ret > 0)
+                {
+                    alert(gettext("操作成功！"));
+                    $(t).parent().remove();
+                    //init_maps();
+                }
+                else
+                {
+                    alert(gettext("操作失败！"));
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-620");
+            }
+        });
+    }
+    //删除当前地图上的门-end
+    
+    //用户新增、编辑地图-start
+    $(function(){
+		/**新增***/
+		function fun_submit(href, div_dialog, msg, btn_trans){
+			$("#id_span_title", div_dialog).find("span: not(.icon_SiteMap)").remove();
+			if($("#ret_info", div_dialog).length == 0){
+				div_dialog.append("<div id='id_ret_info' class='ret_info'></div>"); 
+			}
+			var CONTINUE = true;
+			var NOCONTINUE = false;
+			var ok_event = function(is_continue){
+				return function(){
+                    var modify_path = $("#if_modify_path input").attr("checked");
+                    if(modify_path)
+                    {
+                        var pic = $("#id_upload_file").val();
+                        if(pic == "")
+                        {
+                            alert(gettext("请选择地图！"));
+                            return false;
+                        }
+                        if(!pic.match( /.jpg|.png|.bmp/i ))
+                        {
+                            alert(gettext('图片格式无效！'));
+                            return false;
+                        }
+                    }
+					var post_href = href;
+					var post_data = {K:[]};
+					if(typeof(post_href) == "function"){
+						var postlist = post_href();
+						post_href = postlist[1];
+						post_data = postlist[0];
+						query_key = [];
+						for(var i in post_data){
+							query_key.push("K="+post_data[i]);
+						}
+						post_href += "&"+query_key.join("&");
+					}
+					var $form = $("form",div_dialog);
+					
+					if($form.valid()){
+						$form.ajaxSubmit({
+							url: post_href, 
+							dataType: "html", 
+							//async:false, 
+							success: function(msgback)
+                            { 
+								if(msgback == '{ Info:"OK" }')
+                                {
+                                    alert(gettext("操作成功！"));
+                                    $("#id_close",div_dialog).click();
+                                    //重新加载地图
+                                    window.location.reload();
+								}
+                                else
+                                {
+									var ret_div = $("#id_ret_info",div_dialog);
+                                    ret_div.html($(msgback).find("ul.errorlist")).hide().show(100);
+								} 
+							},
+                            error: function(XMLHttpRequest, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
+                            }
+						});
+					}
+				};
+			};
+			var btns = {
+				//"Save and Continue":ok_event(CONTINUE),
+				"OK": ok_event(CONTINUE),
+				"Cancel": function(){
+					$("#id_close", div_dialog).click();
+				}
+			};
+			if(btn_trans){
+				$.extend(btns, btn_trans);
+			}
+			var f = function(j){ return btns[j] };
+			var $btns_div = $("<div class='btns_class'></div>");
+			for(var i in btns)
+			{
+				if(div_dialog.find("button#id_"+i).length==0)
+                {
+					$btns_div.append("<button type='button' id='id_"+i+"' class='btn'>"+gettext(i)+"</button>")
+				}
+				else
+				{
+                	$btns_div.find("button#id_"+i).text(gettext(i));
+				}
+				var b = $btns_div.find("button#id_"+i)
+				b.click(f(i));
+			}
+			div_dialog.append($btns_div);
+		}
+
+		var surl = "{{request.surl}}";
+		var dbapp_url = "{{request.dbapp_url}}";
+		var $common_opt = $("#id_map_ops");
+		$common_opt.find("a[relgo]").click(function(e){
+			var this_a = this;
+			var href = $(this).attr("relgo");
+            if($(this_a).attr("id") == "id_edit_map")
+            {
+                href = href + $("#id_map_show .tabs .current").attr("pk") + "/";
+            }
+			var d = new Date();
+			if(href.indexOf("?") == -1)
+            {
+				href = href+"?stamp="+d.getTime();
+			}
+            else
+            {
+				href = href+"&stamp="+d.getTime();
+			}
+			$.ajax({
+				url: href,
+				type: "GET",
+				//async: false,
+				success: function(msg){
+					if($("#id_opt_message").length == 0)
+                    {
+						$("body").append("<div id='id_opt_message' style='visibility:hidden;'></div>");
+					}
+					var msg_dialog = $("#id_opt_message");
+					msg_dialog.append(msg);
+					$("#id_span_title", msg_dialog).remove();
+					$("#pre_addition_fields", msg_dialog).remove();
+					fun_submit(href, msg_dialog,msg);
+					msg_dialog.dialog({
+							title: $(this_a).text(),
+							on_load: function(obj){
+									var $overlay = obj.target.getOverlay();
+									$overlay.find("input[type=text]:not(:hidden):first").focus();
+							}
+                    });
+					msg_dialog.css("visibility", "visible");
+                    $("#id_log_url").hide();//不需要日志记录
+				}
+			});
+			return false;
+		}); 
+	});
+    //用户新增、编辑地图-end
+    
+    //删除当前电子地图-start
+    $("#id_del_map").click(function(){
+        var map_name = $("#id_map_show .tabs .current").text();
+        if(confirm(gettext("确定要删除当前电子地图：")+map_name+"？"))
+        {
+            var map_pk = $("#id_map_show .tabs .current").attr("pk");//需要改变
+            var stamp1 = new Date().getTime();
+            $.ajax({
+                type: "POST",
+                url: "/{{ request.surl }}iaccess/ElectroMap/?func=del_map&map_pk="+map_pk+"&stamp="+stamp1,
+                dataType: "json",
+                async: true,
+                success: function(data)
+                {
+                    if(data.ret >= 0)
+                    {
+                        alert(gettext("操作成功！"));
+                        window.location.reload();
+                    }
+                    else
+                    {
+                        alert(gettext("操作失败！"));
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert(gettext("服务器处理数据失败，请重试！错误码：")+"-621");
+                }
+            });
+        }
+    });
+    //删除当前电子地图-end
+    
+
+    //保存变动后的门坐标以及地图尺寸--start
+    $("#id_save_doorpos").click(function(){
+        var pos_array = new Array();//二维
+        var map_array = new Array();//地图的高和宽
+        var door_name = "", door_width="40";
+        var map_id = "0";
+        var left = "", top = "";
+        var map_width = "", map_height = "";
+        $(".map").each(function(){
+            map_id = $(this).parent(".map_div").attr("data");
+            map_width = this.width;
+            map_height = this.height;
+            map_array.push(new Array(map_id, map_width, map_height))
+        })
+        $("#id_map_show .can_drag").each(function(){
+            door_name = this.name;//含门和地图信息
+            door_width = this.style.width.replace("px", "");//40
+            left = this.style.left.replace("px", "");//非$(this)
+            top = this.style.top.replace("px", "");
+            //alert(door_width)
+            pos_array.push(new Array(door_name, door_width, left, top))
+        });
+        var stamp5 = new Date().getTime();
+        $.ajax({
+            type: "POST",
+            url: "/{{ request.surl }}iaccess/ElectroMap/?func=save_mapdoorpos&pos_array="+pos_array+"&map_array="+map_array+"&stamp="+stamp5,
+            dataType: "json",
+            async: true,
+            success: function(rdata)
+            {
+                if(rdata.ret > 0)
+                {
+                    alert(gettext("操作成功！"));
+                }
+                else
+                {
+                    alert(gettext("操作失败！"));
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-622");
+            }
+        });
+        
+    });
+       
+    //保存变动后的门坐标以及地图尺寸--end
+
+
+    {% endblock %}<!--end of electro_map-->
+
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--can_ElectroMapPage-->
+   
+

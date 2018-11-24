@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "pos_log_exists">
+		<content engine = "default">
+			<![CDATA[
+                    if  not exists(select user_id from pos_icconsumerlist where (dev_sn='%(dev_sn)s' and sys_card_no='%(sys_card_no)s' and money='%(money)s' and card_serial_num='%(card_serial_num)s'and dev_serial_num='%(dev_serial_num)s' and pos_time ='%(pos_time)s'))
+			]]>
+        </content>	
+	</sql>
+    <sql id = "full_log_exists">
+    		<content engine = "default">
+    			<![CDATA[
+                    if not exists(select user_id from pos_carcashsz where (sn_name='%(sn_name)s' and hide_column='%(hide_column)s' and sys_card_no='%(sys_card_no)s' and money='%(money)s' and checktime='%(checktime)s'))
+    			]]>
+            </content>	
+    	</sql>
+
+    <sql id = "allow_log_exists">
+    		<content engine = "default">
+    			<![CDATA[
+                    if not exists(select user_id from pos_carcashsz where (sn_name='%(sn_name)s' and hide_column='%(hide_column)s' and sys_card_no='%(sys_card_no)s' and money='%(money)s' and checktime='%(checktime)s'))
+    			]]>
+            </content>	
+    	</sql>
+    <sql id = "pos_log_stamp">
+        		<content engine = "default">
+        			<![CDATA[
+                    insert into pos_icconsumerlist 
+                        (user_id,user_pin, user_name, dept_id, card, sys_card_no, 
+                        dev_sn, card_serial_num,dev_serial_num,pos_time,convey_time,
+                        type_name,money,balance,pos_model,dining_id,meal_id,meal_data,create_operator,log_flag)
+                        values(%(user_id)s, %(user_pin)s, %(user_name)s, %(dept_id)s, %(card)s, %(sys_card_no)s, 
+                        %(dev_sn)s,%(card_serial_num)s,%(dev_serial_num)s,%(pos_time)s, %(convey_time)s, 
+                        %(type_name)s, %(money)s, %(balance)s, %(pos_model)s, %(dining_id)s,%(meal_id)s, %(meal_data)s,%(create_operator)s,%(log_flag)s)
+        			]]>
+                </content>	
+        	</sql>
+    <sql id = "full_log_stamp">
+        		<content engine = "default">
+        			<![CDATA[
+                    insert into pos_carcashsz
+                    (user_id, card, sys_card_no, sn_name, cardserial,serialnum,checktime,convey_time,
+                    type_id,money,blance,hide_column,create_operator,log_flag,status)
+                    values(%(user_id)s, %(card)s, %(sys_card_no)s, %(sn_name)s, %(cardserial)s, %(serialnum)s, 
+                    %(checktime)s,%(convey_time)s,%(type_id)s, %(money)s, %(blance)s, %(hide_column)s, %(create_operator)s,%(log_flag)s,%(status)s)
+        			]]>
+                </content>	
+        	</sql>
+    <sql id = "allow_log_stamp">
+        		<content engine = "default">
+        			<![CDATA[
+                    insert into pos_carcashsz 
+                    (user_id, card, sys_card_no, sn_name, cardserial,serialnum,checktime,convey_time,
+                    type_id,money,blance,hide_column,allow_type,allow_batch,allow_base_batch,log_flag,status)
+                    values(%(user_id)s, %(card)s, %(sys_card_no)s, %(sn_name)s, %(cardserial)s, %(serialnum)s,%(checktime)s,%(convey_time)s,
+                    %(type_id)s, %(money)s, %(blance)s, %(hide_column)s,%(allow_type)s,%(allow_batch)s,%(allow_base_batch)s,%(log_flag)s,%(status)s)
+        			]]>
+                </content>	
+        	</sql>
+            
+    <sql id = "filter_pos_log_sql">
+            <!--找出最近三个月的消费记录中存在卡流水号重复的卡账号-->
+          		<content engine = "default">
+          			<![CDATA[
+                      select sys_card_no,cardserial from (
+                      select sys_card_no,cardserial from pos_carcashsz where log_flag != 2 and hide_column !=13 and checktime> DateAdd(Month,-3,getdate())
+                      union all
+                      select sys_card_no,card_serial_num from pos_icconsumerlist where pos_model not in (4,7) and pos_time> DateAdd(Month,-3,getdate()))as b  
+                      group by sys_card_no,cardserial having count(1) >= 2 order by cardserial desc 
+          			]]>
+                  </content>	
+          	</sql>
+    <sql id = "delete_break_log">
+    <!--删除重复的记录-->
+        <content engine = "default">
+            <![CDATA[
+            delete from pos_icconsumerlist where pos_model not in (4,7) and log_flag = 8888 and  sys_card_no=%(sys_card_no)s and card_serial_num=%(card_serial_num)s 
+            ]]>
+          </content>	
+        </sql>
+</sqlgroup>
+

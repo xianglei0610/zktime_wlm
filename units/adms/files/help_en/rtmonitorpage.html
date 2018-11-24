@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Real-time monitoring</div>
+<div class="help_mainContant">
+  <h2>Real-time Monitoring</h2>
+   <br />
+   Monitor the statuses and real-time events of doors  under the access control panels in the system in real-time, including normal  events and exceptional events (including alarm events).<br />
+  <br />
+  <b>Appendix: Real-Time Event  Description:</b><br /><br />
+    <b>1.Normal Events:</b><br /><br />
+  <b>Normal Punch Open: </b> In [Card Only] verification mode, the person has open door permission punch the card and trigger this normal event of open the door  .<br />
+  <br />
+  <b>Exit Button Open: </b> User press the exit button to open the door within the door valid time zone, and trigger this normal event  .<br />
+  <br />
+  <b>Punch during Normal Open Time Zone: </b> At the normally open period (set to normally open period of a single door or the door open period after the first card normally open), or through the remote normal open operation, the person has open door permission punch the effective card at the opened door to trigger this normal events. <br />
+  <br />
+  <b>First Card Normal Open Punch: </b> In [Card Only] verification mode, the person has first card normally open permission, punch card at the setting first card normally open period but the door is not opened, and trigger the normal event. <br />
+  <br />
+  <b>Remote Normal Opening: </b> Set the door state to normal open in the remote opening operation, and trigger this normal event. <br />
+  <br />
+  <b>Disable Intraday Normal Open Time Zone: </b> In door normal open state, punch the effective card for five times near to the card reader (must be the same user), or select [Disable Intraday Normal Open Time Zone] in remote closing operation, and trigger this normal event. <br />
+  <br />
+  <b>Enable Intraday Normal Open Time Zone: </b> If the intraday door normal open time zone is disabled, punch the effective card for five times near to the card reader (must be the same user), or select [Enable Intraday Normal Open Time Zone] in remote opening operation, and trigger this normal event. <br />
+  <br />
+  <b>Multi-card Open: </b> <strong></strong>In [Card Only] verification mode, multi-card combination can be used to open the door. After the last piece of card verified, the system trigger this normal event. .<br />
+  <br />
+  <b>Emergency Password Open: </b> The password (also known as the super password) set for the current door can be used for door open. It will trigger this normal event after the emergency password verified. <br />
+  <br />
+  <b>Open during Normal Open Time Zone: </b> If the current door is set a normally open period, the door will open automatically after the setting start time, and trigger this normal event. <br />
+  <br />
+  <b>Linkage Event Triggered: </b> After the system linkage configuration take effect, trigger this normal event .<br />
+  <br />
+  <b>Cancel Alarm: </b> When the user cancel the alarm of the corresponding door, and the operation is success, trigger this normal event. <br />
+  <br />
+  <b>Remote Opening: </b> When the user opens a door from remote and the operation is successful, it will trigger this normal event <br />
+  <br />
+  <b>Remote Closing: </b> When the user close a door from remote and the operation is successful, it will trigger this normal event .<br />
+  <br />
+  <b>Open Auxiliary Output: </b>In linkage action setting, if the user select Auxiliary Output for Output Point Address, select Open for Action Type, it will trigger this normal event when the linkage setting is take effect. <br />
+  <br />
+  <b>Close Auxiliary Output: </b>In linkage action setting, if the user select Auxiliary Output for Output Point Address, select Open for Action Type, it will trigger this normal event when the linkage setting is take effect. And if the user closes the opened auxiliary output through the [Close Auxiliary Output] operation in [Door Setting], trigger this normal event too.<br />
+  <br />
+  <b>Door Opened Correctly: </b>When the door sensor detects that the door has been properly opened, triggering this normal event. <br />
+  <br />
+  <b>Door Closed Correctly: </b>When the door sensor detects that the door has been properly closed, triggering this normal event. <br />
+  <br />
+  <b>Auxiliary Input Disconnected: </b> When the auxiliary input point disconnected, trigger this normal event. <br />
+  <br />
+  <b>Auxiliary Input Shorted: </b> When the auxiliary input point short circuit, trigger this normal event. <br />
+  <br />
+  <b>Device Start:</b> When the device start trigger this normal event, and this event can not display on the real-time monitor, but you can check it in the event report. <br />
+  <br />
+     <b>2.Abnormal Events:</b><br /><br />
+   <b>Too Short Punch Interval: </b> When the interval between two card punching is less than the set time interval, trigger this abnormal event. <br />
+  <br />
+  <b>Door Inactive Time Zone (Punch Card): </b> In [Card Only] verification mode, the user has the door open permission, punch card but not at the door effective period of time, and trigger this abnormal event.<br />
+  <br />
+  <b>Door Inactive Time Zone (Exit Button): </b> The user has the door open permission, punch card but not at the access effective period of time, and trigger this abnormal event. <br />
+  <br />
+  <b>Illegal Time Zone: </b> The user with the permission of opening the current door, punches the card during the invalid time zone, and triggers this abnormal event. <br />
+  <br />
+  <b>Access Denied: </b> The registered card without the access permission of the current door, punch to open the door, trigger this abnormal event .<br />
+  <br />
+  <b>Anti-pass Back: </b> When the anti-pass back setting of the system takes effect, triggers this abnormal event .<br />
+  <br />
+  <b>Interlock:</b> When the interlocking rules of the system take effect, trigger this abnormal event.<br />
+  <br />
+  <b>Multi-Card Authentication: </b> Use multi-card combination to open the door, the card verification before the last card (whether verified or not), trigger this normal event. <br />
+  <br />
+  <b>Unregistered Card: </b> Refers to the current card is not registered in the system, trigger this abnormal event. <br />
+  <br />
+  <b>Opening Timeout:</b> The door sensor detect that it is expired the delay time after opened, if not close the door, trigger this abnormal event.<br />
+  <br />
+  <b>Card Expired: </b> The person with the door access permission, punch card to open the door after the effective time of the access control, can not be verified and will trigger this abnormal event. <br />
+  <br />
+  <b>Password Error: </b>Use card plus password, duress password or emergency password to open the door, trigger this event if the password is wrong.<br />
+  <br />
+  <b>Failed to Close during Normal Open Time Zone: </b> The current door is in normal open state, but the user can not close the door through [Remote Closing] operation, and trigger this abnormal event. <br />
+  <br />
+       <b>3.Emergency Events:</b><br /><br />
+  <b>Duress Password Open: </b> Use the duress password of current door verified and triggered alarm event .<br />
+  <br />
+  <b>Opened Accidentally:</b> Except all the normal events (normal events such as user with door open permission to punch card and open the door, password open door, open the door at normally open period, remote door open, the linkage triggered door open), the door sensor detect the door is opened, that is the door is unexpectedly opened. <br />
+  
+
+ 
+ 
+  <br />
+</div>
+</body>
+</html>

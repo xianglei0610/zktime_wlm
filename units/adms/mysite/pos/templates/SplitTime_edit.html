@@ -1,0 +1,20 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+{%if "POS_IC"|filter_config_option%}
+        $("#page_help").attr("href",$("#page_help").attr("href").replace("splittime","ic_splittimepage"));
+{%endif%}
+{%if "POS_ID"|filter_config_option%}
+$(".tbl_data_edit>tbody>tr").eq(8).hide()
+{%endif%}
+
+$(function(){
+$('#id_edit_form').validate({
+    	                        rules: {
+    	                            "fixedmonery": {required:true,min:0,max:9999,"maxlength":8,isMoney:true}
+                                    }
+                                }
+    	            );
+                    });
+
+{% endblock %}

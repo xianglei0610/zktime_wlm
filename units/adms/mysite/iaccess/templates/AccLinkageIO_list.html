@@ -1,0 +1,40 @@
+{% extends "Acc_Door_Set.html" %}
+{% load i18n %}
+
+{% block headjs %}
+    {% if request.user|HasPerm:"contenttypes.browse_acclinkageio" %}
+    <script src="{{ MEDIA_URL }}/jslib/widgets.js"></script>
+        {% block add_headjs %}
+        {% endblock %}
+    {% endif %}
+<script>
+$("#id_search").css({"z-index":"50"});
+</script>
+
+{% endblock %}
+
+{% block acc_door_set %}
+    {% if request.user|HasPerm:"iaccess.browse_acclinkageio" %}
+        $("#id_datalist").model_grid({
+            "model_url": "{{ model_url }}",
+            {% if "mysite.video"|hasApp %}
+                "disable_cols":[],		
+            {% else %}
+                "disable_cols":['video_linkageio', 'lchannel_num'],
+            {% endif %}
+            "disabled_actions": ["_change"],
+            "init_after_get_jdata": function(){
+                //adjust_dropdown_list($("#search_id_trigger_opt"));
+                adjust_dropdown_list($("#id_trigger_opt")); //2012.4.25 huangcm
+            }
+        });
+
+    {% else %}<!--browse_acclinkageio-->
+        $("#id_search").remove();        
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_acclinkageio-->
+{% endblock %}
+{ % block addjs % }
+
+{ % endblock % }

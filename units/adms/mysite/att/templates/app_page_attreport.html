@@ -1,0 +1,86 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/calculateReport.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block addjs %}
+window.onload = AttRecAbnormite
+{% endblock %}
+{% block content_end %}
+<div style="margin:0px 10px 10px 10px;">
+	<input type="hidden" id="id_current_report" value="1" />
+	<input type="hidden" id="id_all_emp" value="all"/>
+	<div id="id_divsearch" class="calculate_divsearch">
+		<div style="margin:0px 10px 5px 10px;">
+		<form id="id_calculateform" method="post">
+		<div class="news_topsearch">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		        <tr>
+			        <td width="50"><div class="news_topsearch1">查询</div></td>
+			        <td>
+			        	<div class="news_topsearch2">
+						<table>
+							<tr>
+						{% block select_emp %}		
+								{% autoescape off %}
+								<td><div class="lineH22">{{ empfield|field_as_label_tag }}</div></td><td>{{empfield.as_widget}}</td>
+								{% endautoescape %}
+					{% endblock %}
+								<td><div class="lineH22">&nbsp;&nbsp;{% trans "开始日期" %}</div></td><td><input type="text" class="date dp-applied"  format="yyyy-MM-dd" readonly="True" name="ComeTime" id="id_cometime"/></td>
+								<td><div class="lineH22">&nbsp;&nbsp;{% trans "结束日期" %}</div></td><td><input type="text" class="date dp-applied" format="yyyy-MM-dd" readonly="True" name="EndTime" id="id_endtime"/></td>
+								<td><div style="margin:0px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href="javascript:void(0)" class="Link_blue1" >{% trans '查询' %}</a></div></td>
+				
+									<td><div style="margin:0px 0px 0px 5px;"><span class="action_calculate">&nbsp;</span><a id="id_calculate" href="javascript:void(0)" class="Link_blue1">{% trans '统计' %}</a></div></td>
+				
+							
+							</tr>
+							<tr><td colspan="3">
+							<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+							</tr>
+							</table>
+			<input type="hidden" name="DeptIDs" value="" />
+			<input type="hidden" name="isForce" value="0" />
+			<input type="hidden" name="UserIDs" value="" />
+			<input type="hidden" name="dept_child" id="dept_child" value="0" />
+			</div></td>
+            </tr>
+            </table>
+		</div>	
+		</form>
+		</div>
+	</div>
+	<div id="calculatetabs" style="margin-right: 20px;margin-left: 20px;">
+	    <ul class="tabs">
+
+          <li><a href="javascript:void(0)" class="current" onClick="AttRecAbnormite('')">{% trans '统计结果详情' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="DailyReport('')">{% trans '每日考勤统计表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="AttShifts('')">{% trans '考勤明细表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="CalculateReport('')">{% trans '考勤汇总表' %}</a></li>
+
+		  <li><a href="javascript:void(0)" onClick="LeaveReport('')">{% trans '请假汇总表' %}</a></li>
+
+			<li><a href="javascript:void(0)" onClick="LEReport('')">{% trans '汇总最早与最晚' %}</a></li>
+
+			<li><a href="javascript:void(0)" onClick="YCReport('')">{% trans '考勤异常明细表' %}</a></li>
+
+			<li><a href="javascript:void(0)" onClick="CardTimesReport('')">{% trans '打卡详情表' %}</a></li>
+		
+	    </ul>
+		<div class="attCalculatediv" id="caltabs" >
+			<div id="grid_frame_div" scrolling="0" style="_height:1%">
+			<iframe src="" id="grid_frame" frameborder="0" scrolling="0" width="100%" height="450"></iframe>
+			</div>
+		</div>
+			
+	</div>
+</div>
+<div id="id_attexcept_desc"></div>
+{% block selfservices %} {% endblock %}
+{% endblock %}

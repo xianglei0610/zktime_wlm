@@ -1,0 +1,90 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %} 
+<tr>
+    <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr>
+                <th height="20">{%trans '单号'%}:</th><!-- 访客单单号-->
+                <td><input type="text" name="single_id" id="id_single_id" /></td>
+                <th width="150px">{%trans '来访单位'%}:</th>
+                <td><input type="text" name="visit_company" id="id_visit_company" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '访客编号'%}:</th>
+                <td><input type="text" /></td>
+                <th>{%trans '来访事由:'%}</th>
+                <td><input type="text" name="visit_reason" id="id_visit_reason" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '卡号'%}:</th>
+                <td><input type="text" name="card" id="id_card" /></td>
+                <th>{%trans '被访部门'%}:</th>
+                <td><input type="text" name="dept" id="id_dept" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '姓名'%}:</th>
+                <td><input type="text" name="visitor" id="id_visitor" readonly /></td>
+                <th>{%trans '被访人'%}:</th>
+                <td><input type="text" name="be_visitor" id="id_be_visitor" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '证件号码'%}:</th>
+                <td><input type="text" name="certificate_number" id="id_certificate_number" value="445221198903014135" /></td>
+                <th>{%trans '车牌号'%}:</th>
+                <td><input type="text" name="car_number" id="id_car_number" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '住址'%}:</th>
+                <td><input type="text" name="home_address" id="id_home_address" readonly /></td>
+                <th>{%trans '离开地点'%}:</th>
+                <td><input type="text" name="leave_place" id="id_leave_place" /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '携带物品'%}:</th>
+                <td><input type="text" name="accompanying_article" id="id_accompanying_article" readonly /></td>
+                <th>{%trans '离开时间'%}:</th>
+                <td><input type="text" name="leave_time" id="id_leave_time" readonly /></td>
+            </tr>
+            <tr>
+                <th height="20">{%trans '备注'%}:</th>
+                <td><input type="text" /></td>
+                <th>{%trans '拍照'%}:</th>
+                <td><input type="text" /></td>
+            </tr>
+            
+        </table>
+    </td>
+</tr>
+
+{% endautoescape %}
+{% endblock %}
+{% block addjs %}
+    $("input").addClass("wZBaseCharField");//给输入框添加样式
+    $("#id_leave_time").val(get_date());//离开时间由系统给予
+
+    //获取当前时间
+    function get_date()
+    {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var d = date.getDate();
+        var time = date.toLocaleTimeString()
+
+        if (month.toString().length == 1)
+        {
+            month = "0" + month;
+        }
+        if (d.toString().length == 1)
+        {
+            d = "0" + d;
+        }
+        date = year + "-" + month + "-" + d + " " + time; 
+        return date;        
+    }
+
+    
+{% endblock %}

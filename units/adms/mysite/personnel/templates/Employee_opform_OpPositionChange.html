@@ -1,0 +1,32 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs %}
+$("#id_position").focus(function(){
+    var url = "/{{request.surl}}personnel/select_position/personnel/Position/?department=";
+    var items = document.getElementsByName("department");
+    if(items.length !=0){
+        var array = items[0].value;
+    }
+    if (array=="")
+        return;
+    url+=array;
+    $.ajax({
+        type:"POST",
+        url:encodeURI(url),
+        dataType:"json",
+        success:function(msg){
+            var html_list = [];
+            html_list.push("<option value=''>---------</option>");
+            if(msg.length !=0){
+                for(var i=0;i<msg.length;i++){
+                    var row = "<option value='" + msg[i][0] + "'>" + msg[i][1] + " " + msg[i][2] + "</option>";
+                    html_list.push(row);
+                }
+            }
+            $("#id_position").html(html_list.join(""));
+        }
+    });
+});
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+    <link href="{{ MEDIA_URL }}/css/report_design.css" rel="stylesheet" />
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+{% endblock %}
+
+{% block form %}
+<div class="content_report">
+    {% if not add %}
+    <div id="id_edit_json_data" class="displayN">{{ form.json_data }} </div>
+    {% endif %}
+    <!--第一步-->
+    <div id="id_step_one" class="c_step_one_class">
+        <div class="select_datasource">
+            <span class="floatL">{% trans "请选择数据源:"%} </span>
+            <div  style="margin-left:10px; margin-right: 5px ! important;width:305px;" id='id_selct_datasource' class="div_box floatL displayN">
+            	<h1 style="margin:0px 0px 5px 5px;margin:0px 0px 2px 5px\9;">&nbsp;</h1>
+            	<div id='show_sources'  >
+            	</div>
+            </div>
+        </div>
+        <div class="columns_container"></div><!--列选择容器-->
+        <div class="btns"><!-- 按钮 -->
+            <div class="editformbtn_edit">
+                <div class="lineH22 img_padding">
+                    <span class="action_SaveandContinue"></span>
+                    <a id="id_next_step" href="javascript:void(0)" class="Link_blue1 floatL">{% trans "下一步" %}</a>
+                </div>
+                <div class="lineH22 img_padding">
+                    <span class="action_Cancel"></span>
+                    <a id="id_cancel_one" href="javascript:void(0)" class="Cancel Link_blue1 floatL">{% trans "取消" %}</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!--第二步-->
+    <div id="id_step_two" class="c_step_two floatL">
+        <div  class="select_fields floatL">
+            <span class="floatL">{% trans "请选择列:"%} </span>
+            <div  style="margin-left:10px; margin-right: 5px ! important;" id='select_columns' class="div_box floatL">
+                <h1 style="margin:0px 0px 5px 5px;margin:0px 0px 2px 5px\9;">&nbsp;</h1>
+                <div id='show_deptment'>
+                </div>
+            </div>
+        </div><!-- 选择列 -->
+        <div id="design_container" class="report_design_container floatL">
+            <div id="id_fields_propery" class="floatL">
+            </div>
+            <div id="id_report_property" class="floatL">
+                <div  style="margin-left:10px; margin-right: 5px ! important;" id='select_columns' class="div_box floatL">
+                dfddfd
+                </div>
+            </div>
+        </div><!--报表设计-->
+        <div class="btns"><!-- 按钮 -->
+            <div class="editformbtn_edit">
+                <div class="lineH22 img_padding">
+                    <span class="action_SaveandContinue"></span>
+                    <a id="id_prev_step" href="javascript:void(0)" class="Link_blue1">{% trans "上一步" %}</a>
+                </div>
+                <div class="lineH22 img_padding">
+                    <span class="action_OK"></span>
+                    <a id="id_ok" href="javascript:void(0)" class="Link_blue1">{% trans "确认" %}</a>
+                </div>
+                <div class="lineH22 img_padding">
+                    <span class="action_Cancel"></span>
+                    <a id="id_cancel_two" href="javascript:void(0)" class="Cancel Link_blue1">{% trans "取消" %}</a>
+                </div>
+            </div>
+        </div>
+        <table id="report_propertys" class="displayN" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+                <div class="floatL">{% trans "标题" %}</div>
+                <div class="floatL">{{ form.name }}</div>
+            </td>
+            <td>
+                <div class="floatL">报表类别</div>
+                <div class="floatL">
+                    {{ form.report_type }}
+                </div>
+            </td>
+            <td>
+                <div class="floatL">每页行数</div>
+                <div class="floatL"><input type="text" />
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">                
+                        <div class="floatL page_header">
+                            <span>页眉</span>
+                            <div>
+                                <div class="floatL">左边
+                                    <select>
+                                        <option>a</option>
+                                        <option>a</option>
+                                        <option>a</option>
+                                        <option>a</option>
+                                    </select>
+                                </div>
+                                <div class="floatL">中间
+                                    <select>
+                                        <option>a</option>
+                                        <option>a</option>
+                                        <option>a</option>
+                                        <option>a</option>
+                                    </select>
+                                </div>
+                                <div class="floatL">
+                                右边
+                                <select>
+                                    <option>a</option>
+                                    <option>a</option>
+                                    <option>a</option>
+                                    <option>a</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+				</tr>
+				<tr>
+                    <td colspan="3">
+                        <div class="floatL page_footer">
+                                <span>页脚</span>
+                                <div class="floatL">
+                                    左边
+                                   <select>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                   </select>
+                               </div>
+                               <div class="floatL">
+                                    中间
+                                   <select>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                   </select>
+                               </div>
+                               <div class="floatL">
+                                   右边
+                                   <select>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                       <option>a</option>
+                                   </select>
+                               </div>
+                        </div>
+                    </td>
+                </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block addjs %}
+    var surl="{{ request.surl }}";
+    //删除自动生成的按钮
+    var timer=setInterval(function(){
+        var btns=$("div.editformbtn");
+        if(btns.length>0){
+            btns.remove();
+            clearInterval(timer);
+        }
+    },1);
+    var g_report={
+                "sel_datasource":"personnel__Employee",
+                "record_per_page":15,
+                "fields":[],
+                "fields_attributes":{}
+            };
+    var pk=$("input[type=hidden][name=pk]").val();
+    
+    if(pk!="None"){
+        g_report = eval( "(" +$("#id_json_data").text()+")");
+    }
+    var g_data={};
+    (function(){
+        //如果是编辑则读取数据库中的g_report json
+        var STEP_ONE=1;
+        var STEP_TWO=2;
+        //去的数据源
+        get_all_datasources(surl,$("#id_selct_datasource"),g_report);//取得所有的数据源供用户选择
+        
+        //初始化取消按钮
+        init_cancel_report_btn($("a.Cancel"));
+        
+        //初始化下一步
+        init_step_one_btn(surl,$("#id_next_step"),g_report);
+        
+        //初始化上一步
+        init_step_two_btn(surl,$("#id_prev_step"),g_report);
+        //确定按钮
+        init_ok_btn(surl,$("div.btns #id_ok"),g_report,pk);
+        //显示第一步的div
+        
+        if(pk!="None"){
+            $("#id_next_step").trigger("click");
+        }else{
+            show_report_div(STEP_ONE);
+        }
+    })()
+    
+{% endblock %}

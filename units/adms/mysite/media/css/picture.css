@@ -1,0 +1,22 @@
+@charset "UTF-8";
+table.timezone-table { border: 0px;font-size: 13pt; border:solid #cbd7e3 !important; border-width:1px 0px 1px 1px !important;width:290px !important;}
+/*table.timezone-table .timezone-header{ width:800px;background: #3a76aa; border: 0; background-image: url('../img/tzbarh.jpg'); background-repeat: no-repeat; background-position: 0px 100%;}*/
+
+/*#id_timezone_header{ width:814px;height:22px; margin-left:100px; background:; border: 0; background: #3a76aa url('../img/tzbarh.jpg') no-repeat;  background-position: 0px 100%;}*/
+.timezones-container {border: 0px; margin: 0px; padding: 0px; background: url('../img/tzbar1.jpg') top left no-repeat;width:%100;}
+.timezones-container .tzbar { background-color: #aedcab !important; color:#e60011 !important; height: 17px; float: left; border-top:1px solid #FFFFFF;}
+.timezones-container .space { background: transparent !important;border:0px; }
+#tz{width:100% !important;*width:390px !important; height: 400px; *height: 390px; overflow:auto; }
+#id_extend #tz{position:relative;}
+
+.timezone-table tbody td{padding:0px !important;border-bottom:0px !important; margin:0px !important;height:12px !important; text-align:center !important;}
+.timezones-week{width:100px; background-color:#3a76aa; text-align:center; color:#FFF !important; border-top:1px solid #cbd7e3 !important;}
+
+/*.div_userOfRun_details{overflow:auto;}
+.div_userOfRun_details .timezones-week{width:100px;word-break:break-all;word-wrap:break-word;white-space:normal;}
+.div_userOfRun_details .timezones-week{width:100px;word-break:break-all;word-wrap:break-word;white-space:normal;}
+.div_userOfRun_details #id_timezone_header{ margin-left:100px;}
+.div_userOfRun_details #tz{width:840px !important;}
+.div_userOfRun_details table.timezone-table{width:914px !important;}*/
+#id_timezone_body{ width:200px;}
+

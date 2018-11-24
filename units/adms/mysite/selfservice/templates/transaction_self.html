@@ -1,0 +1,85 @@
+{% extends "app_page.html" %}
+{% load i18n %}
+{% block worktable %}{% endblock %}
+{% block option_settings %} {% endblock %}
+{% block change_pwd %}<a id="id_btn_changePW" ref="/{{request.surl }}selfservice/password_change/" href='javascript:void(0);' >{% trans '修改密码' %}</a>{% endblock %}
+{% block headjs %}<script src="{{ MEDIA_URL }}/jslib/change_pwd_self.js"></script>{% endblock %}
+
+	
+{% block content %}
+	<input type="hidden" id="id_self_services" value="{{request.session.employee.pk}}"/> 
+	<div id = "search_div" class="news_topsearch">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="50"><div class="news_topsearch1">查询</div></td>
+				<td>
+					<div class="news_topsearch2">
+						<table style="margin:0px 0px 0px 15px">
+							<tr>
+								<td><div class="lineH22"><label for="start">{% trans "开始时间" %}&nbsp;</label></div></td><td><input type="text" class="date"  format="yyyy-MM-dd HH:mm:ss" readonly="True" name="where" id="start"/>&nbsp;&nbsp;</td>
+								<td><div class="lineH22"><label for="end">{% trans "结束时间" %}&nbsp;</label></td><td><input type="text" class="date" format="yyyy-MM-dd HH:mm:ss" readonly="True" name="where" id="end"/>&nbsp;&nbsp;</td>
+								<td><div style="margin:0px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href='javascript:void(0)' class="Link_blue1" >{% trans '查询' %}</a></div></td>
+							</tr>
+							<tr><td colspan="3">
+								<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+							</tr>
+						</table>
+					</div>
+			     </td>
+			  </tr>
+		</table>
+	</div>
+	<div id="grid_frame_div" style="margin:3px 3px 3px 10px;">
+		<table width="100%">
+			<tr>
+				<td height="450" width="100%">
+					<iframe src="/page/att/CheckInOutGrid/?pure&userid={{request.session.employee.pk}}" id="grid_frame" frameborder="0" scrolling="0" width="100%" height="100%"></iframe>
+				</td>
+			</tr>
+		</table>
+	</div>
+{% endblock %}
+
+{% block end_block %}
+	<script language="JavaScript">				
+		$(function(){
+			$("#id_query").click(query);
+			$("#search_div").find("input:first").focus();
+			$("#search_div").find("input").keydown(function(event){//按回车键直接查询
+		        if(event.keyCode==13)
+		        {
+		        	$("#search_div").find("#id_query").click();
+		        }
+		    });
+			$("#grid_frame").load(function(){
+				//特殊处理 iframe session 过期后 刷新整个界面,重新登录
+				var title_flag = $("#grid_frame").contents().find("title")
+				if(title_flag.length>0 && title_flag.html().indexOf("登录")!=-1){
+					alert("会话已经超时,请重新登录!");
+					window.location.reload();
+				}
+			})
+			$("#id_page_load").remove()
+		});
+		function get_where(){
+			var userid = $("#id_self_services").val();
+			var where = ["pure&userid="+userid];
+			$("input[name=where]").each(function(){
+		    if($(this).val()!=""){
+		    	where.push($(this).attr("id")+"="+$(this).val());
+			    }
+			})
+			return where.join("&");
+		}
+		
+		function load_data(url,content_id){
+			$(content_id).attr("src",url)
+		}
+		
+		function query(){
+			var where_str = get_where();
+			var url = "/page/att/CheckInOutGrid/?"+where_str ;
+			load_data(url,"#grid_frame") ;
+		}
+	</script> 	    
+{% endblock %} 

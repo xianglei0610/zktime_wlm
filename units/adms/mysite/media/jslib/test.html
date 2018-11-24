@@ -1,0 +1,227 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<html>
+	<head>
+		<title>
+		</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="../css/datepiker.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="../css/css.css">
+		<script src="jquery.js"></script>
+		<script src="jquery.zgrid.js"></script>
+		<script src="date.js"></script>
+		<script src="datepiker.js"></script>
+		<script src="Scrollable.js"></script>
+<script>
+$(function(){
+   (function($) {
+   	$.fn.tbl_scrollable=function(settings){
+   		var $tbl=this;
+   		var g={
+   			width:"auto",
+   			height:"auto",
+   			datalist_div:$(document.createElement('div')),
+   			hdiv:$(document.createElement('div')),
+   			htable:$(document.createElement('table')),
+   			bdiv:$(document.createElement('div')),
+   			btable:$(document.createElement('table')),
+   			fields_width:[],
+   			minwidth:600,
+   			minheight:30
+   		};
+   		$.extend(g,settings);
+   		$tbl.before(g.datalist_div);
+   		g.datalist_div.append($tbl);
+   		g.datalist_div.attr("id",$tbl.attr("id"));
+   		$tbl.before(g.hdiv);
+   		$tbl.before(g.bdiv);
+   		g.hdiv.append(g.htable);
+   		g.bdiv.append(g.btable);
+   		g.htable.append($tbl.find("thead"));
+   		g.btable.append($tbl.find("tbody"));
+   		g.btable.append($tbl.find("tfoot"));
+   		$tbl.remove();
+   		var flag=true;
+   		if(g.fields_width.length!=0){
+   			flag=false;
+   		}
+   		var column_count=g.hdiv.find("th").length;
+   		var get_column_max_width=function(index){
+   			var max_w=0;
+   			var var_index;
+   			if(index==column_count){
+   				var_index=0;
+   			}else{
+   				var_index=index;
+   			}
+   			/*$.each($("td",g.bdiv),function(i,e){
+   				var this_index=i+1;
+   				var w;
+   				if(this_index%column_count==var_index){
+   					w=$(e).width();
+   					if(w>max_w){
+   						max_w=w;
+   					}
+   				}
+   			});*/
+   			
+   			$.each(g.bdiv.find("tr:first td"),function(i,e){
+   				var this_index=i+1;
+   				if(this_index%column_count==var_index){
+   					max_w=$(e).width();
+   				}
+   		    });
+   			return max_w;
+   		}
+   		$.each($("th",g.hdiv),function(index,elem){
+   			if(flag){
+   				var w=get_column_max_width(index+1);
+   				if(w<$(this).width()){
+   					w=$(this).width();
+   				}
+   				g.fields_width.push(w);
+   			}
+   			var tmp_div=$(document.createElement('div'));
+   			tmp_div.width(g.fields_width[index]);
+   			tmp_div.append($(this).html());
+   			$(this).empty().append(tmp_div);
+   		});
+   		
+   		$.each($("tr",g.bdiv),function(itr,etr){
+   			$.each($("td",$(this)),function(itd,etd){
+   				var tmp_div=$(document.createElement('div'));
+   				tmp_div.width(g.fields_width[itd]);
+   				tmp_div.append($(this).html());
+   				$(this).empty().append(tmp_div);
+   			});
+   		});
+   		g.hdiv.addClass("dt_hdiv");
+   		g.hdiv.find("table").addClass("dt_hdiv_tbl table");
+   		g.bdiv.addClass("dt_bdiv");
+   		g.bdiv.find("table").addClass("dt_bdiv_tbl table");
+   		if(g.height){
+   			g.bdiv.height(g.height);
+   		}
+   		g.bdiv.scroll(function(event){
+   			g.hdiv.scrollLeft($(this).scrollLeft());
+   		});
+		var dombdiv=g.bdiv.get(0);
+		if(dombdiv.scrollHeight>dombdiv.clientHeight && dombdiv.scrollWidth>dombdiv.clientWidth){
+			g.hdiv.find("th:last").css({"padding-right":"15px"});
+		}
+		
+   	}
+   })(jQuery);
+   
+    $("#id_test").tbl_scrollable({height:100});
+	
+});
+/******测试结束*********/
+
+</script>
+	<style>
+	*{word-break:keep-all;word-wrap:normal;white-space:nowrap;}
+.dt_hdiv_tbl,.dt_bdiv_tbl{width:100%;}
+.dt_hdiv{overflow:hidden;width:100%;}
+table {
+	border: solid #ccc 1px;
+	background-color: #eed;
+}
+table td {
+	background-color: #ffd;
+}
+div.dt_bdiv{
+background:none repeat scroll 0 0 #FFFFFF;
+border-color:-moz-use-text-color #CCCCCC #CCCCCC;
+border-right:1px solid #CCCCCC;
+border-style:none solid solid;
+border-width:0 1px 1px;
+overflow:auto;
+width:100%;
+position:relative;
+table-layout:fixed;
+}
+table th {
+	background-color: #ddc;
+}
+	</style>
+	</head>
+	<body>
+	    <div>
+			<table id="id_test">
+			<thead>
+			<tr>
+			<th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>撒地方撒萨芬</th>
+			<th>Japanese</th>
+			<th>Calculus</th>
+			<th>Geometry</th>			<th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>English</th>
+			<th>Japanese</th>
+			<th>暗室逢灯</th>
+			<th>Geometry</th>			<th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>English</th>
+			<th>Japanese</th>
+			<th>Calculus</th>
+			<th>Geometry</th><th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>English</th>
+			<th>Japanese</th>
+			<th>Calculus</th>
+			<th>Geometry</th>			<th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>English</th>
+			<th>Japanese</th>
+			<th>Calculus</th>
+			<th>Geometry</th>			<th>Name</th>
+			<th>Major</th>
+			<th>Sex</th>
+			<th>English</th>
+			<th>Japanese</th>
+			<th>Calculus</th>
+			<th>Geometry</th>
+	 
+			</tr>			
+			
+			</thead>
+			 
+			<tbody>
+			 
+			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2safsdfsdafsadf</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>asdfasdfsadf</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>asdfasdfsadf</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>			 <tr>
+			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>			 <td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td>
+			</tr>
+			 
+			</tbody>
+			</table>
+			
+		</div>
+	</body>
+</html>

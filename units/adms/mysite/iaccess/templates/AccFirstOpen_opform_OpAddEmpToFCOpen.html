@@ -1,0 +1,47 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% if request.user|HasPerm:"iaccess.opaddemptofcopen_accfirstopen" %}
+        {% autoescape off %}
+        <tr>
+            {{ form.level_id }}
+        </tr>
+        
+        <tr></tr>
+        <tr>
+            <th>
+                <div id="show_emp_tree"></div>
+            </th>
+            <td>
+                <ul class="errorlist" id="emp_select_error"></ul>   
+            </td>
+        </tr>
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+        {% endautoescape %}
+    {% endif %}<!--opaddemptofcopen_accfirstopen-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.opaddemptofcopen_accfirstopen" %}
+    $(function(){
+        $("#id_level_id").attr("class", "displayN");
+        var level_id = $("#id_level_id").val();
+        $.ajax({
+            url: "/{{ dbapp_url}}personnel/choice_widget_for_select_emp/?multiple=T&name=mutiple_emp&filter=qs_filter=firstopen_level_id="+level_id,
+            type: "POST",
+            dataType: "html",
+            async: false,
+            success: function(sdata){   
+                $("#show_emp_tree").html(sdata);
+                $("div[id^='emp_select_']").get(0).g.base_query=['qs_filter=firstopen_level_id='+level_id]
+            }
+        });
+    });
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--opaddemptofcopen_accfirstopen-->
+{% endblock%}

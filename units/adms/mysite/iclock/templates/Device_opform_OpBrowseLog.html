@@ -1,0 +1,20 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block add_contents %}
+    <div id="id_Device_opform_datalist"></div>
+{% endblock %}
+{% block help_panel %}
+{% endblock %}
+
+{% block addjs %}
+  $("#id_Device_opform_datalist").model_grid({
+  			model_url:"{{ request.dbapp_url }}iclock/OpLog/",
+  			model_actions:false,
+  			object_actions:false,
+  			row_operations:false,
+  			obj_edit:false,
+  			record_per_page:15,
+  			max_no_page:15,
+  			multiple_select:null
+   });
+{% endblock %}

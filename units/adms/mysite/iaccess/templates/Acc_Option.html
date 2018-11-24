@@ -1,0 +1,302 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block model_extend %}{%endblock%}
+{% block content %}
+    <div style="margin-left:10px;">
+        <form method="post" onkeydown="if(event.keyCode==13){return false;}"  id="id_edit_form" enctype="multipart/form-data">
+        <div>
+            <div class="div_box1"><h2>{% trans "设置下载事件记录方式" %}</h2></div>
+                   <ul id="id_ul" style="margin-left:20px">
+                        <li><input id="down_event_mode1" type="radio" name="down_event_mode">&nbsp;{% trans "周期性下载" %}</input></li>
+                            <li id="span_mode1" style="margin-top:5px;">&nbsp;&nbsp;&nbsp;{% trans "间隔时间: " %}&nbsp;
+                                <select id="regular_time">'
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>&nbsp;{% trans "小时" %}
+                            </li>
+                        <li style="margin-top:10px;"><input id="down_event_mode2" type="radio" name="down_event_mode">&nbsp;{% trans "定点下载" %}</input></li>
+                            <li id="span_mode2" style="margin-left:12px;margin-top:5px;">{% trans "请设置定时下载时间点:" %}
+                                <table style="margin-left:12px;margin-top:5px;">
+                                    <tr>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="0">&nbsp;0:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="1">&nbsp;1:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="2">&nbsp;2:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="3">&nbsp;3:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="4">&nbsp;4:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="5">&nbsp;5:00</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="6">&nbsp;6:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="7">&nbsp;7:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="8">&nbsp;8:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="9">&nbsp;9:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="10">&nbsp;10:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="11">&nbsp;11:00</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="12">&nbsp;12:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="13">&nbsp;13:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="14">&nbsp;14:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="15">&nbsp;15:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="16">&nbsp;16:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="17">&nbsp;17:00</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="18">&nbsp;18:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="19">&nbsp;19:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="20">&nbsp;20:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="21">&nbsp;21:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="22">&nbsp;22:00</input></td>
+                                        <td width="70" height="20"><input type="checkbox" name="mode2_value" value="23">&nbsp;23:00</input></td>
+                                    </tr>
+                                </table>
+                            </li>
+                    </ul>
+                    <div>
+                        <span class="icon_note" style="margin-left:10px">&nbsp;</span>
+                        <font color="#FF6600">
+                            {% trans "请确保服务器在设置的时间点处于开机状态。"%}
+                        </font>
+                    </div>
+            </div>
+            <div class="div_box1"><h2>{% trans "设置是否开启实时监控" %}</h2>
+                <span>&nbsp;&nbsp;&nbsp;{% trans "是否开启实时监控:" %}
+                
+                    <select id="id_realtime_forever" name="realtime_forever" style="width:90px"><option value="0">{% trans "否" %}</option><option value="1">{% trans "是" %}</option></select><br>
+                <div>
+                    <span class="icon_note">&nbsp;</span>
+                    <font color="#FF6600">
+                        {% trans "选择不开启则仅当打开实时监控页面时才实时获取事件记录。"%}
+                    </font>
+                </div>
+            </span>
+            </div>
+            <div class="div_box1"><h2>{% trans "设置设备断开后重连间隔时间" %}</h2>
+                <span>&nbsp;&nbsp;&nbsp;{% trans "间隔时间: " %}
+                <input type="text" name="reconnect_time" id="id_reconnect_time" size="3"></input>&nbsp;{% trans "秒" %}
+                </span>
+            </div>
+            
+            <div class="div_box1"><h2>{% trans "设置邮件服务器信息" %}</h2>
+                <table style="">
+                    <tr>
+                        <th><label>{% trans "邮箱地址" %}:</label></th>
+                        <td><input type="text" name="email_addr" id="id_email_addr" size="3"></input></td>
+                        
+                        <th><label>{% trans "邮件服务器" %}(SMTP):</label></th>
+                        <td><input type="text" name="email_host" id="id_email_host" size="3"></input></td>
+                        
+                        <th><label>{% trans "服务器端口" %}:</label></th>
+                        <td><input type="text" name="email_port" id="id_email_port" size="1" style="width:40px"></input></td>
+                        
+                        <th><label>{% trans "是否使用安全连接" %}(TLS):</label></th>
+                        <td><select id="id_email_use_tls" name="email_use_tls" style="width:90px"><option value="0">{% trans "否" %}</option><option value="1">{% trans "是" %}</option></select></td><br>
+                    </tr>
+                
+                    <tr>
+                        <th><label>{% trans "账户" %}:</label></th>
+                        <td><input type="text" name="email_host_user" id="id_email_host_user" size="3"></input></td>
+                    
+                        <th><label>{% trans "密码" %}:</label></th>
+                        <td><input type="password" name="email_host_password" id="id_email_host_password" size="3"></input></td>
+                    </tr>
+                </table>
+                
+            </div>
+            
+        </div>
+        <span id="id_error" style="display:none;"></span>
+        <div class="editformbtn">
+            <div class="lineH22 img_padding">
+                <span class="action_OK"></span>
+                <a id="OK" href="javascript:void(0)" class="Link_blue1">{% trans "确定" %}</a>
+            </div>
+        </div>
+        <input type="hidden" name="down_event_hours" id="id_down_event_hours" value=""/>
+        </form>
+    </div>
+    
+{% endblock %}
+{% block extend_js %}
+    <script>
+        //$("#span_mode1").hide();
+        //$("#span_mode2").hide();
+//        $("#id_ul").find("li").each(function(){
+//            $(this).attr("style", "height: 25px;");
+//        })
+        var down_event_mode = null;//用户选择的设置下载记录的方式
+        $("#down_event_mode1").click(function(){
+            //$("#span_mode2").hide();
+            //$("#span_mode1").show();
+            down_event_mode = "mode1";
+            //$($("#down_event_mode1").parent()).attr("style", "height: 43px;");
+            //$($("#down_event_mode2").parent()).attr("style", "height: 25px;");
+            $("#span_mode2").find(":checkbox").each(function(){
+                this.disabled = "disabled";//初始化第二种设置方式的值
+            });
+            $("#regular_time").attr("disabled", "");
+        });
+        $("#down_event_mode2").click(function(){
+            //$("#span_mode1").hide();
+            //$("#span_mode2").show();
+            down_event_mode = "mode2";
+            //$($("#down_event_mode2").parent()).attr("style", "height: 125px;");
+            //$($("#down_event_mode1").parent()).attr("style", "height: 65px;");
+            $("#regular_time").attr("disabled", "disabled");
+            $("#span_mode2").find(":checkbox").each(function(){
+                this.disabled = "";//初始化第二种设置方式的值
+            });
+        });
+        
+        //发送请求从后端获取上次设置的内容
+        $.ajax({
+            type: "GET",
+            url: "/{{ request.surl }}iaccess/GetData/?func=init_acc_option",
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                var hours = data.hour+'';//保证获取到的时间点为字符串
+                hours = hours.split(',');
+                var length = hours.length;
+                var is_setted = false;//判断是否已经初始化获取事件记录时间
+                var temp = true;//用于判断设置的时间是否间隔相等
+                if(length > 2)
+                {
+                    var temp_value = parseInt(hours[1], 10)-parseInt(hours[0], 10);//获取第二个值和第一个值的差，用于判断是否是第一种设置方式
+                    for(i=0;i<length-1;i++)
+                    {
+                        if(parseInt(hours[i+1], 10)-parseInt(hours[i], 10) != temp_value)
+                        {
+                            temp = false;
+                        }
+                    }
+                    if(temp && (temp_value*length == (24+(temp_value-((24%temp_value!=0)?(24%temp_value):temp_value)))))
+                    {
+                        $("#down_event_mode1").click();
+                        $("#regular_time").val(temp_value);//初始化第一种设置方式的值
+                        is_setted = true;
+                    }
+                }
+                if(!is_setted)
+                {
+                    $("#down_event_mode2").click();
+                    $("#span_mode2").find(":checkbox").each(function(){
+                        for(var i=0;i<length;i++)
+                        {
+                            if(hours[i] == this.value)
+                            {
+                                this.checked = "checked";//初始化第二种设置方式的值
+                            }
+                        }
+                    });
+                }
+                //初始化是否开启实时监控
+                var realtime_forever = data.realtime_forever;
+                $("#id_realtime_forever").val(realtime_forever);
+                $("#id_reconnect_time").val(data.reconnect_time);
+                
+                $("#id_email_addr").val(data.email_addr);
+                $("#id_email_host").val(data.email_host);
+                $("#id_email_port").val(data.email_port);
+                $("#id_email_use_tls").val(data.email_use_tls);
+                $("#id_email_host_user").val(data.email_host_user);
+                $("#id_email_host_password").val(data.email_host_password);
+                
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-624");
+            }
+        });
+        var new_hours = '';//用户已选择的时间点
+        function set_down_event_hours()//设置定时下载事件记录的时间，用于后端获取
+        {
+            if(down_event_mode == "mode1")
+            {
+                new_hours = '';
+                var regular_time = $("#regular_time").val();
+                var new_hour = 0;
+                while(new_hour < 24)//计算第一种模式的时间点
+                {
+                    new_hours = new_hours+new_hour+',';
+                    new_hour = new_hour+parseInt(regular_time, 10);
+                }
+            }
+            else if(down_event_mode == "mode2")
+            {
+                new_hours = '';
+                $("#span_mode2").find(":checkbox:checked").each(function(){
+                    new_hours = new_hours+this.value+',';
+                })
+            }
+            if(new_hours != '')
+            {
+                if(new_hours.charAt(new_hours.length-1) == ',')
+                {
+                    new_hours = new_hours.substring(0,new_hours.length-1)//截取最后一个逗号
+                    $("#id_down_event_hours").val(new_hours);
+                }
+            }    
+            
+        }
+        $("#id_reconnect_time").change(function(){
+           if(!CheckNumber(this.value))
+           {
+                alert(gettext("重连间隔时间必须为整数！"));
+           } 
+        });
+        function check_form()
+        {
+            if(new_hours == '')
+            {
+                    alert(gettext("获取记录时间点不能为空！"));
+                    return false;
+            }
+            
+            if(!CheckNumber($("#id_reconnect_time").val()))
+            {
+                alert(gettext("重连间隔时间必须为整数！"));
+                return false;
+            }
+             
+            var email_check = ($("#id_email_addr").val()).match("^[a-zA-Z0-9]([a-zA-Z0-9]*[-_.]?[a-zA-Z0-9]+)*@([a-zA-Z0-9]*[-_]?[a-zA-Z0-9]+)+[\.][a-zA-Z]{2,3}([\.][a-zA-Z]{2})?$");
+            if($("#id_email_addr").val() != '' && email_check == null)
+            {
+                alert(gettext("邮箱地址格式不正确"));
+                return false;
+            }
+            
+            return true;
+        }
+        $("#OK").click(function(){
+            set_down_event_hours();
+            if(!check_form())
+            {
+                return;
+            }
+            $("#id_edit_form").ajaxSubmit({
+                url:"/iaccess/set_acc_option/", 
+                dataType:"json",
+                success:function(msgback)
+                {
+                    $("#id_error").attr("style", "display:block");
+                    if (msgback.ret == 'ok')
+                    {
+                        $("#id_error").html('<ul class="successlist"><li><font color="blue">'+gettext("设置成功,重启服务后生效！")+'</font></li></ul>');
+                    }else
+                    {
+                        $("#id_error").html('<ul class="successlist"><li><font color="red">'+msgback.ret+'</font></li></ul>');
+                    }
+                }
+            })
+        });
+        
+    </script>
+{% endblock %}

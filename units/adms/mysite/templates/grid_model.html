@@ -1,0 +1,154 @@
+{% extends "app_page.html" %}
+{% load i18n %}
+
+{% block extracss %}
+<style>
+.grid_search {
+	border:solid #CCC;border-width:0px 1px 1px 1px;
+	background:url(/media/images/images_bg_grid.gif) 0px -877px repeat-x; 
+	position:relative;
+	margin-bottom:0px !important; 
+	padding-bottom:2px;
+}	
+</style>
+	{% block custom_head %}
+	{% endblock %}  
+{% endblock %}
+
+{% block model_extend %}
+{% endblock %}
+
+{% block content %}
+				{% if search_form %}
+				<!-- search_form start -->
+                <div id="id_search" class="div_box grid_search">
+                    <h1 style="margin-bottom:5px;">{% trans "查询" %}</h1>
+                    <table style="width:99%;">
+                    <tr>
+                        <td>
+                            <div>
+							        <table width="100%" class="tbl_form_search" id="id_form_search">
+							           {% autoescape off %}
+							           {% for field in search_form %}
+							               {% if forloop.first %}<tr class="header_div_left"> {% endif%}
+							                    <td align="right">{{ field|field_as_label_tag_no_asterisk }}</td> <td>{{ field.as_widget }}</td>
+							               {% if forloop.counter|divisibleby:"3" %}
+							                   </tr>
+							                   <tr class="header_div_left">
+							               {% endif %}
+							               {% if forloop.last %}  </tr> {% endif %}
+							           {% endfor %}    
+							           {% endautoescape %}
+							               </td></tr>    
+							       </table>
+                            </div> 
+                        </td>
+					</tr>
+					<tr>
+                        <td valign="bottom">  
+                                <div style="text-align:right;" class="topSearchBtn floatR">
+                                   
+                                    <span class="Link_blue1">
+                                        <span class="action_topSearch floatL"></span><a href="javascript:void(0)" id="id_header_search" class="floatL" onclick="flexi_search()">{% trans "查询" %}</a>
+                                    </span>
+                                    <span class="Link_blue1">
+                                        <span class="action_topClear floatL"></span><a href="javascript:void(0)" id="id_header_clear" class="floatL">{% trans "清除" %}</a>
+                                    </span>
+                                    <div class="clear"></div>
+                                </div>
+                       </td>
+                    </tr>
+                    </table>
+                </div>
+				<!-- search_form end -->
+				 {% endif %}
+				 
+			<!-- grid start -->
+           <div  id="id_main_div" style="margin-top:10px;margin-left:10px;margin-right:10px;">
+				<table class="m_grid" style="display: none"></table>
+           </div>
+		   <!-- grid end -->
+{% endblock %}
+
+{% block extend_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}/jslib/flexigrid.pack.js"></script>
+<script>
+
+        {% autoescape off %}
+			var hide_index = [];
+			var cur_param = "";
+			var cur_query = "";
+			var $m_search = $("#id_search");
+			$("#id_header_search").click(function(){
+				var m_params = []
+				$m_search.find("input,select").each(function(){
+					m_params.push({name: $(this).attr("name"),value: $(this).val()});
+				})
+				$(".m_grid").flexOptions({
+					newp :1,
+					params : m_params
+				}).flexReload();
+				$(this).click()
+			});	
+		    function do_export(com,grid)
+			{
+				window.open("/grid/{{app_label}}/{{model_name}}/?export&reportname={{verbose_name}}&format=xls&hide="+hide_index.join(',')+'&'+cur_param)
+			}
+			
+			function do_Submit(){
+				var p =this;
+				if (cur_query!="")
+				{
+					p.query = cur_query;
+				}
+				cur_param = 'page='+p.newp+'&rp='+p.rp+'&sortname='+p.sortname+'&sortorder='+p.sortorder+'&query='+p.query+'&qtype='+p.qtype;
+				for (var i=0;i<p.params.length;i++)
+				{
+					cur_param +='&'+p.params[i].name+'='+p.params[i].value
+				}
+				return true;
+			}
+			
+			function do_ToggleCol(cid, visible)
+			{
+				if (visible)
+				{
+					var _tmp = [];
+					for (var i=0;i<hide_index.length;i++)
+					{
+						if (hide_index[i]!=cid){_tmp.push(hide_index[i]);}
+					}
+					hide_index = _tmp
+				}
+				else
+				{
+					hide_index.push(cid);
+				}
+			}
+			m_obj = $(".m_grid").flexigrid({{grid_option}});
+			if($m_search.length!=0){
+				render_widgets($m_search);
+			}
+			$("#id_header_clear").click(function(){
+					$m_search.find("input,select").each(function(){
+							 switch($(this).attr("type"))
+							 {
+									 case 'text','textarea':
+											 $(this).attr("value","");
+											 break;
+									 case 'checkbox','radio':
+											 $(this).attr("checked",false);
+											 break;                                 
+									 default:
+											 $(this).attr("value","");
+											 break;
+							 };
+					 });
+		             $div.find("#id_header_search").click();
+			 });
+        {% endautoescape %}
+</script>
+	{% block custom_end %}
+	
+	{% endblock %}  
+{% endblock %}  

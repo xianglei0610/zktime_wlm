@@ -1,0 +1,426 @@
+<OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+</OBJECT>
+
+<COMMENT style="display:None">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+        codebase="ZKOnline.ocx"                
+        
+    </EMBED>
+</COMMENT>
+
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block addjs %}
+function submitRegister()
+{  
+    if(!$.browser.msie)
+    {
+      return false;
+    } 
+    var flag = false;
+    for(var i in zkonline)
+    {
+      if(i == "FPEngineVersion")
+      {
+         flag = true;
+      }
+    } 
+
+    if(!flag)
+    {
+     return false;
+    }
+
+     var tmpadd=""
+     var tfids=$("#id_tfids"+tmpadd).val();
+     var fp=$("#id_finnger"+tmpadd).val();
+     var fpcode = $("#id_fpcode").val();
+     var durfp = $('#id_durfinger').val();    //获取指纹是普通指纹还是胁迫指纹的标记
+     var fpcount = $("#id_tcount").val()     //从数据库传递过来的正常指纹数量
+     //var durfpcount = $("#id_durtcount").val()    //从数据库传递过来的胁迫指纹数量
+     //alert(tfids+";"+fp+";"+fpcode+";"+durfp+";"+fpcount)
+     var tmp=0
+     var oldidscount = 0
+     //var icount = 0;
+     $("#id_delflag").val("delete");
+     if(tfids!="")     //将普通指纹和胁迫指纹区分后组成一个字符串
+     {
+         var durtfids = tfids.split(",");
+         fpcode = fpcode.split(",");
+         if(durfp=="")
+         {
+             durfp = "000000000";
+         }
+         for(var i=0; i<fpcode.length; i++)
+         { 
+             var durfp1 = "";
+             var durfp2 = "";
+             if(i==8) //
+             {
+                 durfp1 = durfp.substr(0, durtfids[i]);
+                 //alert("durfp1"+durfp1)
+             }
+             else
+             {
+                 durfp1 = durfp.substr(0, durtfids[i]);
+                 durfp2 = durfp.substr(parseInt(durtfids[i])+1, durfp.length-1);//
+             }
+             if( fpcode[i] == "3" )
+             {
+                 durfp = durfp1 + "3" + durfp2;     
+             }
+             else
+             {
+                 durfp = durfp1 + "1" + durfp2;     
+             }
+         }
+     }
+     if(tfids!="" || fp!="")
+     {
+         var te=tfids+","+fp;
+               
+         if(te.substr(0,1)==",")
+         {
+           te=te.substr(1);//tfids为空，fp不为空
+         }    
+         if(te.substr(te.length-1,1)==",")
+         {
+           te=te.substr(0,te.length-1);//fp 为空，tfids不为空
+         }   
+
+         tmp=te.split(",");
+         oldidscount=tmp.length
+         if(fp!="")     //同一登记指针，第二次以上打开登记窗口
+         {
+             var tt=fp.split(",")
+             oldidscount=oldidscount-tt.length
+         }
+
+         var ids=""
+         for(var i=0;i<10;i++)
+         {
+             var bln=false
+             for(var j=0;j<tmp.length;j++)
+             {
+                 if(i==tmp[j])
+                 {
+                     bln=true;
+                     break;
+                 }
+             }
+             if(bln)
+             {
+                 if(durfp.substr(i,1)=="3")
+                 {
+                     ids+="3"
+                 }
+                 else
+                 {
+                     ids+="1"
+                 }
+             }
+             else
+             {
+                 ids+="0"
+             }
+         }
+         zkonline.CheckFinger=ids;
+     }
+     else
+     {
+         zkonline.CheckFinger="0000000000"
+     }
+     zkonline.IsSupportDuress = true     // 设置胁迫指纹有效
+     if($("#id_lng").val()=='zh-cn')
+     {
+         zkonline.SetLanguageFile("zkonline.chs")  //设置为中文界面
+     }
+     if($("#id_lng").val() == 'en')
+     {
+         zkonline.SetLanguageFile("zkonline.en")  //设置为英文界面
+     }
+     if(zkonline.Register()){
+         var fingerids=[];
+         var template=[];
+         var fingertype=[];                
+         var durfingerid = "";
+         
+         if($("#id_finnger"+tmpadd).val()!="")
+         {
+             var f=$("#id_finnger"+tmpadd).val().split(",");
+             var t=$("#id_template"+tmpadd).val().split(",");
+             var ft=$("#id_fptype").val().split(",");    //ft区分是普通指纹还是胁迫指纹
+             for(var i=0;i<f.length;i++)
+             {
+                 fingerids.push(f[i]);
+                 template.push(t[i]);
+                 fingertype.push(ft[i])
+                 //zkonlinetest1=zkonlinetest1+1
+                 //alert(zkonlinetest1+"zkonlinetest1")
+             }
+          }
+          for(i=1;i<=10;i++)
+          {
+             if(zkonline.GetRegFingerTemplateEx('9',i).length>2)
+             {
+                 durfingerid = zkonline.CheckFinger;
+                 fingerids.push(i-1);
+                 fingertype.push(durfingerid.substr(i-1,1));
+                 var t=zkonline.ConvertTemplateToEmStr( zkonline.GetRegFingerTemplateEx('9',i));
+                 template.push(t);
+
+             }
+          }
+    
+          $("#id_durfinger").val(durfingerid.toString());
+          $("#id_finnger"+tmpadd).val(fingerids.toString());
+          $("#id_template"+tmpadd).val(template.toString());
+          $("#id_fptype").val(fingertype.toString());
+  
+          tmpadd = "10";
+          var fingerids10=[];
+          var template10=[];
+
+          if($("#id_finnger"+tmpadd).val()!="")
+          {
+             var f=$("#id_finnger"+tmpadd).val().split(",");
+             var t=$("#id_template"+tmpadd).val().split(",");
+             for(var i=0;i<f.length;i++)
+             {
+                 fingerids10.push(f[i]);
+                 template10.push(t[i]);
+             }
+          }
+          var template10_error = false;
+          for(i=1;i<=10;i++)
+          {
+             if(zkonline.GetRegFingerTemplateEx('10',i).length>2)
+             {
+                 fingerids10.push(i-1);
+                 var t = zkonline.GetRegFingerTemplateEx('10',i);
+                 if(t.length < 800)   //验证预防zkonline的10.0模板取到9.0指纹模板
+                 {
+                     alert(gettext("指纹模板错误，请立即联系开发人员！"));
+                     template10_error = true;
+                     break;
+                 }
+                 template10.push(t);
+             }
+          }
+         
+          var max_i=template.length;
+          for(i=0;i < max_i;i++)  //验证预防9.0和10.0模板值相同的异常情况
+          {
+             if(template[i].length == template10[i].length)
+             {
+                 alert(gettext("指纹模板错误，请立即联系开发人员！"));
+                 template10_error = true;
+                 break;
+             }
+                            
+          }
+         
+         
+          if(template10_error)
+          {
+             template10 = null;
+             return false;
+          }
+
+          $("#id_finnger"+tmpadd).val(fingerids10.toString());
+          $("#id_template"+tmpadd).val(template10.toString());
+          $("#id_fptype").val(fingertype.toString());
+      }  
+      if(tfids != "" )             //删除已存在数据库中指纹
+      {
+         tmp = tfids.split(",");   //数据库存有的指纹id
+         var dbfpid = "";   //数据库存有指纹id颜色标记
+         var delid = [];//记录要删除的指纹
+         var index = 0;
+         var fpid = zkonline.CheckFinger   //删除指纹后，检测zkonline当前指纹标记信息
+         
+         for(var i=0; i<10;i++)
+         {
+             if(fpid.substr(i,1)=="0")
+             {
+                 for(var j=0;j<tmp.length;j++)
+                 {
+                     if(tmp[j]==i)
+                     delid[index++] = i;
+                 }
+             }
+              
+         }
+         
+         $("#id_delfinger").val(delid.toString());
+         var count=fpid.replace(/0/g, "").length;
+         //alert("count.."+fpid.replace(/0/g, "").length)
+         $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+ count );
+         
+     }
+     else //新增人员指纹二次登陆删除时的处理
+     {  
+        var count = 10;//指纹数变量
+        var tmpadd = "";
+             
+        var durfingerid = zkonline.checkfinger;
+        var fingerids = $("#id_finnger"+tmpadd).val().split(",");//手指编号
+        var template = $("#id_template"+tmpadd).val().split(",");//9.0指纹模板
+        var fptype = $("#id_fptype").val().split(","); //指纹类别1为普通指纹，3为胁迫指纹
+        
+        //以下for循环， 以当前zkonline状态为准，去掉已被删除的指纹及信息
+        for(var i = 0;i < 10;i++)
+        {   
+            if(durfingerid.substr(i,1)=="0")
+             { 
+               count = count-1;
+               for(var j = 0;j < fingerids.length;j++)
+               {
+                  if(fingerids[j] == i)
+                   {
+                     template.splice(j,1);
+                     fptype.splice(j,1);
+                     fingerids.splice(j,1);
+                     
+                   }
+               }
+            }
+        }
+        
+        $("#id_durfinger").val(durfingerid.toString());
+        $("#id_finnger" + tmpadd).val(fingerids.toString());
+        $("#id_template" + tmpadd).val(template.toString());
+        $("#id_fptype").val(fptype.toString()); 
+        
+        
+        tmpadd = "10";
+        
+        var fingerids10 = $("#id_finnger" + tmpadd).val().split(",");
+        var template10 = $("#id_template" + tmpadd).val().split(",");
+        
+        for(i = 0;i < 10;i++)
+        {
+            if(durfingerid.substr(i,1) == "0")
+               for(j = 0;j < fingerids;j++)
+               {
+                  if(fingerids[j] == i)
+                   {
+                     template10.splice(j,1);
+                     fingerids10.splice(j,1);
+                     alert("remove template10 index is" + j);
+                   }
+               }
+        }
+       $("#id_finnger"+tmpadd).val(fingerids10.toString());
+       $("#id_template"+tmpadd).val(template10.toString());
+       //alert("count"+count);
+       $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+ count );
+     }
+     
+     
+ }
+
+
+$(function(){
+    var count=$("#id_tfcount").val();
+    var count10=$("#id_tfcount10").val();
+    if(count10>=count)
+    {
+        $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+count10 );
+    }
+    else
+    {
+        $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+count );
+    }
+})
+    
+{% endblock %}
+
+{% block form %}
+{% autoescape off %}
+<tr class ="fg displayN">
+    {{form.tfcount|field_as_td_h}}
+</tr>
+<tr class="fg displayN">
+    {{form.tfids|field_as_td_h}}
+</tr>
+<tr class="fg displayN">
+    {{form.fpcode|field_as_td_h}}
+</tr>
+<tr class="fg displayN">
+    {{form.tlng|field_as_td_h}}
+</tr>
+<!--
+<tr class ="fg displayN">
+    {{form.tfcount10|field_as_td_h}}
+</tr>
+<tr class="fg displayN">
+    {{form.tfids10|field_as_td_h}}
+</tr>
+-->
+
+<tr class='fg'>
+    <td   height="20">{% trans '登记指纹'%}</td>
+       <td  ><a href="javascript:void(0)" id="id_fp_register" onclick="submitRegister()">{% trans '指纹登记'%}</a></td>
+       <td  ><div id="div_id_finngerT">
+       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+       </div><input type="hidden" id="id_finnger" name="finnger" alt="" value="">
+       </input><input type="hidden" id="id_template"  value="" name="template" alt=""></input></td>
+       <input type="hidden" id="id_finnger10" name="finnger10" alt="" value=""> </input>
+       <input type="hidden" id="id_template10"  value="" name="template10" alt="">  </input>
+       <input type="hidden" id="id_delfinger"  value="" name="delfinger" alt=""> </input>
+       <input type="hidden" id="id_fptype"  value="" name="fptype" alt=""> </input>
+       <input type="hidden" id="id_durfinger"  value="" name="durfinger" alt=""> </input>
+       <input type="hidden" id="id_durfpid"  value="" name="durfpid" alt=""> </input>
+       <input type="hidden" id="id_delflag"  value="" name="delflag" alt="delete"> </input>
+       <td  >&nbsp;</td>
+       <td  >&nbsp;</td>
+       <td  >&nbsp;</td>
+    <td  >&nbsp;</td>
+</tr>
+<!--
+<tr class='fg'>
+    <td   height="20"></td>
+   
+   <td  ><a href="javascript:void(0)" onclick="submitRegister(10)">{% trans '10.0指纹仪登记'%}</a>
+
+
+  </td>
+   <td  ><div id="div_id_finngerT10"></div><input type="hidden" id="id_finnger10" name="finnger10" alt="" value=""></input><input type="hidden" id="id_template10"  value="" name="template10" alt=""></input></td>
+
+  <td  ></td>
+  <td  colspan="3"></td>
+-->
+  <!--<td  >{{form.homeaddress.errors }}</td>-->
+<!--
+</tr>
+-->
+
+    
+{% endautoescape %}
+<script type="text/javascript">
+    if(!$.browser.msie){
+        $("#id_fp_register").attr({disabled:"true", title: "{% trans '登记指纹功能只支持IE浏览器' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function(){
+            $(".messageBox").html("{% trans '登记指纹功能只支持IE浏览器' %}").show();
+                     return false;
+        });
+    }
+
+    var flag = false;
+    for(var i in zkonline)
+    {
+        if(i == "FPEngineVersion")
+        {
+           flag = true;
+        }
+    } 
+    if(!flag)
+    {
+         $("#id_fp_register").attr({disabled:"true", title: "{% trans '请安装指纹仪驱动' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function()
+         {
+         });
+      }
+
+</script>
+{% endblock %}

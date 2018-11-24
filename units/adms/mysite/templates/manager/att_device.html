@@ -1,0 +1,131 @@
+﻿{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>考勤 PUSH SDK 模拟</title>
+<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+<style type="text/css">
+	body,td,th {
+		font-size: 12px;
+	}
+	body {
+		margin-left: 0px;
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-bottom: 0px;
+	}
+	.an {
+		height: 60px;
+		width: 100px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #000000;
+	}
+	.select1 {
+		width: 240px;
+	}
+</style>
+</head>
+
+<body>
+<br />
+<br />
+<table width="90%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#E1EBF4" class="tab">
+  <a href="/manager/loadUrl/" > <<返回首页</a>
+  <tr>
+    <td rowspan="2" align="right" bgcolor="#F7FCFD">命令：</td>
+    <td bgcolor="#F7FCFD">
+    	<input type="radio" name="radio" id="radio" value="1" checked/>
+    	<label id = "cdata" for="sn_bumber"></label>
+      	<input name="textfield" type="text" id="sn_bumber" size="20" />
+      	<a href="javascript:void(0);" onclick ="set_sn();">生成SN</a>
+      	&nbsp;&nbsp;
+      	<a href="javascript:void(0);" onclick ="clear_('sn_bumber');">清空</a>
+    </td>
+    <td rowspan="2" align="center" bgcolor="#F7FCFD">
+    	<input class="an" type="button" name="button" id="id_submit" value="提交" onclick = "on_submit();"/>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#F7FCFD">
+    	<input type="radio" name="radio" id="radio2" value="2" />
+    	<label id = "getrequest" for="select"></label>
+		<select class="select1" name="select" id="select" ></select>
+		 &nbsp;&nbsp;
+		<a href="javascript:void(0);" onclick ="flush_dev();">刷新</a>
+	</td>
+  </tr>
+</table>
+<br />
+<table width="90%" height="400px" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#E1EBF4" class="tab">
+  <tr height = "30px">
+    <td bgcolor="#F7FCFD">返回结果</td>
+  </tr>
+  <tr>
+    <td align="left" bgcolor="#F3F3F3">
+    <div id = "result"></div>
+    </td>
+  </tr>
+</table>
+<script>
+	$(function(){
+		var host =  document.location.host;
+		$("#cdata").html("读取设备配置信息: http://"+host+"/iclock/cdata?SN= ");
+		$("#getrequest").html("读取设备配置信息: http://"+host+"/iclock/cdata?SN= ");
+		set_sn();
+		flush_dev();
+	})
+	
+	function flush_dev(){
+		$("#select").empty();
+	    $.ajax({
+	        url:"/manager/getDevInfo/?device_type=1",
+	        type:"POST",
+	        dataType:"json",
+	        success:function(msg){
+		    	if(!msg.data==null || !msg.data==""){
+		    		data = msg.data
+		    		for (i = 0; i<data.length;i++){
+		    			$("#select").append('<option value="'+data[i][0]+'">'+data[i][1]+'<'+data[i][0]+'>'+'</option>');
+		    		}
+		    	}
+	        }
+	    });
+	}
+	function set_sn(){
+		sn = Math.round(Math.random() * 10000000000000)
+		$("#sn_bumber").val(sn)
+		return;
+	}
+	function clear_(id){
+		$("#"+id).val("")
+		return;
+	}
+	function on_submit(){
+		sn_num = ""
+		url = ""
+		check = $('input[name="radio"]:checked').val();
+		if (check ==1){
+			sn_num = $("#sn_bumber").val();
+		 	if (sn_num=="" || isNaN(sn_num)){
+			 	alert("请填写有效的序列号!");
+			 	return;
+		 	}
+		 	url = "/iclock/cdata?SN="+sn_num
+	 	}else{
+			sn_num = $("#select").val();
+			url = "/iclock/getrequest?SN="+sn_num
+		}
+	    $.ajax({
+	        url:url,
+	        type:"GET",
+	        dataType:"html",
+	        success:function(msg){
+	            $("#result").html(msg);
+	        }
+	    });
+	}
+	</script>
+</body>
+</html>

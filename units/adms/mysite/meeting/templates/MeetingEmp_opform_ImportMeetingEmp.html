@@ -1,0 +1,11 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block addjs%}
+$(function(){
+   $("#id_meeting option[value='']").remove();
+    $("#id_meeting").prepend("<option value='' >----------------</option>");
+
+})
+    
+{% endblock %}

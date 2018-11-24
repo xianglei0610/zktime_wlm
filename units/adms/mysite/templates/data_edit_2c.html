@@ -1,0 +1,29 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %}
+{% for field in form %}
+  {% ifequal forloop.counter0|divisibleby:"2" 0 %}<tr>{% endifequal %}
+  {{ field|field_as_td_h }}
+  {% ifequal forloop.counter0|divisibleby:"2" 1 %}</tr>{% endifequal %}
+{% endfor %}
+</tr>
+{% endautoescape %}
+{% endblock %}
+
+{% block add_contents %}
+{% if form.non_field_errors %}
+<tr>
+<td colspan=20>
+    {% autoescape off %}
+       {{form.non_field_errors}}
+    {% endautoescape %}
+</td>
+</tr>
+{% endif %}
+
+{% block add_contents_2c %}
+{% endblock %}
+
+{% endblock %}

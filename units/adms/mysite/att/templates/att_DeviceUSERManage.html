@@ -1,0 +1,89 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="AreaAdjust" class ="div_box clearL" style="float:left;width:23%; margin-right:0px !important;" >
+<h1>{% trans '区域' %}</h1> <a id="id_queryall" href="javascript:void(0)" class ="link_style"  title="{% trans '显示全部人员' %}"  style ="position:absolute;top:6px;right:10px" >{% trans '显示全部人员' %}</a>
+
+<div id ="id_area_select" style="width:100%" ></div>    
+    
+</div>
+<div  class ="div_box" id ="emp" style="float:right;width:68%;_width:65%; margin-left:5px !important; margin-left:0px !important;"><h1>&nbsp;</h1></div>
+{% endblock %}
+
+{% block getdatalist %}
+{% endblock %}
+
+{% block addjs %}
+
+var after_init=function(){
+   $('#id_area_select').parent(".div_box").hide();
+}
+var after_close=function(){
+   $('#id_area_select').parent(".div_box").show();
+}
+
+var after_submit=function(){
+    $('#id_area_select').parent(".div_box").show();
+}
+
+$(function(){
+	$("#id_li_export").hide();
+    actions ={{specific_actions}} 
+    if (actions.OpAdjustArea){
+        actions = {"OpAdjustArea":actions.OpAdjustArea}        
+        $("#id_op_for_tab").append("<li id='id__"+ "OpAdjustArea' ><a href='javascript:void(0)'><span class='action_add'></span>"+gettext(actions.OpAdjustArea.verbose_name)+"</a></li><div class='div_leftBottomLine'></div>");
+    }
+    $("#id__OpAdjustArea").click(function(event){
+        var href = "{{dbapp_url}}personnel/Area/_op_/OpAdjustArea/";
+        $.zk._processEdit(href, $('#emp').get(0), undefined, event);
+        return false;
+    })
+    
+    $('#emp').model_grid(
+        {
+        'model_url':'{{dbapp_url}}personnel/Employee/',
+        'model_actions':false,
+        'object_actions':false,
+        'obj_edit':false,
+        'multiple_select':null,
+        row_operations:false,
+        disable_cols:["data_verbose_column","position.name",'Tele','Mobile','photo','id',"|thumbnail_url:'pin'|photo",'level_count','education']
+        })
+
+     $.ajax({ 
+           	type: "POST",
+           	url:"../../data/personnel/Area/choice_data_widget?areatree=True",
+           	dataType:"html",
+           	success:function(json){
+           		$("#id_area_select").hide().html(json).show();
+//                $('#id_AreaSelect p').click(function(){
+//                    var vItem = $(this).parent().attr("id")
+//                    $('#emp').get(0).g.base_query=["attarea__exact="+vItem]
+//                    $('#emp').get(0).g.load_data()
+//                })    
+           	}
+        });
+     
+     
+     $("#id_queryall").click(function(){
+    	 	var strwhere=[];
+            $("#id_AreaSelect").find("p[class*='s']").attr("class","t");
+            $("#id_area_select").find("input[type='hidden']").attr("value","");
+            $('#emp').get(0).g.init_query=strwhere;
+            $('#emp').get(0).g.base_query=strwhere;
+            $('#emp').get(0).g.load_data();
+     })
+})
+
+ function reflash_child_area_list(event, treeId, treeNode){
+	var parent_id = treeNode.id;
+    var strwhere=[];
+    strwhere.push("attarea__id__exact="+parent_id);  
+    var $grid = $('#emp');
+    var datalist=$grid.get(0);
+    datalist.g.init_query=strwhere;
+    datalist.g.load_data();
+ }
+{% endblock %}
+ 

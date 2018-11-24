@@ -1,0 +1,160 @@
+﻿{% load i18n %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}><head>
+    {% include "site_medias_js.html" %}
+    <script type="text/javascript">
+    var user_id=-1;
+    var vid_type = get_query_string("vid_type");
+    function get_query_string(sprop) 
+    {
+        var re = new RegExp("[&,?]"+sprop + "=([^\\&]*)", "i");
+        var a = re.exec(document.location.search);   
+        if (a == null) return ""; 
+        return a[1];
+    }
+    function set_video_state(curch)
+    {
+        var k=window.dialogArguments; 
+        var video_state=k.document.getElementById("id_video_state").value; 
+        video_state=video_state.substr(0,curch)+'0'+video_state.substr(curch+1,video_state.length-1-curch);
+        k.document.getElementById("id_video_state").value=video_state
+        window.returnValue=video_state; 
+        window.close(); 
+    }
+    function get_link_num(xml_str,curch) //获取硬盘录像机当前通道的已连接个数
+    {
+        var members = 0;
+        //var maxRes = 0;
+
+        if(!window.DOMParser && window.ActiveXObject){
+            var xml_dom_versions = ['MSXML.2.DOMDocument.6.0','MSXML.2.DOMDocument.3.0','Microsoft.XMLDOM'];
+            for(var i=0;i<xml_dom_versions.length;i++){
+                try //Internet Explorer
+                {
+                      xmlDoc=new ActiveXObject(xml_dom_versions[i]);
+                      xmlDoc.async="false";
+                      xmlDoc.loadXML(xml_str);
+                }
+                catch(e)
+                {
+                    
+                }
+            }
+        }
+        else if (window.DOMParser && document.implementation && document.implementation.createDocument)
+        {
+            try{
+                domParser = new DOMParser();
+                xmlDoc = domParser.parseFromString(xml_str, 'text/xml');
+            }
+            catch(e)
+            {
+            }
+        }
+        else{   
+        }
+        
+        if(xmlDoc==null){
+            alert(gettext("解析xml文件出错"));
+        }
+        members= xmlDoc.getElementsByTagName("ChannelState");
+        var cur_link_num = members[curch].getElementsByTagName("LinkNum")[0].firstChild.nodeValue;
+        return cur_link_num;
+    }
+    
+    window.onload = function() { 
+        var ocx_html = document.getElementById("ocx");
+        var vid_ip = get_query_string("vid_ip");
+        var vid_port = get_query_string("vid_port");
+        var vid_login = get_query_string("vid_login");
+        var vid_pwd = get_query_string("vid_pwd");
+        var vid_ch = get_query_string("vid_ch");
+		var ocx_obj = "";
+        
+		if(vid_type == 4)
+        {
+	        var capture_picture = get_query_string("capture_picture");
+	        var capture_picture_path = get_query_string("capture_picture_path")
+	        
+			ocx_html.innerHTML = '<object classid="clsid:CAFCF48D-8E34-4490-8154-026191D73924" codebase="/media/ActiveX/NetVideoActiveX23.cab#version=2,3,9,1" standby="Waiting..." id="NetOCX1" width="400" height="300" name="ocx1" align="center"></object>'
+            ocx_obj = document.getElementById("NetOCX1");
+            
+	        user_id = ocx_obj.Login(vid_ip, vid_port, vid_login, vid_pwd);
+	        var str = ocx_obj.GetServerWorkState();
+	        var cur_link_num = get_link_num(str,vid_ch);
+	        if(cur_link_num < '6')
+        	{
+	            //alert("rel mode="+capture_picture)
+	            if(capture_picture =='2') //弹出视频并抓图
+	            {
+	                ocx_obj.StartRealPlay(vid_ch, 0, 0);
+	                for(var i = 0;i < 10;i++){}//延时 
+	                ocx_obj.BMPCapturePicture(capture_picture_path, true)
+	                
+            	}
+            	else if(capture_picture =='1')//只抓图
+            	{
+	                ocx_obj.StartRealPlay(vid_ch, 0, 0);
+	                for(var i = 0;i < 10;i++){}//延时 
+	                ocx_obj.BMPCapturePicture(capture_picture_path,true)
+	                for(var i = 0;i < 10;i++){}//延时
+	                document.getElementById("NetOCX1").logout();
+	                set_video_state(vid_ch);
+                
+            	}
+	            else
+	            {
+	                //alert("capture_picture ==0")
+	                ocx_obj.StartRealPlay(vid_ch, 0, 0);//只弹出视频
+	            }
+        	}
+	        else
+			{
+	            alert(gettext("该通道已达最大访问量！"));
+	        }
+    	}
+        else if(vid_type == 6)
+        {
+            ocx_html.innerHTML = '<object classid="clsid:42B182F9-3F08-484E-9913-07193A5D36A5" codebase="WebClientPlus.ocx#version=3,0,1,0" id="DHiMPlayer" align="absbottom" viewastext></object>'
+            ocx_obj = document.getElementById("DHiMPlayer");
+            ocx_obj.SetWndPos(0, 0, 400, 300);
+            var curStreamNum = ocx_obj.GetStreamNum();
+            var reg_ret = ocx_obj.SetUrl(vid_ip, vid_port, curStreamNum, vid_login, vid_pwd);
+            if (reg_ret >= 0)
+            {
+                if(curStreamNum == '11' || curStreamNum == '12'){
+                    ocx_obj.Play();
+                }
+            }
+            else
+            {
+                alert(gettext("用户注册失败，请检查设备配置"));
+                return;
+            }
+            
+        }
+    }
+    window.onbeforeunload = function()  {
+        if(vid_type == 4)
+        {
+            document.getElementById("NetOCX1").logout();
+            var vid_ch = get_query_string("vid_ch");
+            set_video_state(vid_ch);
+        }
+    }
+        
+    </script>    
+</head>
+<body class="indexBody">
+<table>
+<tr>
+  <td id="ocx" align="center">
+    <!-- <object classid="clsid:CAFCF48D-8E34-4490-8154-026191D73924" codebase="/media/ActiveX/NetVideoActiveX23.cab#version=2,3,9,1"
+    standby="Waiting..." id="NetOCX1" width="400" height="300" name="ocx1" align="center" >
+    </object> -->
+  </td>
+</tr>
+</table>
+</body>
+</html>

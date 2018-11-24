@@ -1,0 +1,2897 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-09 19:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#第一部分 最常用部分 开始
+#////////start of translation usually used//////////////////////////////////////////////
+
+msgid "新增"
+msgstr "Add"
+
+msgid "修改"
+msgstr "Modify"
+
+msgid "编辑"
+msgstr "Edit"
+
+msgid "删除"
+msgstr "Delete"
+
+msgid "查询"
+msgstr "Search"
+
+msgid "查找"
+msgstr "Search"
+
+msgid "关闭"
+msgstr "Close"
+
+msgid "密码"
+msgstr "Password"
+
+msgid "指纹"
+msgstr "Fingerprint"
+
+msgid "其他"
+msgstr "Others"
+
+msgid "报表"
+msgstr "Reports"
+
+msgid "验证方式"
+msgstr "Verify Mode"
+
+msgid "备注"
+msgstr "Remarks"
+
+msgid "日期"
+msgstr "Date"
+
+msgid "停止"
+msgstr "Stop"
+
+msgid "状态"
+msgstr "Status"
+
+msgid "无"
+msgstr "None "
+
+msgid "开始时间"
+msgstr "Start time"
+
+msgid "结束时间"
+msgstr "End time"
+
+msgid "操作"
+msgstr "Operation"
+
+msgid "男"
+msgstr "Male"
+
+msgid "女"
+msgstr "Female"
+
+msgid "否"
+msgstr "No"
+
+msgid "是"
+msgstr "Yes"
+
+msgid "节假日名称"
+msgstr "Name"
+
+msgid "日"
+msgstr "Day"
+
+msgid "是否按年循环"
+msgstr "Recurring"
+
+msgid "节假日类型"
+msgstr "Type"
+
+msgid "清空所有记录"
+msgstr "Clear all"
+
+msgid "清空记录"
+msgstr "Clear"
+
+msgid "天"
+msgstr "Day"
+
+msgid "数据导出"
+msgstr "Data Export"
+
+msgid "导出"
+msgstr "Export"
+
+msgid "未处理"
+msgstr "Unprocessed"
+
+msgid "处理标志"
+msgstr "Processing flag"
+
+msgid "开始日期"
+msgstr "Start Date"
+
+msgid "结束日期"
+msgstr "End Date"
+
+msgid "星期日"
+msgstr "Sunday"
+
+msgid "星期一"
+msgstr "Monday"
+
+msgid "星期二"
+msgstr "Tuesday"
+
+msgid "星期三"
+msgstr "Wednesday"
+
+msgid "星期四"
+msgstr "Thursday"
+
+msgid "星期五"
+msgstr "Friday"
+
+msgid "星期六"
+msgstr "Saturday"
+
+msgid "更多"
+msgstr "More"
+
+msgid "区域"
+msgstr "Area"
+
+msgid "用户名"
+msgstr "Username"
+
+msgid "类别"
+msgstr "Type"
+
+msgid "刷新"
+msgstr "Refresh"
+
+msgid "载入中"
+msgstr "Loading"
+
+msgid "正在处理，请稍候..."
+msgstr "Processing. Please wait..."
+
+msgid "我的工作面板"
+msgstr "My Panel"
+
+msgid "欢迎，"
+msgstr "Welcome, "
+
+msgid "个性设置"
+msgstr "Settings"
+
+msgid "帮助"
+msgstr "Help"
+
+msgid "系统手册"
+msgstr "Help"
+
+msgid "关于"
+msgstr "About"
+
+msgid "修改密码"
+msgstr "Modify Password"
+
+msgid "注销"
+msgstr "Logout"
+
+msgid "正在处理中..."
+msgstr "Processing..."
+
+msgid "设置成功!"
+msgstr "Successful!"
+
+msgid "请输入邮箱"
+msgstr "Please enter the mailbox"
+
+msgid "密码必须一致"
+msgstr "The passwords must be the same."
+
+msgid "系统"
+msgstr "System"
+
+msgid "角色"
+msgstr "Role"
+
+msgid "用户"
+msgstr "User"
+
+msgid "删除选定记录"
+msgstr "Delete Selected"
+
+msgid "禁用"
+msgstr "Disable"
+
+msgid "设备类型"
+msgstr "Device Type"
+
+msgid "出"
+msgstr "Out"
+
+msgid "时间"
+msgstr "Time"
+
+msgid "请安装指纹仪驱动"
+msgstr "Please install Fingerprint Reader Driver "
+
+msgid "登记指纹功能只支持IE浏览器"
+msgstr "The function only supports IE brower."
+
+msgid "备份时间"
+msgstr "Backup Time"
+
+msgid "风格"
+msgstr "Style"
+
+#, python-format
+msgid "请为该角色勾选权限！"
+msgstr "Permission is null which is neither allowed nor meaningfull"
+
+msgid "系统登录"
+msgstr "System login"
+
+msgid "欢迎使用Iclock 数据服务系统！"
+msgstr "Welcome to the Iclock Data Service System!"
+
+msgid "退出"
+msgstr "Exit"
+
+msgid "处理中"
+msgstr "Processing"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "设置"
+msgstr "Set"
+
+msgid "个人选项"
+msgstr "Personal option"
+
+msgid "浏览器标题"
+msgstr "Browser Title"
+
+msgid "公司名称"
+msgstr "Company Name"
+
+msgid "版本"
+msgstr "version"
+
+msgid "验证"
+msgstr "Check"
+
+msgid "Log Entry"
+msgstr "Log Entry"
+
+msgid "清除查询"
+msgstr "Clear Search"
+
+msgid "高级"
+msgstr "Advanced"
+
+msgid "Filter by"
+msgstr "Filter by"
+
+msgid "示例"
+msgstr "Example"
+
+msgid "导入"
+msgstr "Import"
+
+msgid "增加"
+msgstr "Add"
+
+msgid "卡"
+msgstr "Card"
+
+msgid "数据"
+msgstr "Data"
+
+msgid "对象"
+msgstr "Object"
+
+#///////////////end of translation usually used///////////////////////////////////
+
+#第一部分 最常用部分 结束
+
+#第二部分 公共部分 开始
+
+#///////////////start of 400/500 error///////////////////////////////////////////////////////////////
+#: .\templates\404.html.py:4 .\templates\404.html.py:8
+msgid "页面没有找到"
+msgstr "The page not found."
+
+#: .\templates\404.html.py:10
+msgid "该页面不存在或者您没有相应权限！"
+msgstr "This page does not exist or you have no right!"
+
+#: .\templates\500.html.py:7
+msgid "您选择的操作不能正常进行或该服务不可用!"
+msgstr ""
+"The operation you select cannot be performed or this service is unavailable!"
+
+#: .\templates\no_permission_info.html.py:7
+msgid "没有权限访问此模块"
+msgstr "You have no right for access to this module."
+
+#: .\authurls.py
+msgid "用户名或密码错误，原因可能是:忘记密码；未区分字母大小写；未开启小键盘！"
+msgstr ""
+"Wrong username or password! Possible causes: password forgotten; case "
+"insensitive; keypad disabled!"
+
+msgid "您还没有分配权限!"
+msgstr "You have no right yet!"
+
+#: .\urls.py
+msgid "已存在"
+msgstr "Already exists"
+
+msgid "可使用"
+msgstr "Available"
+
+#: D:/trunk/python-support/dbapp\models.py
+msgid "请选择已成功备份的记录!"
+msgstr "Select data with successful backup!"
+
+msgid "备份文件不存在!"
+msgstr "The backup file does not exist!"
+
+msgid "你没有该权限!"
+msgstr "You do not have this right!"
+
+#: D:/trunk/python-support/dbapp\data_edit.py
+msgid "角色名称不能重复"
+msgstr "The role name cannot be repeated."
+
+msgid "数据不能重复"
+msgstr "The data cannot be repeated."
+
+#, python-format
+msgid "关键字段%(object_name)s不能修改!"
+msgstr "The key field %(object_name)s cannot be modified!"
+
+#: D:/trunk/python-support/dbapp\admin_detail_view.py
+msgid "用户名称必填。不多于30个字符。只能用字母数字或者@.+-_字符"
+msgstr ""
+"A username is required. It consists of up to 30 characters, which must be "
+"alphanumeric or characters like @, +, -, and _."
+
+msgid "密码长度必须大于4位,小于18位"
+msgstr "A password must consist of more than 4 digits but less than 18 digits."
+
+#, python-format
+msgid "关键字段%(object_name)s数据不存在!"
+msgstr "The key field %(object_name)s data do not exit!"
+
+msgid "没有权限"
+msgstr "No right"
+
+msgid "用户已经存在"
+msgstr "The user already exists."
+
+#: D:/trunk/python-support/base\role.py
+msgid "该角色正在使用,不能删除"
+msgstr "This role is in use and cannot be deleted."
+
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: D:/trunk/python-support/base\options.py:120
+#: D:/trunk/python-support/base\options.py:194
+#, python-format
+msgid "%s已经存在!"
+msgstr "%s already exists!"
+
+msgid "日期格式不正确,请重新输入(hh:mm)!"
+msgstr "The date format is wrong. Please try again (hh:mm)!"
+
+#: D:/trunk/python-support/base\base_code.py
+msgid "系统初始化的记录不能删除！"
+msgstr "System initialization entries cannot be deleted!"
+
+msgid "记录已经存在!"
+msgstr "This entry already exists!"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "Simplified Chinese"
+msgstr "Simplified Chinese"
+
+#: D:/trunk/python-support/dbapp\widgets.py:240
+msgid "请选择颜色"
+msgstr "Select color"
+#//////////////////////////////////////////////////////////////////////////////
+
+#: D:/trunk/python-support/dbapp\models.py
+msgid "个人"
+msgstr "Individual"
+
+#: D:/trunk/python-support/dbapp\models.py:26
+#: D:/trunk/python-support/dbapp\models.py:143
+msgid "初始化数据库"
+msgstr "Initialize Database"
+
+msgid "还原数据库"
+msgstr "Restore Database"
+
+msgid "系统参数设置"
+msgstr "System parameter setting"
+
+msgid "待处理"
+msgstr "To be processed"
+
+msgid "是否成功备份"
+msgstr "Whether backup successful"
+
+msgid "数据库管理"
+msgstr "Database Management"
+
+msgid ""
+"备份数据库，数据库服务器和本系统服务器必须在同一台电脑上，暂不支持备份Oracle"
+"数据库。如果备份失败，请参考用户手册中的用户使用FAQ。"
+msgstr ""
+"Backup Database，the Database service and the present system must be "
+"installed in the same computer, oracle Database is unsupported temporarily. "
+"If backup failed, please refer to the FAQs of the User Manual."
+
+msgid "备份数据库"
+msgstr "Backup Database"
+
+msgid "暂不支持备份Oracle数据库"
+msgstr "The oracle Database is unsupported temporarily."
+
+msgid "初始化数据库是将数据恢复到系统初始化状态!"
+msgstr ""
+"Initializing the database means to restore the database to the system "
+"initialization status."
+
+msgid "设置字符串,json使用对象的观点"
+msgstr "Set viewpoint of the character string json use object"
+
+msgid "视图类型"
+msgstr "View type"
+
+msgid "最大图片宽度"
+msgstr "Maximum Image Width"
+
+#: D:/trunk/python-support/dbapp\data_edit.py
+msgid "复制"
+msgstr "Copy"
+
+#/////////////////////////////////////
+#: D:/trunk/python-support/dbapp\admin_detail_view.py
+msgid "重置密码"
+msgstr "Reset Password"
+
+msgid "确认密码"
+msgstr "Confirm Password"
+
+msgid "不选区域将默认拥有所有区域权限"
+msgstr "If you select no area, you will possess all area rights by default."
+
+#/////////////////////////////////
+
+
+#////////////start of 角色相关//////////////////////////////////////////////////////////////////
+msgid "personnel"
+msgstr "Personnel"
+
+msgid "iclock"
+msgstr "Device"
+
+msgid "att"
+msgstr "Attendance"
+
+msgid "base"
+msgstr "System"
+
+msgid "Can add 角色"
+msgstr "Add"
+
+msgid "增加角色"
+msgstr "Add"
+
+msgid "Can change 角色"
+msgstr "Modify"
+
+msgid "修改角色"
+msgstr "Modify"
+
+msgid "Can add 用户"
+msgstr "Add"
+
+msgid "增加用户"
+msgstr "Add"
+
+msgid "Can change 用户"
+msgstr "Modify"
+
+msgid "修改用户"
+msgstr "Modify user"
+
+msgid "浏览数据库管理"
+msgstr "Browse"
+
+msgid "浏览人员"
+msgstr "Browse"
+
+msgid "浏览角色"
+msgstr "Browse"
+
+msgid "浏览权限"
+msgstr "Browse"
+
+msgid "浏览用户"
+msgstr "Browse"
+
+msgid "浏览日志记录"
+msgstr "Browse"
+
+msgid "浏览个性设置"
+msgstr "Browse"
+
+msgid "浏览系统参数"
+msgstr "Browse"
+
+msgid "浏览基础代码表"
+msgstr "Browse"
+
+msgid "浏览人员指纹"
+msgstr "Browse"
+
+msgid "浏览设备"
+msgstr "Browse"
+
+msgid "浏览服务器下发命令"
+msgstr "Browse"
+
+msgid "浏览人员发卡"
+msgstr "Browse"
+
+msgid "浏览区域设置"
+msgstr "Browse"
+
+msgid "浏览部门"
+msgstr "Browse"
+
+#////////////end of 角色相关//////////////////////////////////////////////////////////////////
+
+#/////////////start of User//////////////////
+msgid ""
+"Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"
+msgstr ""
+
+
+msgid "get_attarea"
+msgstr "Area"
+
+msgid "deptadmin_set"
+msgstr "Authorize Department"
+
+msgid "areaadmin_set"
+msgstr "Authorize Area"
+
+
+#/////////////end of User//////////////////
+
+#/////////////start of special text///////////
+msgid "get_emp_name"
+msgstr "Employee Name"
+
+msgid "name"
+msgstr "Object Type"
+
+msgid "groups"
+msgstr "Role"
+
+msgid "show_status"
+msgstr "Status"
+
+msgid "show_enabled"
+msgstr "Enable"
+
+#/////////////end of special text/////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: D:/trunk/python-support/base\translation.py
+msgid "翻译为数据"
+msgstr "Translated to data"
+
+msgid "翻译为字符串资源"
+msgstr "Translated to character string resource"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: D:/trunk/python-support/base\role.py
+msgid "能改变自己的财产"
+msgstr "Can change its own properties, "
+
+msgid "可以查看该财产"
+msgstr "Can view these properties, "
+
+msgid "可以搜索的财产"
+msgstr "Can search these properties."
+
+msgid "这个对象类型"
+msgstr "This object type"
+
+msgid "财产,或者为对象"
+msgstr "Property, or for the object"
+
+msgid "角色名称"
+msgstr "Role name"
+
+#, python-format
+msgid "%(name)s for %(type)s"
+msgstr "%(name)s for %(type)s"
+
+#: D:/trunk/python-support/base\__init__.py
+msgid ""
+"新增本系统的用户，\"职员状态\"默认选中，如不选，用户将停用，不能登入系统！"
+msgstr ""
+"If check box 'Available user' is not selected then the user will be disabled and "
+"cannot log in to the system!"
+
+msgid ""
+"角色是一组权限的集合，拥有该角色的用户将拥有该角色包含的所有权限,如要给用户分"
+"配角色，请到用户新增或编辑界面分配!<br/>浏览权限是每个模块的基本权限，所以选"
+"中非浏览权限外的其他权限，浏览权限会默认选中。"
+msgstr ""
+"Role is a combination of a group of rights. A user of a certain role has all "
+"the rights contained in the role. To assign a role to a user, go to the New "
+"User or Edit interface."
+
+#: D:/trunk/python-support/dbapp\admin_detail_view.py:110
+msgid "不选部门将默认拥有所有部门权限"
+msgstr ""
+"If you select no department, you will possess all department rights by "
+"default."
+#//////////////////////////////////////////////////////////////////////////////
+
+#: D:/trunk/python-support/base\options.py:116
+#: D:/trunk/python-support/base\options.py:200
+msgid "系统参数即系统的一些设置项！"
+msgstr "System parameters!"
+
+#: D:/trunk/python-support/base\options.py:120
+#: D:/trunk/python-support/base\options.py:194
+msgid "系统参数"
+msgstr "System Parameter"
+
+msgid "参数名字"
+msgstr "Parameter Name"
+
+msgid "参数值"
+msgstr "Parameter Value"
+
+msgid "描述"
+msgstr "Description"
+
+#//////////////////////////////////////////////////////////////////////////////
+#: D:/trunk/python-support/base\models_logentry.py
+msgid "对象描述"
+msgstr "Object Description"
+
+msgid "动作标识"
+msgstr "Action Identification"
+
+msgid "改变消息"
+msgstr "Change Message"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: D:/trunk/python-support/base\models.py
+msgid "系统设置"
+msgstr "System"
+
+msgid "时间格式"
+msgstr "Time"
+
+msgid "时间日期格式"
+msgstr "Date format"
+
+msgid "短日期格式"
+msgstr "Date format"
+
+msgid "短日期时间格式"
+msgstr "Date format"
+
+msgid "系统默认页面"
+msgstr "System Default Page"
+
+#: D:/trunk/python-support/base\models.py:270
+#: D:/trunk/python-support/base\models.py:271
+msgid "整个系统默认页面"
+msgstr "System Default Page"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: D:/trunk/python-support/base\models_addition.py
+msgid "对象类型"
+msgstr "Object Type"
+
+msgid "对象ID"
+msgstr "Object ID"
+
+msgid "键"
+msgstr "Key"
+
+msgid "增加的数据"
+msgstr "Added data"
+#//////////////////////////////////////////////////////////////////////////////
+
+#: D:/trunk/python-support/base\cached_model.py
+msgid "修改者"
+msgstr "Modify"
+
+msgid "修改时间"
+msgstr "Modify time"
+
+msgid "创建者"
+msgstr "Creator"
+
+msgid "创建时间"
+msgstr "Create time"
+
+msgid "删除者"
+msgstr "Delete"
+
+msgid "删除时间"
+msgstr "Delete time"
+
+msgid "修改选定记录"
+msgstr "Modify selected entry"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: D:/trunk/python-support/base\base_code.py
+msgid "代码"
+msgstr "Code"
+
+msgid "代码类别"
+msgstr "Code type"
+
+msgid "是否是用户添加的"
+msgstr "Whether added by user"
+
+
+msgid "基础代码表"
+msgstr "Basic code table"
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\registration\password_reset_form.html.py
+msgid ""
+"忘记了你的口令？请在下面输入你的 e-mail 地址，我们将重设你的口令并将新口令通"
+msgstr ""
+"Forgot your password? Please input your E-mail address below. We will reset "
+"your password and send the new password to you."
+
+msgid "E-mail 地址："
+msgstr "E-mail Address:"
+
+msgid "重设我的口令"
+msgstr "Reset my password"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\registration\password_change_done.html.py
+msgid "Change password"
+msgstr "Change password"
+
+msgid "Log out"
+msgstr "Log out"
+
+msgid "口令修改"
+msgstr "Modify password"
+
+msgid "口令修改成功"
+msgstr "Password modified successfully"
+
+msgid "口令重设"
+msgstr "Reset password"
+
+#: .\templates\registration\password_reset_done.html.py:5
+#: .\templates\registration\password_reset_done.html.py:9
+msgid "口令重设成功"
+msgstr "Password reset successfully"
+
+msgid ""
+"我们已经按你所提交的邮箱地址发送了一个新的口令。你应该很快就能收到这封邮件。"
+msgstr ""
+"We have sent a new password to the E-mail address you have submitted. You "
+"will receive it soon."
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\registration\password_reset_email.html.py
+msgid "之所以收到这封邮件，是因为你请求了口令重设"
+msgstr ""
+"You receive this e-mail because you have requested to reset your password."
+
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "for your user account at %(site_name)s"
+
+#, python-format
+msgid "Your new password is: %(new_password)s"
+msgstr "Your new password is: %(new_password)s"
+
+msgid "到这个页面可以自由地修改口令："
+msgstr "You can modify your password freely on this page:"
+
+msgid "感谢使用我们的站点！"
+msgstr "Thank you for using our website!"
+
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "The %(site_name)s team"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\view.html.py:70 .\templates\view.html.py:175
+msgid "显示"
+msgstr "Display"
+
+#: .\templates\view.html.py:71 .\templates\view.html.py:176
+msgid "隐藏"
+msgstr "Hide"
+
+msgid "列宽"
+msgstr "Column width"
+
+msgid "上移"
+msgstr "Up"
+
+msgid "下移"
+msgstr "Down"
+
+msgid "反选"
+msgstr "De-select"
+
+msgid "调整显示"
+msgstr "Adjust display"
+
+msgid "视图名称"
+msgstr "View name"
+
+msgid "默认视图"
+msgstr "Default view"
+
+msgid "新建"
+msgstr "New"
+
+msgid "保存"
+msgstr "Save"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\registration\logged_out.html.py:3
+#: .\templates\registration\password_change_done.html.py:3
+#: .\templates\registration\password_reset_done.html.py:3
+#: .\templates\registration\password_reset_form.html.py:3
+msgid "Home"
+msgstr "Home"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\registration\logged_out.html.py
+msgid "感谢您今天在本站花费了一些宝贵时间。"
+msgstr "Thank you for your time on our website today!"
+
+msgid "重新登录"
+msgstr "Re-login"
+#//////////////////////////////////////////////////////////////////////////////
+
+#///////////start of file .\templates\registration\login.html.py///////////////
+
+#: .\templates\registration\login.html.py
+msgid "时间&安全管理平台"
+msgstr "Time & Security Management Platform"
+
+msgid "ZKECO 时间&安全管理平台"
+msgstr "ZKECO Time & Security Management Platform"
+
+msgid "登录"
+msgstr "Login"
+
+msgid "用户登录"
+msgstr "User Login"
+
+msgid "密码登录"
+msgstr "Password"
+
+msgid "登 录"
+msgstr "Login"
+
+msgid "重 置"
+msgstr "Reset"
+
+msgid "指纹登录"
+msgstr "Fingerprint Login"
+
+msgid "会话超时，请重新登录！"
+msgstr "Session timeout. Please log again!"
+
+msgid "确定注销系统?"
+msgstr "Are you sure to log out of the system?"
+
+#: .\templates\registration\login.html.py:90
+#: .\templates\registration\login.html.py:91
+msgid "系列"
+msgstr "Series"
+
+msgid "深圳市中控生物识别技术有限公司 版权所有"
+msgstr ""
+"Shenzhen ZKTeco Biometric Identification Technology Co., Ltd. All Rights "
+"Reserved."
+
+msgid "请输入正确的用户名和密码！"
+msgstr "Please input a correct username and a password!"
+
+msgid "请按手指......"
+msgstr "Please press your finger......"
+
+msgid "比对验证中，请稍等!"
+msgstr "Verifying, please wait!"
+
+msgid "验证失败，请重试!"
+msgstr "Failed! Please try again!"
+
+msgid "10.0指纹算法许可失败!"
+msgstr "The fingerprint algorithm 10.0 license verifying failed!"
+
+msgid "用户名错误，请重试!"
+msgstr "User error, please try again!"
+
+msgid "验证通过，登录系统!"
+msgstr "Verified,logging in the system!"
+
+msgid "获取指纹失败，请重试!"
+msgstr "Failed to obtain fingerprint, please try again!"
+
+#///////////end of file .\templates\registration\login.html.py//////////////////
+
+#//////////////////start of worktable/////////////////////////////////////////
+msgid "[还原工作面板]"
+msgstr "[Restore Dashboard]"
+
+msgid "[自定义工作面板]"
+msgstr "[Personalize Dashboard]"
+
+msgid "新增人员"
+msgstr "Add Person"
+
+msgid "新增部门"
+msgstr "Add Department"
+
+msgid "新增区域"
+msgstr "Add Area"
+
+msgid "人员查询"
+msgstr "Personnel Search"
+
+#/////////////////////end of worktable///////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\DbBackupLog_opform_OpBackupDB.html.py
+msgid "立即备份"
+msgstr "Backup Now"
+
+#: .\templates\DbBackupLog_opform_OpBackupDB.html.py:9
+#: .\templates\DbBackupLog_opform_OpBackupDB.html.py:15
+msgid "计划备份"
+msgstr "Scheduled Backup"
+
+msgid "取消计划备份"
+msgstr "Cancel Scheduled Backup"
+
+msgid "从"
+msgstr "Start from"
+
+msgid "开始,"
+msgstr " "
+
+msgid "每隔"
+msgstr "Every"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\data_edit.html.py
+msgid "临时保存"
+msgstr "Temporary Saving"
+
+msgid "详情"
+msgstr "Details"
+
+msgid "当前页帮助"
+msgstr "Current Page Help"
+
+msgid "当前位置："
+msgstr "Current Window: "
+
+msgid "日志记录"
+msgstr "Log Entries"
+
+
+msgid "取消报警"
+msgstr "Cancel Alarm"
+
+msgid "门被意外打开"
+msgstr "Opened Forcefully"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#第二部分 公共部分 结束
+
+#第三部分 导入导出查询 开始
+
+#//////////////start of advanced search 高级查询/////////////////
+#, python-format
+msgid "第 %d 页"
+msgstr "Page %d"
+
+msgid "等于"
+msgstr "Equal to"
+
+msgid "大于等于"
+msgstr "Larger than or equal to"
+
+msgid "大于"
+msgstr "Larger than"
+
+msgid "小于等于"
+msgstr "Smaller than or equal to"
+
+msgid "小于"
+msgstr "Smaller than"
+
+msgid "满足任意一个"
+msgstr "Meet any"
+
+msgid "含有"
+msgstr "Contain"
+
+msgid "等于空值"
+msgstr "Equal to null"
+
+#//////////////end of advanced search 高级查询/////////////////
+
+#//////////////start of file dbapp\importandexport.py export.py 导入导出/////////////////
+#: D:/trunk/python-support/dbapp\importandexport.py
+msgid "取文件参数错误"
+msgstr "Wrong File Name"
+
+msgid "文件内容为空!"
+msgstr ""
+
+msgid "处理txt文件出错!"
+msgstr "Import error!"
+
+msgid "处理XLS文件错误!"
+msgstr "Wrong File Name"
+
+msgid "上传文件类型未知!"
+msgstr "File Type"
+
+msgid "人员编号长度过长"
+msgstr "Too long a No."
+
+msgid "文件导入操作完成！"
+msgstr "Import success!"
+
+msgid "文件导入出错!"
+msgstr "Import error!"
+
+msgid "TXT 文件"
+msgstr "TXT file"
+
+msgid "CSV 文件"
+msgstr "CSV file"
+
+msgid "PDF 文件"
+msgstr "PDF file"
+
+msgid "EXCEL 文件"
+msgstr "XLS file"
+
+msgid "标准的员工模板"
+msgstr "Standard personnel template"
+
+msgid "简单的雇员的模板"
+msgstr "Simple employee template"
+
+msgid "标准模板"
+msgstr "Standard template"
+
+msgid "导出数据"
+msgstr "Export data"
+
+msgid "指定的数据格式不存在或不支持!"
+msgstr "The specified data format does not exist or is not supported!"
+
+
+#//////////////end of file dbapp\importandexport.py 导入导出/////////////////
+
+#///////////////start of file .\templates\import.html 导入/////////////////////
+msgid "无标题文档"
+msgstr "Untitled"
+
+msgid "选择导入表"
+msgstr "Select Import Table"
+
+msgid "导入文件"
+msgstr "Import File"
+
+msgid "文件格式"
+msgstr "File Format"
+
+msgid "XLS文件"
+msgstr "XLS file"
+
+msgid "TXT文件，CSV文件"
+msgstr "TXT file, CSV file"
+
+msgid "分隔符"
+msgstr "Delimiter"
+
+msgid "智能查找"
+msgstr "Smart Search"
+
+msgid "其它"
+msgstr "Others"
+
+msgid "标题"
+msgstr "Title"
+
+msgid "无标题"
+msgstr "Untitled"
+
+msgid "有标题，标题在文件中第"
+msgstr "There is a title, which is in the No."
+
+msgid "行"
+msgstr "row"
+
+msgid "起始行"
+msgstr "Start row"
+
+msgid "记录从第"
+msgstr "From No."
+
+msgid "行起开始导入"
+msgstr "row"
+
+msgid "简体"
+msgstr "Simplified"
+
+msgid "繁体"
+msgstr "Traditional"
+
+msgid "上传文件"
+msgstr "Upload File"
+
+msgid "记录与表字段对应关系"
+msgstr "Correspondence between entries and table fields"
+
+msgid "数据出错处理方式"
+msgstr "Data Error Processing Way"
+
+msgid "跳过出错行，继续执行导入"
+msgstr "Skip the erroneous row, and continue to import"
+
+msgid "中断整个导入,清除已导入记录"
+msgstr "Interrupt import and clear exported entries"
+
+msgid "关联记录处理"
+msgstr "Associated Entries Processing"
+
+msgid "自动增加到关联表"
+msgstr "Auto add to association table"
+
+msgid "不增加关联记录，跳过当次记录"
+msgstr "Skip the current entry without adding associated entry"
+
+#///////////////end of file .\templates\import.html 导入/////////////////////
+
+
+#///////////////start of file .\templates\export.html.py///////////////////////
+
+#: .\templates\export.html.py
+msgid "当前导出表"
+msgstr "Current Export Table"
+
+msgid "文件类型"
+msgstr "File Type"
+
+msgid "文件编码"
+msgstr "File Code"
+
+msgid "导出方式:"
+msgstr "Export Way:"
+
+msgid "全部记录(最多导出10000条最新记录)"
+msgstr "All entries(max 10000 new entries)"
+
+msgid "按页导出"
+msgstr "Export by Page"
+
+msgid "以每页"
+msgstr "Use"
+
+msgid "条记录为单位,"
+msgstr "Entries a page as unit"
+
+msgid "页到"
+msgstr "Page to"
+
+msgid "页"
+msgstr "Page"
+
+msgid "选择记录数导出"
+msgstr "Select number of entries to export"
+
+msgid "从第"
+msgstr "From No."
+
+msgid "条起，共导出"
+msgstr "Entry, export total"
+
+msgid "条记录"
+msgstr "entries"
+
+#////////////////end of file .\templates\export.html.py////////////////////////
+
+#//////////////start of dbapp\filterspecs.py////////////////////////////////////////////////////////////////
+msgid "所有"
+msgstr "All"
+
+#, python-format
+msgid "过滤器通过%(title)s"
+msgstr "filter passing %(title)s"
+
+msgid "更多..."
+msgstr "More…"
+
+msgid "任何时候"
+msgstr "Anytime"
+
+msgid "今天"
+msgstr "Today"
+
+msgid "前7天"
+msgstr "Previous 7 days"
+
+msgid "本月"
+msgstr "This month"
+
+msgid "今年"
+msgstr "This year"
+
+msgid "指定范围..."
+msgstr "Specify range…"
+
+msgid "未知"
+msgstr "Unknown"
+#//////////////end of dbapp\filterspecs.py////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\advenquiry.html.py
+msgid "请选择查询字段"
+msgstr "Select Search Field"
+
+msgid "条件选择"
+msgstr "Select Condition"
+
+msgid "值域"
+msgstr "Range "
+
+msgid "已选择条件"
+msgstr "Conditions Selected"
+
+msgid "*注：同一个字段与同一个条件的选择以最后一次为准。"
+msgstr "*Note: For selecting of the same field or same conditions, the last selection is prevailing."
+
+#: .\api\views.py
+msgid "导出的内容与选择的编码不符"
+msgstr "Export the contents of the code does not match with the choice code"
+
+msgid "导出超时，临时数据已经不存在!"
+msgstr "Export timeout. Temporary data no longer exist!"
+
+#//////////////////////////////////////////////////////////////////////////////
+#第三部分 导入导出查询 结束
+
+
+#第四部分 人事模块 开始
+
+#/////////////start of file model_emp.py/////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_emp.py
+msgid "人员姓名"
+msgstr "First Name"
+
+#, python-format
+msgid "员工 %s"
+msgstr "Employee %s"
+
+msgid "性别"
+msgstr "Gender"
+
+msgid "民族"
+msgstr "Ethnic"
+
+msgid "职务"
+msgstr "Job Title"
+
+msgid "办公电话"
+msgstr "Office Telephone"
+
+msgid "人员编号"
+msgstr "Personnel No. "
+
+msgid "姓名"
+msgstr "First Name"
+
+msgid "人员"
+msgstr "Personnel"
+
+msgid "卡号"
+msgstr "Card Number"
+
+msgid "登记员"
+msgstr "Registrar"
+
+msgid "系统管理员维护"
+msgstr "System administrator"
+
+msgid "超级管理员"
+msgstr "Super administrator"
+
+msgid "正式员工"
+msgstr "Permanent"
+
+msgid "试用员工"
+msgstr "Temporary"
+
+msgid "依据相应时间段"
+msgstr "According to TimeTable"
+
+msgid "总公司"
+msgstr "Company name"
+
+msgid "姓氏"
+msgstr "Last Name"
+
+msgid "权限"
+msgstr "Right"
+
+msgid "生日"
+msgstr "Birthday"
+
+msgid "办公地址"
+msgstr "Work Address"
+
+msgid "邮编"
+msgstr "Postal Code"
+
+msgid "家庭电话"
+msgstr "Home Telephone"
+
+msgid "社保号"
+msgstr "Social Security Number"
+
+msgid "身份证号码"
+msgstr "Social Security Number"
+
+msgid "聘用日期"
+msgstr "Employment Date"
+
+msgid "验证方法"
+msgstr "Authentication Method"
+
+msgid "省份"
+msgstr "Province"
+
+msgid "城市"
+msgstr "City"
+
+msgid "动作标志"
+msgstr "Action Flag"
+
+msgid "节假日休息"
+msgstr "Holiday rest"
+
+msgid "荷兰语"
+msgstr "Dutch"
+
+msgid "人员密码"
+msgstr "Personnel password"
+
+msgid "个人照片"
+msgstr "Personal photo"
+
+msgid "设置有效时间"
+msgstr "Set Valid Time"
+
+msgid "政治面貌"
+msgstr "Political Status"
+
+msgid "国家"
+msgstr "Nationality"
+
+msgid "雇佣类型"
+msgstr "Employment Type"
+
+msgid "邮箱"
+msgstr "Email"
+
+msgid "解雇日期"
+msgstr "Dismissal Date"
+
+msgid "家庭地址"
+msgstr "Home Address"
+
+msgid "员工类型"
+msgstr "Type"
+
+msgid "是否黑名单"
+msgstr "Whether blacklisted"
+
+msgid "保留字段1"
+msgstr "Retained field"
+
+msgid "保留字段2"
+msgstr "Retained field"
+
+msgid "保留字段3"
+msgstr "Retained field"
+
+msgid "保留字段4"
+msgstr "Retained field"
+
+msgid "保留字段5"
+msgstr "Retained field"
+
+msgid "人员编号只能为数字"
+msgstr "No. must be a number"
+
+msgid "人员编号不能为0"
+msgstr "No. can not be zero"
+
+#, python-format
+msgid "%(f)s 人员编号长度不能超过%(ff)s位"
+msgstr "%(f)s person’s number length cannot exceed %(ff)s digits."
+
+#, python-format
+msgid "人员编号: %s 已存在"
+msgstr "The No. %s already exists."
+
+#, python-format
+msgid "%s 已存在黑名单中！"
+msgstr "%s is in the backlist!"
+
+msgid "人员密码必须为整数"
+msgstr "The password must be an integer."
+
+msgid "卡号不正确"
+msgstr "The card number is wrong."
+
+#, python-format
+msgid "卡号已存在，如果确认将重新发卡，请先清除该卡原持卡人 %s"
+msgstr ""
+"The card number already exists. If you want to re-issue a card, first remove "
+"the original holder %s of the card."
+
+msgid "部门"
+msgstr "Department"
+
+msgid "部门名称"
+msgstr "Department Name"
+
+msgid "调整部门"
+msgstr "Adjust Department"
+
+msgid "调整到的部门"
+msgstr "Adjusted to Department"
+
+msgid "上传个人照片"
+msgstr "Upload Personal Photo"
+
+msgid "选择个人照片"
+msgstr "Select personal photo"
+
+msgid "人员发卡"
+msgstr "Issue Card"
+
+msgid "目前支持手动输入卡号、使用发卡器等其他外设发卡！"
+msgstr ""
+"At present, inputing the card number manually and using the card issuer or the reader of access control panel or other peripherals are "
+"both supported!"
+
+msgid "指纹登记需要指纹仪驱动，如果您未安装驱动，请先下载驱动程序！"
+msgstr ""
+"Fingerprint registration needs a fingerprint driver being installed. If you "
+"have not installed such a driver yet, download one first."
+
+msgid "模版数量"
+msgstr "Template quantity"
+
+msgid "手指编号"
+msgstr "Finger code"
+
+msgid "员工转正"
+msgstr "Be regular employee"
+
+#, python-format
+msgid "9.0指纹数:%(f)s ; 10.0指纹数:%(f1)s"
+msgstr "9.0 quantity: %(f)s; 10.0 quantity: %(f1)s"
+
+msgid ""
+"人员信息是系统的基本信息，人员编号、部门为必填项<br>指纹登记需要指纹仪驱动，"
+"如果您未安装驱动，请先下载驱动程序！<br>黑白屏考勤机仅支持5位密码，彩屏考勤机"
+"支持8位密码，门禁控制器仅支持6位密码，超过规定长度后系统将自动截取！"
+msgstr ""
+"Personnel information is the system’s basic information, so No. and "
+"department are required items. <br>Fingerprint registration needs to be "
+"driven by a fingerprint scanner.If you have not installed such a driver yet, "
+"download one first! <br>A black-and-white attendance machine supports only 5-"
+"digit passwords, a color attendance machine supports 8-digit passwords, and "
+"an access control panel only supports 6-digit passwords. If a password "
+"exceeds the specified length, the system will truncate it automatically!"
+
+msgid "判断个人照片存在"
+msgstr "Judge the personal photo exists"
+
+msgid "当前语言"
+msgstr "Current language"
+
+msgid "图片格式无效！"
+msgstr "Invalid picture format!"
+
+msgid "卡号不能为0"
+msgstr "Card No. can not be zero"
+
+msgid "图片"
+msgstr "Photo"
+
+msgid "邮箱格式不正确"
+msgstr "Email format is incorrect"
+
+#////////////////end of file .\personnel\models\model_emp.py////////////////////
+
+#////////////////start of file .\personnel\models\model_issuecard.py///////////
+#: .\personnel\models\model_issuecard.py
+msgid "有效"
+msgstr "Valid"
+
+msgid "无效"
+msgstr "Invalid"
+
+msgid "挂失"
+msgstr "Loss report"
+
+msgid "卡类型代码"
+msgstr "Card type code"
+
+msgid "卡类型名称"
+msgstr "Card type name"
+
+msgid "贵宾卡"
+msgstr "VIP card"
+
+msgid "普通卡"
+msgstr "Ordinary card"
+
+msgid "卡类型"
+msgstr "Card type"
+
+msgid "有效日期"
+msgstr "Validity date"
+
+msgid "卡密码"
+msgstr "Card password"
+
+msgid "卡状态"
+msgstr "Card status"
+
+msgid "卡号已使用"
+msgstr "Card number used"
+
+msgid "该人员已发过卡"
+msgstr "Person has been issued a card number"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:142
+msgid "批量发卡"
+msgstr "Batch Issue Card"
+
+msgid "已经发过卡的人员，将不会在生成人员列表时出现！"
+msgstr "The personnel with card numbers will not appear on the generated list."
+
+msgid "已登记指纹 "
+msgstr "Registered Fingerprint:"
+#//////////////end of file .\personnel\models\model_issuecard.py///////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_deptadmin.py:14
+#: D:/trunk/python-support/base\variable_for_trans.py:42
+#: D:/trunk/python-support/dbapp\admin_detail_view.py:109
+#: D:/trunk/python-support/dbapp\importandexport.py:662
+msgid "授权部门"
+msgstr "Authorize Department"
+
+#: .\personnel\models\model_deptadmin.py:23 .\templates\index.html.py:30
+msgid "部门管理"
+msgstr "Department Management"
+#//////////////////////////////////////////////////////////////////////////////
+msgid "部门编号"
+msgstr "Department Number"
+
+msgid "挂失卡"
+msgstr "Report card loss"
+
+msgid "解挂卡"
+msgstr "Cancel card loss report"
+
+msgid "指纹是否有效"
+msgstr "Whether valid"
+
+msgid "用户指纹"
+msgstr "user fingerprint"
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\User_edit.html.py
+msgid "用户指纹登记:"
+msgstr "Fingerprint Registration"
+
+msgid "指纹登记"
+msgstr "Fingerprint Registration"
+
+#: .\templates\User_edit.html.py:276 .\templates\User_edit.html.py:277
+msgid "长度必须大于4位，小于18位，默认密码为111111"
+msgstr "The length range is 4 to 18 digits. The default password is 111111."
+
+msgid "已登记指纹"
+msgstr "Registered Fingerprint:"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\testapp\models.py
+msgid "测试"
+msgstr "Test"
+
+msgid "名字"
+msgstr "Name"
+
+msgid "父级部门"
+msgstr "Parent department"
+
+msgid "父部门"
+msgstr "Parent department"
+
+#: .\testapp\models.py:16 .\worktable\models.py:30
+msgid "类型"
+msgstr "Type"
+
+msgid "雇佣时间"
+msgstr "Employment time"
+#//////////////////////////////////////////////////////////////////////////////
+
+#///////////start of 批量发卡//////////////////////////////////////////////
+#:.\personnel\templates\IssueCard_opform_OpBatchIssueCard.html
+msgid "卡号获取方式"
+msgstr "The way to get card NO."
+
+msgid "刷卡位置"
+msgstr "Position of swiping card"
+
+msgid "已读取卡数"
+msgstr "The number of card"
+
+msgid "开始读取"
+msgstr "Start to read"
+
+msgid "停止读取"
+msgstr "Stop to read"
+
+msgid "点击获取未分配卡人员"
+msgstr "Get the persons that was unaccommodated"
+
+msgid "未分配卡人员数量"
+msgstr "The number of person"
+
+msgid "自动分配"
+msgstr "auto-assign"
+
+msgid "已成功分配人员数量："
+msgstr "The number of the person has been assigned: "
+
+msgid " 行      "
+msgstr " lines    "
+
+msgid "处理第\n"
+msgstr "Processing line \n"
+
+msgid "\n...\n还有%s条未显示，其它行导入操作成功！"
+msgstr "\n...\n, %s lines are not displayed, other lines import successful."
+
+msgid "\n出错，其它行导入操作成功！"
+msgstr "\nerror, other lines import successful."
+#//////////////////end of 批量发卡/////////////////////////////////////////////
+
+#///////////////start of IssueCard_opform_OpBatchIssueCard.html////////////////
+msgid "起始编号不能为空"
+msgstr "The start personnel No. cannot be empty."
+
+msgid "结束编号不能为空"
+msgstr "The end personnel No. cannot be empty."
+
+msgid "该人员编号段内不存在人员"
+msgstr "This personnel No. segment has no personnel."
+
+msgid "此卡已使用!"
+msgstr "This card is in use!"
+
+msgid "输入起始人员编号:"
+msgstr "Start Personnel No.:"
+
+msgid "输入结束人员编号:"
+msgstr "End Personnel No.:"
+
+msgid "生成人员列表"
+msgstr "Generate List"
+
+msgid "更改人员编号"
+msgstr "Modify"
+
+msgid "剩余发卡数:"
+msgstr "Remaining Card Quantity:"
+
+msgid "选择卡输入方式:"
+msgstr "Select Card Input Mode:"
+
+msgid "发卡器"
+msgstr "Card Reader"
+
+msgid "输入卡号:"
+msgstr "Input Card Number:"
+
+msgid "清除"
+msgstr "Clear"
+
+msgid "已发卡数:"
+msgstr "Number of Issued Cards:"
+
+msgid "序号"
+msgstr "Serial No."
+#////////////////end of IssueCard_opform_OpBatchIssueCard.html/////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\templates\Area_opform_OpAdjustArea.html.py:8
+msgid "选择区域"
+msgstr "Select area"
+
+msgid "工号"
+msgstr "No."
+
+#: .\personnel\report.py:176 .\personnel\report.py:178
+msgid "手机"
+msgstr "Mobile Phone"
+
+#: .\personnel\report.py:176 .\personnel\report.py:178
+msgid "年龄"
+msgstr "Age"
+#: .\personnel\report.py:176 .\personnel\report.py:179
+msgid "籍贯"
+msgstr "Origin"
+
+#: .\personnel\report.py:176 .\personnel\report.py:179
+msgid "学历"
+msgstr "Education"
+
+#: .\personnel\report.py:298 .\personnel\report.py:301
+msgid "小学"
+msgstr "Primary School"
+
+#: .\personnel\report.py:298 .\personnel\report.py:302
+msgid "中学"
+msgstr "Secondary School"
+
+#: .\personnel\report.py:298 .\personnel\report.py:302
+msgid "高中"
+msgstr "High School"
+
+#: .\personnel\report.py:298 .\personnel\report.py:303
+msgid "大学"
+msgstr "College"
+
+#: .\personnel\report.py:298 .\personnel\report.py:303
+msgid "硕士"
+msgstr "Master"
+
+#: .\personnel\report.py:298 .\personnel\report.py:304
+msgid "博士"
+msgstr "Doctor"
+
+#: .\personnel\report.py:374 .\personnel\report.py:379
+msgid "发卡日期"
+msgstr "Issue Card Date"
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\__init__.py:20 .\templates\init_models.html.py:3
+#: .\worktable\models.py:59 .\worktable\models.py:60
+#: D:/trunk/python-support/base\variable_for_trans.py:49
+msgid "人事"
+msgstr "Personnel"
+
+#: .\personnel\models\__init__.py:26
+msgid "人事默认页面"
+msgstr "Default access control page"
+
+#: .\personnel\models\depttree.py:427
+msgid "撤销选择"
+msgstr "De-Delect"
+
+#: .\personnel\models\depttree.py:429 .\personnel\models\depttree.py:476
+#: .\personnel\templates\IssueCard_opform_OpBatchIssueCard.html.py:268
+msgid "确定"
+msgstr "Confirm"
+
+#: .\personnel\models\depttree.py:477
+msgid "包含下级"
+msgstr "Include Subordinate"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_area.py
+msgid "区域编号"
+msgstr "Area Code"
+
+#: .\personnel\models\model_area.py:14 .\personnel\models\model_area.py:119
+msgid "区域名称"
+msgstr "Area Name"
+
+msgid "上级区域"
+msgstr "Parent Area"
+
+msgid "区域编号已经存在!"
+msgstr "The area code already exists!"
+
+#: .\personnel\models\model_area.py:88 .\personnel\models\model_area.py:89
+msgid "撤消区域"
+msgstr "Delete area"
+
+msgid "该区域还有下级子区域，不能撤消"
+msgstr "This area has sub-areas and cannot be deleted."
+
+msgid "该区域还有设备，不能撤消"
+msgstr "This area has devices and cannot be deleted."
+
+msgid "根区域不能撤消"
+msgstr "A root area cannot be deleted."
+
+msgid "区域设置"
+msgstr "Area Setting"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_areaadmin.py:14
+#: D:/trunk/python-support/base\variable_for_trans.py:44
+#: D:/trunk/python-support/dbapp\admin_detail_view.py:127
+msgid "授权区域"
+msgstr "Authorize Area"
+
+#: .\personnel\models\model_areaadmin.py:23
+msgid "区域管理"
+msgstr "Area Management"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_dept.py
+msgid "独立核算单位"
+msgstr "Independently accounting unit"
+
+msgid "部门内的小组"
+msgstr "Intra-department team"
+
+msgid "部门ID"
+msgstr " ID"
+
+msgid "上级部门"
+msgstr "Parent Department"
+
+msgid "部门类型"
+msgstr "Type"
+
+msgid "失效日期"
+msgstr "Invalidity date"
+
+msgid "部门编号已经存在!"
+msgstr "The department number already exists!"
+
+msgid "不能设置一个部门的上级部门为其自身或其子部门"
+msgstr ""
+"You cannot set the upper department of a department as itself or its sub-"
+"department."
+
+msgid "撤消部门"
+msgstr "Delete"
+
+msgid "撤消"
+msgstr "Delete"
+
+msgid "该部门还有下级子部门，不能撤消"
+msgstr "This department still has sub-departments and cannot be cancelled."
+
+msgid "该部门还有人员，不能撤消"
+msgstr "This department still has personnel and cannot be cancelled."
+
+msgid "根部门不能撤消"
+msgstr "A root department cannot be cancelled."
+
+msgid ""
+"如果新增的部门在部门列表中未能显示，请联系管理员到用户编辑中重新授权部门！"
+msgstr ""
+"If a parent department does not display in the select list please contact "
+"your system administrator to confirm that if you have the authority to add "
+"a new department to this parent."
+#//////////////////////////////////////////////////////////////////////////////
+msgid "9.0指纹仪登记"
+msgstr "Fingerprint Registration (9.0)"
+
+msgid "10.0指纹仪登记"
+msgstr "Fingerprint Registration (10.0)"
+
+msgid "人员基础资料"
+msgstr "Personnel Profile"
+
+msgid "连接发卡器"
+msgstr "Connect Card Reader"
+
+msgid "(最佳尺寸为120×140像素)"
+msgstr "(Optimal Size 120×140 Pixel)"
+
+#: .\iclock\models\model_bio.py
+msgid "左手小指"
+msgstr "Left-hand little finger"
+
+msgid "左手无名指"
+msgstr "Left-hand ring finger"
+
+msgid "左手中指"
+msgstr "Left-hand middle finger"
+
+msgid "左手食指"
+msgstr "Left-hand forefinger"
+
+msgid "左手拇指"
+msgstr "Left-hand thumb"
+
+msgid "右手拇指"
+msgstr "Right-hand thumb"
+
+msgid "右手食指"
+msgstr "Right-hand forefinger"
+
+msgid "右手中指"
+msgstr "Right-hand middle finger"
+
+msgid "右手无名指"
+msgstr "Right-hand ring finger"
+
+msgid "右手小指"
+msgstr "Right-hand little finger"
+
+msgid "指纹模板"
+msgstr "Fingerprint template"
+
+msgid "手指"
+msgstr "Finger"
+
+msgid "指纹类别"
+msgstr "Fingerprint Type"
+
+msgid "指纹版本"
+msgstr "Fingerprint version"
+
+msgid "人脸"
+msgstr "Face"
+
+msgid "登记设备"
+msgstr "Register device"
+
+msgid "更新时间"
+msgstr "Update time"
+
+msgid "人员指纹"
+msgstr "Fingerprint"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#第四部分 人事模块 结束
+
+#第五部分 设备模块 开始
+
+#/////////////start of file model_device.py////////////////////////////////////
+msgid "设备"
+msgstr "Device"
+
+msgid "设备名称"
+msgstr "Device Name"
+
+msgid "设备默认页面"
+msgstr "Default access control page"
+
+#: .\iclock\models\model_device.py
+msgid "内容类型"
+msgstr "Content Type"
+
+msgid "HTTP"
+msgstr "HTTP"
+
+msgid "9.0算法"
+msgstr "9.0 Algorithm"
+
+msgid "10.0算法"
+msgstr "10.0 Algorithm"
+
+msgid "序列号"
+msgstr "Serial Number"
+
+msgid "设备型号"
+msgstr "Device Model"
+
+msgid "动作时间"
+msgstr "Action Time"
+
+msgid "最大指纹容量"
+msgstr "Max Fingerprint Cpacity"
+
+msgid "最大记录容量"
+msgstr "Max Entry Capacity"
+
+msgid "算法版本"
+msgstr "Algorithm Version"
+
+msgid "总Flash容量"
+msgstr "Total Flash Capacity"
+
+msgid "剩余Flash容量"
+msgstr "Remaining Flash Capacity"
+
+msgid "语言"
+msgstr "Language"
+
+msgid "语言编码"
+msgstr "Language Code"
+
+msgid "容量"
+msgstr "Capacity"
+
+msgid "最大用户容量"
+msgstr "Max User Capacity"
+
+msgid "最近联机时间"
+msgstr "Recent online time"
+
+msgid "固件版本"
+msgstr "Firmware Version"
+
+msgid "用户数"
+msgstr "User quantity"
+
+msgid "IP地址"
+msgstr "IP Address"
+
+msgid "所属区域"
+msgstr "Area"
+
+msgid "指纹数"
+msgstr "Fingerprint quantity"
+
+msgid "记录数"
+msgstr "Entry quantity"
+
+msgid "是否为彩屏"
+msgstr "Whether color screen"
+
+msgid "系统平台"
+msgstr "System Platform"
+
+msgid "分辨率"
+msgstr "Resolution"
+
+msgid "制造商"
+msgstr "Manufacturer"
+
+msgid "所在城市"
+msgstr "City"
+
+msgid "时区"
+msgstr "Time Zone"
+
+msgid "通信方式"
+msgstr "Communication Mode"
+
+msgid "通信中"
+msgstr "In communication"
+
+msgid "IP端口号"
+msgstr "IP Port No. "
+
+msgid "指纹比对阈值"
+msgstr "Fingerprint Identification Threshold"
+
+msgid "设备指纹识别版本"
+msgstr "Fingerprint identification version"
+
+msgid "是否启用"
+msgstr "Whether enabled"
+
+#, python-format
+msgid "IP地址为:%s 的设备已存在"
+msgstr "The device with an IP address %s already exists."
+
+#, python-format
+msgid "序列号：%s 已存在"
+msgstr "The serial number %s already exists."
+
+#, python-format
+msgid "设备名称：%s 已存在"
+msgstr "The device name %s already exists."
+
+msgid "同步所有数据"
+msgstr "Synchronized All Data"
+
+msgid "同步时间"
+msgstr "Synchronize time"
+
+msgid "同步设备时间为服务器时间。"
+msgstr "Synchronize the device to the server time."
+
+msgid "设备禁用后再重新启用前将无法使用。"
+msgstr "The disabled device will be unavailable until it is enabled again."
+
+#: D:/trunk/python-support/base\variable_for_trans.py:32
+msgid "启用"
+msgstr "Enable"
+
+msgid "启用设备后设备将恢复正常的使用状态。"
+msgstr "The enabled device will be restored to normal use."
+
+msgid ""
+"请选择设备类型以及对应的通信方式。设备名称、各通信参数以及所属区域为必填项。"
+msgstr ""
+"Please select the device type and communication mode.Device Name, the "
+"communication parameters, and their respective areas are required."
+
+msgid "设备名称、各通信参数以及所属区域为必填项。"
+msgstr ""
+"Device name, the communication parameters, and their respective areas are "
+"required."
+
+#//////////////end of file model_device.py////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\iclock\models\model_devcmd.py
+msgid "返回"
+msgstr "Return"
+
+msgid "操作任务"
+msgstr "Task"
+
+msgid "命令内容"
+msgstr "Content"
+
+msgid "提交时间"
+msgstr "Submit Time"
+
+msgid "返回时间"
+msgstr "Return Time"
+
+msgid "返回值"
+msgstr "Returned Value"
+
+msgid "返回内容"
+msgstr "Returned Content"
+
+msgid "是否是立即备份"
+msgstr "whether backup now"
+
+msgid "清空命令表"
+msgstr "Clear Commands"
+
+msgid "清空服务器下发命令表。"
+msgstr "Clear the commands sent from server."
+
+msgid "确认要清空命令表"
+msgstr "Confirm to clear all the commands"
+
+msgid "传送时间"
+msgstr "Transmit time"
+
+msgid "服务器下发命令"
+msgstr "Server Sent Commands"
+#//////////////////////////////////////////////////////////////////////////////
+
+#///////////////start of file .\iclock\models\model_dstime.py//////////////////
+#: .\iclock\models\model_dstime.py
+msgid "模式一"
+msgstr "Mode one"
+
+msgid "模式二"
+msgstr "Mode two"
+
+msgid "一月"
+msgstr "JAN"
+
+msgid "二月"
+msgstr "FEB"
+
+msgid "三月"
+msgstr "MAR"
+
+msgid "四月"
+msgstr "APR"
+
+msgid "五月"
+msgstr "MAY"
+
+msgid "六月"
+msgstr "JUN"
+
+msgid "七月"
+msgstr "JUL"
+
+msgid "八月"
+msgstr "AUG"
+
+msgid "九月"
+msgstr "SEP"
+
+msgid "十月"
+msgstr "OCT"
+
+msgid "十一月"
+msgstr "NOV"
+
+msgid "十二月"
+msgstr "DEC"
+
+msgid "第一个"
+msgstr "First"
+
+msgid "第二个"
+msgstr "Second"
+
+msgid "第三个"
+msgstr "Third"
+
+msgid "第四个"
+msgstr "Forth"
+
+msgid "第五个"
+msgstr "Fifth"
+
+msgid "模式"
+msgstr "Mode"
+#////////////////end of file .\iclock\models\model_dstime.py///////////////////
+
+#. \trunk\units\adms\mysite\iclock\models\model-device.py
+msgid "show_fp_mthreshold"
+msgstr "Fingerprint Identification Threshold"
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_device.py
+msgid ""
+"同步所有数据主要用来将服务器中的数据同步到设备中，一般情况下只有在由于客观因素（如网络"
+"异常或其他情况）导致设备中数据和服务器不一致时才需要使用该操作。"
+msgstr ""
+"Synchronize all data is mainly used to synchronize the data between the server and "
+"the device. Generally, it is only used in the situation of data asynchronous between the server and device "
+"which cause by some objective factors (such as network abnormal or other situation). "
+
+msgid "当前文件里的记录不属于该设备！"
+msgstr "The entries in this file does not match the device!"
+
+#: .\iclock\templates\Device_edit.html.py
+msgid "第一步:选择设备类型"
+msgstr "Step 1: Select device type"
+
+msgid "第二步:添加设备信息"
+msgstr "Step 2: Add Device Information"
+
+msgid "下一步"
+msgstr "Next"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#第五部分 设备模块 结束
+#////////////////////////////////////////////////////////////////////////////////
+msgid "get_dstime_name"
+msgstr "DST Name"
+
+msgid "get_start_time"
+msgstr "Start time"
+
+msgid "get_end_time"
+msgstr "End time"
+
+msgid "日期：%s 已经被设置为节假日，不能重复设置！"
+msgstr "Date:%s has already been set as holiday, it cannot be set repeatedly!"
+
+msgid "事件描述"
+msgstr "Event Description"
+
+msgid "个人信息"
+msgstr " information"
+
+msgid "导入数据"
+msgstr "Import data"
+
+msgid "用户信息数据不匹配，请选择正确的用户信息数据文件"
+msgstr ""
+"The user information data do not match. Please select a correct user "
+"information data file."
+
+msgid "设置成功"
+msgstr "Successful setting"
+
+msgid "%s位员工处理数据已经提交准备传送, 但是发生如下错误:"
+msgstr ""
+"%s persons’ processed data have been submitted for transmission, but the "
+"following error occurs:"
+
+msgid "没有员工处理数据被传送, 发生如下错误"
+msgstr ""
+"No person’s processed data is transmitted, and the following error occurs:"
+
+msgid "%s位员工处理数据已经提交准备传送"
+msgstr "%s persons’ processed data have been submitted for transmission."
+
+msgid "批量上传人员列表"
+msgstr "Batch personnel list upload"
+
+msgid "%(object)s 人员已经成功!"
+msgstr "The person %(object)s has succeeded!"
+
+msgid "日期格式"
+msgstr "Date Format"
+
+msgid "设备禁用后在重新启用前将无法使用。"
+msgstr "The disabled device will be unavailable until it is enabled again."
+
+msgid "两次输入密码不一致,请重新输入!"
+msgstr "The two passwords are different. Please input again!"
+
+msgid "是否生效"
+msgstr "Whether validated"
+
+msgid "立即生效"
+msgstr "Validated instantly"
+
+msgid "Hide"
+msgstr "ID"
+
+msgid "Close"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid ""
+"The Django Debug Toolbar has intercepted a redirect to the above URL for "
+"debug viewing purposes.  You can click the above link to continue with the "
+"redirect as normal.  If you'd like to disable this feature, set the "
+"<code>DEBUG_TOOLBAR_CONFIG</code> dictionary's key "
+"<code>INTERCEPT_REDIRECTS</code> to <code>False</code>."
+msgstr ""
+
+msgid "Total Calls"
+msgstr ""
+
+msgid "Total Time"
+msgstr ""
+
+msgid "Hits"
+msgstr ""
+
+msgid "Misses"
+msgstr ""
+
+msgid "Breakdown"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Function"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "No messages logged"
+msgstr ""
+
+msgid "COOKIES Variables"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "No COOKIE data"
+msgstr ""
+
+msgid "SESSION Variables"
+msgstr ""
+
+msgid "No SESSION data"
+msgstr ""
+
+msgid "GET Variables"
+msgstr ""
+
+msgid "No GET data"
+msgstr ""
+
+msgid "POST Variables"
+msgstr ""
+
+msgid "No POST data"
+msgstr ""
+
+msgid "Setting"
+msgstr ""
+
+msgid "Signal"
+msgstr ""
+
+msgid "Providing Args"
+msgstr ""
+
+msgid "Receivers"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Stacktrace"
+msgstr ""
+
+msgid "Query"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "File"
+msgstr "filter by"
+
+msgid "Back"
+msgstr ""
+
+msgid "SQL Explained"
+msgstr ""
+
+msgid "Executed SQL"
+msgstr ""
+
+msgid "SQL Profiled"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "SQL Selected"
+msgstr ""
+
+msgid "Empty set"
+msgstr ""
+
+msgid "Template Source"
+msgstr "fingerprint version"
+
+msgid "Template path"
+msgstr "fingerprint version"
+
+msgid "Template"
+msgstr "fingerprint version"
+
+msgid "Toggle Context"
+msgstr ""
+
+msgid "None"
+msgstr "None"
+
+msgid "Context processor"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "Package"
+msgstr ""
+
+msgid "Version"
+msgstr "personnel"
+
+msgid "%s does not appear to be a urlpattern object"
+msgstr ""
+
+msgid "Lookup"
+msgstr "Log out"
+
+msgid "Language selection"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Progress"
+msgstr ""
+
+msgid "Messages"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+msgid "Fuzzy"
+msgstr ""
+
+msgid "Obsolete"
+msgstr ""
+
+msgid "Nothing to translate!"
+msgstr ""
+
+msgid ""
+"You haven't specified any languages in your settings file, or haven't yet "
+"generated a batch of translation catalogs."
+msgstr ""
+
+msgid ""
+"Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</"
+"a> for a guide on how to set up internationalization for your project."
+msgstr ""
+
+msgid "Pick another file"
+msgstr ""
+
+msgid "Download this catalog"
+msgstr ""
+
+msgid "Progress: %(percent_translated)s%"
+msgstr ""
+
+msgid "File is read-only: download the file when done editing!"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Translate into %(rosetta_i18n_lang_name)s"
+msgstr ""
+
+msgid "Display:"
+msgstr ""
+
+msgid "Untranslated only"
+msgstr ""
+
+msgid "Translated only"
+msgstr ""
+
+msgid "Fuzzy only"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Occurrences(s)"
+msgstr ""
+
+msgid "suggest"
+msgstr ""
+
+msgid "%(more_count)s more"
+msgid_plural "%(more_count)s more"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Save and translate next block"
+msgstr ""
+
+msgid "Skip to page:"
+msgstr ""
+
+msgid "Displaying:"
+msgstr ""
+
+msgid "%(hits)s/%(message_number)s message"
+msgid_plural "%(hits)s/%(message_number)s messages"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "公告内容不能超过100字符！"
+msgstr "Notice content cannot contain more than 100 characters!"
+
+msgid "%s"
+msgstr "%s"
+
+msgid "命令成功执行"
+msgstr "Command processing succeeded."
+
+msgid "参数错误"
+msgstr "Error parameter"
+
+msgid "机器存取错误"
+msgstr "Device access error"
+
+msgid "用户不存在"
+msgstr "User does not exist."
+
+msgid "非法的指纹模板格式"
+msgstr "Illegal fingerprint template format"
+
+msgid "非法的指纹模板"
+msgstr "Illegal fingerprint template"
+
+msgid "命令处理失败"
+msgstr "Command processing failed"
+
+msgid "命令处理超时，等待下次下发此命令"
+msgstr "Command processing is timing out, waiting for the next time to issue."
+
+msgid "普通员工"
+msgstr "Ordinary Employee"
+
+msgid "是否为设备管理员"
+msgstr "Whether to set as administrator"
+
+msgid "目前支持手动输入卡号以及使用发卡器发卡！"
+msgstr "Currently supports using of card issuer, or input card number manually."
+
+msgid "生日日期错误"
+msgstr "Date of Birth Error"
+
+msgid "提前天数或持续天数必须是0到99之间！"
+msgstr "The advance day or the continue day should be between 0 to 99."
+
+msgid "手机号码格式不正确"
+msgstr "Incorrect phone number format"
+
+msgid "升级固件失败，原因：后台串口进程忙"
+msgstr "Firmware upgrade failed, reason: process of background Serial Port busy."
+
+msgid "升级固件失败，原因：后台设备线程忙"
+msgstr "Firmware upgrade failed, reason: background thread of device is busy."
+
+msgid "按年循环日期：%(a)s-%(b)s 设置重复"
+msgstr "Setting of recurring date: %(a)s-%(b)s repeated!"
+
+msgid "浏览"
+msgstr "Browse"
+
+msgid "show_last_activity"
+msgstr "Recent online time"
+
+msgid "get_cmdcontent"
+msgstr "Content"
+
+msgid "get_template"
+msgstr "Number of Fingerprints"
+
+msgid "get_user_template"
+msgstr "Number of Fingerprints"
+
+msgid "get_ExceptionID"
+msgstr "Exception"
+
+msgid "get_process_status"
+msgstr "Device executing command progress"
+
+msgid ""
+"最多15位字符，空值代表取消通讯密码。修改成功后服务器将会自动将软件中的密码同"
+"步为新的密码。"
+msgstr ""
+"The communication password can be up to 15-bit characters."
+"A void value indicates no password. After "
+"successful modification, the server will automatically synchronize the "
+"new password to the software."
+
+msgid "浏览失败命令查询"
+msgstr "Browse"
+
+msgid "清空失败命令"
+msgstr "Clear the failed commands."
+
+msgid "数据清理"
+msgstr "Clear Data"
+
+msgid "将清空选中的项目内容。该操作无法撤销。"
+msgstr "All selected items will be cleared. The action cannot be undone."
+
+msgid "清理垃圾数据时间小于"
+msgstr "Clean up data less than"
+
+msgid "选择清理内容"
+msgstr "Choose items to clean"
+
+msgid "选择全部"
+msgstr "Select all"
+
+msgid "清理日志记录"
+msgstr "Clean up Log Entries"
+
+msgid "清理机器上传的过期文件夹"
+msgstr "Clean up Expired folders the machine uploaded"
+
+msgid "清理失败命令"
+msgstr "Clean up failed commands"
+
+msgid "清理通讯命令日志"
+msgstr "Clean up device communication log"
+
+msgid "清理临时文件夹"
+msgstr "Clean up temporary file"
+
+msgid "清理结果"
+msgstr "Cleaning results"
+
+msgid "不能删除7天之内的数据"
+msgstr "You can not delete data within 7 days"
+
+msgid "时间转化错误，清除失败,请确认日期输入正确！"
+msgstr "Time conversion error, clear the failure, make sure to enter the correct date!"#id=81011
+
+msgid "系统设置->数据清理"
+msgstr "System->Clear Data"
+
+msgid "请选择清理项."
+msgstr "Please choose items to clean"
+
+msgid "清理用户会话记录"
+msgstr "Clean up the user's session records"
+
+msgid "所选的部门总数不能大于2000"
+msgstr "Selected departments can not exceed 2000 total"
+
+
+msgid "是否上传人员信息与指纹"
+msgstr "Upload personnel information and fingerprints"
+
+msgid "是否上传考勤记录"
+msgstr "Upload attendance records "
+
+msgid "get_dept_code"
+msgstr "Department number"
+
+msgid "get_dept_name"
+msgstr "Department number"
+
+msgid "版本不支持修改！"
+msgstr "Version does not support the changes!"
+
+msgid "清空命令备份表"
+msgstr "Empty command to back up the table."
+
+msgid "清空服务器失败命令"
+msgstr "Empty server command failed"
+
+msgid "确认要清空失败命令"
+msgstr "failed to confirm the command to clear the"
+
+msgid "失败命令查询"
+msgstr "Failed Query"
+
+#: .\worktable\templates\worktable.html.py:350
+#: .\worktable\templates\worktable_empstructure.html.py:5
+msgid "按工龄"
+msgstr "By Length of Service"
+
+#: .\worktable\templates\worktable.html.py:351
+#: .\worktable\templates\worktable_empstructure.html.py:6
+msgid "按性别"
+msgstr "By Gender"
+
+msgid "浏览通信命令详情"
+msgstr "Browse"
+
+#///////////////////////////////////
+msgid "设备通讯日志"
+msgstr "Device communication log"
+
+msgid "人员调动"
+msgstr "Transfer"
+
+msgid "人员离职"
+msgstr "Departure"
+
+msgid "系统提醒设置"
+msgstr "System reminder setting"
+
+msgid "公告发布"
+msgstr "Release notice"
+
+msgid "公告类别"
+msgstr "Notice type"
+
+msgid "通信命令详情"
+msgstr "Command details"
+
+msgid "合同内"
+msgstr "Employee"
+
+msgid "合同外"
+msgstr "Contractor"
+
+msgid "登记指纹"
+msgstr "Register Fingerprint"
+
+msgid "登记密码"
+msgstr "Register password"
+
+msgid "当前用户不能删除自己"
+msgstr "The current user can't  delete self"

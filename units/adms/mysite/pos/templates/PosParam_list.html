@@ -1,0 +1,227 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block content %}
+<div id="content" ></div>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+{% block op_for_tab %}
+{% endblock %}
+{% block export %}
+{% endblock %}
+{% block addjs %}
+
+var lClass;
+$(function(){
+    fun_attparam();
+});
+
+
+function fun_attparam(){
+	$("#id_newrec").remove();
+	$("#id_clearrec").remove();
+	$("#content").html("");
+	$.ajax({ 
+	        type: "POST",
+	        url:"{{dbapp_url}}../pos/load_pos_param/",
+	        dataType:"json",
+	        success:function(json){
+	            var options=json
+                max_money = options.max_money
+                main_fan_area = options.main_fan_area
+                minor_fan_area = options.minor_fan_area
+                system_pwd = options.system_pwd
+                pwd_again = options.pwd_again
+                lClass=json;
+                param_id = options.ID
+	            $("#content").html(""
+	            +"<form id='id_edit_form' method='post'><table class='content_tbl attParam' align='left' style='width:97%; margin-left:5px;'><tbody><tr><td>"
+	            +"<div class='form_help'><div id='id_help_text'>消费参数：系统使用前，请先设置好系统参数，发卡成功后，代表系统参数已经正式生效，消费参数不允许再修改！</div><div style='text-align: right;' id='id_help'><a ref='/media/help/zh-cn/personnel/Employee#detail' href='javascript:void(0);'></a></div><div class='clear'></div></div>"
+                +"<div class='div_box1 floatL' style='width:98%'><h2>{%trans '基础设置'%}</h2><table id='tbl1'><tbody>"
+	            +"<tr>"
+                    +"<th><label for='id_max_money' class='required'>{%trans '卡余额上限:'%}</label></th>"
+                    +"<td><input type='text' maxlength='10' name='max_money' id='id_max_money' value='"+(max_money)+"'/></td>"
+                +"</tr>"
+                
+                +"<tr>"
+					+"<th><label for='id_main_fan_area' class='required'>{%trans '发卡主扇区:'%}</label></th>"
+	                +"<td><select id='main_fan_area'  name='main_fan_area' style='*width:136px !important;'>"
+	                +"<option value='1'>{%trans '第1扇区'%}</option>"
+	                +"<option value='2'>{%trans '第2扇区'%}</option>"
+                    +"<option value='3'>{%trans '第3扇区'%}</option>"
+                    +"<option value='4'>{%trans '第4扇区'%}</option>"
+                    +"<option value='5'>{%trans '第5扇区'%}</option>"
+                    +"<option value='6'>{%trans '第6扇区'%}</option>"
+                    +"<option value='7'>{%trans '第7扇区'%}</option>"
+                    +"<option value='8'>{%trans '第8扇区'%}</option>"
+                    +"<option value='9'>{%trans '第9扇区'%}</option>"
+                    +"<option value='10'>{%trans '第10扇区'%}</option>"
+                    +"<option value='11'>{%trans '第11扇区'%}</option>"
+                    +"<option value='12'>{%trans '第12扇区'%}</option>"
+                    +"<option value='13'>{%trans '第13扇区'%}</option>"
+                    +"<option value='14'>{%trans '第14扇区'%}</option></select>&nbsp;&nbsp;</td>"
+	            +"</tr>"
+
+                +"<tr>"
+	                +"<th><label for='id_minor_fan_area' class='required'>{%trans '发卡次扇区:'%}</label></th>"
+                    +"<td><input type='text' maxlength='10' name='minor_fan_area_text' readonly='true' id='minor_fan_area_text' value=''/>"
+	            +"</tr>"
+               
+	            +"</tbody></table></div></td></tr>"
+	
+	
+	            +"<tr><td><div class='div_box1 floatL' style='width:98%'><h2>{%trans '系统密码：系统密码必须为6位数字,默认密码为(123456),为保证系统账户安全，请修改默认密码！'%}</h2><table id='tbl2'><tbody>"
+                   +"<tr>"
+                       +"<th><label for='id_system_pwd' class='required'>{%trans '系统密码:'%}</label></th>"
+                       +"<td><input type='password' maxlength='6' name='system_pwd' id='id_system_pwd' value='"+(system_pwd)+"'/></td>"
+                   +"</tr>"
+                   +"<tr>"
+                        +"<th><label for='id_pwd_again' class='required'>{%trans '确认密码:'%}</label></th>"
+                        +"<td><input type='password' maxlength='6' name='pwd_again' id='id_pwd_again' value='"+(pwd_again)+"'/></td>"
+                   +"</tr>"
+                
+                +"</tbody></table></div></td></tr>"
+               +'<tr><td colspan="2"><span id="id_error" style="display:none;"></span></td></tr>'
+               +"<tr><td>"			
+               +"<div class='editformbtn'><div class='lineH22'><span class='action_SaveandContinue'>&nbsp;</span><a id='id_submit'class='Link_blue1' href='javascript:void(0)' >{%trans '确定' %}</a><div class='clear'></div></div></div>"
+//          +"<input type='hidden' id='id_LeaveClass' value='"+get_lClass_String(getChange_lClass(lClass))+"' name='LeaveClass'/>"
+               +"<input type='hidden' id='param_id' value='"+(param_id)+"' name='param_id'/>"
+               +"<input type='hidden' id='id_minor_fan_area' value='' name='minor_fan_area'/>"
+               +"</td></tr>"
+                
+	            +"</table></tbody></form>"
+	            );
+                var sel = document.getElementById("main_fan_area");
+                for (var i = 0; i < sel.length; i++) {
+                    if (sel[i].value == main_fan_area) {
+                        sel[i].selected = true;
+                    }
+                   }
+                
+               $("#main_fan_area").change(function(){
+                   $("#main_fan_area option").each(function(i,o){
+                       if($(this).attr("selected"))
+                       {   
+                          if (i == 13){
+                            $('#minor_fan_area_text').val('第15扇区');  
+                            $('#id_minor_fan_area').val(15);   
+                          }
+                          else{
+                          var value = $('#main_fan_area').get(0).options[i+1].value; 
+                          var text = $('#main_fan_area').get(0).options[i+1].text; 
+                          $('#minor_fan_area_text').val(text)  
+                          $('#id_minor_fan_area').val(value)
+                        }
+                       }
+                   });
+               });
+               $("#main_fan_area").change();
+               $('#minor_fan_area_text').css("backgroundColor","scrollbar");
+                
+
+
+	            //表单验证MinSMinRecordInterval
+	            $('#id_edit_form').validate({
+	                        rules: {
+	                            "max_money": {required:true,digits:true,min:1,max:9999},
+	                            "system_pwd": {required:true,digits:true,"maxlength":6},
+	                            "pwd_again": {required:true,digits:true,"maxlength":6},
+	                            "MinsWorkDay": {required:true,"digits":true},
+	                            "MinsLate": {required:true,"digits":true,"min":0,"max":240},
+	                            "MinsEarly": {required:true,"digits":true,"min":0,"max":240},
+	                            "MinsNoIn": {required:true,"digits":true,"min":0,"max":480},
+	                            "MinsNoOut": {required:true,"digits":true,"min":0,"max":480},
+	                            "MinsLateAbsent": {required:true,"digits":true,"min":1,"max":480},
+	                            "MinsOutOverTime": {required:true,"digits":true,"min":10,"max":240},
+	                            "MinsEarlyAbsent": {required:true,"digits":true,"min":1,"max":480},
+	                            "MinUnit": {required:true,"min":0.1,"max":60},
+	                            "ReportSymbol": {"maxlength":2}
+	                        }
+	            });
+	            $("#id_submit").click(function(){
+                        $("#id_error").css("display","none");;
+                        var bln_submit=true
+                        try
+                        {
+                           
+                            $('#id_edit_form').find("input").each(function(){
+                               if($(this).valid()=="0")
+                                {
+                                    bln_submit=false;
+                                }
+                            });
+                        }
+                        catch(e)
+                        {
+                            
+                        }
+                        
+                        if (bln_submit)
+                        {
+                            var queryStr=$("#id_edit_form").formSerialize();
+                            $.ajax({ 
+                                type: "POST",
+                                url:"{{dbapp_url}}../pos/save_pos_param/",
+                                data:queryStr,
+                                dataType:"text",
+                                success:function(retdata){
+                                    if(retdata=="result=1"){
+                                        $("#id_error").css("display","block");
+                                        $("#id_error").html("<ul class='errorlist'><li>{%trans '两次密码输入不一致，请重新输入！'%}</li></ul>");
+                                    }
+                                    else if (retdata=="result=2"){
+                                      $("#id_error").css("display","block");
+                                      $("#id_error").html("<ul class='errorlist'><li>{%trans '系统参数已被使用，当前操作未生效！'%}</li></ul>");
+                                    }
+                                    else if (retdata=="result=3"){
+                                         $("#id_error").css("display","block");
+                                         $("#id_error").html("<ul class='errorlist'><li>{%trans '当前密码为系统默认密码，请重置密码！'%}</li></ul>");
+                                       }
+                                    else if (retdata=="result=4"){
+                                         $("#id_error").css("display","block");
+                                         $("#id_error").html("<ul class='errorlist'><li>{%trans '密码长度必须为六位！'%}</li></ul>");
+                                       }
+                                    
+                                    
+                                    else if (retdata=="result=FAIL"){
+                                                  $("#id_error").css("display","block");
+                                                  $("#id_error").html("<ul class='errorlist'><li>{%trans '保存参数失败！'%}</li></ul>");
+                                                }
+                                    
+                                    else{
+                                      $("#id_error").css("display","block");
+                                      $("#id_error").html("<ul class='successlist'><li>{%trans '保存参数成功'%}</li></ul>");
+                                    }
+                                }
+                            }); 
+                        }
+	        		});
+
+	var w=$("#tbl1>tbody>tr>th").eq(2).width();
+	$("#tbl2>tbody>tr>th").eq(0).css({width:w});
+	}});
+
+	
+}
+
+
+
+{% endblock %}
+
+
+
+
+<style><style type="text/css">
+td input[type=text],td textarea,td select,.vTextField {
+border:1px solid #5B80B2;
+width: 110px !important;
+}
+.div_box{ margin:0px !important ;padding:3px 10px 10px 10px; height:auto; width:100%;float:left;}
+.div_box table{margin:10px !important;}
+.div_box h1{background:url(../media/images/icon_title_left.gif) left no-repeat; padding-left:15px;color:#32598a; font-weight:bold; margin-bottom:10px;}
+.content_tbl{width:98% !important; margin:0px !important;}
+.content_tbl div{width:100% !important;}
+.content_tbl td{padding:10px !important;}
+.content_tbl td td,.content_tbl td th{padding:3px !important; vertical-align:top !important;}
+</style>

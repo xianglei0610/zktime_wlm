@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -&gt; Device Management -> Device management</div>
+<div class="help_mainContant">
+  <h2>Device Management</h2>
+  <br />
+
+  Set the communication parameters of connected devices.  Only when communication parameters, including system settings and device  settings, are correct, normal communication with devices will be possible. When  communication is successful, you can view the information of connected devices,  and perform remote monitoring, uploading and downloading data.<br />
+  <div class="zkeco">The system supports access control and attendance  system, so connecting devices includes add access control panel and add  attendance recorder. To add access control panel, search and view devices  connected to the network, and directly add from the searching result. For an  attendance device having ADMS function, just set in the device and then connect  to the network.  </div>
+  <br />
+<div class="zkecoacc">
+<h3> Add  Access Control Panel </h3><br />
+
+  There are two way to add access control panel. <br /><br />
+
+      <b>1. Add device:</b><br /><br /></div>
+<div class="zkeco">
+    (1) Click [Device] - [Device] - [Add] to show the  device information edit interface. Select device type (access control panel)  and click Next:<br />
+  <div class="alignC"><img width="262" height="90" src="device_clip_image002.jpg" /></div>
+  <br />
+(2) Select access control panel to show the device  information of device. The communication modes are TCP/ IP or RS485. The  following interface will be shown:<br />
+  <br /></div>
+  <div class="acc">(1) Click [Device] - [Device] - [Add] to show the device information edit interface. The communication modes are TCP/ IP or RS485. The following interface will be shown:</div>
+<br />
+<div class="zkecoacc"><b>TCP/ IP:</b><br /></div>
+  <div class="alignC zkeco"><img width="568" height="19" src="device_clip_image004.jpg" /></div>
+  <div class="alignC zkecoacc"></div>
+  <br />
+  <div class="zkecoacc">
+  <b>IP address:</b> Please enter the IP address of the access control  panel;<br />
+  <br />
+  <b>IP port No.:</b> In Ethernet mode, the default is 4370;</div>
+  <br />
+<div class="zkecoacc"><b>RS485:</b><br /></div>
+
+  <div class="alignC zkeco"><img width="807" height="21" src="device_clip_image006.jpg" /></div>
+  <div class="alignC zkecoacc"></div>
+  <br />
+  <div class="zkecoacc">
+  <b>Serial port number:</b> COM1-COM254;<br />
+  <br />
+  <b>RS485 address: </b>The machine number. When serial port numbers  are the same, there will be no repeated 485 addresses;<br />
+  <br />
+  <b>Baud rate: </b>Same as the baud rate of the device (9600/  19200/ 38400/ 57600/115200). The default is 38400;<br />
+  <br />
+  <b>Device name: </b>Any character, up to a combination of 20  characters;<br />
+  <br />
+  <b>Communication password: </b> Any character, up to a combination of 15 characters (No blank). You need to input this field only when you add a new device with the communication password. It can’t be modify when you edit the device information except in [Modify communication password] operation.  Please refer  to <U> <a href="accdoor.html">Door Management</a></U>. <br />
+  <br /><b> </b><b>Note: </b>You need not input this  field if the device has no communication password, such as it is new factory  device or just after the initialization.<br /><br />
+
+  <b>Panel type: </b>One-door panel, two-door panel, four-door  panel;<br />
+  <br />
+  <b>Switch to two-door two-way: </b>When four-door panel is selected, this box  will appear. By default, it is not ticked. The parameter is used to switch the  four-door one-way access control panel to two-door two-way access control panel  (For changes of extended device parameters before and after switching, see  relevant files of access control panel).<br />
+  <br /><b> </b><b>Note: </b>After the four door one-way  access control panel is switched to two- door two-way access control panel, to  switch back, you need delete the device from the system and add it again. When  adding, do not tick the check box before this parameter.<br /><br />
+
+  <b>Auto synchronize device time:</b> By default it is ticked, namely, it will  synchronize device time with server time each time connecting the device. If it  is unchecked, the user can manually synchronize device time;<br />
+  <br />
+<b>Area: </b>Specify areas of devices. After area setting,  devices (doors) can be filtered by area upon real-time monitoring.<br />
+    <br />
+	<span class="zkeco">(3)</span><span class="acc">(2)</span> After editing, click [OK], and the system will try  connecting the current device:<br />
+    <br />
+	If connection is successful, it will read corresponding  extended parameters of the device. At this time, if the access control panel  type selected by the user does not meet the corresponding parameters of the  actual device, the system remind the user. If the user clicks [OK]to save, it  will save the actual access control panel type of the device;<br />
+    <br />
+	Extended device parameters: Serial number, device type,  firmware version number, auxiliary input quantity, auxiliary output quantity,  door quantity, and reader quantity.<br />
+    <br />
+	If device connection fails, while the user still needs  to add the device to the system, corresponding device parameters and extended  parameters, such as serial number, will not be written into the system, and  such settings as anti-passback and linkage will be impossible. These settings  can be created only when the device is reconnected successfully and  corresponding parameters are acquired.<br />
+  <br />
+  <b>Note: </b>When you add a new device to the system, the software will clear all user information, timezones, holidays, and access control levels settings (includes access control group, anti-pass back, interlock settings, linkage settings, etc.) from the device, except the events record in the device. Unless the information in the device is unusable, we recommend you not to delete the device in used, to avoid the lost of information.
+<br />
+<br />
+<b>Access control panel settings:</b><br />
+
+  <br /><b> TCP/  IP communication requirements:</b><br />
+    <br />
+	Support and enable TCP/ IP communication, directly  connect the device with PC or connect to the Internet, get the device IP  address and other information of the device;<br />
+  <br /><b> RS485  communication requirements:</b><br />
+    <br />
+	Support and enable RS485 communication, connect to PC  through RS485, get the serial port number, RS485 machine number (address), baud  rate and other information of the device.<br /><br />
+
+  <b>2. Add device by searching  access control panels:</b><br /><br />
+
+    Search the access control panels in the Ethernet.<br />
+    <br />
+	(1) Click [Device] - [Device] - [Search panels], to  show the search interface;<br />
+    <br />
+	(2) Click [Start search], and it will prompt  [searching……];<br />
+    <br />
+	(3) After searching, the list and total number of  access control panels will be displayed;<br />
+	<br />
+    (4) Click [Add to device list] behind the device, and  the browser may pop up a security tip. Right-click to select [Window  temporarily allowing script execution], click [Add to device list] behind the  device again, and a dialog box will pop up. Enter self-defined device name, and  click [OK] to complete device adding.<br />
+    <br />
+	(5) The default IP address of the access control panel  may conflict with the IP of a device on the Internet. You can modify its IP  address: Click [Modify IP address] behind the device, and a dialog box will pop  up. Enter the new IP address and communication password (If the device has a  communication password, you must enter the correct communication password for  successful modification. otherwise, you need not to enter it), and click  [Confirm] to complete IP address modification;<br />
+  </div>
+  <div class="zkecoatt">
+<h3>Add attendance device </h3><br />
+
+  There are two way to add attendance device.<br /><br />
+
+      <b>1. Add device:</b><br /><br />
+<div class="zkeco">
+    (1) Click [Device] - [Device] - [Add] to show the  device information edit interface, and select device type;<br />
+  <div class="alignC"><img width="260" height="87" src="device_clip_image012.jpg" /></div><br />
+    (2) Select attendance machine, and click [Next] to show  the device information of attendance machine, as shown below:<br />
+  <div class="alignC"><img width="717" height="437" src="device_clip_image014.jpg" /></div>
+  <br /></div>
+  <div class="zkecoatt">
+    (1) Click [Device] - [Device] - [Add] to show the  device information edit interface:<br />
+        <div class="alignC"><img width="717" height="416" src="device_clip_image002_0000.jpg" /></div>
+  </div>
+  <b>The fields are as follows:</b><br />
+  <b>Device name: </b>Any character, up to a combination of 20  characters;<br />
+  <b>Serial number: </b>Serial number of the device;<br />
+  <b>IP address: </b>IP address of the device;<br />
+  <b>IP port number: </b>In Ethernet mode, the default is 4370;<br />
+  <b>Time zone: </b>Select the time zone of your location;<br />
+  <b>Refresh interval: </b>Set the interval that the device  automatically refresh attendance data, in second;<br />
+  <b>Transmit user data flag: </b>System parameter, not requiring the user to  enter;<br />
+  <b>Transmit picture flag: </b>System parameter, not requiring the user to  enter;<br />
+  <b>Data update flag: </b>The default is 1111101000. The flag digits  indication, from the left to the right, are attendance record, operation log,  attendance photo, register new fingerprint, register new user, fingerprint  picture, modify user information, and modify fingerprint, and the last two  digits are invalid. If a flag digit is 1, it is valid, with the represented  data updated. If it is 0, it is invalid, with the data not updated.<br />
+  <b>Fixed transmission time: </b>Set the time when the device automatically  transmits data to the system. The format is MM: SS. to set multiple times,  please separate them by semicolon;<br />
+  <b>City: </b>The city of your location;<br />
+  <b>Real-time data upload: </b>Whether upload data in real-time or not. Tick  it if yes;<br />
+  <b>Max packet size (KB)  communicating with server: </b>Set  the maximum packet size when transmitting data to the system. The default is  40;<br />
+  <b>Max command communicating with  server: </b>Set the maximum  number of commands that the system sends to the device. The default is 20;<br />
+  <b>Query entry time (second): </b>The default is 10;<br />
+  <b>Area:</b> Select the area of the device.<br /></div>
+    <div class="zkeco">(3) After editing, click [OK] to complete adding.<br /></div>
+  <div class="att">(2) After editing, click [OK] to complete adding.</div>
+  <br />
+<b>2. Automatically add device:</b><br /><br />
+
+    The attendance device having ADMS function needs not to  add the device in the system, just needs set the parameters in the device menu.  Then connect the device to the Internet, the attendance device will be shown in  the device list of the system. For details, see the relevant device user  manual.
+  <br /><br />
+
+<h3>Device maintenance</h3><br />
+
+  <b>Synchronize all data:</b>The system will synchronize the data to the device, including door information, access control levels (personnel information, access control time zones), anti-pass back settings, interlock settings, linkage settings, first-card normal open settings, multi-card normal open settings and so on. Select device, click [Synchronize all data] and click [OK] to complete synchronization.
+
+<br />
+      <br />
+	  <b>Note: </b>The operation of synchronize all data is mainly about: Delete all data in the device first (except event record). Download all settings again, please keep the net connection steady and avoid power down situation, etc. If the device is normally working, please use this function with caution. You can execute it at seldem user situation, to avoid the effection for the normal using of the device.<br />
+	  <br />
+	  <b>Delete: </b>Select device, click [Delete], and click [OK].<br />
+      <br />
+	   <b>Edit:</b> Click device name, or click [Edit] under  “Related operation” behind the device to pop up the edit interface. Since  devices are classified into access control panel and attendance device, so when  editing, there are two cases:<br />
+      <br />
+	  
+<div class="zkeco"><b>1. Access control panel:</b><br /><br /></div>
+<div class="zkecoacc">
+          
+  For the meanings and setting of the detail  parameters, see <U><a href="device.html">Add Access Control Panel</a></U>.  Communication method, IP address, IP port number, RS485 address, baud rate,  access control panel type and area are not editable. Device name can not be  identical with the name of another device. Since device type cannot be  modified, if the type is wrong, the user need manually delete the device and  add it again.</div>
+      <br />
+<div class="zkeco"><b>2. Attendance device:</b><br /><br /></div>
+<div class="zkecoatt">
+      <div class="alignC"><img width="712" height="437" src="device_clip_image020.jpg" /></div><br />
+    For the meanings and setting of the above parameters,  see <U> Add Attendance Device</U>. The serial  number is not editable. Device name can not be identical to the name of another  device.<br />
+</div>
+<br />
+
+</div>
+</body>
+</html>

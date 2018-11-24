@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Access control time zones</div>
+<div class="help_mainContant">
+  <h2>Access Control Time Zones</h2>
+  <br />
+  Access control time zone can be used for door timing.  The reader can be made usable during valid time periods of certain doors and  unusable during other time periods. Time zone can also be used to set Normal  Open time periods of doors, or set access control levels so that specified  users can only access specified doors during specified time periods (including  access levels and First-Card Normal Open settings).<br /><br />
+  The system controls access according to access control  time zones. The system can define up to 255 time zones. For each time zone, you  can define, in a week, up to three intervals for each day and three holiday  types. Each interval is the valid interval in 24 hours of each day. The format  of each interval for a time zone: HH: MM-HH: MM, which is accurate to minutes  in the 24-hour system.<br />
+  <br />
+  Initially, the system, by default, has access control  time zone named [Accessible 24 hours]. This time period cannot be modified or deleted. The user can add access control time zones, which can be modified.<br /><br />
+    <b>1. Add access control time zone:</b><br /><br />
+  (1) Click [Access control] - [Time zones] - [Add] to  access the time zone setting interface;<br />
+    <br /><b>The parameters are as follows:</b><br /><br />
+    <b>Time zone name: </b>Any character, up to a combination of 30  characters;<br />
+    <br />
+	<b>Remarks: </b>Detailed description of the current time zone,  including the explanation of the current time zone and primary applications,  facilitating the user or other users with same level to view time zone  information, which is up to 70 characters;<br />
+    <br />
+	<b>Interval and start/ end time:</b> One access control time zone includes 3  intervals for each day in a week, and three intervals for each of the three  access control holidays. Set the start and end time of each interval;<br />
+    <br />
+	<b>Setting: </b>If the interval is Normal Open: Just enter 00:00-23:59 as the first interval, and 00:00-00:00 as the second and third intervals. If the  interval is Normal Close: All are 00:00-00:00. If only using one interval, the  user just need to fill out the first interval (such as: Normal Open), and the  second and third intervals will use the default value of 00:00-00:00.  Similarly, when the user only uses the first two intervals, the third interval  will use the default value of 00:00-00:00. When using two or three intervals,  the user needs to ensure two or three intervals have no time intersection, and  the time shall not span days. Otherwise, the system will prompt error.<br />
+    <br />
+	<b>Holiday</b><b> type: </b>There are three  holiday types in the time zone, they are unrelated to which day in week it is.  If certain date is set to certain holiday type, the three intervals of the  holiday type will be used for access. The holiday type in a time zone is  optional. However, if the user does not fill out, the system will give the  default value.<br />
+  <br />
+  For example, set the access  control interval of holiday type 1 as 8-20, the access control time period of  holiday type 2 as Normal Open, and the access control time zone of holiday type  3 as Normal Close.<br />
+  <br />
+  (2) After time zone setting, click [OK] to save, and  the time zone will appear in the list.<br />
+    <br /><b>2. Maintenance of access  control time zone:</b><br /><br />
+    <b>Edit:</b> In the time zone list, click [Edit] button  under “Related operation” to access time zone modification interface, and  modify time zone setting. After modification, click [OK], and the modified time  zone will be saved and shown in the time zone list.<br />
+    <br />
+	<b>Delete:</b> In the time zone list, click [Delete]  button under ”Related operation”. Click [OK] to delete the time zone, or click  [Cancel] to cancel the operation. The time zone in use can not be deleted.<br />
+    <br />
+    Tick the check boxes before one or more time zones in  the time zone list. Click the [Delete] button over the list, and click [OK] to  delete the selected time zones, or click [Cancel] to cancel the operation.<br /><br /></div>
+</body>
+</html>

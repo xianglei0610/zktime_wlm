@@ -1,0 +1,48 @@
+{% extends "base_page_frame.html" %}
+{% load i18n %}
+{% block addjs_base %}
+    var d=new Date();
+    $.ajax({
+        url:"{{request.dbapp_url}}sys_option?a=a&stamp="+d.getSeconds(),
+        type:"GET",
+        async:false,
+        success:function(msg){
+            if($("#id_opt_message").length==0){
+                $("body").append("<div id='id_opt_message'></div>");
+            }
+            var msg_dialog=$("#id_opt_message");
+            msg_dialog.append(msg);
+            if($("#ret_info",msg_dialog).length==0){
+                msg_dialog.append("<div id='id_ret_info' class='ret_info'></div>"); 
+            }
+            
+            var btns='<button class="btn" id="id_Cancel" type="button">{% trans "取消" %}</button>'
+                    +'<button class="btn" id="id_OK" type="button">{% trans "确定" %}</button>'
+            var $form=msg_dialog.find("form");
+            $form.append(btns);
+            $("#id_span_title",msg_dialog).find("span:not(.icon_SiteMap)").remove();
+            msg_dialog.find("#id_Cancel").click(function(){
+                $("#id_close",msg_dialog).click();
+            });
+            msg_dialog.find("#id_OK").click(function(){
+                $form.ajaxSubmit({ 
+                    url:"{{request.dbapp_url}}sys_option?a=a", 
+                    dataType:"html", 
+                    async:false, 
+                    success:function(msgback){ 
+                        if(msgback.indexOf('{ Info:"OK" }')!=-1){
+                            $("#id_close",msg_dialog).click();
+                        }else{
+                            var ret_div=$("#id_ret_info",div_dialog);
+                            ret_div.html($(msgback).find("ul.errorlist"));
+                        }
+                    }
+                });
+            });
+            
+            msg_dialog.dialog();
+        }
+    });
+    
+{% endblock %}
+

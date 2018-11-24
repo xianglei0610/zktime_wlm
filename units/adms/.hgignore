@@ -1,0 +1,22 @@
+syntax: glob
+*.orig
+*.rej
+*~
+*.o
+*.obj
+*.ncb
+*.suo
+*.d
+*.sbr
+.svn/*
+_svn/*
+*.idb
+*.pdb
+*.swp
+BuildLog.htm
+*.depend
+*.layout
+*.pyc
+
+syntax: regexp
+.*\#.*\#$

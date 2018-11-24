@@ -1,0 +1,3 @@
+kill `cat adms.pid`
+rm adms.pid adms.sock
+

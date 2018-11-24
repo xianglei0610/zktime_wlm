@@ -1,0 +1,117 @@
+2014-01-17 11:30:55.589000 InstantMsg [pid:8236] start
+soft key LastError -92
+Starts monitor instant message.
+2014-01-17 11:30:59.442000 InstantMsg [pid:0] be stoped
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\worktable\common_panel.py", line 269, in monitor_instant_msg
+    time.sleep(56)
+KeyboardInterrupt
+
+
+2014-01-17 11:31:07.586000 InstantMsg [pid:10012] start
+soft key LastError -92
+Starts monitor instant message.
+2014-01-17 11:31:24.889000 InstantMsg [pid:0] be stoped
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\worktable\common_panel.py", line 269, in monitor_instant_msg
+    time.sleep(56)
+KeyboardInterrupt
+
+
+2014-01-17 11:31:29.366000 InstantMsg [pid:5340] start
+soft key LastError -92
+Starts monitor instant message.
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\worktable\common_panel.py", line 269, in monitor_instant_msg
+2014-01-17 11:32:18.571000 InstantMsg [pid:0] be stoped
+
+time.sleep(56)
+KeyboardInterrupt
+
+2014-01-17 11:32:23.500000 InstantMsg [pid:8520] start
+soft key LastError -92
+2014-01-17 11:32:27.853000 InstantMsg [pid:0] be stoped
+
+
+2014-01-17 11:32:52.330000 InstantMsg [pid:4984] start
+soft key LastError -92
+Starts monitor instant message.
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\worktable\common_panel.py", line 269, in monitor_instant_msg
+time.sleep(56)
+KeyboardInterrupt
+2014-01-17 15:36:01.917000 InstantMsg [pid:0] be stoped
+
+
+2014-01-21 17:12:36.665000 InstantMsg [pid:8712] start
+soft key LastError -92
+Starts monitor instant message.
+2014-01-21 17:14:50.073000 InstantMsg [pid:5252] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 17:21:11.535000 InstantMsg [pid:2620] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 17:23:45.591000 InstantMsg [pid:3012] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 17:29:19.342000 InstantMsg [pid:5852] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 17:34:24.488000 InstantMsg [pid:3416] start
+soft key LastError 0
+Starts monitor instant message.
+
+
+2014-01-21 17:34:37.839000 InstantMsg [pid:3416] exit
+2014-01-21 17:34:37.839000 InstantMsg [pid:3416] auto start
+2014-01-21 17:34:37.971000 InstantMsg [pid:10804] start
+soft key LastError 0
+Starts monitor instant message.
+
+
+2014-01-21 17:34:43.932000 InstantMsg [pid:10804] exit
+2014-01-21 17:34:43.932000 InstantMsg [pid:10804] auto start
+2014-01-21 17:34:44.066000 InstantMsg [pid:11000] start
+soft key LastError 0
+Starts monitor instant message.
+
+
+2014-01-21 17:34:49.800000 InstantMsg [pid:11000] exit
+2014-01-21 17:34:49.800000 InstantMsg [pid:11000] auto start
+2014-01-21 17:34:49.928000 InstantMsg [pid:11256] start
+soft key LastError 0
+Starts monitor instant message.
+
+
+2014-01-21 17:34:54.441000 InstantMsg [pid:11256] exit
+2014-01-21 17:34:54.441000 InstantMsg [pid:11256] auto start
+2014-01-21 17:34:54.591000 InstantMsg [pid:9512] start
+soft key LastError 0
+Starts monitor instant message.
+
+
+2014-01-21 17:35:00.376000 InstantMsg [pid:9512] exit
+2014-01-21 17:35:00.376000 InstantMsg [pid:9512] auto start
+2014-01-21 17:35:00.541000 InstantMsg [pid:10936] start
+soft key LastError 0
+2014-01-21 17:37:44.630000 InstantMsg [pid:7372] start
+soft key LastError 0
+Starts monitor instant message
+.
+2014-01-21 17:47:54.968000 InstantMsg [pid:3076] start
+soft key LastError 0
+Starts monitor instant message
+.
+
+2014-01-21 17:48:53.534000 InstantMsg [pid:3144] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 20:26:14.432000 InstantMsg [pid:7980] start
+soft key LastError 0
+Starts monitor instant message.
+2014-01-21 21:08:11.915000 InstantMsg [pid:6512] start
+soft key LastError -92
+2014-01-21 21:08:39.610000 InstantMsg [pid:8004] start
+soft key LastError -92
+Starts monitor instant message.

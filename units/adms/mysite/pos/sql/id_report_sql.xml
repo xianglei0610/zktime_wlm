@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "get_id_list_record_sql">
+		<!--消费明细表-->
+		<content engine = "default">
+			<![CDATA[
+                    select user_id,card,money,blance,sn_name,cardserial,serialnum,discount,
+                    type_id,dining_id,checktime,create_operator from pos_carcashsz 
+                    where hide_column in (6,8,9,10,12) and checktime>='%(st)s' and checktime <'%(et)s' %(and)s
+			]]>
+			<part id = "operate">
+				<![CDATA[
+                    and create_operator='%(operate)s' 
+				]]>
+			</part>
+			<part id = "pos_model">
+				<![CDATA[
+                    and pos_model='%(pos_model)s'  
+				]]>
+			</part>
+            <part id = "dining">
+                <![CDATA[
+                    and dining_id='%(dining)s'   
+                ]]>
+            </part>
+
+            <part id = "no_emp">
+                <![CDATA[
+                    and user_id ='0'   
+                ]]>
+            </part>
+
+            <part id = "userids">
+                <![CDATA[
+                    and user_id in (%(userids)s)
+                ]]>
+            </part>
+            
+		</content>	
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "get_id_summary_list_record_sql">
+			<!--消费明细表汇总列-->
+			<content engine = "default">
+				<![CDATA[
+					select 
+					COUNT(1) as data_count,
+					sum(case when  hide_column in (6,8) then money else 0 end) as summary_money,    
+					sum(case when  hide_column=9 then money else 0 end) as back_money,
+					sum(case when  hide_column=10 then money else 0 end) as sum_total_money,
+					sum(case when  hide_column = 12 then money else 0 end) as sum_total_back_money
+					from pos_carcashsz 
+					 where  hide_column in (6,8,9,10,12) and checktime>='%(st)s' and checktime <'%(et)s' %(and)s
+				]]>
+				<part id = "operate">
+					<![CDATA[
+	                    and create_operator='%(operate)s' 
+					]]>
+				</part>
+				<part id = "pos_model">
+					<![CDATA[
+	                    and pos_model='%(pos_model)s'  
+					]]>
+				</part>
+	            <part id = "dining">
+	                <![CDATA[
+	                    and dining_id='%(dining)s'   
+	                ]]>
+	            </part>
+	
+	            <part id = "no_emp">
+	                <![CDATA[
+	                    and user_id ='0'   
+	                ]]>
+	            </part>
+	
+	            <part id = "userids">
+	                <![CDATA[
+	                    and user_id in (%(userids)s) 
+	                ]]>
+	            </part>
+	            
+			</content>	
+			<content engine = " ">
+				<![CDATA[
+	                    
+				]]>
+				<part id = " ">
+					<![CDATA[
+					
+					]]>
+				</part>
+				<part id=" ">
+					<![CDATA[
+					
+					]]>
+				</part>
+			</content>	
+		</sql>
+
+
+	
+	<sql id = "get_id_manage_report_sql">
+			<!--管理卡表-->
+			<content engine = "default">
+				<![CDATA[
+						select card_no, d.name,cardstatus,[time],m.create_operator from pos_cardmanage as m,iclock_dininghall as d
+						where m.dining_id = d.id 
+				]]>
+			</content>	
+		</sql>
+	<sql id = "get_id_lost_card_report_sql">
+		<!--挂失解挂表-->
+		<content engine = "default">
+			<![CDATA[
+					select userinfo.badgenumber,userinfo.name,l.cardno,c.name as type_name,l.cardstatus,l.[time],l.create_operator
+					 from pos_loseunitecard as l, dbo.personnel_iccard as c,userinfo
+					 where l.UserID_id = userinfo.userid and l.type_id = c.id and l.[time]>='%(st)s' and l.[time]<='%(et)s'
+			]]>
+		</content>	
+	</sql>
+	
+	<sql id = "get_id_replenish_card_report_sql">
+			<!--换卡表-->
+			<content engine = "default">
+				<![CDATA[
+				 select u.badgenumber,u.name,r.oldcardno,r.newcardno,r.time,r.create_operator
+				 from pos_replenishcard as r,userinfo as u
+				 where r.user_id = u.userid and  r.[time]>='%(st)s' and r.[time]<='%(et)s'
+				]]>
+			</content>	
+		</sql>
+
+	
+    <sql id = "get_id_recharge_report_sql">
+			<!--充值表-->
+    		<content engine = "default">
+    			<![CDATA[
+                        select user_id,card,cardserial,money,blance,checktime,create_operator from pos_carcashsz 
+                        where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'   
+    			]]>
+    		</content>	
+    </sql>
+    <sql id = "get_id_reimburese_report_sql">
+		<!--退款表-->
+        <content engine = "default">
+            <![CDATA[
+                    select user_id,card,cardserial,money,blance,checktime,create_operator from pos_carcashsz 
+                    where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'  
+            ]]>
+        </content>	
+    </sql>
+
+    <sql id = "get_id_allow_report_sql">
+		<!--补贴表-->
+        <content engine = "default">
+            <![CDATA[
+                    select user_id,card,cardserial,money,blance,checktime,create_operator from pos_carcashsz 
+                    where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'  
+            ]]>
+        </content>	
+    </sql>
+
+    <sql id = "get_id_return_card_report">
+		<!--退卡表-->
+			<content engine = "default">
+				<![CDATA[
+						select user_id,card,cardserial,checktime,create_operator,money from pos_carcashsz 
+                        where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'  
+				]]>
+			</content>	
+	</sql>
+    
+    <sql id = "get_id_cost_report_sql">
+	    <!--卡成本表-->
+        <content engine = "default">
+            <![CDATA[
+                    select user_id,card,cardserial,checktime,create_operator,money from pos_carcashsz 
+                    where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'   
+            ]]>
+        </content>	
+    </sql>
+
+    
+    <sql id = "get_id_issuecard_report_sql">
+	            <!--发卡表-->
+        <content engine = "default">
+            <![CDATA[
+                    select user_id,card,checktime,create_operator from pos_carcashsz 
+                    where type_id='%(type_id)s' and checktime>='%(st)s' and checktime <'%(et)s'     
+            ]]>
+        </content>	
+    </sql>
+        <sql id = "get_id_card_blance_report">
+			<!--卡余额表-->
+            <content engine = "default">
+                <![CDATA[
+                        select UserID_id,cardno,type_id,blance,create_operator from personnel_issuecard 
+                        where cardstatus in (1,3,4,5) and status = 0 and card_privage = 0   %(and)s
+                ]]>
+				<part id = "operate">
+					<![CDATA[
+						and create_operator='%(operate)s' 
+					]]>
+				</part>
+				
+				<part id = "no_emp">
+					<![CDATA[
+						and UserID_id ='0'   
+					]]>
+				</part>
+
+				<part id = "userids">
+					<![CDATA[
+						and UserID_id in (%(userids)s)
+					]]>
+				</part>
+				
+            </content>	
+			<content engine = "postgresql">
+				<![CDATA[
+						select "UserID_id",cardno,type_id,blance,create_operator from personnel_issuecard 
+						where cardstatus in ('1','3','4','5') and status = 0 and card_privage = '0'  %(and)s
+				]]>
+			
+				<part id = "operate">
+					<![CDATA[
+						and create_operator='%(operate)s' 
+					]]>
+				</part>
+				
+				<part id = "no_emp">
+					<![CDATA[
+						and "UserID_id" ='0'   
+					]]>
+				</part>
+
+				<part id = "userids">
+					<![CDATA[
+						and "UserID_id" in (%(userids)s)
+					]]>
+				</part>
+			</content>
+         </sql>
+        
+        <sql id = "id_dining_or_dept_or_device_report_sql">
+				<!--餐厅，设备，部门汇总-->
+        		<content engine = "default">
+        			<![CDATA[
+                            select
+                               sum(case when  type_id=9 then money else 0 end) as back_money,
+                               sum(case when  type_id=9 then 1 else 0 end) as back_count,
+                               sum(case when  type_id in (6,8) then 1 else 0 end) as pos_count,
+                               sum(case when  type_id in (6,8) then money else 0 end) as summary_money,
+                               sum(case when  type_id=10 then 1 else 0 end) as total_count , 
+                               sum(case when  type_id=8 then money else 0 end) as add_single_money,
+                               sum(case when  type_id=10 then money else 0 end) as total_money,
+                               sum(case when  type_id=12 then 1 else 0 end) as total_back_count , 
+                               sum(case when  type_id=12 then money else 0 end) as total_back_money %(where)s
+                            
+                            
+        			]]>
+        			<part id = "Dininghall">
+        				<![CDATA[
+        				from pos_carcashsz where  dining_id = %(op_id)s and checktime>='%(st)s' and checktime <'%(et)s'
+        				]]>
+        			</part>
+        			<part id = "Device">
+        				<![CDATA[
+        				from pos_carcashsz where  sn_name = '%(op_id)s' and checktime>='%(st)s' and checktime <'%(et)s'
+        				]]>
+        			</part>
+                    <part id = "Department">
+                        <![CDATA[
+                        from pos_carcashsz where  dept_id = %(op_id)s and checktime>='%(st)s' and checktime <'%(et)s'
+                        ]]>
+                    </part>
+        		</content>	
+        	</sql>
+        <sql id = "id_emp_summary_report_sql">
+				<!--个人消费汇总表-->
+        		<content engine = "default">
+        			<![CDATA[
+                           select
+                                     sum(case when  type_id=9 then money else 0 end) as back_money,
+                                     sum(case when  type_id=9 then 1 else 0 end) as back_count,
+                                     sum(case when  type_id in (6,8) then 1 else 0 end) as pos_count,
+                                     sum(case when  type_id in (6,8) then money else 0 end) as summary_money,
+                                     sum(case when  type_id=10 then 1 else 0 end) as total_count , 
+                                     sum(case when  type_id=10 then money else 0 end) as total_money,
+                                     sum(case when  type_id=12 then 1 else 0 end) as total_back_count , 
+                                     sum(case when  type_id=12 then money else 0 end) as total_back_money,
+                                     sum(case when  type_id=8 then money else 0 end) as add_single_money,user_id 
+                           
+                           from pos_carcashsz where  user_id in (%(userids)s) and checktime>='%(st)s' and checktime <'%(et)s' group by user_id    
+        			]]>
+        			
+        		</content>	
+        		<content engine = " ">
+        			<![CDATA[
+                            
+        			]]>
+        			<part id = " ">
+        				<![CDATA[
+        				
+        				]]>
+        			</part>
+        			<part id=" ">
+        				<![CDATA[
+        				
+        				]]>
+        			</part>
+        		</content>	
+        	</sql>
+		<sql id = "id_SZ_summary_report">
+				<!--现金收支汇总表-->
+				<content engine = "default">
+					<![CDATA[
+                            select
+                                    sum(case when  type_id=1 then money else 0 end) as recharge_money,
+                                    sum(case when  type_id=1 then 1 else 0 end) as recharge_count,
+                                    sum(case when  type_id=5 then money else 0 end) as refund_money,
+                                    sum(case when  type_id=5 then 1 else 0 end) as refund_count,
+                                    sum(case when  type_id=7 then money else 0 end) as cost_money,
+                                    sum(case when  type_id=11 then money else 0 end) as manage_money,
+                                    sum(case when  type_id=7 then 1 else 0 end) as hairpin_count,
+                                    sum(case when  type_id=4 then 1 else 0 end) as back_card_count,
+                                    sum(case when  type_id=4 then money else 0 end) as back_card_money %(where)s 
+							
+		                    
+					]]>
+					<part id = "not_check_opreate">
+					<![CDATA[
+						from pos_carcashsz where  checktime>='%(st)s' and checktime <'%(et)s'
+					]]>
+					</part>
+					<part id = "check_opreate">
+						<![CDATA[
+                        ,create_operator from pos_CarCashSZ where  checktime>='%(st)s' and checktime <'%(et)s' and  create_operator !='0' group by create_operator
+						]]>
+					</part>
+				</content>	
+				<content engine = " ">
+					<![CDATA[
+		                    
+					]]>
+					<part id = " ">
+						<![CDATA[
+						
+						]]>
+					</part>
+					<part id=" ">
+						<![CDATA[
+						
+						]]>
+					</part>
+				</content>	
+			</sql>
+        
+</sqlgroup>
+
+
+

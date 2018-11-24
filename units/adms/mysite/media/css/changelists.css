@@ -1,0 +1,74 @@
+/* CHANGELISTS */
+#changelist { position:relative; width:100%; }
+#changelist table { width:100%; }
+.change-list .filtered table { border-right:1px solid #ddd;  }
+.change-list .filtered { min-height:400px; }
+.change-list .filtered { background:white url(../img/changelist-bg.gif) top right repeat-y !important; }
+.change-list .filtered table, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull { margin-right:160px !important; width:auto !important; }
+.change-list .filtered table tbody th { padding-right:1em; }
+#changelist .toplinks { border-bottom:1px solid #ccc !important; }
+#changelist .paginator { color:#666; border-top:1px solid #eee; border-bottom:1px solid #eee; background:white url(../img/nav-bg.gif) 0 180% repeat-x; overflow:hidden; }
+.change-list .filtered .paginator {border-right:1px solid #ddd; }
+
+/*  CHANGELIST TABLES  */
+#changelist table thead th { white-space:nowrap; }
+#changelist table tbody td { border-left: 1px solid #ddd; }
+#changelist table tfoot { color: #666; }
+
+/*  TOOLBAR  */
+#changelist #toolbar { padding:3px; border-bottom:1px solid #ddd; background:#e1e1e1 url(../img/nav-bg.gif) top left repeat-x; color:#666; }
+#changelist #toolbar form input { font-size:12px; padding:1px 2px; }
+#changelist #toolbar form #searchbar { padding:2px; }
+#changelist #changelist-search img { vertical-align:middle; }
+
+/*  FILTER COLUMN  */
+#id_filterbar li.selected {background: url(../img/next.gif) -5px 7px no-repeat;}
+#id_filterbar li.selected a { color:#C3C3C3!important; }
+#id_filterbar li.selected a:visited { color:#C3C3C3!important; }
+#id_filterbar li ul li a:visited{ color:#fff!important; }
+
+
+/*  DATE DRILLDOWN  */
+.change-list ul.toplinks { display:block; background:white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x; border-top:1px solid white; float:left;  padding:0 !important;  margin:0 !important; width:100%; }
+.change-list ul.toplinks li { float: left; width: 9em; padding:3px 6px; font-weight: bold; list-style-type:none; }
+.change-list ul.toplinks .date-back a { color:#999; }
+.change-list ul.toplinks .date-back a:hover { color:#036; }
+
+/* PAGINATOR */
+.paginator { font-size:12px; padding-top:10px; padding-bottom:10px; line-height:22px; margin:0; border-top:1px solid #ddd; }
+.paginator a:link, .paginator a:visited { padding:2px 6px; border:solid 1px #ccc; background:white; text-decoration:none; }
+.paginator a.showall { padding:0 !important; border:none !important; }
+.paginator a.showall:hover { color:#036 !important; background:transparent !important; }
+.paginator .end { border-width:2px !important; margin-right:6px; }
+.paginator .this-page { padding:2px 6px; font-weight:bold; font-size:13px; vertical-align:top; }
+.paginator a:hover { color:white; background:#5b80b2; border-color:#036; }
+
+td {vertical-align:bottom; }
+form#id_edit_form td {max-width: 400px; }
+th {vertical-align:bottom; padding-top: 3px; }
+#changelist-filter {padding-top: 1px; }
+.cls_filter {padding-left:20px; }
+
+#toolbar input.cls_op{
+	padding-left: 18px;
+	background:url(../img/add.png) 3px 50% no-repeat;
+	margin-left: 3px;
+	float: left;
+}
+#toolbar input.cls_op[disabled]{
+	background:url(../img/add_dis.png) 3px 50% no-repeat;
+}
+
+#toolbar input.cls_op#id_clearrec {
+	background:url(../img/close.png) 3px 50% no-repeat;
+}
+#toolbar input.cls_op#id_clearrec[disabled] {
+	background:url(../img/close_dis.png) 3px 50% no-repeat;
+}
+
+#toolbar input.cls_op#id_export {
+	background:url(../img/ext.png) 3px 50% no-repeat;
+}
+#toolbar input.cls_op#id_export[disabled] {
+	background:url(../img/ext_dis.png) 3px 50% no-repeat;
+}

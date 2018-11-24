@@ -1,0 +1,169 @@
+{% extends "Acc_Door_Set.html" %}
+{% load i18n %}
+{% block id_main_div %}
+    {% if request.user|HasPerm:"personnel.browse_accmorecardempgroup" %}
+        <div id="id_accmorecardempgroup" style="margin:15px 0px 10px 0px;">
+        {% block datalist_before %}
+            <div id="id_datalist" class="div_box" style="float:left; width:45%; margin:0px 0px 0px 10px; _margin:0px 0px 0px 5px;"><h1>{% trans "多卡开门人员组列表" %}</h1>    
+            </div>
+        {% endblock %}<!--endblock of datalist_before-add by darcy-->
+        
+        {% block extend_before %}
+            <div id="id_extend" class="div_box" style="float:right; width:46%; margin:0px 10px 0px 0px;_margin:0px 5px 0px 0px;"><h1 style="width:98%">{% trans "浏览指定人员组的人员" %}</h1>
+            </div>
+        {% endblock %}<!--endblock of extend_before-add by darcy-->
+        </div>
+    {% endif %}<!--personnel.browse_accmorecardempgroup-->
+{% endblock %}<!--endblock of content-add by darcy-->
+
+{% block acc_door_set %}
+    {% if request.user|HasPerm:"personnel.browse_accmorecardempgroup" %}
+    
+    $("#id_datalist").model_grid({
+        "model_url": "{{ model_url }}",
+        "async": false,
+        "sort_fields": ["group_name"], 
+        "cached_data": false,
+        "disabled_actions": ["_change",'OpDelEmpFromMCEGroup'],
+        "row_operations": ["OpAddEmpToMCEGroup","op_edit","_delete"],
+        "init_after_get_jdata": function(){
+            var left_data = 0;//右边记录对应的左边记录id
+            $("#id_OpAddEmpToMCEGroup").remove();
+            //处理第一次加载时人员组为空时，右侧不显示
+            var $tr = $("#id_datalist #id_tbl tbody tr:first");
+            left_data = $tr.attr("data");
+            
+            var base_query = [];
+            if($tr.length != 0)
+            {
+                var group_name2 = $($tr.find("td")[1]).text();
+                $("#id_extend h1").text(gettext("浏览多卡开门人员组：")+ group_name2 +gettext(" 的人员"));
+                
+                base_query=["morecard_group__exact="+$tr.attr("data")];
+            }
+            else
+            {
+                $("#id_extend h1").text(gettext("当前不存在多卡开门人员组"));
+                base_query = ["morecard_group__exact=0"];
+            }
+            
+            $("#id_extend").model_grid({
+                "model_url": "{{ dbapp_url }}personnel/Employee/",
+                "base_query": base_query,
+                "need_plus_sign": false,
+                "model_actions": false,
+                "object_actions": false,
+                "layout_types": [], 
+                "fields_show": ['PIN','EName','DeptID','Card'],
+                "obj_edit": false,
+                "async": false,
+                "record_per_page": 20,
+                "max_no_page": 30,
+                "row_operations": [],
+                "cached_data": false,
+                "init_after_get_jdata": function(){
+                    {% if request.user|HasPerm:"personnel.opdelempfrommcegroup_accmorecardempgroup" %}
+                    $("#id_extend div.action").append('<li name="OpDelEmpOfMCEGroup" id="id_OpDelEmpOfMCEGroup"><a alt="OpDelEmpOfMCEGroup" href="javascript:void(0)" class="action_OpDelEmpOfMCEGroup">'+gettext("删除人员")+'</a></li>')
+                    $("#id_OpDelEmpOfMCEGroup a").click(function(){
+                        var emps = new Array()
+                        $("#id_extend .select_row_style").each(function(){
+                            emps.push($(this).attr("data"));            
+                        });
+                        
+                        if(emps == "")
+                        {
+                            alert(gettext("请先选择要删除的人员！"));
+                            return false;
+                        }
+                        
+                        if(!confirm(gettext("确认要从多卡开门人员组中删除人员？")))
+                        {
+                            return false;
+                        }
+                    
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "/{{ request.surl }}iaccess/MCEGroupEmpOp/?data="+ left_data +"&emps="+ emps,
+                            success: function(data)
+                            {
+                                if(data.ret == 1)
+                                {
+                                    alert(gettext("操作成功！"));
+                                    $("#id_extend").get(0).g.load_data();
+                                    $("#id_datalist").get(0).g.load_data();
+                                }
+                                else
+                                {
+                                    alert(gettext("操作失败！"));
+                                }
+                            },
+                            error:function (XMLHttpRequest, textStatus, errorThrown) 
+                            {
+                                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-608");
+                                flag = false;
+                            }            
+                        });
+                    });
+                    {% endif %}<!--opdelempfrommcegroup_accmorecardempgroup-->
+                }  
+            });
+            
+            $("#id_datalist").on_row_click(function(grid, key, row_data){ //单击
+                left_data = row_data;
+                var group_name = $($("#id_datalist tr[data="+row_data+"]").find("td")[1]).text();
+                $("#id_extend h1").text(gettext("浏览多卡开门人员组：")+ group_name +gettext(" 的人员"));
+                $('#id_extend').get(0).g.base_query = ["morecard_group__exact="+row_data];
+                $('#id_extend').get(0).g.load_data();
+               
+                return true;
+            });
+            function onclick_left()
+            {
+                var $tr2 = $("#id_datalist #id_tbl tbody tr:first");
+                if($tr2.length != 0)
+                {
+                    $tr2.click();//$("#id_datalist #id_tbl tbody tr:first").click();
+                }
+                else
+                {
+                    $("#id_extend h1").text(gettext("当前不存在多卡开门人员组"));
+                    $('#id_extend').get(0).g.base_query = ["morecard_group__exact=0"];
+                    $('#id_extend').get(0).g.load_data();
+                }
+                return true;
+            }
+        
+            //onclick_left();
+            //处理查询之后加载时人员组为空时，右侧不显示
+            //默认单击左边的datalist的第一行
+            after_query = function()
+            {
+                onclick_left();
+            }    
+            
+            //编辑完左侧的人员组后需要同步后侧的人员列表
+            after_submit = function()
+            {
+                var row_data2 = $($("#id_datalist").get(0).current_row).attr("data");
+                $($("#id_datalist tr[data="+row_data2+"]")).click();
+            }
+            
+            //左边新增组后刷新列表//，单击第一个
+            after_save_return = function()
+            { 
+                onclick_left();
+            }
+        }
+    });
+
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--personnel.browse_accmorecardempgroup-->
+{% endblock %}
+
+
+
+

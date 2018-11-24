@@ -1,0 +1,133 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/calculate.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block content_end %}
+<div style="margin:0px 10px 10px 10px;">
+	<input type="hidden" id="id_current_report" value="1" />
+	<input type="hidden" id="id_all_emp" value="all"/>
+	<div id="id_divsearch" class="calculate_divsearch">
+
+		<div style="margin:0px 10px 5px 10px;">
+		<form id="id_calculateform" method="post">
+		<div class="news_xaxunkuang">
+		<dl><dt>查询</dt>
+		<dd>
+			<table>
+			<tr>
+		{% block select_emp %}
+				{% autoescape off %}
+				<td><div class="lineH22">{{ empfield|field_as_label_tag }}</div></td><td>{{empfield.as_widget}}</td>
+				{% endautoescape %}
+	{% endblock %}
+				<td><div class="lineH22">&nbsp;&nbsp;{% trans "开始日期" %}</div></td><td><input type="text" class="date dp-applied"  format="yyyy-MM-dd" readonly="True" name="ComeTime" id="id_cometime"/></td>
+				<td><div class="lineH22">&nbsp;&nbsp;{% trans "结束日期" %}</div></td><td><input type="text" class="date dp-applied" format="yyyy-MM-dd" readonly="True" name="EndTime" id="id_endtime"/></td>
+				<td><div style="margin:0px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href="#" class="Link_blue1" >{% trans '查询' %}</a></div></td>
+				{% if request.user|HasPerm:"att.calculate_attreport" %}
+					<td><div style="margin:0px 0px 0px 5px;"><span class="action_calculate">&nbsp;</span><a id="id_calculate" href="javascript:void(0)" class="Link_blue1">{% trans '统计' %}</a></div></td>
+					<td>
+						<div style="margin:0px 0px 0px 5px;">
+							<span class="action_export">&nbsp;</span>
+									<a id="id_model_export" class="Link_blue1" href="javascript:void(0)">
+										{% trans "导出" %}
+									</a>
+						</div>
+					</td>
+				{% endif %}
+			
+			</tr>
+			<tr><td colspan="3">
+			<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+			</tr>
+			</table>
+	        </dd>
+            </dl>
+			<input type="hidden" name="DeptIDs" value="" />
+			<input type="hidden" name="isForce" value="0" />
+			<input type="hidden" name="UserIDs" value="" />
+		</form>
+		</div>
+	</div>
+	<div id="calculatetabs" style="margin-right: 20px;margin-left: 20px;"><!--height:440px;overflower:auto; style="width:860px;"-->
+	    <ul class="tabs">
+	     {% if request.user|HasPerm:"att.calcresultdetail_attreport" %}
+          <li><a href="#caltabs-1" onClick="AttRecAbnormite('')">{% trans '统计结果详情' %}</a></li>
+         {% endif %}
+         {% if request.user|HasPerm:"att.earchdayattreport_attreport" %}
+          <li><a href="#caltabs-2" onClick="DailyReport('')">{% trans '每日考勤统计表' %}</a></li>
+         {% endif %}
+         {% if request.user|HasPerm:"att.exceptionreport_attreport" %}
+          <li><a href="#caltabs-3" onClick="AttShifts('')">{% trans '考勤明细表' %}</a></li>
+          {% endif %}
+         {% if request.user|HasPerm:"att.calctotalreport_attreport" %}
+          <li><a href="#caltabs-5" onClick="CalculateReport('')">{% trans '考勤汇总表' %}</a></li>
+          {% endif %}
+         {% if request.user|HasPerm:"att.leavetotalreport_attreport" %}
+		  <li><a href="#caltabs-8" onClick="LeaveReport('')">{% trans '请假汇总表' %}</a></li>
+		  {% endif %}
+		
+		{% if request.user|HasPerm:"att.calctotalreport_attreport" %}
+			<li><a href="#caltabs-9" onClick="LEReport('')">{% trans '汇总最早与最晚' %}</a></li>
+		{% endif %}
+		
+		{% if request.user|HasPerm:"att.calctotalreport_attreport" %}
+			<li><a href="#caltabs-10" onClick="YCReport('')">{% trans '考勤异常明细表' %}</a></li>
+		{% endif %}
+		
+		{% if request.user|HasPerm:"att.calctotalreport_attreport" %}
+			<li><a href="#caltabs-11" onClick="CardTimesReport('')">{% trans '打卡详情表' %}</a></li>
+		{% endif %}
+		
+	    </ul>
+		<div  class="calculatediv" id="caltabs-1">
+			<div id="subtabs-1">        
+			</div>
+		</div>
+        <div class="calculatediv" id="caltabs-2" >
+			<div id="subtabs-2">
+        
+			</div>
+		</div>
+        <div class="calculatediv" id="caltabs-3" >
+			<div id="subtabs-3">
+        
+			</div>
+		</div>
+         
+        <div class="calculatediv" id="caltabs-5"  >
+			<div id="subtabs-5">
+        
+			</div>
+		</div>
+		      
+		<div class="calculatediv" id="caltabs-8" >
+			<div id="subtabs-8">		
+		
+			</div>
+		</div>	
+		<div class="calculatediv" id="caltabs-9" >
+			<div id="subtabs-9">		
+		
+			</div>
+		</div>
+		<div class="calculatediv" id="caltabs-10" >
+			<div id="subtabs-10">		
+		
+			</div>
+		</div>
+		<div class="calculatediv" id="caltabs-11" >
+			<div id="subtabs-11">		
+		
+			</div>
+		</div>
+			
+	</div>
+</div>
+<div id="id_attexcept_desc"></div>
+{% block selfservices %} {% endblock %}
+{% endblock %}

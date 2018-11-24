@@ -1,0 +1,1623 @@
+<object classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+   </object>
+   <COMMENT style="display:None">
+       <embed type="application/x-eskerplus"
+           classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"        
+           codebase="ZKOnline.ocx"                          
+       </EMBED>
+   </COMMENT>
+
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+    {% if request.user|HasPerm:"personnel.add_employee" or request.user|HasPerm:"personnel.change_employee" %}
+    {% autoescape off %} 
+    <tr>
+        <td>
+            <div class="displayN">
+                <table>
+                    <tr> 
+                        {{form.lng}}
+                    </tr>
+                    <tr>
+                        {{form.tcount}}
+                    </tr>
+                    <tr>
+                        {{form.tfids}}
+                    </tr>
+                    <tr>
+                        {{form.fpcode}}
+                    </tr>
+                    <tr>
+                        {{form.tcount10}}
+                    </tr>
+                    <tr>
+                        {{form.tfids10}}
+                    </tr>
+                    <tr>
+                     {{form.pin_width}}
+                    </tr>
+                </table>
+            </div>
+            <div id="id_emp_info"  class="div_box1 floatL ">
+                <h2>{% trans '人员基础资料' %}</h2>
+                <table id="id_emp_info_tbl" border="0" cellspacing="0" cellpadding="0" class="displayB" >
+                    <tr>
+                        <th height="20">{{ form.PIN|field_as_label_tag }}</th>
+                        <td>{{form.PIN.as_widget }}</td>
+                        <td width="130">
+                            <div class="floatL lineH22" >
+                                <a id ="id_checkNo" class="Link_blue1" href="javascript:void(0)" onclick="javascript:check_PIN(this)">{%trans '验证'%}</a>
+                            </div>
+                            <div id='div_id_pin'  class="floatL color_orange lineH22"></div>
+                        </td>
+                        <th height="20">{{ form.EName|field_as_label_tag }}</th>
+                        <td>{{form.EName.as_widget }}</td>
+                        <td>{{form.EName.errors }}</td>
+                        <td rowspan="7" >
+                            <div class="div_img floatL">
+                            <div class="displayN">{{form.chkph}}</div>
+                            <div class="displayN">{{form.install_language}}</div>
+                            <div class="ar_r_t">
+                            	<div id="photo_show_area"  class="ar_l_t">
+                            		<div class="ar_r_b">
+                            			<div class="ar_l_b">
+                            				<img id='id_img_personnel' width="120px" height="140px" src="{{ MEDIA_URL }}/images/userImage.gif"   onerror="this.src='{{ MEDIA_URL }}/images/userImage.gif'"/>
+                            			</div>
+                            		</div>
+                            	</div>
+                            </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div>
+                                <!--<div style="position:absolute;">
+                                    {% trans '上传个人照片'%}<br /><span class="color_orange" style="padding-right:10px;">{% trans '(最佳尺寸为120×140像素)'%}</span>
+                                    <br />{{form.photo.as_widget }}
+                                </div>-->
+                            </div>
+                        </td>
+                    </tr>                    
+                    <tr>
+	                    <th height="20">{{ form.Gender|field_as_label_tag }}</th>
+	                    <td>{{form.Gender.as_widget }}</td>
+	                    <td>{{form.Gender.errors }}</td>
+                        <th height="20">{{ form.lastname|field_as_label_tag }}</th>
+                        <td>{{form.lastname.as_widget }}</td>
+                        <td>{{form.lastname.errors }}</td>
+                    </tr>  
+                    <tr>
+	                    <th height="20">{{ form.DeptID|field_as_label_tag }}</th>
+	                    <td>{{form.DeptID.as_widget }}</td>
+	                    <td>{{form.DeptID.errors }}</td>
+	                    <th height="20">{{ form.position|field_as_label_tag }}</th>
+                        <td>{{form.position.as_widget }}</td>
+                        <td>{{form.position.errors }}</td>
+                    </tr>
+					<tr>
+                        <th>{{ form.Hiredday|field_as_label_tag }}</th>
+                        <td colspan="2"  >{{form.Hiredday.as_widget }}{{form.Hiredday.errors }}</td>
+		                <th height="20">{{ form.Password|field_as_label_tag }}</th>
+		                <td>{{form.Password.as_widget }}<br/>{{form.Password.help_text }}</td>
+		                <td>{{form.Password.errors }}</td>
+                     </tr>
+					 <tr>
+                        <th height="20">{{ form.hiretype|field_as_label_tag }}</th>
+                        <td>{{form.hiretype.as_widget }}</td>
+                        <td>{{form.hiretype.errors }}</td>
+                        <th height="20">{{ form.emptype|field_as_label_tag }}</th>
+                        <td>{{form.emptype.as_widget }}</td>
+                        <td>{{form.emptype.errors }}</td>
+                    </tr>
+                    <tr>
+                        {% if "EMPLOYEE_IS_SELFPASSWORD"|filter_config_option %}
+                            <th>{{ form.selfpassword|field_as_label_tag }}</th>
+                            <td colspan="3">{{form.selfpassword.as_widget}}</td>
+                        {% else %}
+                        {% endif %}
+
+                        <td></td>
+                        <td style="text-align: left;width:180px;">
+                        <!-- {{form.photo.as_widget }}-->
+                        <!-- <input type="file" id="id_upload_file" name="fileUpload" size="15"/>-->
+                        </td>
+                    </tr>
+                    <tr id = "edit_card">
+	                    <th height="20">{{ form.cardno|field_as_label_tag }}</th>
+	                    <td>{{form.cardno.as_widget }}</td>
+	                    <td><a href="javascript:void(0)" style="display:None">{%trans '连接发卡器'%}</a></td>
+		            </tr>
+                    {% if "EMPLOYEE_EDIT_REGISTER_FINGERPRINT"|filter_config_option%}
+
+                    {% else %}
+                    <tr>
+                        <th height="20">{% trans '登记指纹'%}:</th>
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="floatL Link_blue1" style="">
+                                            <a href="javascript:void(0)" id="id_fp_register" onclick="submitRegister()">{% trans '登记'%}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="id_fp_help" style="margin: 0 0 0 8px">
+                                           <a title="{% trans '无法登记指纹？' %}" target="_blank" >{% trans '无法登记指纹？' %}</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="div_id_finngerT" class="floatL"></div>
+                            <input type="hidden" id="id_finnger" name="finnger" alt="" value=""> </input>
+                            <input type="hidden" id="id_template"  value="" name="template" alt=""> </input>
+                            <input type="hidden" id="id_finnger10" name="finnger10" alt="" value=""> </input>
+                            <input type="hidden" id="id_template10"  value="" name="template10" alt="">  </input>
+                            <input type="hidden" id="id_delfinger"  value="" name="delfinger" alt=""> </input>
+                            <input type="hidden" id="id_fptype"  value="" name="fptype" alt=""> </input>
+                            <input type="hidden" id="id_durfinger"  value="" name="durfinger" alt=""> </input>
+                            <input type="hidden" id="id_durfpid"  value="" name="durfpid" alt=""> </input>
+                            <input type="hidden" id="id_delflag"  value="" name="delflag" alt="delete"> </input>
+                            {% if "IACCESS"|filter_config_option %} 
+                                <input type="hidden" id="id_forceavalidflag"  value="1" name="delflag" alt="delete"> </input>
+                            {% else %}
+                                <input type="hidden" id="id_forceavalidflag"  value="0" name="delflag" alt="delete"> </input>
+                            {% endif %}
+                            
+                        </td> 
+                    </tr>
+                    <tr>
+			            <th></th>
+                        <td><a href="/worktable/download_fingerprint_driver" id="id_fingerprint_download" >{% trans '驱动下载'%}</a>
+                        </td>
+                    </tr>
+                    <script type="text/javascript">
+                            //var ua = navigator.userAgent.toLowerCase();   
+                            //alert(ua); 
+                            //if  (window.ActiveXObject)
+                             //{alert("ie")} 
+                            
+                            $("#id_fp_help a").attr("href", "/data/system/help/?p=/file/"+$("#id_lng").val()+"/help/fingerprintDriverInstall.html");
+                            
+                            if(!$.browser.msie){
+                                $("#id_fp_register").attr({disabled:"true", title: "{% trans '登记指纹功能只支持IE浏览器' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function(){
+                                    $(".messageBox").html("{% trans '登记指纹功能只支持IE浏览器' %}").show();
+                                    alert(gettext("登记指纹功能只支持IE浏览器"));
+                                    return false;
+                                });
+                            }
+                            else
+                            {
+                                var flag = false;            
+                                for(var i in zkonline)
+                                {
+                                    if(i == "FPEngineVersion")
+                                    {
+                                       //alert("have installed")
+                                       flag = true;
+                                    }
+                                } 
+                                if(!flag)
+                                {
+                                     //alert("did not install")
+                                     $("#id_fp_register").attr({disabled:"true", title: "{% trans '请安装指纹仪驱动' %}"}).css({cursor:"default",color:"#888888"}).unbind().click(function()
+                                     {
+                                        alert(gettext("请安装指纹仪驱动"))
+                                        return false;
+                                     });                     
+                                }
+                            }
+                        </script>
+                    
+                    {% endif %}
+                    {% if "EMPLOYEE_IS_FINNGER"|filter_config_option %}                
+                    <tr style="display:None">
+                        <td height="20">&nbsp;</td>
+                        <td colspan="2"  ><a href="javascript:void(0)" onclick="submitRemoteIdentification()">{% trans '指纹机登记'%}</a>          <div id="div_id_finngerM"></div></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+         </td>
+        </tr>
+        <tr>
+         <td>
+         	<div id="id_emp_normal_info" name = "open_close" class="div_box1 floatL">
+            <h2 class="div_box1_slide" title = "点击以展开">{% trans '人员详细资料' %}</h2>
+            <table id="id_emp_info_normal_tbl" border="0" cellspacing="0" cellpadding="0" class="displayB" style="display:None">
+                <tr>
+                    <th>{{form.Address|field_as_label_tag }}</th>
+                    <td colspan="2">{{form.Address.as_widget}}</td>
+                    <td width = "10"></td>
+                    {{ form.Tele|field_as_td_h }}
+                    <td width = "10"></td>
+                    {{ form.Birthday|field_as_td_h }}
+                    <td></td>
+                    <td width = "10"></td>
+                    <th height="20">{{ form.country|field_as_label_tag }}</th>
+                    <td >{{form.country.as_widget }}</td>
+                    <td width="130">{{form.country.errors }}</td>
+                </tr>                
+                <tr>
+	                <th>{{form.homeaddress|field_as_label_tag }}</th>
+                    <td colspan="2">{{form.homeaddress.as_widget}}</td>
+                    <td width = "10"></td>
+	                {{ form.FPHONE|field_as_td_h }}
+	                <td width = "10"></td>
+                    <th height="20">{{ form.education|field_as_label_tag }}</th>
+                    <td >{{form.education.as_widget}}{{form.education.errors }}</td>
+                    <td></td>
+                    <td width = "10"></td>
+                    <th height="20">{{ form.state|field_as_label_tag }}</th>
+	                <td>{{form.state|foreignkey_no_load }}</td>
+	                <td>{{form.state.errors }}</td>
+                </tr>
+                <tr>
+	                <th>{{ form.PostCode|field_as_label_tag }}</th>
+                    <td colspan="2">{{form.PostCode.as_widget}}</td>
+                    <td width = "10"></td>
+	                {{form.Mobile|field_as_td_h }}
+	                <td width = "10"></td>
+	                <th height="20">{{ form.Political|field_as_label_tag }}</th>
+                    <td>{{form.Political.as_widget }}</td>
+                    <td >{{form.Political.errors }}</td>
+                    <td width = "10"></td>
+                    <th height="20">{{ form.city|field_as_label_tag }}</th>
+	                <td>{{form.city|foreignkey_no_load }}</td>
+	                <td>{{form.city.errors }}</td>
+                </tr>
+                <tr>
+	                <th>{{ form.email|field_as_label_tag }}</th>
+                    <td colspan="2">{{form.email.as_widget}}</td>
+                    <td width = "10"></td>
+	                {{ form.birthplace|field_as_td_h }}
+	                <td width = "10"></td>
+                    <th height="20">{{ form.national|field_as_label_tag }}</th>
+	                <td>{{form.national.as_widget }}</td>
+	                <td>{{form.national.errors }}</td>
+	                <td width = "10"></td>
+                    <th height="20">{{ form.identitycard|field_as_label_tag }}</th>
+                    <td>{{form.identitycard.as_widget}}</td>
+                    <td>
+                        <div  class="floatL lineH22">
+                            <a id="id_personnelsn" class="Link_blue1" href="javascript:void(0)" onclick="javascript:check_identity(this)">{%trans '验证'%}</a>
+                        </div>
+                        <div id='div_id_identitycard'  class="floatL color_orange lineH22"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </td> 
+    </tr>
+
+    {% if "EMPLOYEE_DISABLED_ATT_SET"|filter_config_option %}            
+        <tr>
+            <td>
+                <div id="id_Att_info" name = "open_close" class="div_box1 floatL">
+                    <h2  class="div_box1_slide" title = "点击以展开">{% trans '考勤设置' %}</h2>
+                        <table id="id_Att_info_tbl" border="0" cellspacing="0" cellpadding="0" style="display:None">
+                            <tr>
+                              <th rowspan="5" width="65" style="vertical-align:top">{{ form.attarea|field_as_label_tag }}</th>
+                              <td rowspan="5">{{form.attarea.as_widget }}</td>
+                              <td   height="20" width="55">&nbsp;</td>
+
+                              <td width="55" rowspan="7" valign="top">
+                                  <table border="0" cellpadding="3" cellspacing="0">
+                                    <tr style="display:none;">
+                                      <th height="20">{{ form.INLATE|field_as_label_tag }}</th>
+                                      <td>{{form.INLATE.as_widget }}</td>
+                                      <td>{{form.INLATE.errors }}</td>
+                                    </tr>
+                                    <tr style="display:none;">
+                                      <th height="20">{{ form.OutEarly|field_as_label_tag }}</th>
+                                      <td>{{form.OutEarly.as_widget }}</td>
+                                      <td>{{form.OutEarly.errors }}</td>
+                                    </tr>
+                                    <tr>
+                                        {{ form.isatt|field_as_td_h }}
+                                    </tr>
+                                    <tr>
+                                        {{ form.Privilege|field_as_td_h }}
+                                    </tr>
+                                    
+                                    <tr style="display:none;">
+                                        {{ form.AutoSchPlan|field_as_td_h }}
+                                    </tr>
+                                  </table></td>
+                              </tr>
+                            <tr>
+                              <td height="20">{{form.attarea.errors }}</td>
+                            </tr>
+                        </table>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        {% if "IACCESS"|filter_config_option and 'zh-cn'|has_language and "IACCESS_WITH_ATT"|filter_config_option %}  
+            <tr>
+                <td>
+                    <div id="id_Att_info" name = "open_close" class="div_box1 floatL">
+                        <h2 class="div_box1_slide" title = "点击以展开">{% trans '考勤设置' %}</h2>
+                        <table id="id_Att_info_tbl" border="0" cellspacing="0" cellpadding="0"  style="display:None">
+                            <tr>            
+                                {{ form.isatt|field_as_td_h }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+    {% endif %}
+    
+    {% if "mysite.iaccess"|hasApp %}
+    <tr>
+        <td>
+            <div id="id_access_info" name = "open_close" class="div_box1 floatL">
+                <h2 class="div_box1_slide" title = "点击以展开">{% trans '门禁设置' %}</h2>
+                <table id="id_access_info_tbl" border="0" cellspacing="0" cellpadding="0"  style="display:None">
+                    <tr>
+                        {{ form.acc_super_auth|field_as_td_h }}
+                    </tr>
+                    <!--权限组添加-->
+                    <!--中央党校zhangy20110719-->
+                    <tr>
+                        <td style="text-align:right;">
+                            {% trans "门禁权限组:" %}
+                        </td>
+                        <td align="left">
+                            <div>
+                                <input type="text" id="level_name" name="level_name" size="20"></input>
+                                <input type="button" id="id_query_level" class="select_EmpSubmit" title={% trans "查询" %} value=""></input>
+                                <input type="checkbox" id="id_select_all" name="level_name" size="1"></input>
+                                <label>{% trans "全选" %}</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <div id="id_level" style="border:1px solid #71A8D8"></div></div>
+                        </td>
+                    </tr>
+                    
+                    <tr id="set_valid_time" height="25">
+                        {{ form.set_valid_time|field_as_td_h }}{{ form.acc_startdate|field_as_td_h }}{{ form.acc_enddate|field_as_td_h }}
+                    </tr>
+
+                    <tr>
+                        {{ form.morecard_group|field_as_td_h }}
+                    </tr>
+                    <tr class="displayN"><th></th><td><input type="checkbox" name="level_changed" class="wZBaseBooleanField" id="id_level_changed"></td></tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+    
+    {% endif %}
+    {% if "POS_ID"|filter_config_option %}            
+            <tr id = "pos_params">
+                <td>
+                    <div id="id_pos_info" name = "open_close" class="div_box1 floatL">
+                        <h2 class="div_box1_slide" title = "点击以展开">{% trans '消费设置' %}</h2>
+                            <table id="id_pos_info_tbl" border="0" cellspacing="0" cellpadding="0" style="display:None">
+                            <tr>
+                               {{form.blance|field_as_td_h}}
+                               <td  >{{form.blance.errors }}</td>
+                               {{form.card_cost|field_as_td_h}}
+                               <td  >{{form.card_cost.errors }}</td> 
+                            </tr>
+                               
+                           <tr> {{form.mng_cost|field_as_td_h}}
+                                <td  >{{form.mng_cost.errors }}</td>
+                                {{form.type|field_as_td_h}}
+                                <td  >{{form.type.errors }}</td>
+                            </tr>
+                            </table>
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+    
+
+    
+    {% if form.non_field_errors %}
+        <tr><td>{{ form.non_field_errors }}</td></tr>
+    {% endif %}
+
+    {% endautoescape %}
+    {% endif %}<!--add/change_employee-->
+    
+{% endblock %}
+
+{% block addjs%}
+    
+    $(function(){
+         $('#id_edit_form').validate({
+                rules: {
+                    "blance": {required:true,min:0,max:9999,isMoney:true},
+                    "card_cost": {required:true,min:0.0,max:999,isMoney:true},
+                    "mng_cost": {required:true,min:0.0,max:999,isMoney:true}
+                },
+                errorPlacement: function(error, element) {
+                                var ele_id = element.attr("id")
+                                if ( ele_id == "id_pop_emp" )
+                                    error.appendTo (element.next());
+                                else
+                                    error.appendTo (element.parent());
+                            }
+    });
+    	 
+    });
+     {% if "POS_ID"|filter_config_option %}   
+        var obj=document.getElementById('id_type');
+        obj.options.remove(0);
+    {%endif%}
+//  $("#id_type option[index=0]").remove()
+
+    function validcardno(s)
+    {
+    	var t=/^([0-9])+$/;
+    
+    	return t.test(s);
+    
+    }
+    function validphone(s){
+    	var reg=/(^[0-9]{3,4}\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}1[3|5|8][0-9]{9}$)/
+    	return reg.test(s)
+    }
+    $("#id_country").change(function(){
+        var url = "/{{ request.surl }}personnel/select_state/personnel/State/?country=";
+        var v=$(this).val();
+        if (v=="")
+            return;
+        url+=v;
+        $.ajax({
+            type:"POST",
+            url:encodeURI(url),
+            dataType:"json",
+            success:function(msg){
+                var html_list = [];
+                html_list.push( "<option value=''>---------</option>");
+                if(msg.length != 0){
+                    for(var i =0;i<msg.length;i++){
+                        var row = "<option value='"+msg[i][0]+"'>"+msg[i][2]+"</option>";
+                        html_list.push(row);
+                    }
+                }
+                $("#id_state").html(html_list.join(""));
+            }
+        });
+    });
+    
+    $("#id_state").change(function(){
+        var url = "/{{ request.surl }}personnel/select_city/personnel/City/?state=";
+        var v=$(this).val();
+        if (v=="")
+            return;
+        url+=v;
+        $.ajax({
+            type:"POST",
+            url:encodeURI(url),
+            dataType:"json",
+            success:function(msg){
+                var html_list = [];
+                html_list.push( "<option value=''>--------</option>");
+                if(msg.length != 0){
+                    for(var i =0;i<msg.length;i++){
+                        var row = "<option value='"+msg[i][0]+"'>"+msg[i][2]+"</option>";
+                        html_list.push(row);
+                    }
+                }
+                $("#id_city").html(html_list.join(""));
+            }
+        });
+    });
+    
+
+    $("#id_state").click(function(){
+    	if (document.getElementById("id_state").getElementsByTagName("option").length==0){
+    		alert("请先选择国家!")
+    	}
+    	
+    });
+    
+    $("#id_city").click(function(){
+    	if (document.getElementById("id_city").getElementsByTagName("option").length==0){
+    		alert("请先选择省份!")
+    	}
+    });
+    
+    $("#id_position").focus(function(){
+        var url = "/{{request.surl}}personnel/select_position/personnel/Position/?DeptID=";
+        var items = document.getElementsByName("DeptID");
+        if(items.length !=0){
+            var array = items[0].value;
+        }
+        if (array==""||array == undefined)
+        	alert("请先选择部门!")
+            return;
+        url+=array;
+        $.ajax({
+            type:"POST",
+            url:encodeURI(url),
+            dataType:"json",
+            success:function(msg){
+                var html_list = [];
+                html_list.push("<option value=''>--------</option>");
+                if(msg.length !=0){
+                    for(var i=0;i<msg.length;i++){
+                        var row = "<option value='" + msg[i][0] + "'>" + msg[i][1] + " " + msg[i][2] + "</option>";
+                        html_list.push(row);
+                    }
+                }
+                $("#id_position").html(html_list.join(""));
+            }
+        });
+    });
+
+    $("#id_fingerprint_download").hide();//隐藏指纹驱动下载
+    //$("#id_Password").attr("maxlength",8);
+    $("#id_EName").attr("maxlength",8);
+    $("#id_Password").bind("keypress",function(evt){
+        //alert(((parseInt($("#id_Password").val()))+""))
+        //判读输入数字长度不能超过8位
+        var key=evt.charCode||evt.keyCode;
+        if(((parseInt("1"+$("#id_Password").val()))+"").length>6){
+            //alert(key);
+            if((key>=48&&key<=57)||(key>=97&&key<=122))
+            {
+                if(evt.preventDefault)
+               {
+                   evt.preventDefault();
+               }
+               evt.returnValue=false;
+            }
+            
+        }
+    })
+    //获取安装语言
+   // alert($("#id_install_language").val());
+    if($("#id_install_language").val() == "en"){
+        $("#en_displayN").remove();
+    }
+    //身份证验证
+    function check_identity(obj){
+        var value=$("#id_identitycard").val();
+        var blnchina=true;
+        var divedit=$("#id_edit_form");
+        var div=$("#div_id_identitycard")
+        div.html("");
+        if(divedit.find("#id_lng").val()=='zh-cn')
+        {
+            if(valid_identitycard(value)){
+                //divedit.find("#id_personnelsn").click();
+                autofill($("#div_id_identitycard").parent().parent().parent(),value.toString());
+            }else{
+                //alert(gettext('身份证号码不正确'));
+               
+                div.html("&times;"+gettext("不合法"));
+                $("#id_identitycard").val("")
+                return;
+            }
+        }	
+        
+        wgCheckNo('identitycard','div_id_identitycard',obj,'{{dbapp_url}}','personnel','Employee');
+    }
+    //人员编号验证
+    function check_PIN(obj)
+    {
+       
+        var div=$("#div_id_pin");
+        var v=$("#id_PIN").val();
+        var pin_support_letters = $("#pin_support_letters").val();
+        div.html("");
+        var re = pin_support_letters=='1'? /^[0-9a-zA-Z]+$/:/^[0-9]+$/;
+        if (!re.test(v)||(/^0+$/).test(v)){
+        	div.html("&times;"+gettext("不合法"));
+            return;
+        }
+        wgCheckNo('PIN','div_id_pin',obj,'{{dbapp_url}}','personnel','Employee'); 
+    }
+  
+  //卡号验证
+
+var msg = false;
+function check_card(cardno)
+{
+	$.ajax({
+			url:"/{{request.surl}}data/personnel/IssueCard/?cardno="+parseFloat(cardno)+"",
+			dataType:"json",
+			type:"POST",
+			async:false,
+			success:function(data){
+				if(data.data.length>0)
+				{
+				   msg = false;
+				}
+	            else
+	              {
+	               msg = true;
+	              }
+			}
+		});
+		
+		return msg;
+	
+}
+
+//     function check_card(obj)
+//     {
+//         alert("ddd");
+//         var div=$("#div_id_card");
+//         var v=$("#id_cardno").val();
+//         var v_int=parseInt(v,10); 
+//         div.html("");
+//         if (v_int==0||!validcardno(v))
+//         {
+//             div.html("&times;"+gettext("不合法"));
+//             return;
+//         }
+//         wgCheckNo('cardno','div_id_card','#div_id_card','{{dbapp_url}}','personnel','IssueCard'); 
+//     }
+  
+    
+    {% if request.user|HasPerm:"personnel.add_employee" or request.user|HasPerm:"personnel.change_employee" %}
+    var old_levels=new Array();
+    var new_levels=new Array();
+    
+	if($("#id_common_opt").length > 0 || $("#id_add_card").length > 0)//从我的工作面板新增人员
+	{
+		 $("#id_level_changed").attr("checked",true);
+	}
+    function before_submit()
+    {
+        $("#levelSingleBrowser input").each(function(){
+            if($(this).attr("checked")==true)
+            {
+                new_levels.push($(this).attr("value"));
+            }
+        });
+        if(new_levels.sort().toString()!=old_levels.sort().toString())
+        {
+            $("#id_level_changed").attr("checked",true);
+        }
+        return true;
+    }
+    
+    function set_valid_time_show()
+    {
+		$(".select_valid_time").parent().parent().show();
+    }
+
+    function set_valid_time_hide()
+    {
+        $(".select_valid_time").parent().parent().hide();
+    }
+
+    //保存并继续
+    function after_save_continue()
+    {
+        set_valid_time_hide();
+    }
+
+    $(".tbl_data_edit").css({width:"96%"});
+    //收缩功能	
+    function slide(tbl,h2){	
+        if ($(tbl).is(":visible")) 
+        {
+        	$(tbl).hide();
+            $(h2).addClass("div_box1_slide");
+            $(h2).attr("title", "点击以展开");
+        }
+        else
+        {
+			$(tbl).show();
+			$(h2).removeClass("div_box1_slide");
+			$(h2).attr("title", "点击以合并");   
+        }
+    };
+    
+    $(function(){
+		$("div[name='open_close']").find("h2:first").each(function(){
+			$(this).click(function(){
+				slide($(this).next()[0],$(this))
+			});
+			
+//			if ($($(this).next()[0]).is(":visible")) {
+//				$(this).attr("title", "点击以展开");
+//			}else{
+//				$(this).attr("title", "点击以合并"); 
+//			}
+		});
+	});
+    
+    var idata=[]
+
+    $(function(){
+        var divedit=$("#id_edit_form")
+        var pin_support_letters = $("#pin_support_letters").val();
+//        divedit.find("#id_photo").change(function(){
+//            if($(this).val()!=""){   
+//                if( !this.value.match( /.jpg|.gif|.png|.bmp/i ) ){
+//                    alert(gettext('图片格式无效!'));
+//                    return false;
+//                }
+//                if(!$.browser.msie){
+////                	filesize = this.files[0].fileSize;  
+////                	if(filesize==undefined){
+////                		filesize = this.files[0].size;
+////                	}
+////                	if(filesize>16*1024){
+////                		alert(gettext("上传照片大小不能超过16KB!"))
+////                		return;
+////                	}
+//                    divedit.find("#id_img_personnel").attr("src",this.files[0].getAsDataURL());
+//                }else{
+//                	this.select();
+//                    divedit.find("#id_img_personnel").attr("src",document.selection.createRange().text);
+//                }
+//            }
+//        });
+        if($("input[name='pk']").val()!="None" )
+        {
+            $("input[name='PIN']").attr("readonly","readonly");
+            var photo_url = $("input[name='chkph']").attr("value")
+            if(photo_url!=""){
+            	$("#id_img_personnel").attr("src",'/file'+photo_url);
+            }
+        }
+        divedit.find("#id_PIN").attr("maxlength",divedit.find("#id_pin_width").val());
+        divedit.find("#id_PIN").change(function(){
+        	var v = $(this).val()
+        	if((/^0+$/).test(v)){
+        		alert(gettext('人员编号不能为0'));
+             	return;
+        	}
+        	if(pin_support_letters=='1'){
+            	if (!(/^[0-9a-zA-Z]+$/).test(v)){
+            		alert(gettext('人员编号必须为数字或字母'));
+                 	return;
+            	}
+            }else{
+            	if (!(/^[0-9]+$/).test(v)){
+            		alert(gettext('人员编号必须为数字'));
+                 	return;
+            	}
+            }
+            divedit.find("#id_checkNo").click();
+        });
+        
+//        if(divedit.find("#id_PIN").val()!="")
+//        {
+//            var cardno = $("#id_cardno").val()
+//            divedit.find("#id_cardno").blur(function(){
+//            var truthBeTold = window.confirm(gettext('是否修改当前人员卡号？'));
+//            if (truthBeTold) {
+//                       if ($(this).val()!="")
+//                         {
+//                            if(!validcardno($(this).val()))
+//                            {
+//                                alert(gettext('卡号不正确'));
+//                                 $("#id_cardno").val("");
+//                                 return;
+//                            }
+//                         }
+//                        if(!check_card($(this).val()))
+//                         {
+//                             alert(gettext('卡号已被使用'));
+//                             $(this).val("");
+//                             return;
+//                         }
+//                    }
+//                    else
+//                    {$("#id_cardno").val(cardno);}
+//                });
+//                
+//        }
+//        else
+//        {
+//            divedit.find("#id_cardno").blur(function(){
+//                     var cardno = $(this).val();
+//                     if (cardno!="")
+//                       {
+//                          if(!validcardno(cardno))
+//                          {
+//                              alert(gettext('卡号不正确'));
+//                               $(this).val("");
+//                               return;
+//                          }
+//                       }
+//                      if(!check_card(cardno))
+//                       {
+//                           alert(gettext('卡号已被使用'));
+//                           $(this).val("");
+//                           return;
+//                       }
+//                  });
+//        }
+       
+//       divedit.find("#id_blance").blur(function(){
+//              if(!validcardno($(this).val()))
+//              {
+//                  alert(gettext('请输入有效数字'));
+//                  $(this).val("0");
+//                  return;
+//              }
+//              });
+//            divedit.find("#id_mng_cost").blur(function(){
+//              if(!validcardno($(this).val()))
+//              {
+//                  alert(gettext('请输入有效数字'));
+//                  $(this).val("0");
+//                  return;
+//              }
+//              });
+//
+//            divedit.find("#id_card_cost").blur(function(){
+//              if(!validcardno($(this).val()))
+//              {
+//                  alert(gettext('请输入有效数字'));
+//                $(this).val("0");
+//                  return;
+//              }
+//            });
+            
+            
+            divedit.find("#id_FPHONE").change(function(){
+                if(!validphone($(this).val()))
+                {
+                    alert(gettext('请输入正确电话号码'));
+                    $(this).val("");
+                    return;
+                }
+            });
+            
+            divedit.find("#id_Mobile").change(function(){
+                if(!validphone($(this).val()))
+                {
+                    alert(gettext('请输入正确电话号码'));
+                    $(this).val("");
+                    return;
+                }
+            });
+            
+            divedit.find("#id_Tele").change(function(){
+                if(!validphone($(this).val()))
+                {
+                    alert(gettext('请输入正确电话号码'));
+                    $(this).val("");
+                    return;
+                }
+            });
+        
+        divedit.find("#id_email").blur(function()
+        {
+            var str=$("#id_email").val();
+            str = str.replace(/[ ]/g,""); 
+            if(str!="")
+            {
+                var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if(!myreg.test(str))
+                {
+                    alert(gettext('请输入有效的E_mail!'));
+                    return ;
+                }
+                //divedit.find("#id_checkNo").click();
+            }
+        });
+        
+        $.ajax({
+            url:"{{dbapp_url}}../personnel/getmodeldata/base/BaseCode/?fields=content,value,display&content__exact=IDENTITY",
+            dataType:"json",
+            type:"POST",
+            success:function(data){
+                idata=data;
+            }
+        });
+        
+        var div=$("#div_id_identitycard").parent().parent().parent();
+        if(divedit.find("#id_lng").val()!='zh-cn')
+        {
+            divedit.find("#id_personnelsn").addClass("displayN");
+            
+            //英文模式下隐藏籍贯 huangjs-20110722
+            $("#id_birthplace").parent().parent().find("th:last").replaceWith($("#id_homeaddress").parent().parent().find("th:last"));
+            $("#id_birthplace").replaceWith($("#id_homeaddress"));
+        }
+        div.find("#id_identitycard").change(function(){
+            var value=$(this).val()
+            var id_card_div=$("#div_id_identitycard")
+            blnchina=true;
+            if(divedit.find("#id_lng").val()=='zh-cn')
+            {
+                if(valid_identitycard(value))            
+                {	
+                    divedit.find("#id_personnelsn").click();
+                    autofill(div,value.toString());
+                }
+                else
+                {
+                    alert(gettext('身份证号码不正确'));
+                    id_card_div.html("&times;"+gettext("不合法"));
+                    $("#id_identitycard").val("")
+                    return;
+                }
+            }	
+        });
+        if(divedit.find("#id_PIN").val()!="")
+        {
+            $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+ divedit.find("#id_tcount").val() );
+        }
+
+    });
+    
+    function valid_identitycard(value){
+    	var r15=/[1-6]\d{5}\d{2}(?:0\d|1[12])(?:0\d|[12]\d|3[01])\d{3}/;
+//    	var r18=/[1-6]\d{5}(?:19|20)\d{2}(?:0\d|1[12])(?:0\d|[12]\d|3[01])\d{3}[\dXx]/;
+    	var r18= /[1-6]\d{5}(?:19|20)\d{2}(?:0\d|1[0-2])(?:0\d|[12]\d|3[01])\d{3}[\dXx]/;
+	    if (value.length==15){
+	    	return r15.test(value);
+	    }
+	    if(value.length==18){
+	    	return r18.test(value);
+	    }
+	    return false;
+    }
+    function autofill(div,id)
+    {	var address=""
+        if (idata.length==0)
+            return;
+        //省
+        if(idata.length>=2)
+        {
+            address=getvalue(id.substr(0,2));
+        }
+        //市
+        if(idata.length>=2)
+        {
+            address+=getvalue(id.substr(0,4));
+        }
+        //县
+        if(idata.length>=2)
+        {
+            address+=getvalue(id.substr(0,6));
+        }
+        
+        div.find("#id_homeaddress").attr("value",address);
+        if (id.length>=12)
+        {
+            var bd=""
+            if(id.length>=12 && id.length<=15)
+            {
+                bd='19'+id.substr(6,2)+'-'+id.substr(8,2)+'-'+id.substr(10,2);
+            }
+            else
+            {
+                bd=id.substr(6,4)+'-'+id.substr(10,2)+'-'+id.substr(12,2);
+            }
+            div.find("#id_Birthday").attr("value",bd);
+        }
+    }
+    function getvalue(arid)
+    {
+        var i=0
+        for (i=0;i<idata.length;i++)
+        {
+            if (idata[i][1]==arid)
+            {
+                return idata[i][2];
+            }
+        }
+        return ""
+    }
+    function resizeImage(targetImg,imgSrc,fitWidth,fitHeight)
+    {
+        /*
+         兼容于ie,firefox,netscape的等比例图片本地预览的javascript实现
+         author:semovy@gmail.com
+         date:14:39 上午 2007-10-9
+         @param:targetImg string id 待显示等比例调整过的目标元素的id字符串
+         @param:imgSrc string src 等处理的图片源路径字符串
+         @param:fitWidth int 等显示图片的最大宽度
+         @param:fitHeight int 等显示图片的最大高度
+        */
+        var imgSrc = "file:///" + imgSrc.replace(/\\/g,"/");//本地路径c:\a.jpg,而ff,ns不支持,所以替换成file:///c:/a.jpg这种形式
+        var img = document.getElementById(targetImg);//获取目标图片元素容器
+        var tempImg = new Image();//建立临时图片对象
+        tempImg.src = imgSrc;//给临时图片对象赋予图片源
+        var scale=1.0;//图片度高比例因子.
+        var width=0,height=0;
+     
+        /*firefox实现了complete属性，而ie实现了complete属性和readyState属性
+        但是两者对属性的定义好像不同：
+        firefox： 一个图像被下载完毕，complete属性就是true，没有下载完毕则为false
+        ie：一个图像没有被下载完毕，则readyState属性为uninitialized,complete属性是false.当下载完毕时，
+        readyState为complete，而如果此时图片还没有显示，complete为false,显示以后(display:block)此属性才变成true
+        */
+        if(document.all)//如果是ie
+        {
+            if(tempImg.readyState=='complete')
+            {
+                width = tempImg.width;//获取源图片宽,高
+                height = tempImg.height;
+            }
+        }
+        else(tempImg.complete)//fire fox ,netscape
+        {
+            width = tempImg.width;
+            height = tempImg.height;
+        }
+        scale = width/height;//宽度比例因子
+        if(width > fitWidth)//等比例调整
+        {
+            width = fitWidth;
+            height = width/scale; 
+            if(height > fitHeight)
+            {
+                height = fitHeight;
+                width = height*scale;
+            }
+        }
+        if(height > fitHeight)
+        {
+            height = fitHeight;
+            width = height*scale;
+        }
+        img.width = width;//调整后的宽,高
+        img.height = height;
+        img.src = imgSrc;
+        img.style.display="";//显示图片
+    }
+
+    function submitRegister()
+    {  
+        if(!$.browser.msie)
+        {
+            return false;
+        }
+        var flag = false;
+        for(var i in zkonline)
+        {
+            if(i == "FPEngineVersion")
+            {
+                flag = true;
+            }
+        } 
+      
+        if(!flag)
+        {
+            //alert("here")
+            $("#id_fingerprint_download").show();
+            return false;
+        }
+
+        var tmpadd=""
+        var tfids=$("#id_tfids"+tmpadd).val();
+        var fp=$("#id_finnger"+tmpadd).val();
+        var fpcode = $("#id_fpcode").val();
+        var durfp = $('#id_durfinger').val();    //获取指纹是普通指纹还是胁迫指纹的标记
+        var fpcount = $("#id_tcount").val()     //从数据库传递过来的正常指纹数量
+        //var durfpcount = $("#id_durtcount").val()    //从数据库传递过来的胁迫指纹数量
+        //alert(tfids+";"+fp+";"+fpcode+";"+durfp+";"+fpcount)
+        var tmp=0
+        var oldidscount = 0
+        //var icount = 0;
+        $("#id_delflag").val("delete");
+        if(tfids!="")     //将普通指纹和胁迫指纹区分后组成一个字符串
+        {
+            var durtfids = tfids.split(",");
+            fpcode = fpcode.split(",");
+            if(durfp=="")
+            {
+                durfp = "000000000";
+            }
+            for(var i=0; i<fpcode.length; i++)
+            { 
+                var durfp1 = "";
+                var durfp2 = "";
+                if(i==8) //
+                {
+                    durfp1 = durfp.substr(0, durtfids[i]);
+                    //alert("durfp1"+durfp1)
+                }
+                else
+                {
+                    durfp1 = durfp.substr(0, durtfids[i]);
+                    durfp2 = durfp.substr(parseInt(durtfids[i])+1, durfp.length-1);//
+                }
+                if( fpcode[i] == "3" )
+                {
+                    durfp = durfp1 + "3" + durfp2;     
+                }
+                else
+                {
+                    durfp = durfp1 + "1" + durfp2;     
+                }
+            }
+        }
+        if(tfids != "" || fp != "")
+        {
+            var te = tfids+","+fp;
+            if(te.substr(0,1)==",")
+            {
+                te=te.substr(1);//tfids为空，fp不为空
+            }    
+            if(te.substr(te.length-1,1) == ",")
+            {
+                te=te.substr(0,te.length-1);//fp 为空，tfids不为空
+            }   
+    
+            tmp = te.split(",");
+            oldidscount = tmp.length
+            if(fp != "")     //同一登记指针，第二次以上打开登记窗口
+            {
+                var tt = fp.split(",")
+                oldidscount = oldidscount - tt.length
+            }
+    
+            var ids = ""
+            for(var i=0;i<10;i++)
+            {
+                var bln = false
+                for(var j=0;j<tmp.length;j++)
+                {
+                    if(i == tmp[j])
+                    {
+                        bln = true;
+                        break;
+                    }
+                }
+                if(bln)
+                {
+                    if(durfp.substr(i,1) == "3")
+                    {
+                        ids += "3"
+                    }
+                    else
+                    {
+                        ids += "1"
+                    }
+                }
+                else
+                {
+                    ids += "0"
+                }
+            }
+            zkonline.CheckFinger = ids;
+        }
+        else
+        {
+            zkonline.CheckFinger = "0000000000";
+        }
+        var duress = $("#id_forceavalidflag").val();
+        if(duress == "0")
+        {
+            zkonline.IsSupportDuress = false;
+        }  // 设置胁迫指纹无效
+        else
+        {
+            zkonline.IsSupportDuress = true;
+        } // 设置胁迫指纹有效
+        
+        if($("#id_lng").val() == 'zh-cn')
+        {
+            zkonline.SetLanguageFile("zkonline.chs"); //设置为中文界面
+        }
+        if($("#id_lng").val() == 'en')
+        {
+            zkonline.SetLanguageFile("zkonline.en");  //设置为英文界面
+        }
+
+        if(zkonline.Register())
+        {
+          var fingerids = [];
+          var template = [];
+          var fingertype = [];                
+          var durfingerid = "";
+          if($("#id_finnger"+tmpadd).val() != "")
+          {
+              var f=$("#id_finnger"+tmpadd).val().split(",");
+              var t=$("#id_template"+tmpadd).val().split(",");
+              var ft=$("#id_fptype").val().split(",");    //ft区分是普通指纹还是胁迫指纹
+              for(var i=0;i<f.length;i++)
+              {
+                  fingerids.push(f[i]);
+                  template.push(t[i]);
+                  fingertype.push(ft[i])
+                  //zkonlinetest1=zkonlinetest1+1
+                  //alert(zkonlinetest1+"zkonlinetest1")
+              }
+           }
+           for(i=1;i<=10;i++)
+           {
+              var t9 = zkonline.GetRegFingerTemplateEx('9',i);
+              if(t9.length > 2)
+              {
+                  durfingerid = zkonline.CheckFinger;
+                  fingerids.push(i-1);
+                  fingertype.push(durfingerid.substr(i-1,1));
+                  var t=zkonline.ConvertTemplateToEmStr(t9);
+                  template.push(t);
+              }
+           }
+           $("#id_durfinger").val(durfingerid.toString());
+           $("#id_finnger"+tmpadd).val(fingerids.toString());
+           $("#id_template"+tmpadd).val(template.toString());
+           $("#id_fptype").val(fingertype.toString());
+
+           tmpadd = "10";
+           var fingerids10 = [];
+           var template10 = [];
+           if($("#id_finnger"+tmpadd).val() != "")
+           {
+              var f=$("#id_finnger"+tmpadd).val().split(",");
+              var t=$("#id_template"+tmpadd).val().split(",");
+              for(var i=0;i<f.length;i++)
+              {
+                  fingerids10.push(f[i]);
+                  template10.push(t[i]);
+              }
+           }
+           var template10_error = false;
+           for(i=1;i<=10;i++)
+           {
+              var t10 = zkonline.GetRegFingerTemplateEx('10',i);
+              if(t10.length > 2)
+              {
+                  if(t10.length < 800)   //验证预防zkonline的10.0模板取到9.0指纹模板
+                  {
+                      alert(gettext("指纹模板错误，请立即联系开发人员！"));
+                      template10_error = true;
+                      break;
+                  }
+                  fingerids10.push(i-1);
+                  //t10 = "";模拟测试
+                  template10.push(t10);
+              }
+           }
+           var max_i = template.length;
+           for(i=0;i < max_i;i++)  
+           {
+              if(template[i].length == template10[i].length)//验证预防9.0和10.0模板值相同的异常情况
+              {
+                  alert(gettext("指纹模板错误，请立即联系开发人员！"));
+                  template10_error = true;
+                  break;
+              }
+              if((template[i].length < 100 && template10[i].length > 100) || (template[i].length > 100 && template10[i].length < 100))
+              {
+                  alert(gettext("指纹模板错误，请重新登记！"));//可能为只提取到9.0模板，10.0模板缺失-darcy20111222
+                  template10_error = true;
+                  break;
+              }          
+           }
+           if(template10_error)
+           {
+              template10 = null;
+              return false;
+           }
+
+           $("#id_finnger"+tmpadd).val(fingerids10.toString());
+           $("#id_template"+tmpadd).val(template10.toString());
+           $("#id_fptype").val(fingertype.toString());
+        }  
+        //登记结束
+
+  
+         if(tfids != "" )             //删除已存在数据库中指纹
+         {
+            tmp = tfids.split(",");   //数据库存有的指纹id
+            var dbfpid = "";   //数据库存有指纹id颜色标记
+            var delid = [];//记录要删除的指纹
+            var index = 0;
+            var fpid = zkonline.CheckFinger   //删除指纹后，检测zkonline当前指纹标记信息
+            
+            for(var i=0; i<10;i++)
+            {
+                if(fpid.substr(i,1)=="0")
+                {
+                    for(var j=0;j<tmp.length;j++)
+                    {
+                        if(tmp[j]==i)
+                        delid[index++] = i;
+                    }
+                }
+                 
+            }
+            
+            $("#id_delfinger").val(delid.toString());
+            var count=fpid.replace(/0/g, "").length;
+            //alert("count.."+fpid.replace(/0/g, "").length)
+            $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+ count );
+            
+        }
+        else //新增人员指纹二次登陆删除时的处理
+        {  
+           var count = 10;//指纹数变量
+           var tmpadd = "";
+                
+           var durfingerid = zkonline.checkfinger;
+           var fingerids = $("#id_finnger"+tmpadd).val().split(",");//手指编号
+           var template = $("#id_template"+tmpadd).val().split(",");//9.0指纹模板
+           var fptype = $("#id_fptype").val().split(","); //指纹类别1为普通指纹，3为胁迫指纹
+           
+           //以下for循环， 以当前zkonline状态为准，去掉已被删除的指纹及信息
+           for(var i = 0;i < 10;i++)
+           {   
+               if(durfingerid.substr(i,1)=="0")
+                { 
+                  count = count-1;
+                  for(var j = 0;j < fingerids.length;j++)
+                  {
+                     if(fingerids[j] == i)
+                      {
+                        template.splice(j,1);
+                        fptype.splice(j,1);
+                        fingerids.splice(j,1);
+                        
+                      }
+                  }
+               }
+           }
+           
+           $("#id_durfinger").val(durfingerid.toString());
+           $("#id_finnger" + tmpadd).val(fingerids.toString());
+           $("#id_template" + tmpadd).val(template.toString());
+           $("#id_fptype").val(fptype.toString()); 
+           
+           
+           tmpadd = "10";
+           
+           var fingerids10 = $("#id_finnger" + tmpadd).val().split(",");
+           var template10 = $("#id_template" + tmpadd).val().split(",");
+           
+           for(i = 0;i < 10;i++)
+           {
+               if(durfingerid.substr(i,1) == "0")
+                  for(j = 0;j < fingerids;j++)
+                  {
+                     if(fingerids[j] == i)
+                      {
+                        template10.splice(j,1);
+                        fingerids10.splice(j,1);
+                        //alert("remove template10 index is" + j);
+                      }
+                  }
+           }
+          $("#id_finnger"+tmpadd).val(fingerids10.toString());
+          $("#id_template"+tmpadd).val(template10.toString());
+          //alert("count"+count);
+          $("#div_id_finngerT").html("{% trans '已登记指纹 ' %}"+ count );
+        }
+        
+        
+    }
+        
+    function submitRemoteIdentification()
+    {/*
+        var str = zkonline.GetVerTemplate();
+        alert(str);
+        if (str){
+          alert(str);
+        }   
+
+    if(zkonline.Register()){
+    fingerids=[];template=[];for(i=1;i<=10;i++){if(zkonline.GetRegFingerTemplate(i).length>2){fingerids.push(i);template.push(zkonline.GetRegFingerTemplate(i));}this.alt1=fingerids;this.alt=template;}}
+    */
+    }
+    if($("#id_edit_form").find("#id_PIN").val()!="")
+    {
+        o_card = $('#id_cardno').val();
+        $("#photo_show_area").show(); 
+        {% if "POS"|filter_config_option %} 
+            {% if "POS_ID"|filter_config_option %} 
+                $('#edit_card').hide();
+                $("#pos_params").hide();
+                $('#id_cardno').attr("readonly","true");
+                $('#id_cardno').css("backgroundColor","scrollbar");
+            {% else %}   
+                {% if "POS_IC"|filter_config_option and not form.cardno|filter_emp_card%}
+                    $('#edit_card').hide();
+                    $("#pos_params").hide();
+                    $('#id_cardno').attr("readonly","true");
+                    $('#id_cardno').css("backgroundColor","scrollbar");
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        $('#id_blance').attr("readonly","true");
+        $('#id_card_cost').attr("readonly","true");
+        $('#id_mng_cost').attr("readonly","true");
+        $('#id_card_cost').css("backgroundColor","scrollbar");
+        $('#id_blance').css("backgroundColor","scrollbar");
+        $('#id_mng_cost').css("backgroundColor","scrollbar");
+//        if ($("#id_cardno").val() != "")
+//            $('#id_type').attr("disabled","disabled")
+        
+    }
+    else
+    {
+       $("#photo_show_area").hide();  
+    }
+    {% if "IACCESS"|filter_config_option %}
+    $(function(){
+        //一旦单击了设置有效时间,其后两个选项均为必填
+        $("#set_valid_time th label:gt(0)").each(function(){
+            $(this).attr('class','required');
+        });
+
+        $.ajax({ 
+            type: "POST",
+            url:"/{{ request.surl }}iaccess/GetData/?func=level",
+            dataType:"json",
+            async:false,
+            success:function(json){
+                var level_list="<ul id='levelSingleBrowser' class='level_list'>";
+                if (json.length>0)
+                {   
+                    for(index in json)
+                    {
+                        level_list+='<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                    }
+                    level_list+='</ul>';
+                }
+                else
+                {
+                    level_list+='<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                }
+                $("#id_level").append(level_list);
+            }
+        });
+        
+        $("#level_name").keydown(function(event){//按回车键直接查询
+            if(event.keyCode==13)
+            {
+               $("#id_query_level").click();
+            }
+        });
+
+        //中央党校zhangy20110719
+        $("#id_query_level").click(function(){
+            var level_name = $("#level_name").val();
+            level_name = encodeURI(level_name);
+            $.ajax({ 
+                type: "POST",
+                url:"/{{ request.surl }}iaccess/GetData/?func=level&level_name="+level_name,
+                dataType:"json",
+                async:false,
+                success:function(json){
+                    var level_list = "<ul id='levelSingleBrowser' class='level_list'>";
+                    if (json.length>0)
+                    {   
+                        for(index in json)
+                        {
+                            level_list += '<li><input type="checkbox" name="level" value="'+json[index][0]+'"/><p>'+json[index][1]+'</p></li>';
+                        }
+                        level_list += '</ul>';
+                    }
+                    else
+                    {
+                        level_list += '<label class="none_selected">'+gettext("没有可选的门禁权限组！")+'</label>';
+                    }
+                    $("#id_level").empty();
+                    $("#id_level").append(level_list);
+                    
+                    //---start
+                    var pin = $("#id_PIN").val();
+                    $.ajax({ 
+                        type: "POST",
+                        url:"/{{ request.surl }}iaccess/GetData/?func=selected_level&key="+pin,
+                        dataType:"json",
+                        async:false,
+                        success:function(json){
+                            $("#levelSingleBrowser input").each(function(){
+                                value = $(this).attr("value");
+                                for(var j in json)
+                                {
+                                    if(value == json[j])
+                                    {
+                                        $(this).attr("checked","checked");
+                                        old_levels.push(value);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    //---end
+                }
+            });
+            
+        });
+        
+        //权限组全选按钮--darcy20110726
+        $("#id_select_all").click(function(){
+            var select_all = $("#id_select_all").attr("checked");
+            $("#id_level input").each(function(){
+                
+                if(select_all)
+                {
+                    $(this).attr("checked", "checked");
+                }
+                else
+                {
+                    $(this).attr("checked", "");
+                }
+            });
+        });
+        
+
+        set_valid_time_hide();
+        //设置有效时间
+		
+		$("#set_valid_time").find("td").eq(0).after("<td width='700'><table style='display:inline;position: relative; left: -175px;display:none'><tr class='select_valid_time'></tr></table></td>")
+		$("#set_valid_time").find("th").eq(1).appendTo($("#set_valid_time").find("tr.select_valid_time"));
+		$("#set_valid_time").find("td").eq(2).appendTo($("#set_valid_time").find("tr.select_valid_time"));
+		$("#set_valid_time").find("th").eq(2).appendTo($("#set_valid_time").find("tr.select_valid_time"));
+		$("#set_valid_time").find("td").eq(3).appendTo($("#set_valid_time").find("tr.select_valid_time"));
+        $("#id_set_valid_time").click(function(){
+            if( $("#id_set_valid_time").attr("checked")==true)
+            {
+                set_valid_time_show();
+            }
+            else
+            {
+                set_valid_time_hide();
+                $("#id_acc_startdate").val("");
+                $("#id_acc_enddate").val("");
+            }
+        });
+
+        //编辑
+        if($("#id_edit_form").find("#id_PIN").val()!="")
+        {
+        	$("#id_checkNo").hide(); 
+        	//$("#id_personnelsn").hide()  
+			$("#photo_show_area").show();   
+            if($("#id_datalist").get(0)!=undefined)//解决保存并继续时同时上传用户图片的报错(用户PIN重复时)
+            {
+                //只有编辑的时候才需要
+                var key = $("#id_PIN").val();
+                $.ajax({ 
+                    type: "POST",
+                    url:"/{{ request.surl }}iaccess/GetData/?func=selected_level&key="+key,
+                    dataType:"json",
+                    async:false,
+                    success:function(json){
+                        $("#levelSingleBrowser input").each(function(){
+                            value = $(this).attr("value");
+                            for(var j in json)
+                            {
+                                if(value == json[j])
+                                {
+                                    $(this).attr("checked","checked");
+                                    old_levels.push(value);
+                                }
+                            }
+                        });
+                    }
+                });             
+            
+                if($("#id_acc_startdate").val()!="")
+                {
+                    set_valid_time_show();
+                }
+                else
+                {
+                    set_valid_time_hide();
+                }            
+            }  
+        }else{
+			$("#id_checkNo").show(); 
+			$("#photo_show_area").hide()  
+			//$("#id_personnelsn").show()  
+        }
+    });
+    {% endif %}
+    {% else %}      
+        alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+        window.location.href="/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_employee-->
+{% endblock %}
+

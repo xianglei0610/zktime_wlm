@@ -1,0 +1,24 @@
+<html>
+<head>
+<script>
+
+$(function(){
+	$("#id_restore_submit").click(function(){
+		if($("#id_restore_file").val().split(".")[1]!="json"){
+			alert(gettext("数据格式必须是json格式!"));
+			return false;
+		}
+		$(this).ajaxSubmit();
+		return false;
+	});
+});
+</script>
+</head>
+<title></title>
+<body>
+	<form name="txtfileform" action="/data/restore_db" method="post" enctype="multipart/form-data">
+		{% trans "数据库恢复" %}:<input id="id_restore_file" type="file" name="restore_file" id="txtfilename" />
+		<input type="submit" value='{% trans "提交" %}' id="id_restore_submit"/>
+	</form>
+</body>
+</html>

@@ -1,0 +1,687 @@
+﻿{% load i18n %}
+<script type="text/javascript" src="/media/jslib/mbMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="/media/css/menu.css" media="screen" />
+
+  <script type="text/javascript">
+var last_value=""
+ $(function(){
+     $(".enqMenu").buildMenu( {
+        template:"",
+        additionalData:"pippo=1",
+        //menuWidth:200,
+        menuHeigth:200,
+        openOnRight:false,
+        menuSelector: ".menuContainer",
+        iconPath:"{{ MEDIA_URL }}/img/ico/",
+        hasImages:true,
+        fadeInTime:100,
+        fadeOutTime:200,
+        adjustLeft:2,
+        minZindex:"auto",
+        adjustTop:10,
+        opacity:1,
+        shadow:true,
+        //shadowColor:"#fff",
+        hoverIntent:0,
+        openOnClick:true,
+        closeOnMouseOut:true,
+        closeAfter:300
+      });
+/*
+    
+    $("#btnConfirm").click(function(){
+            var querystring=Confirm();
+            $("#id_list").find("#id_close").click();
+    });
+    $("#btnReturn").click(function(){
+    		$("#id_list").find("#id_close").click();
+    });           
+    $("#txtValue").keydown(function(event){
+            if(event.keyCode==13)
+            {
+                    ValueAdd();
+            }
+    });                         
+    */                
+});
+
+</script>
+<style type="text/css">
+#txtfields{/*根据长度切割默认下拉框*/
+     
+	 
+    clip:rect(0px 80px 20px 0px);/*切除下拉框(select)内容区域，只保留下拉三角箭头*/
+}
+#cmb{
+	
+	
+	
+	}
+#tbInput{
+	width:185px;
+	margin:0;
+	height:16px;
+	background-color:#FFF;
+	border:1px solid #969696;
+	padding:0;
+	cursor:pointer;
+	}
+.tdp td{padding:1px ;}
+
+
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.asdasd {
+	text-align: center;
+}
+</style>
+
+<script  language="javascript">
+var txtlength=0
+$(function(){
+    $("#cmbCondition").change(function(){
+        if($(this).val()=='isnull')
+        {
+            $("#id_td_value").addClass("displayN");
+        }
+        else
+        {
+            $("#id_td_value").removeClass("displayN");
+        }
+        //alert($(this).val())
+        //alert(txtlength)
+        if($(this).val()=='in' && txtlength>0)
+        {
+            $("#id_td_value").find("input").attr('maxlength',200);
+        }
+        else
+        {
+            
+            if($("#id_td_value").find("input").length>0)
+            {
+                if($("#id_td_value").find("input").attr('maxlength')==200 && txtlength>0)
+                {
+                    $("#id_td_value").find("input").attr('maxlength',txtlength)
+                    $("#id_td_value").find("input").val("")
+                }
+                
+            }            
+        }
+    })
+});
+var optionvalue=""
+var curdbtype=""
+function onClick(fieldname,desc,dbtype,dbnull)
+{
+   
+   
+	var t=document.getElementById("txtfields")
+	t.value=desc
+	optionvalue=fieldname
+    	
+    fieldname=$.trim(fieldname);
+    desc=$.trim(desc);
+    dbtype=$.trim(dbtype);
+
+    if(fieldname.indexOf("__")>0)
+    {
+        fieldname=fieldname.split("__")
+        fieldname=fieldname[fieldname.length-1]
+    } 
+    
+	
+    var tmp='<form  onkeydown="if(event.keyCode==13){return false;}" id="id_valid_form">'+$("#id_"+fieldname).parent().html()+"</form>";
+    if($(tmp).find("input").length>0)
+    {
+        txtlength=$(tmp).find("input").attr('maxlength')
+    }
+    else
+    {
+        txtlength=0
+    }
+    if(fieldname=="event_type")
+    {
+    	$("#id_td_value").html("<div id='div_box2' style='border:1px #666666 solid; height:17px;z-index:99;width:160px;CURSOR: default;'><div 				id='div_box_text2' style='display:none'></div><div id='div_box_context'  style='overflow:hidden;float:left;width:144px;'>&nbsp;---------</div><div	style='float:left;align='right''><img src='/media/img/sug_down_on.gif' id='div_box_img2'  ></img></div></div><div id='div_box_list2'></div>")
+    	var cc=""
+        var x=0
+        $('#id_trigger_opt>Option').each(function()
+	{
+           bb=$(this).text()
+           var cArrr = bb.match(/[^\x00-\xff]/ig);   
+           zxx=bb.length + (cArrr == null ? 0 : cArrr.length)
+           cc=cc+'<div id='+this.value+'s'+' onclick="xuanz('+this.value+')" onmouseover="overs(id)" onmouseout="outs(id)"    style="CURSOR: 	   default;color:black;";>'+'&nbsp;'+$(this).text()+'</div>'
+                    
+        })
+        var temp= false;
+        $("#div_box2").click(function()
+	{
+        //是否隐藏 
+	   if(temp==false)
+	   {
+	        $("#div_box_list2").attr("style","display:block")
+        	$("#div_box_list2").width(zx*14.5)
+	        temp=true
+           }
+	   else
+	   {
+        	$("#div_box_list2").attr("style","display:none")
+	        $("#div_box_list2").width(zx*14.5)
+        	temp=false
+           }
+        })
+        $("#div_box_list2").append(cc)
+        $("#div_box_list2").width(zxx*14.5)
+    
+    }
+    else
+    {
+    
+    $("#id_td_value").html($(tmp));	
+    
+    }
+    
+    render_widgets($("#id_td_value"));
+    $("#id_td_value").find("input,select").attr("style","width:160px;");
+    $("#id_td_value").find("textarea").attr("style","width:160px;height:15px");
+    
+    if( dbtype.indexOf("(")>0)
+    {
+        dbtype=dbtype.substr(0,dbtype.indexOf("("));
+    }
+    $("#cmbCondition").html("");
+    
+    curdbtype=dbtype     //保存当前字段的字段类型
+    
+    if($("#id_"+fieldname).attr("type")=='text')
+    {
+         $("#id_"+fieldname).val("")
+    }
+  
+    
+    if($("#id_"+fieldname).attr("type")=='select-one')
+    {
+        dbtype='boolean'
+    }
+	switch(dbtype)
+    {
+        case 'char':
+        case 'nvarchar':
+        case 'text':
+        case 'longtext':
+        case 'varchar'://字符
+            try{
+            for(var i=0 ;i<cond.length;i++)
+            {
+                var tmp=cond[i];
+                
+                if(tmp[0]!='<=' && tmp[0]!='>=' && tmp[0]!='<' && tmp[0]!='>')
+                {
+                   
+                    
+                    if(tmp[0]=='=')
+                    {
+                        $("#cmbCondition").append("<option selected='selected'  value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                    }
+                    else
+                    { 
+                        
+                        if(tmp[0]=='isnull' && $.trim(dbnull)=='False')
+                        {                           
+                           continue;
+                        }
+                        else
+                        {
+                            $("#cmbCondition").append("<option value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                        }
+
+                        
+                    }
+                }
+            }
+            }
+            catch(err)
+            {
+            
+            }
+            break;
+        case 'date':
+        case 'time':
+        case 'datetime':
+            try{
+            for(var i=0 ;i<cond.length;i++)
+            {
+                var tmp=cond[i];
+                if(tmp[0]!='contains' &&tmp[0]!='in' )
+                {
+                    if(tmp[0]=='=')
+                    {
+                        $("#cmbCondition").append("<option selected='selected'  value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                    }
+                    else
+                    {
+                        if(tmp[0]=='isnull' && $.trim(dbnull)=='False')
+                       {                           
+                          continue;
+                       }
+                       else
+                       {
+                        
+                            $("#cmbCondition").append("<option value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                        }
+                    }
+                    
+                }
+            }
+            }
+             catch(err)
+            {
+            
+            }
+            break;
+        case 'int':
+        case 'numeric':
+        case 'smallint':
+        case 'decimal':
+        case 'float':       
+        case 'real': 
+        case 'double precision':
+        case 'integer':
+            try{
+            for(var i=0 ;i<cond.length;i++)
+            {
+                var tmp=cond[i];
+                if(tmp[0]!='contains' && tmp[0]!='isnull' && tmp[0]!='in')
+                {
+                    if(tmp[0]=='=' )
+                    {
+                        $("#cmbCondition").append("<option selected='selected' value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                    }
+                    else
+                    {
+                        $("#cmbCondition").append("<option value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                    }
+                    
+                }
+            }
+            }
+             catch(err)
+            {
+            
+            }
+            break;
+        case 'boolean':
+            try{
+            for(var i=0 ;i<cond.length;i++)
+            {
+                var tmp=cond[i];
+                if(tmp[0]=='=' )
+                {
+                    $("#cmbCondition").append("<option selected='selected' value='"+tmp[0]+"'>"+tmp[1]+"</option>");
+                 
+                }
+                    
+            }
+            }
+            catch(err)
+            {
+            
+            }
+            break;
+            
+        defualt:
+            break;
+             
+    }
+
+
+
+}
+function Clear()
+{
+
+    document.getElementById("lstWhere1").value=""
+    $("#lstWhere").html("");
+    
+    
+}
+function Confirm()
+{
+
+    var txtvalue=""
+    if($("#cmbCondition").val()!='isnull')
+    {
+        if($("#id_td_value").find("input,textarea").length>0)
+                {       
+                    txtvalue=$("#id_td_value").find("input,textarea").val();
+
+                }
+        if($("#id_td_value").find("select").length>0)
+        {       
+            txtvalue=$("#id_td_value").find("select").val();
+            if (txtvalue==last_value)
+            {
+                txtvalue=""
+            }
+            
+        }
+    }
+    if($("#lstWhere1").val()=="" && optionvalue=="")
+    {
+        return [];
+    }
+    else
+    {
+        //if($("#lstWhere1").val()!="" && txtvalue!="") 
+        if(txtvalue!="") 
+       { 
+            ValueAdd();
+       }
+    }
+
+    
+    //var txtval=document.getElementById("lstWhere1").value.split("\r\n");	
+    var txtval=$.trim(document.getElementById("lstWhere1").value).replace("\r","").split("\n");	
+    //alert(txtval);
+
+    var where=[]       
+    for(var i=0;i<txtval.length;i++)
+    {
+        var strwhere=txtval[i].split("     ")
+        strwhere[0]=$.trim(strwhere[0])
+        
+        switch(strwhere[1].replace(" ",""))
+            {
+                case "<=":
+                    where.push( strwhere[0]+ "__lte=" + $.trim(strwhere[2]))
+                    break;
+                case "<":
+                    where.push(strwhere[0]+ "__lt=" + $.trim(strwhere[2]))
+                    break;
+
+                case ">=":
+                    where.push(strwhere[0]+ "__gte=" + $.trim(strwhere[2]))
+                    break;
+
+                case ">":
+                    where.push(strwhere[0]+ "__gt=" + $.trim(strwhere[2]))
+                    break;
+
+                case "=":
+                    where.push(strwhere[0]+ "__exact=" + $.trim(strwhere[2]))
+                    break;
+                
+                case "in":
+                    where.push(strwhere[0]+ "__in=" + $.trim(strwhere[2]))
+                    break;
+                case "contains":
+                    where.push(strwhere[0]+ "__contains=" + $.trim(strwhere[2]))
+                    break;
+
+                case "isnull":
+                    var t=curdbtype
+                    
+                    if(t=='date' | t=='time' | t=='datetime')
+                    {
+                        where.push(strwhere[0]+ "__isnull=True"
+                    )}
+                    else
+                    {
+                        where.push(strwhere[0]+ "__exact=")
+                    }
+                    
+                    break;
+                default:
+                    break;
+            }
+             
+    }
+    //	if(where.length>0)
+    //		if (where.substr(where.length-1,1)=="&")
+    //			where=where.substr(0,where.length-1)
+    //alert(where);
+    
+    return where.reverse()
+    
+
+}
+function ValueAdd()
+{	
+
+    var txtfields=document.getElementById("txtfields");
+    var txtcnt=document.getElementById("cmbCondition");	
+               
+    var s1 =  document.getElementById("lstWhere1");   
+    //alert(s1.value)
+    var s  =  $("#lstWhere")
+    var option  =  document.createElement("Option");   
+    
+    //alert(txtcnt.options[txtcnt.selectedIndex].value)
+
+    var txtvalue=""
+    var valuedesc=""
+    if (txtcnt.options[txtcnt.selectedIndex].value!="isnull")        
+    {
+        if($("#id_td_value").find("input,textarea").length>0)
+        {       
+            txtvalue=$("#id_td_value").find("input,textarea").val();
+            valuedesc=txtvalue;
+        }
+        if($("#id_td_value").find("select").length>0)
+        {     
+  
+            txtvalue=$("#id_td_value").find("select").val();
+           
+
+            $("#id_td_value").find("select").find("option").each(function(){
+                if($(this).val()==$("#id_td_value").find("select").val())
+                {  
+                    valuedesc=$(this).text(); 
+                   
+                };
+            })
+        }
+    }
+    else
+    {
+        txtvalue=""
+    }
+    if(txtfields.value=="" )
+        {
+            window.alert(gettext("请选择一个字段"));
+            
+            return;
+        
+        }
+    if(txtcnt.options[txtcnt.selectedIndex].value=="in" && txtvalue.indexOf(",")<=0)
+    {
+        alert(gettext("'满足任意一个' 值域必须是以','隔开的多个值"));
+        $("#id_td_value").find("input,select").eq(0).focus();
+        return;
+    }
+
+    
+    if(txtvalue=="" && txtcnt.options[txtcnt.selectedIndex].value!="isnull")
+        {
+            window.alert(gettext("输入的值错误"));
+            $("#id_td_value").find("input,select").eq(0).focus();
+            return;
+        }
+    
+	if(!$("#id_valid_form").valid())
+    {
+        return;
+    }
+	
+    var txt  =""
+        txt += optionvalue+"     " 			
+        txt += txtcnt.options[txtcnt.selectedIndex].value+"     "		
+        txt += txtvalue;   
+    s.append("<tr><td width='120px'>"+txtfields.value+"</td><td width='80px'>"+txtcnt.options[txtcnt.selectedIndex].text+"</td><td>"+valuedesc+"</td></tr>");
+    last_value=txtvalue
+    s1.value+= txt +  "\r\n"
+    //document.getElementById("txtValue").value=""
+    
+}
+var cond=[
+              {% for fld , des in cond.items %}
+                {% autoescape off %}
+              ['{{fld}}','{{des}}'],
+            {% endautoescape %}   
+              {% endfor %}  
+]
+
+
+</script>
+
+  <table width="480" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="100" height="32">
+	  <table width="553" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="34" colspan="3" align="right" class="enqMenu">
+		  <table width="100%"  border='0' cellpadding='2' cellspacing='0'  style="width:100%; height:100%;">
+            <tr>
+              <td height="23" align="center" style="text-align: left;" >{% trans '请选择查询字段' %}</td>
+              <td style="text-align: left; ">{% trans '条件选择' %}</td>
+              <td style="text-align: left; ">{% trans '值域' %}</td>
+            </tr>
+            <tr>
+              <td width="187" height="23" align="left" >
+				  <table id="tbInput" width="185" cellpadding="1" cellspacing="0" class="rootVoice {menu: '{{ tablesName }}'}" >
+					<tr >
+					  <td width="160"><input type="tex"  id="txtfields" style="border:0px; width:160px; cursor:default " readonly="readonly" /></td>
+					  <td style="background:url(/media/img/sug_down_on.gif) left center no-repeat;height:17px;width:14px" id="imgDrop"></td>
+					</tr>
+				  </table>
+			  </td>
+              <td width="125" align="left"><select name="cmbCondition" id="cmbCondition" style="width:100%">          
+              {% for fld , des in cond.items %}
+                {% ifequal fld "="%}
+                <option value="{{ fld }}" selected="selected"> {{ des }}</option>
+                {% else %}
+                <option value="{{ fld }}" > {{ des }}</option>
+                {% endifequal %}
+              {% endfor %}
+            
+              </select></td>
+              <td id="id_td_value" width="241" align="left"><input type="text" name="txtValue" id="txtValue"  style="width:90%" /></td>
+            </tr>
+            <tr>
+              <td height="26" colspan="3" align="left">{% trans '已选择条件' %}</td>
+            </tr>
+          </table></td>
+        </tr>
+        <tr>
+          <td height="134" colspan="4" style="padding:2px">
+        <div style="width:99%; height:135px; overflow-x:auto; overflow-y:scroll;border:solid 1px #CAE2F9">
+        <table id="lstWhere" width="96%"></table>
+        </div>
+        
+            <textarea name="lstWhere" id="lstWhere1"  style="display:none"></textarea></td>
+        </tr>
+        <tr>
+          <td width="158" height="30">&nbsp;</td>
+          <td width="91">&nbsp;</td>
+          <td width="304"><table width="304" border="0" cellspacing="0" cellpadding="0">
+            <tr class="asdasd">
+              <td width="75"><input type="button" name="btnAdd" id="btnAdd" value="{% trans '增加' %}" onclick="ValueAdd()"  style="width:80%" class="btn" /></td>
+              <td width="77"><input type="button" name="btnClear" id="btnClear" value="{% trans '清除' %}"  onclick="Clear()" style="width:80%" class="btn"  /></td>
+              <td width="75"><input type="button" name="btnConfirm" id="btnConfirm" value="{% trans '查询' %}"  style="width:80%" class="btn"  /></td>
+              <td width="77"><input type="button" name="btnConfirm2" id="btnReturn" value="{% trans '返回' %}"    style="width:80%" class="btn" /></td>
+            </tr>
+          </table></td>
+        </tr>
+        
+      </table></td>
+    </tr>
+    <tr><td><span><font size="12px" color="red">{% trans '*注：同一个字段与同一个条件的选择以最后一次为准。' %}</font></span></td></tr>
+  </table>
+
+<div id="id_gen_menu">
+{% autoescape off %}
+    {{ div }}
+{% endautoescape %}   
+</div>
+<div id="id_div_gen_form" class="displayN">
+<table id="tbb">
+{% autoescape off %}
+{% for f in form %}
+<tr><td>{{f.as_widget}}</td></tr>
+{% endfor %}
+{% endautoescape %}  
+</table>
+
+</div>
+<script type="text/javascript">
+   function overs(id)
+   {
+      document.getElementById(id).style.background='#316AC5'
+      document.getElementById(id).style.color='white'
+   }
+   
+   function outs(id)
+   {
+      document.getElementById(id).style.background='white'
+      document.getElementById(id).style.color='black'
+   }
+    
+   function xuanz(b)
+   {
+      var text;
+      if(b == undefined)
+      {
+         text=document.getElementById('s').innerHTML
+         document.getElementById("div_box_text2").innerHTML='<form  onkeydown="if(event.keyCode==13){return false;}" id="id_valid_form"><select><option 	         value="">'+text+'</option></select></form>';
+      }
+      else
+      {
+         text=document.getElementById(b+'s').innerHTML
+    	 document.getElementById("div_box_text2").innerHTML='<form  onkeydown="if(event.keyCode==13){return false;}" id="id_valid_form"><select><option 	 value='+b+'>'+text+'</option></select></form>';
+      }
+    
+      document.getElementById("div_box_context").innerHTML=text
+      document.getElementById("div_box_list2").style.display='none'
+      var x=document.getElementById("div_box_context").innerText
+      if(x == " ")
+      {
+         document.getElementById("div_box_context").innerText=" "+text
+         if(b==undefined)
+         {
+    
+    	    document.getElementById("div_box_text2").innerText='<form  onkeydown="if(event.keyCode==13){return false;}" id="id_valid_form"><select><option 	    value="">'+text+'</option></select></form>';
+    	 }
+	 else
+	 {
+    	    document.getElementById("div_box_text2").innerText='<form  onkeydown="if(event.keyCode==13){return false;}" id="id_valid_form"><select><option             value='+b+'>'+text+'</option></select></form>';
+         }
+      }
+   }
+    
+   $("body").click(function(event)
+   {
+    	if($("#div_box_list2").is(":visible"))
+   	{
+     	    var app=navigator.appName;
+     	    if (app.indexOf('Netscape') != -1) 
+	    {
+       		if(event.target.id!="div_box_list2"&&event.target.id!="div_box_context"&&event.target.id!="div_box_img2")
+       		{
+       		   $("#div_box_list2").hide()
+       		}
+     	    }
+            else if (app.indexOf('Microsoft') != -1) 
+	    {
+       		if(event.srcElement.id!="div_box_list2"&&event.srcElement.id!="div_box_context"&&event.srcElement.id!="div_box_img2"){
+       		$("#div_box_list2").hide()
+            } 
+        }
+   }
+   })
+   
+
+</script>

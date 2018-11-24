@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Door settings</div>
+<div class="help_mainContant">
+  <h2>Door Settings</h2>
+  <br />
+  Currently the system supports the connection and  control of up to 50 access control panels.<br />
+    The access control system is primarily for the  management of personnel forbidden and admission. For security, a company will  set personnel admission time zones, forbidden time zones and combinations of  time zones. For door opening verification, First-Card Normal Open, Multi-Card  Opening, anti-passback, linkage, and interlock can be set to enhance security.  This system can provide real-time monitoring of doors and output of exception,  access control events and access level reports.<br />
+
+  <br />
+  <h3> Door Management</h3>
+  <br />
+  Click [Access control] - [Door configuration], and by  default it will access [Door management] interface, showing the list of all  control panels. When unfolded, it can show all doors under the control of the  control panel. Upon first entry into the access interface or successful query,  if currently the system has access control panels or the query result is not  null, by default it will unfold the doors of the first access control panel.  Click corresponding button for relevant parameter setting.<br />
+      <br />
+    Door management operations include: control panel  management and door management.<br /><br />
+  <b>1. Control panel operation</b><br />
+   <br />
+    For communication between the system and the device,  data uploading, configuration downloading, device and system parameters shall  be set. The user can see access control panels within his levels in the current  system, and can edit the devices here. If the user needs to add or delete  devices, operate in device management.<br /><br />
+    Control panel management includes: Modify IP address, Close auxiliary output, disable, Enable, Modify communication password, Synchronize time, Upload event record, Upgrade firmware, and Get event entries.<br /><br />
+  <b>(1) Device profile:</b><br /><br />
+    Select device, click [Edit] under “Related operation”.  For Related details, see <u><a href="device.html">Device  Maintenance</a></u>.<br />
+    <br />
+  <b>(2) Modify IP address:</b><br /><br />
+    Select device, and click [Modify IP address] to show  the modification interface. Enter new IP address, gateway, and subnet mask.  Click [OK] to save settings and quit. This function is same as [Modify IP address  function] in <u> <a href="device.html">Access Control Device</a></u>. The  difference is when searching control panels, the devices have not been added  into the system, while the current [Modify device IP address] is regarding  added devices.<br />
+  <br />
+  <b>(3) Disable/Enable :</b><br /><br />
+    Select device, click [Disable/ Enable] to stop/ start  using the device. When the device’s communication with the system is  interrupted or the device fails, the device may automatically appear in disabled  status. At this time, after adjusting Internet or device, click [Enable device]  to reconnect the device and restore device communication.<br />
+  <br /><b>Note: </b>If the current device is in  enabled status and the connection is not successful, and the user conducts enable  operation, the system will immediately reconnect the device.<br /><br />
+  <b>(4) Modify communication  password:</b><br /><br />
+    Enter the same new password for twice, and click [OK]  to modify the communication password.<br />
+  <br />
+    <b>Note: </b>The communication password can not contain space, it is recommended to use a combination of numbers and letters. The communication password setting can improve the device security, it is recommended to set communication password for each device.<br /><br />
+  <b>(5) Synchronize time:</b><br /><br />
+    Synchronize device time with current server time.<br /><br />
+  <b>(6) Get event entries:</b><br />
+  <br />
+    Get  event records in the device into the  system.<br />
+    <br />
+	Two options is provided for this operation, Get New Entries and Get All Entries.<br />
+	<br />
+	<b>Get New Entries:</b> The system only get the new event entries after the last time event entries getting, and record them into the database, the repeated entries will not rewrite again.<br />
+	<br />
+    <b>Get All Entries: </b>The system will get all of the event entries again, the repeated entries will not rewrite again. <br />
+	<br />
+	When the network status is normal and the communication  status between the system and the device is normal, the system will acquire  event records in the device in real-time and save them into system database.  However, when the network is interrupted or communication is interrupted for some  reasons, and the event records in the device have not been uploaded into the  system in real-time, this operation can be used to manually acquire event  records in the device. In addition, the system, by default, will automatically  acquire event records in the device at 00:00 each day.<br /><br />
+  <b>Note: </b> The access controller can restore up to 100 thansands of event entries, after the entries exceed this number, the device will automatically delete the oldest restored entries (the default delete number is 10 thansands).<br /><br />
+  
+  <b>(7) Upgrade firmware</b><br /><br />
+    To upgrade firmware in the device, tick the device for  which you want to upgrade firmware, click [Upgrade firmware], enter edit interface,  click [Browse] to select the firmware upgrade file (named emfw.cfg) provided by  us, and click [OK] to start upgrading.<br />
+  <br /><b>Note: </b>The user shall not upgrade  firmware without authorization. Contact the distributor before upgrading  firmware, or upgrade it when instructed by the distributor. Unauthorized  upgrading may bring problems that affect your normal use.<br /><br />
+  <b>(8) Change the fingerprint identification threshold</b><br /><br />
+    The user can change the fingerprint identification threshold in the device, the scale is 35-70, it is 55 by default. In device adding, the system will get the threshold from device. If the operation succeeds, user can view the threshold in all of the devices. The batch operation is permitted; user can change multi devices meanwhile.<br />
+  <br />
+  <b>(9) Enable DLST</b><br /><br />
+    Select the DLST being set, click [Enable] to enable the DLST.<br />
+  <br />
+  <b>(10) Disable DLST</b><br /><br />
+    Disable the DLST in used.<br />
+  <br />
+  <b>(11) Get information of personnel</b><br /><br />
+   Renew the current number of personnel and fingerprints in the device. And the final value will be displayed on the device list.<br />
+  <br />
+  
+  <b>2. Door Management:</b><br />
+  <br />
+    The device list will show all access control devices.  Click the “+” button before the device name to show the door list under a  device. When adding device, it will automatically add doors (corresponding  device name and door numbers can not be edited) according to the number of  doors. Before using the device (including doors), the user must edit door  information one by one (or apply current settings to other doors). After  editing, they will be sent to the device, which can be used after successful setting.<br /><br />
+  <b>(1) Door parameter  modification:</b><br /><br />
+    Select the door to be modified, and click [Edit] under  “Related operation” to show the Edit interface;<br />
+    <br />
+  <b>The fields are as follows:</b><br /><br />
+  <b>Device name: </b>It is not editable (need to be edited in 6.2.1   Access control device);<br /><br />
+  <b>Door number: </b>The system automatically name the numbers of  doors according to how many doors of the device (for example, the four doors of  a four-door control panel are numbered 1, 2, 3 and 4). The number will be  consistent with the door number on the device.<br />
+  <br /><b>Note: </b>Although by default the  number following the underline in the door name is consistent with the door  number, but 1/2/3/4   in anti-passback and interlock refers to door serial number  rather than the number following the door name, and they have no necessary relation,  and the system allows the user to modify the door name, so they can not be  confused;<br /><br />
+  <b>Door name:</b> The default door name is “device name_door  number”. The field allows the user to modify as required. Up to 30 characters  can be entered;<br /><br />
+  <b>Door valid time zone</b>, <b>door  normal open time zone</b>: By default either is null. Initialized and added  access control time zones will be shown for the user to select. Upon door  editing, door valid time zone is need to input. Only after setting door valid time  zone, the door can be opened and closely normally. We recommend to set door  normal open time period within the door valid time zone, only in this situation,  the door normal open time zone is valid;<br />
+  <br /><b>Note: </b>Consecutive punching of a  card having access level of the door for 5 times can release the normal open  status within one day (including First-Card Normal Open), and close the door  immediately.<br /><br />
+  <b>Lock open duration:</b> Used to control the delay for unlocking  after card punching. The unit is second, and the default is 5 seconds. The user  can enter a number between 0-254;<br /><br />
+  <b>Punch interval: </b>The unit is second (range: 0-10 seconds),  and the default is 2 seconds;<br /><br />
+  <b>Door sensor type: </b>NO (door sensor not detected), Normal Open,  Normal Close. The default is NO. When editing doors, the user can select the  door sensor type to be Normal Open or Normal Close. If Normal Open or Normal  Close is selected, it is required to select <b>door status delay</b> and whether<b> close and reverse-lock </b>is required. By default, once door sensor type is  set as Normal Open or Normal Close, the default door status delay will be 15s,  and by default it will enable close and reverse-lock.<br />
+  <br />
+  <b>Door status delay:</b> The duration for delayed detection of door  sensor after the door is opened. Detection is performed only after the door is  opened and the delay duration expired. When the door is not in the “Normally  Open” period, and the door is opened, the device will start timing. It will  trigger alarm when the delay duration expired, and stop alarm when you close  the door. The default door status delay will be 15s. The<b> door status delay </b>should be longer than<b> lock open duration</b>.<br />
+  <br />
+  <b>Close and reverse-lock: </b>Set locking or not after door closing. Tick  it for lock after door closing.<br />
+  <br />
+  <b>Verify mode: </b>Supports Only Card and Password Plus Card  verify modes. The default is Only Card. When Password Plus Card mode is  selected, make sure the door uses a reader with keyboard;<br />
+  <br />
+  <b>Duress password</b>,<b> emergency password (named super password)</b>: Upon duress, use duress  password (used with legally card) to open the door. Upon emergency, the user  can use emergency password to open the door. When opening the door with duress  password (used with legally card), it will alarm. Emergency password allows  normal door opening.<br />
+  <br />
+  <b>Duress password  opening (used with legally card): </b>When Only Card verify mode is used, you need press [ESC]  first, and then press the setting password plus [OK] button, finally swipe your  card, the door open and trigger the alarm. When Password Plus Card verify mode  is used, please swipe your card first, then press the password number plus [OK]  button (same to normal door open in card plus password verify mode), the door  open and trigger the alarm.<br />
+  <br />
+  <b>Emergency password  opening: </b>The  password must be a number not exceeding 8 digits (integer). The door can be  opened just by entering the password. Please press [ESC] every time before  entering password, and then press OK to execute.<br />
+  When using duress password or emergency  password, the interval for entering each number shall not exceed 10 seconds,  and these two number should not be the same.<br /><br />
+ 
+  <b>Apply the setting to all doors  of the current control panel:</b> Click to apply to all doors of the current control panel;<br />
+  <br />
+  <b>Apply the setting to all doors  of all control panels:</b> Click to apply to all doors of all control panels within the current user’s  level;<br />
+   <br />
+    After parameter editing, click [OK] to save and quit.
+</div>
+</body>
+</html>

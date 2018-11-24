@@ -1,0 +1,209 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/app_page_consumer_report.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block addjs %}
+$(function(){
+$(".icon_help_current").hide()
+})
+
+function show_hall(data)
+{
+
+    if(data.halls != "")
+    {   
+        for(a in data.halls)
+        {
+            $("#monitor_hall select").append('<option value="'+data.halls[a][0]+'">'+data.halls[a][1]+" "+data.halls[a][2]+'</option>');
+        }
+		
+    }
+	if(data.meals !="")
+	{
+		for(m in data.meals)
+		{	
+			$("#monitor_meal select").append('<option value="'+data.meals[m][0]+'">'+data.meals[m][1]+" "+data.meals[m][2]+'</option>');
+		}
+	
+	}
+	if(data.operates !="")
+	{
+		for(m in data.operates)
+		{	
+			$("#monitor_operate select").append('<option value="'+data.operates[m][1]+'">'+data.operates[m][1]+'</option>');
+		}
+		
+	}
+}
+window.onload = IssueCard
+function Query_Load(url)
+{	
+	$.ajax({
+		type: "GET",
+		url: url,
+		dataType: "json",
+		async: false,
+		success: function(data)
+		{
+//		  {%if "POS_IC"|filter_config_option%}
+//			show_hall(data)
+//		   {%endif%}
+		   if(data.operates !="")
+			{
+				for(m in data.operates)
+				{	
+					$("#monitor_operate select").append('<option value="'+data.operates[m][1]+'">'+data.operates[m][1]+'</option>');
+				}
+				
+			}
+			if(data.operate_card !="")
+				{
+					for(m in data.operate_card)
+					{	
+						$("#monitor_operate select").append('<option value="'+data.operate_card[m][1]+'">{% trans '操作卡' %}'+data.operate_card[m][1]+'</option>');
+					}
+					
+				}
+			
+			if(data.halls != "")
+			   {   
+			       for(a in data.halls)
+			       {
+			           $("#monitor_hall select").append('<option value="'+data.halls[a][0]+'">'+data.halls[a][1]+" "+data.halls[a][2]+'</option>');
+			       }
+				
+			   }
+			
+			
+		   
+		}
+	});        
+}
+var stamp = new Date().getTime();
+url = "/{{ request.surl }}pos/getdiningroom/?stamp="+ stamp;
+
+$(document).ready(function(){Query_Load(url)})
+
+{% endblock %}
+{% block content_end %}
+<div style="margin:0px 10px 10px 10px;">
+	<input type="hidden" id="id_current_report" value="1" />
+	<input type="hidden" id="id_all_emp" value="all"/>
+	<div id="id_divsearch" class="calculate_divsearch">
+
+		<div style="margin:0px 10px 5px 10px;">
+		<form id="id_calculateform" method="post">
+		<div class="news_topsearch">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                     <td width="50"><div class="news_topsearch1">查询</div></td>
+                     <td>
+                         <div class="news_topsearch2">
+                            <table>
+                                <tr>
+                                    {% block select_emp %}		
+                                            {% autoescape off %}
+                                            <td><div id="emp_labor">{{empfield|field_as_label_tag}}<div></td><td><div id="show_emp_tree">{{empfield.as_widget}}</div></td>
+                                            {% endautoescape %}
+                                    {% endblock %}
+                                    
+                                            <td><div id="monitor_cometime">{% trans '开始日期' %}</div></td><td><div id="div_cometime"><input type="text" style="width:90px;" class="date dp-applied" format="yyyy-MM-dd"  readonly="True" name="ComeTime" id="id_cometime"/></td></div>
+                                            <td><div id="monitor_endtime">{% trans '结束日期' %}</div></td><td><div id="div_endtime"><input type="text" style="width:90px;" class="date dp-applied" format="yyyy-MM-dd"  readonly="True" name="EndTime" id="id_endtime"/></td></div>
+                                            <!--
+                                            <td><div class="lineH22">&nbsp;&nbsp;{% trans "开始日期" %}</div></td><td><input type="text" class="date dp-applied"  format="yyyy-MM-dd" readonly="True" name="ComeTime" id="id_cometime"/></td>
+                                            <td><div class="lineH22">&nbsp;&nbsp;{% trans "结束日期" %}</div></td><td><input type="text" class="date dp-applied" format="yyyy-MM-dd" readonly="True" name="EndTime" id="id_endtime"/></td>
+                                            -->
+                                            <td><div id="monitor_hall" style="display: none;"><label>{% trans "餐厅" %}</label><select style="width:80px"><option value="0">{% trans "全部餐厅" %}</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+                                            <td><div id="monitor_operate" style="display: none;"><label >{% trans "操作员" %}</label><select style="width:80px"><option value="9999">{% trans "全部" %}
+                                            {%if "POS_IC"|filter_config_option%}
+                                            <option value="0">{% trans "机器数据" %}</option>
+                                            {%endif%}
+                                            </option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+                                            {%if "POS_IC"|filter_config_option%}
+                                                        <td><div id="monitor_pos_model" style="display: none;"><label for="id_pos_model" >{% trans "消费模式" %}</label><select id="search_id_pos_model" name="" fieldname="pos_model">
+                                                        <option value="0">全部</option>
+                                                        <option value="1">定值模式</option>
+                                                        <option value="2">金额模式</option>
+                                                        <option value="3">键值模式</option>
+                                                        <option value="4">计次模式</option>
+                                                        <option value="5">商品模式</option>
+                                                        <option value="6">计时模式</option>
+                                                        <option value="7">记账模式</option>
+                                                        <option value="9">设备纠错</option>
+                                                        <option value="8">手工补消费</option>
+                                                        </select></div></td>
+                                            {%endif%}
+                                </tr>
+                                <tr><td colspan="3">
+                                <div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+                                </tr>
+                            </table>
+                    <input type="hidden" name="DeptIDs" value="" />
+                    <input type="hidden" name="isForce" value="0" />
+                    <input type="hidden" name="UserIDs" value="" />
+                    <input type="hidden" name="Dining" value="" />
+                    <input type="hidden" name="operate" value="" />
+                    <input type="hidden" name="pos_model" value="" />
+                    
+                    </div>
+                </td>
+            </tr>
+            </table>
+		</div>	
+		</form>
+		</div>
+	</div>
+	<div id="calculatetabs" style="margin-right: 20px;margin-left: 20px;">
+	    <ul class="tabs">
+
+          <li><a href="javascript:void(0)" class="current" onClick="IssueCard('')">{% trans '发卡表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="ChargeRecord('')">{% trans '充值表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="posReimburese('')">{% trans '退款表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="Allowance('')">{% trans '补贴表' %}</a></li>
+
+		  <li><a href="javascript:void(0)" onClick="ReturnCard('')">{% trans '退卡表' %}</a></li>
+
+		  <li><a href="javascript:void(0)" onClick="posCarCost('')">{% trans '卡成本表' %}</a></li>
+
+		  <li><a href="javascript:void(0)" onClick="CarBalanceReport('')">{% trans '卡余额表' %}</a></li>
+           {%if "POS_IC"|filter_config_option%}
+				<li><a href="javascript:void(0)" onClick="NoCardReport('')">{% trans '无卡退卡表' %}</a></li>
+		  {%endif%}
+			<li><a href="javascript:void(0)" onClick="ManageCard('')">{% trans '管理卡' %}</a></li>
+			
+			<li><a href="javascript:void(0)" onClick="posLostCard('')">{% trans '挂失解挂表' %}</a></li>
+			{%if "POS_IC"|filter_config_option%}
+				<li><a href="javascript:void(0)" onClick="errorLlistReport('')">{% trans '异常消费明细表' %}</a></li>
+			{%endif%}
+			{%if "POS_ID"|filter_config_option%}
+				<li><a href="javascript:void(0)" onClick="posReplenishCard('')">{% trans '换卡表' %}</a></li>
+			{% endif %}
+			<li><a href="javascript:void(0)" onClick="FlushCard_ic('')">{% trans '消费明细表' %}</a></li>
+		
+	    </ul>
+		<div class="attCalculatediv" id="caltabs" >
+			<div id="grid_frame_div" scrolling="0" style="_height:1%">
+			<iframe src="" id="grid_frame" frameborder="0" scrolling="0" width="100%" height="450"></iframe>
+			</div>
+		</div>
+        {%if "POS_IC"|filter_config_option%}
+            <div id="id_posexcept_desc" style="display: none;"></div>
+            {% endif %}
+			
+	</div>
+    
+    
+    
+</div>
+
+
+{% block selfservices %} {% endblock %}
+{% endblock %}

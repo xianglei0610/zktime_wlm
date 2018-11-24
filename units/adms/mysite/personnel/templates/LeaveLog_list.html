@@ -1,0 +1,25 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{% block extend_model_grid %}
+	{% if request.user|HasPerm:"personnel.browse_leavelog" %}
+			disable_cols:[{% get_config_option "LEAVE_DISABLE_COLS"%}],
+	{% else %}
+	    $("#id_search").remove();
+	    alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+	    window.location.href="/{{ request.surl }}accounts/login/";
+	{% endif %}<!--personnel.browse_leavelog-->
+{% endblock %}
+
+{% block extend_disabled_actions %}
+	{% if request.user|HasPerm:"personnel.browse_leavelog" %}
+	    {% get_config_option "LEAVE_DISABLE_ACTIONS"%}
+
+	{% else %}
+	    $("#id_search").remove();
+	    alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+	    window.location.href="/{{ request.surl }}accounts/login/";
+	{% endif %}<!--personnel.browse_leavelog-->
+{% endblock %}
+

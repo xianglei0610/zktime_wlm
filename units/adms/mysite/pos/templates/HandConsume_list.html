@@ -1,0 +1,12 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+$("#id_model_export").hide()
+})
+
+{%if "POS_IC"|filter_config_option%}
+$(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("handconsume","ic_handconsume"));
+{%endif%}
+
+{% endblock %}

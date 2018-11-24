@@ -1,0 +1,25 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{% block extend_disabled_actions %}
+ {% get_config_option "ISSUECARD_DISABLE_ACTIONS" %}
+{% endblock %}
+
+{% block extend_model_grid %}
+
+{% endblock %}
+
+{% block op_for_tab %}
+
+{% endblock %}
+{% block addjs %}
+    {% if "POS"|filter_config_option%}
+         {% if "POS_IC"|filter_config_option%}
+            $(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("issuecard","ic_issuecard"));
+         {%else%}
+            $(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("issuecard","id_issuecard"));
+         {%endif%}
+    {%endif%}
+{% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends "data_list.html" %}
+
+{% block tblHeader %}
+fieldHeaders=["{{ cl.FieldName.SN }}","{{ cl.FieldName.admin }}","{{ cl.FieldName.OP }}","{{ cl.FieldName.OPTime }}","{{ cl.FieldName.Object }}"
+];
+options.disableCols=["0"];
+options.canAdd=false;
+options.canEdit=false;
+{% endblock %}
+{% block rowdata %}
+{% for item in latest_item_list %}
+["{{ item.id }}", "{{ item.SN }}","{{ item.admin }}","{{ item.OpName }}","{{ item.OPTime|shortTime }}","{{ item.ObjName }}"]{%if not forloop.last%},{%endif%}{% endfor %}
+{% endblock %}

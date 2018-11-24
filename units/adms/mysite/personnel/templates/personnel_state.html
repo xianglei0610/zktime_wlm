@@ -1,0 +1,34 @@
+{% extends "personnel_basedata.html" %}
+{% load i18n %}
+
+{% block id_main_div %}
+    {% if request.user|HasPerm:"contenttypes.can_BaseDataPage" %}
+        {% if request.user|HasPerm:"contenttypes.can_StatePage" %}
+
+            <div id="id_datalist" class="div_box h280"><h1>{% trans "省份" %}</h1>
+            </div>
+        {% endif %} 
+    {% endif %} 
+{% endblock %}
+
+{% block acc_reportform %}
+    {% if request.user|HasPerm:"contenttypes.can_BaseDataPage" %}
+        {% if request.user|HasPerm:"contenttypes.can_StatePage" %}
+            $("#id_datalist").model_grid({
+                "model_url": "{{ dbapp_url }}personnel/State/",
+                "model_actions": true,
+                "object_actions": true,
+                "record_per_page": 15,
+                "max_no_page": 20,        
+                "disabled_actions": ["OpClearAbnormityLogs",,"_clear","_change"],
+                "multiple_select": true,
+                "action_onclick_continue": false,
+                "row_operations": true
+            });
+        {% endif %} 
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %} 
+{% endblock %}

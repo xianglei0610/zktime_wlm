@@ -1,0 +1,486 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script src="{{ MEDIA_URL }}/jslib/ipinput.widget.js"></script>
+{% endblock %}
+
+{% block form %}
+{% endblock %}
+
+{% block help_panel %}
+{% endblock %}
+
+{% block operation_panel %}
+	{% if request.user|HasPerm:"iclock.opsearchacpanel_device" %}
+	<div id="type" class="div_box1 search_help" style="margin:0px 10px;">
+		<h2>{% trans "搜索以太网中的门禁控制器" %}</h2>
+		<table>
+			<tr><td><button id="id_start_search" class="btn" type="button">{% trans "开始搜索" %}</button><div id="id_searching" class="ACPanel_Searching"><img align="top" src="/media/images/searching.gif">{% trans "搜索中..." %}</div></td></tr>
+		</table>
+	</div>
+
+	<div id="searched" class="div_box1" style="margin:0px 10px;"><h2>{% trans "搜索结果" %}</h2></div>
+	<div id="total_tip"><h2 class="tip1"></h2><h2 class="tip2"></h2></div>
+
+	<div id="id_showTbl" class="search_acpanel">
+		<table class="Link_blue1 table table1">
+		</table>
+	</div>
+	{% endif %}<!-- iclock.opsearchacpanel_device -->
+{% endblock %}
+
+{% block loading %}
+{% endblock %}
+
+{% block addjs %}
+	{% if request.user|HasPerm:"iclock.opsearchacpanel_device" %}
+	var searching = false;//当前处于未搜索状态
+	var device_added_count = 0;//当前搜索出来的设备已添加的数量。
+	$("#id_searching").hide();
+
+    var after_init = function()
+	{
+        $("#OK").parent().hide();
+		$("#Cancel").text(gettext("退出"))
+        $("#searching").hide();
+        $("#searched").hide();
+		$("#total_tip").hide();
+        $("#id_showTbl").hide();
+		after_init = undefined;
+    }
+
+	var after_cancel = function()
+	{
+		$("#id_datalist").get(0).g.load_data();
+		after_cancel = undefined;//加载数据后取消，避免新增设备时放弃也会刷新列表
+	}
+
+    $("#id_start_search").click(function(){
+	    //判断当前是否正在搜索
+		if(searching == true)
+		{
+			alert(gettext("正在搜索中,请等待!"));
+			return false;
+		}
+		searching=true;
+		device_added_count = 0;//如果不为零，重新置为0,（不刷新界面反复搜索时有用）
+
+        var type = $("#search_type").val();
+        $("#id_showTbl thead").remove();
+        $("#id_showTbl tbody").remove();
+        $("#searched").hide();
+		$($("#total_tip h2")[1]).empty();
+		$("#total_tip").hide();
+		$("#search_type").attr("disabled", true);
+		$("#id_searching").show();
+
+		get_all_ip_sn();//重新获取ip/sn
+		search_tcpip();
+    });
+
+	var ips_existed = new Array();//全局变量，存放所有ip地址
+	var sns_existed = new Array();//
+
+    function get_all_ip_sn()
+	{
+		//获取数据库中所有的IP地址、sn,避免用户修改ip地址时写入数据库中已有的ip地址（包含考勤和门禁
+		var stamp = new Date().getTime();
+		$.ajax({
+			type: "POST",
+			url: "/{{ request.surl }}iaccess/GetData/?func=get_all_ip_sn&stamp="+ stamp,
+			dataType: "json",
+			async: false,
+			success: function(data)
+			{
+				ips_existed = data.ipaddress;
+				sns_existed = data.sn;
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown)
+			{
+				//alert(textStatus+" "+errorThrown);
+				alert(gettext("服务器处理数据失败，请重试！错误码：")+"-612");
+			}
+		});
+	}
+
+	//将ip地址转换成字符串，字段不足三位的补零
+    function getValue(value){
+		value = value.split("");//全部分割--解决ie下排序不起作用bug
+    	var ip_tostring = new Array(3);
+    	for(var j=0;j<3;j++)
+    	{
+			if(value[j] == undefined)
+			{
+				ip_tostring[2] = ip_tostring[1];
+				ip_tostring[1] = ip_tostring[0];
+				ip_tostring[0] = "0";
+			}
+			else
+			{
+				ip_tostring[j] = value[j];
+			}
+    	}
+    	return ip_tostring.join("");
+    }
+
+    //根据IP地址对搜索出来的设备进行排序
+    function sort(datas){
+    	var list=new Array();
+    	for(var i=0;i<datas.length;i++)
+    	{
+    		var ip_sort = datas[i]['IP'];
+    		var ip_list = ip_sort.split('.');
+			//分别获取IP地址的四个字段
+            var first_field = getValue(ip_list[0]);
+			var second_field = getValue(ip_list[1]);
+    		var third_field = getValue(ip_list[2]);
+    		var forth_field = getValue(ip_list[3]);
+			//给datas中的对象添加一个value属性，根据此属性来对datas中的对象来排序
+			datas[i].value = first_field + second_field + third_field + forth_field;
+    	}
+		//排序
+    	for(var m=0;m<datas.length;m++){
+    		for(var n=0;n<datas.length-1;n++){
+				if(datas[m].value<datas[n].value){
+					var temp = datas[m];
+					datas[m] = datas[n];
+					datas[n] = temp;
+				}
+    		}
+    	}
+    	return datas;
+    }
+
+    function showsort(tag){
+		tag.innerHTML='{% trans "IP地址" %}<div  onmouseout="displaysort(this)" id="sort_menu" style="position: absolute; z-index: 1000; display: block;"><ul><li class="sort_D_class"><a href="javascript:void(0);" s="PIN">升序</a></li><li class="sort_A_class"><a href="javascript:void(0);" s="-PIN">降序</a></li></ul>';
+    }
+    function displaysort(tag){
+    	$("#display").html('{% trans "IP地址" %}');
+    }
+
+    var network_segment = "";//本机ip网段
+    //搜索tcp/ip设备
+    function search_tcpip()
+    {
+		var stamp = new Date().getTime();
+		$.ajax({
+			type: "POST",
+			url: "/{{ request.surl }}iaccess/SearchACPanel/?func=search_tcpip&stamp="+ stamp,
+			dataType: "json",
+			async: true,
+			success: function(data){
+				$("#id_searching").hide();
+				var datas = data.datas
+				network_segment = data.network_segment;
+				if(datas != "")
+				{
+					$("#searching").hide();
+					$("#searched").show();
+					$("#total_tip").show();
+					$($("#total_tip h2")[0]).text(gettext("当前共搜索到的门禁控制器总数为：")+datas.length);
+					$("#id_showTbl").show();
+					$("#id_showTbl table").append('<thead><tr><th id="display" class="sort_flat_class">{% trans "IP地址" %}</th><th>{% trans "MAC地址" %}</th><th>{% trans "子网掩码" %}</th><th>{% trans "网关" %}</th><th>{% trans "序列号" %}</th><th>{% trans "设备类型" %}</th><th>{% trans "操作" %}</th></tr></thead>');
+					var ip_addr = "";
+					datas=sort(datas);
+					for(var index=0,j=datas.length;index<j;index++)//index in datas
+					{
+						var i = 0;//标记，决定是否显示“添加设备”和“修改IP”操作
+						var serial_number = datas[index].SN;
+						for(var s=0, n=sns_existed.length; s<n; s++)
+						{
+							if(sns_existed[s] == serial_number)
+							{
+								if(datas[index]["NetMask"] == undefined)
+								{
+									datas[index]["NetMask"] = '';
+								}
+								if(datas[index]["GATEIPAddress"] == undefined)
+								{
+									datas[index]["GATEIPAddress"] = '';
+								}
+
+								$("#id_showTbl table").append('<tr><td>'+datas[index]["IP"]+'</td><td>'+datas[index]["MAC"]+'</td><td>'+datas[index]["NetMask"]+'</td><td>'+datas[index]["GATEIPAddress"]+'</td><td>'+datas[index]["SN"]+'</td><td>'+datas[index]["Device"]+'</td><td>{% trans "该设备已添加" %}</td></tr>');
+								i++;
+								break;
+							}
+						}
+						if(i == 0)
+						{
+
+							if(datas[index]["NetMask"] == undefined)
+							{
+								datas[index]["NetMask"] = '';
+							}
+							if(datas[index]["GATEIPAddress"] == undefined)
+							{
+								datas[index]["GATEIPAddress"] = '';
+							}
+
+							$("#id_showTbl table").append('<tr><td>'+datas[index]["IP"]+'</td><td>'+datas[index]["MAC"]+'</td><td>'+datas[index]["NetMask"]+'</td><td>'+datas[index]["GATEIPAddress"]+'</td><td>'+datas[index]["SN"]+'</td><td>'+datas[index]["Device"]+'</td><td><a href="javascript:void(0)" id="change_ip_'+index+'">{% trans "修改IP地址" %}</a><a href="javascript:void(0)" id="add_device_'+index+'" class="search_add_device">{% trans "添加设备" %}</a></td></tr>');
+						}
+						ips_existed.push(datas[index]["IP"]);//获取当前广播搜索到的IP地址
+					}
+
+					//将设备添加至数据库
+					$("a[id^='add_device']").each(function(){
+						$(this).click(function(){
+							var ip = $($(this).parent().parent().find("td")[0]).text();
+							var subnet_mask = $($(this).parent().parent().find("td")[2]).text();
+							var gateway = $($(this).parent().parent().find("td")[3]).text();
+							var sn = $($(this).parent().parent().find("td")[4]).text();
+							var alias = "";
+							var whether_sync_all = null;//新增设备时是否需要同步所有数据
+							var comm_pwd = null;
+							var $tr = $(this).parent().parent();
+							ip_network_segment = ip.split(".")[2];
+
+							var modify_alias_form = '<div id="id_alias_form" class="pop_up_form_device div_box">'
+													+'<h1>'+gettext("自定义设备名称")+'</h1>'
+													+'<table style="border-spacing: 2px;">'
+														+'<tr><th><label>'+gettext("设备名称")+':</label></th><td><input id="id_alias" style="width:140px" value="'+ip+'" maxlength="20"></input></td></tr>'
+														+'<tr><th><label>'+gettext("通讯密码")+':</label></th><td><input type="password" id="id_new_commpwd" name="comm_pwd" maxlength="15"></input></td></tr>'
+														+'<tr><th><label>'+gettext("新增时删除设备中数据")+':</label></th><td><input type="checkbox" name="whether_sync_all" class="wZBaseBooleanField" id="id_whether_sync_all" checked="checked"></input></td></tr>'
+													+'</table>'+'<div class="btns_class"><button class="btn" id="id_OK" type="button">'+gettext("确定")+'</button>'+'<button class="btn" id="id_Cancel" type="button">'+gettext("取消")+'</button></div>'+'</div>';
+							$(modify_alias_form).dialog();
+							$("#id_alias_form").find("#id_Cancel").click(function(){
+								$("#id_close").click();
+							});
+							$("#id_alias_form").find("#id_OK").click(function(){
+								alias = $("#id_alias").val();
+								whether_sync_all = $("#id_whether_sync_all").attr("checked");
+								comm_pwd = $("#id_new_commpwd").val();
+								if(whether_sync_all)
+								{
+									sync_tips = gettext("您选择了[新增时删除设备中数据]，系统将自动删除设备中的数据(事件记录除外)，确定要继续？");
+								}
+								else
+								{
+									sync_tips = gettext("您没有选择[新增时删除设备中数据]，该功能仅用于系统功能演示和测试。请及时手动同步数据到设备，以确保系统中和设备中权限一致，确定要继续？");
+								}
+
+								if(!confirm(sync_tips))
+								{
+									return false;
+								}
+								else
+								{
+									if(alias == null)
+									{
+										return false;
+									}
+									if(alias == "")
+									{
+										alert(gettext("设备名称不能为空，请重新添加设备！"));
+										return false;
+									}
+								}
+
+								//该请求将验证ip地址和sn是否存在，如果不存在的话，将会将该设备写入数据库中
+								var stamp = new Date().getTime();
+								$.ajax({
+									type: "POST",
+									url: "/{{ request.surl }}iaccess/SearchACPanel/?func=check_and_save&ip="+ ip +"&subnet_mask="+ subnet_mask +"&gateway="+ gateway +"&sn="+ sn +"&stamp="+ stamp,//验证ip地址和序列号是否已经存在
+									dataType: "json",
+									data:{"alias": alias, "whether_sync_all": whether_sync_all,"comm_pwd":comm_pwd},
+									async: true,
+									success: function(check){
+										if(check.ret > 0)//1
+										{
+											alert(alias +" "+gettext("的设备添加成功！"));
+											$("#id_close").click();
+											$tr.remove();
+											device_added_count++;
+											$($("#total_tip h2")[1]).text(gettext("已添加设备数：")+ device_added_count);
+										}
+										else if(check.ret == 0)
+										{
+											if(check.ip_existed)
+											{
+												alert(gettext("IP地址：")+ ip +gettext(" 已存在！"));
+												return false;
+											}
+											if(check.sn_existed)
+											{
+												alert(gettext("序列号：")+ sn +gettext(" 已存在！"));
+												return false;
+											}
+										}
+										else if(check.ret == -1)
+										{
+											alert(gettext("IP地址为：")+ ip +gettext(" 的设备添加失败！原因：") + check.reason);
+										}
+										else if(check.ret == -5)
+										{
+											alert(gettext("IP地址为：")+ ip +gettext(" 的设备添加异常！"));
+										}
+										else if(check.ret == -2)
+										{
+											alert(alias +" "+gettext("的设备添加成功，但设备扩展参数获取失败！"));//设备参数将在下次连接成功时自动添加
+											$("#id_close").click();
+											$tr.remove();
+											device_added_count++;
+											$($("#total_tip h2")[1]).text(gettext("已添加设备数：")+ device_added_count);
+										}
+										else if(check.ret == -3)
+										{
+											alert(gettext("设备连接成功，但无数据返回，添加设备失败！"));
+										}
+										else if(check.ret == -4)
+										{
+											if(check.reason == "")
+											{
+												alert(gettext("设备连接失败(错误码：")+ check.result +gettext(")，无法添加该设备！"));
+											}
+											else
+											{
+												alert(gettext("设备连接失败(原因：")+ check.reason +gettext(")，无法添加该设备！"));
+											}
+										}
+										else if(check.ret == -5)
+										{
+											alert(gettext("获取到错误的设备类型！"));
+										}
+									},
+									error:function (XMLHttpRequest, textStatus, errorThrown)
+									{
+										//alert(textStatus+" "+errorThrown);
+										alert(gettext("服务器处理数据失败，请重试！错误码：")+"-613");
+									}
+								});
+							});
+
+						});
+					});
+
+					//修改设备的ip地址(下发命令至设备)
+					$("a[id^='change_ip']").each(function(){
+						$(this).click(function(){
+							$ip = $($(this).parent().parent().find("td")[0]);
+							$gateway = $($(this).parent().parent().find("td")[3]);
+							$submask = $($(this).parent().parent().find("td")[2]);
+							var oldip = $ip.text();
+							$tr = $(this).parent().parent();
+							var mac = $($(this).parent().parent().find("td")[1]).text();
+							//弹出框的形式获取新的ip地址
+
+							var pop_up_form = '<div id="id_pop_up_form" class="pop_up_form div_box">'
+													+'<h1>'+gettext("修改设备IP地址")+'</h1><table style="border-spacing: 2px;">'
+													+'<tr><th><label>'+gettext("原IP地址")+':</label></th><td><input style="width:120px" disabled="disabled" value="'+$ip.text()+'"></input></td></tr>'
+													+'<tr><th><label>'+gettext("新IP地址")+':</label></th><td id="id_newip"></td></tr>'
+													+'<tr><th><label>'+gettext("子网掩码")+':</label></th><td id="id_subnet_mask"></td></tr>'
+													+'<tr><th><label>'+gettext("网关地址")+':</label></th><td id="id_gateway"></td></tr>'
+											+'</table>'
+											+'<div class="btns_class"><button class="btn" id="id_OK" type="button">'+gettext("确定")+'</button>'
+											+'<button class="btn" id="id_Cancel" type="button">'+gettext("取消")+'</button></div>'
+											+'</div>';
+
+							$(pop_up_form).dialog()
+                            var ipv4_ip=new IpV4Box("ipv4_ip","id_newip");
+							var ipv4_gateway =new IpV4Box("ipv4_gateway","id_gateway",0);//参数0表示不对第一个输入框进行1到233间的验证
+							var ipv4_subnet_mask=new IpV4Box("ipv4_subnet_mask","id_subnet_mask",0);
+							ipv4_subnet_mask.setValue($submask.text());
+							ipv4_gateway.setValue($gateway.text());
+							$("#id_pop_up_form").find("#id_Cancel").click(function(){
+								$("#id_close").click();
+							});
+
+							var newip = "";
+							var gateway = "";
+							var subnet_mask = "";
+							//弹出框新的ip地址的提交
+							$("#id_pop_up_form").find("#id_OK").click(function(){
+								newip = ipv4_ip.getValue();
+								gateway = ipv4_gateway.getValue();
+								subnet_mask = ipv4_subnet_mask.getValue();
+								//$("#id_page_load").show();
+								if(newip == "")
+								{
+									alert(gettext("新的IP地址不能为空！"));
+									return false;
+								}
+
+								var reg = /^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/;
+								if(newip != "" && !reg.test(newip))
+								{
+									alert(gettext("请输入一个有效的IPv4地址！"));
+									return false;
+								}
+
+								if(gateway != "" && !reg.test(gateway))
+								{
+									alert(gettext("请输入一个有效的网关地址！"));
+									return false;
+								}
+
+								if(subnet_mask != "" && !reg.test(subnet_mask))
+								{
+									alert(gettext("请输入一个有效的子网掩码！"));
+									return false;
+								}
+
+								for(var i in ips_existed)
+								{
+									if(ips_existed[i] == newip)
+									{
+										alert(gettext("该IP地址的设备已存在或该IP地址已被使用，不能添加！请重新输入！"));
+										return false;
+									}
+								}
+								//发送改变ip地址的请求
+								var stamp = new Date().getTime();
+								$.ajax({
+									type: "POST",
+									url: "/{{ request.surl }}iaccess/SearchACPanel/?func=change_ip&oldip="+oldip+"&newip="+newip+"&mac="+mac+"&gateway="+gateway+"&subnet_mask="+subnet_mask+"&stamp="+stamp,
+									dataType: "json",
+									async: true,
+									success: function(data){
+										if(data.ret >= 0)
+										{
+											alert(gettext("操作成功！"));
+											//$tr.remove();
+											for(i in ips_existed)
+											{
+												if(ips_existed[i] == $ip.text())
+												{
+													ips_existed.splice(i, 1)
+													ips_existed.push(newip);
+													break;
+												}
+											}
+											$ip.text(newip);
+											$submask.text(subnet_mask);
+											$gateway.text(gateway);
+											$("#id_close").click();
+									    }
+										else
+										{
+											alert(gettext("操作失败！原因：") + data.reason);
+										}
+									},
+									error:function (XMLHttpRequest, textStatus, errorThrown)
+									{
+										//alert(textStatus+" "+errorThrown);
+										alert(gettext("服务器处理数据失败，请重试！错误码：")+"-614");
+									}
+								});
+							});
+						});
+					});
+				}
+				else
+				{
+					$("#id_searching").hide();
+					alert(gettext("没有搜索到门禁控制器！"));
+					//setTimeout('$("#Cancel").click();',5);
+				}
+				searching=false;//标志搜索结束
+				$("#search_type").attr("disabled",false);
+			}
+		});
+    }
+	{% else %}
+		alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+		window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!-- iclock.opsearchacpanel_device -->
+{% endblock%}

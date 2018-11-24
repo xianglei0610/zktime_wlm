@@ -1,0 +1,137 @@
+2014-01-17 11:30:56.104000 WriteData [pid:8200] start
+soft key LastError -92
+2014-01-17 11:30:59.442000 WriteData [pid:0] be stoped
+
+
+2014-01-17 11:31:07.944000 WriteData [pid:10064] start
+soft key LastError -92
+2014-01-17 11:31:24.889000 WriteData [pid:0] be stoped
+
+
+2014-01-17 11:31:29.725000 WriteData [pid:2420] start
+soft key LastError
+
+-
+9
+2
+
+2014-01-17 11:32:18.571000 WriteData [pid:0] be stoped
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+
+2014-01-17 11:32:23.578000 WriteData [pid:3536] start
+soft key LastError -92
+2014-01-17 11:32:27.853000 WriteData [pid:0] be stoped
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+
+2014-01-17 11:32:52.486000 WriteData [pid:10052] start
+soft key LastError
+
+-
+9
+2
+
+Traceback (most recent call last):
+
+File "manage.py", line 16, in <module>
+
+
+execute_manager(settings)
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+utility.execute()
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+
+self.fetch_command(subcommand).run_from_argv(self.argv)
+File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+2014-01-17 15:36:01.917000 WriteData [pid:0] be stoped
+
+
+2014-01-21 17:12:37.145000 WriteData [pid:4128] start
+soft key LastError -92
+
+2014-01-21 17:14:50.437000 WriteData [pid:8576] start
+soft key LastError 0
+2014-01-21 17:21:11.887000 WriteData [pid:4496] start
+soft key LastError 0
+2014-01-21 17:23:45.931000 WriteData [pid:3944] start
+soft key LastError 0
+Traceback (most recent call last):
+
+File "manage.py", line 16, in <module>
+
+execute_manager(settings)
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+utility.execute()
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+self.fetch_command(subcommand).run_from_argv(self.argv)
+File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+self.execute(*args, **options.__dict__)
+File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+output = self.handle(*args, **options)
+
+File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\management\commands\writedata.py", line 67, in handle
+
+update_device(devs)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\management\commands\server_update.py", line 200, in update_device
+super(Device,dev).save(log_msg=False)
+File "F:\zksoftware_code\zktime_wlm\python-support\base\cached_model.py", line 226, in save
+change_info.append(u"%s(%s->%s)" % (field.verbose_name, old_value or "", new_value or ""))
+
+File "C:\Python26\lib\encodings\utf_8.py", line 16, in decode
+return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode bytes in position 0-1: invalid data
+
+
+2014-01-21 17:24:04.481000 WriteData [pid:3944] exit
+2014-01-21 17:24:04.481000 WriteData [pid:3944] auto start
+2014-01-21 17:24:04.631000 WriteData [pid:9352] start
+soft key LastError 0
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+utility.execute()
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+self.execute(*args, **options.__dict__)
+  File "C:\Python26\lib\site-packages\django\core\management\base.py", line 222, in execute
+output = self.handle(*args, **options)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\management\commands\writedata.py", line 66, in handle
+update_user(emps)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\management\commands\server_update.py", line 161, in update_user
+save_area(emp.id,emp.PIN)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\management\commands\server_update.py", line 96, in save_area
+    from base.sync_api import get_area
+ImportError: cannot import name get_area
+
+
+2014-01-21 17:24:09.853000 WriteData [pid:9352] exit
+2014-01-21 17:24:09.853000 WriteData [pid:9352] auto start
+2014-01-21 17:24:09.993000 WriteData [pid:9516] start
+soft key LastError 0
+2014-01-21 17:29:19.726000 WriteData [pid:9568] start
+soft key LastError 0
+2014-01-21 17:34:24.873000 WriteData [pid:8992] start
+soft key LastError 0
+2014-01-21 17:37:45.020000 WriteData [pid:3660] start
+soft key LastError 0
+2014-01-21 17:47:55.407000 WriteData [pid:276] start
+soft key LastError 0
+2014-01-21 17:48:53.926000 WriteData [pid:10880] start
+soft key LastError 0
+2014-01-21 20:26:14.815000 WriteData [pid:7920] start
+soft key LastError
+0
+2014-01-21 21:08:12.259000 WriteData [pid:5828] start
+soft key LastError -92
+2014-01-21 21:08:39.953000 WriteData [pid:8036] start
+soft key LastError -92

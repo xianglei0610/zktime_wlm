@@ -1,0 +1,49 @@
+{% extends "Acc_Reportform.html" %}
+{% load i18n %}
+
+{% block id_main_div %}
+    {% if request.user|HasPerm:"contenttypes.can_AlarmEventReportPage" %}
+    {% if request.user|HasPerm:"iaccess.browse_accrtmonitor" %}
+
+    <div><li id="id_model_export" style="display:none"><a class="action_Model_Export" href="javascript:void(0)" alt="export"></a></li></div>
+    
+    <div id="id_datalist" class="div_box h280"><h1>{% trans "门禁异常事件" %}</h1>
+    </div>
+    {% endif %}<!--browse_accrtmonitor-->
+    {% endif %}<!--contenttypes.can_AlarmEventReportPage-->
+{% endblock %}
+
+{% block acc_reportform %}
+    {% if request.user|HasPerm:"contenttypes.can_AlarmEventReportPage" %}
+    {% if request.user|HasPerm:"iaccess.browse_accrtmonitor" %}
+    $("#id_datalist").model_grid({
+        "model_url": "{{ dbapp_url }}iaccess/AccRTMonitor/",
+        "base_query": ["event_type__gte=20","event_type__lt=200"],
+        "init_query": ["event_type__gte=20","event_type__lt=200"],
+        "model_actions": true,
+        "sort_fields": ["-time"], 
+        "object_actions": false,
+        "obj_edit": false,
+        "record_per_page": 15,
+        "max_no_page": 20,  
+        "fields_show": ['time','pin','card_no','device_name','door_name','verified','state','event_type'],
+        "row_operations": [],
+        "disabled_actions": ["OpClearRTLogs","_delete","_add","_clear","_change"],
+        "multiple_select": null,
+        "action_onclick_continue": false,
+        "init_after_get_jdata": function(){
+            $("#id_datalist div.action").append('<li id="id_export"><a alt="export" href="javascript:void(0)" class="action_Model_Export">'+gettext("导出报表")+'</a></li>')
+            $("#id_export").click(function(){
+                $("#id_model_export").click();
+            });
+        }
+    });
+
+    {% endif %}<!--browse_accrtmonitor-->
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_AllEventReportPage-->   
+{% endblock %}
+

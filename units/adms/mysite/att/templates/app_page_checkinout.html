@@ -1,0 +1,203 @@
+{% extends "app_page.html" %}
+{% load i18n %}
+{% load dbapp_tags %}
+
+{% block model_extend %}
+	<div id="id_model_extend" class="noUnderl">
+		<div class="leftBoxTop">
+	        <ul class="Link_blue2 img_padding">
+	            <div id="id_op_for_tab">
+	            	<li id="id_OpUploadAttLog" title="上传U盘考勤记录" name="OpUploadAttLog"><a href="javascript:void(0)" id = "id_u_a" alt="OpUploadAttLog" ref="/att/import_u_data"><span class="action_OpUploadAttLog"></span>上传U盘考勤记录</a></li>
+	            	<div class="div_leftBottomLine"></div>
+	            	<!--<li id="id_dataimport" title="自定义导入记录" name="dataimport"><a href="javascript:void(0)" id= "id_self_a" alt="dataimport" ref="/att/import_self_data"><span class="action_dataimport"></span>自定义导入记录</a></li>
+	            	<div class="div_leftBottomLine"></div>-->
+		         </div>
+		    </ul>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div id = "search_div" class="news_topsearch">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="50"><div class="news_topsearch1">查询</div></td>
+				<td>
+					<div class="news_topsearch2">
+						<table style="margin:0px 0px 0px 15px">
+							<tr>
+								<td><div class="lineH22"><label for="pin">人员编号&nbsp;</label></div></td><td><input type="text" id = "pin" name="where"/> &nbsp;&nbsp;</td>
+								<td><div class="lineH22"><label for="deptcode">部门编号&nbsp;</label></div></td><td><input type="text" id = "deptcode" name="where"/> &nbsp;&nbsp;</td>
+								<td><div class="lineH22"><label for="start">{% trans "开始时间" %}&nbsp;</label></div></td><td><input type="text" class="date"  format="yyyy-MM-dd HH:mm:ss" readonly="True" name="where" id="start"/>&nbsp;&nbsp;</td>
+								<td><div class="lineH22"><label for="end">{% trans "结束时间" %}&nbsp;</label></td><td><input type="text" class="date" format="yyyy-MM-dd HH:mm:ss" readonly="True" name="where" id="end"/>&nbsp;&nbsp;</td>
+								<td><div style="margin:0px 0px 0px 5px;"><span class="action_Search">&nbsp;</span><a id="id_query" href='javascript:void(0)' class="Link_blue1" >{% trans '查询' %}</a></div></td>
+							</tr>
+							<tr><td colspan="3">
+								<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+							</tr>
+						</table>
+					</div>
+			     </td>
+			  </tr>
+		</table>
+	</div>
+	<div id="grid_frame_div" style="margin:3px 3px 3px 10px;">
+		<table width="100%">
+			<tr>
+				<td height="450" width="75%">
+					<iframe src="/page/att/CheckInOutGrid/?pure" id="grid_frame" frameborder="0" scrolling="0" width="100%" height="450"></iframe>
+				</td>
+				<td width="25%">
+				    <div id="show_att_photo" class="div_box" width="100%" height="450" style="margin:-10px 5px 0 0">
+			            <h1>考勤照片</h1>
+			            <div id="photo_area" class="div_photobox">
+			            	
+			            </div>
+			        </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+{% endblock %}
+
+{% block end_block %}
+	<script language="JavaScript">
+		function init_page(){
+		    $("#photo_area").html("<div align='center'><h4><span class='icon_Shift_Detail'>&nbsp;</span>单击记录查看考勤照片</h4></div>");
+		    $("#id_u_a").unbind().click(function(){
+		    	var url=$(this).attr("ref")
+		        var html="<div style='width:450px ;height:250px'><form id='form_u_import' enctype='multipart/form-data'> {% csrf_token %}"        	
+		           +"<table style='width:440px ;height:160px; margin:20px 10px 20px 10px;'>"
+		           		+"<tr height = '30px'><th><label for='dev_select'>选择设备:</label></th><td><select style='width:180px;' name='dev_select' id='dev_select' ></td></tr>"
+		           		+"<tr height = '50px'><th><label for='id_upload_attlog'>选择考勤记录文件:</label></th><td><input type='file' name='upload_attlog' class='wZBaseFileField' id='id_upload_attlog'></td></tr>"
+		           		+"<tr height = '50px' align='center'><td colspan='2'><label style= 'color:red;' id= 'res_tip'></label></td></tr>"
+		           +"</table>"
+		           +"</form></div>"
+		        var showhtml=$(html)
+		        var cancel=function(div){					
+		               $("#id_close").click();
+		        };
+		        var save_ok=function(){	
+		           if($("#id_upload_attlog").val()==""){
+		        	   $("#res_tip").html("请选择文件!");
+		               return;
+		           }
+		           if($("#dev_select").val()==""){
+		        	   $("#res_tip").html("请选择设备!");
+		               return;
+		           }
+		           $("#res_tip").html("")
+		           showhtml.find("#form_u_import").ajaxSubmit({
+		                   type:"POST",
+		                   url:url,
+		                   success:function(msg){
+	                           $("#res_tip").html(msg)
+		                   }					
+		            });	
+		        };
+		        var ok_name = gettext('上传');
+		        var cancel_name = gettext('关闭');
+		        var btn_dict={};
+		        btn_dict["buttons"]={}
+		        btn_dict["buttons"][ok_name]=save_ok;
+		        btn_dict["buttons"][cancel_name]=cancel;
+		        btn_dict["title"]=gettext("上传U盘考勤记录");
+		        showhtml.dialog(btn_dict);
+		        flush_dev();
+		    });
+		    
+		    $("#id_self_a").unbind().click(function(){
+		    	var url=$(this).attr("ref")
+		        var html="<div style='width:450px ;height:250px'><form id='form_self_import' enctype='multipart/form-data'> {% csrf_token %}"
+		           +"<table style='width:400px ;height:150px; margin:20px 10px 20px 10px;'>"
+		           		+"<tr height='40px'><th><label for='id_import_data'>选择需要导入的文件:</label></th><td><input type='file' id='id_import_data' class='wZBaseFileField' name='import_data'/></td></tr>"
+		           		+"<tr height='40px'> <th></th> <td>只支持.xls格式文件 &nbsp;<a href='/data/system/help/?p=/file/zh-cn/help/transaction_import.html' target='_blank'>如何获取?</a></td></tr>"
+		           		+"<tr height = '50px' align='center'><td colspan='2'><label style= 'color:red;' id= 'res_tip1'></label></td></tr>"
+		           	+"</table>"
+		           +"</form></div>"
+		        var showhtml=$(html)
+		        var cancel=function(div){					
+		               $("#id_close").click();
+		        };
+		        var save_ok=function(){	
+		        	if($("#id_import_data").val()==""){
+		        		$("#res_tip1").html("请选择文件!");
+			            return;
+			         }
+		        	$("#res_tip1").html("")
+		        	showhtml.find("#form_self_import").ajaxSubmit({
+		                   type:"POST",
+		                   url:url,
+		                   success:function(msg){
+	                           $("#res_tip1").html(msg)
+		                   }					
+		            });	
+		        };
+		        var ok_name = gettext('上传');
+		        var cancel_name = gettext('关闭');
+		        var btn_dict={};
+		        btn_dict["buttons"]={}
+		        btn_dict["buttons"][ok_name]=save_ok;
+		        btn_dict["buttons"][cancel_name]=cancel;
+		        btn_dict["title"]=gettext("自定义导入记录");
+		        showhtml.dialog(btn_dict);
+		    });
+		}
+				
+		$(function(){
+			$("#id_query").click(query);
+			$("#search_div").find("input:first").focus();
+			$("#search_div").find("input").keydown(function(event){//按回车键直接查询
+		        if(event.keyCode==13)
+		        {
+		        	$("#search_div").find("#id_query").click();
+		        }
+		    });
+			$("#grid_frame").load(function(){
+				//特殊处理 iframe session 过期后 刷新整个界面,重新登录
+				var title_flag = $("#grid_frame").contents().find("title")
+				if(title_flag.length>0 && title_flag.html().indexOf("登录")!=-1){
+					alert("会话已经超时,请重新登录!");
+					window.location.reload();
+				}
+			})
+			$("#id_page_load").remove()
+		    init_page();
+		});
+		function flush_dev(){
+			$("#dev_select").empty();
+		    $.ajax({
+		        url:"/manager/getDevInfo/?device_type=1",
+		        type:"POST",
+		        dataType:"json",
+		        success:function(msg){
+			    	if(!msg.data==null || !msg.data==""){
+			    		data = msg.data
+			    		for (i = 0; i<data.length;i++){
+			    			$("#dev_select").append('<option value="'+data[i][0]+'">'+data[i][1]+'<'+data[i][0]+'>'+'</option>');
+			    		}
+			    	}
+		        }
+		    });
+		}
+		function get_where(){
+			var where = ["pure"];
+			$("input[name=where]").each(function(){
+		    if($(this).val()!=""){
+		    	where.push($(this).attr("id")+"="+$(this).val());
+			    }
+			})
+			return where.join("&");
+		}
+		
+		function load_data(url,content_id){
+			$(content_id).attr("src",url)
+		}
+		
+		function query(){
+			var where_str = get_where();
+			var url = "/page/att/CheckInOutGrid/?"+where_str ;
+			load_data(url,"#grid_frame") ;
+		}
+	</script> 	    
+{% endblock %} 

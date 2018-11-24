@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load dbapp_tags %}
+<div>
+<script>
+	$(function(){
+		var str_query="{% autoescape off %}{{query}}{% endautoescape %}";
+		var $this_panel=$("#id_worktable_search_form");
+		$("#id_datalist",$this_panel).model_grid({
+			"base_query":str_query.split("&"),
+			"model_url":"{{ request.dbapp_url }}{{app_label}}/{{model_name}}/",
+			"model_actions":false,
+			"object_actions":false,
+			"row_operations":false,
+			"obj_edit":false,
+			"record_per_page":15,
+			"first_load_data":false,
+			"async":false,
+			"max_no_page":15,
+			{% if disable_cols %}"disable_cols":"{{ disable_cols }}".split("__"),{% endif %}
+			"need_plus_sign":false,
+			"multiple_select":null
+		});
+		render_widgets($("#id_search"));
+		search_init($this_panel.find("#id_search"),$this_panel.find("#id_datalist"));
+	});
+</script>
+<div id="id_worktable_search_form">
+  
+  <div id="id_search" class="div_box" style="padding-bottom:2px !important;margin-bottom:2px !important;">
+		<h1><div id="id_title"></div></h1>
+		 <div>
+			<table width="96%" class="tbl_form_search" id="id_form_search">
+				<tr>
+					<td>
+						<div class="topSearchBtn" style="text-align:right;display:block;width:150px;">
+						<span style="padding-right:10px;" class="Link_blue1 floatL displayB">
+						<span class="action_topSearch floatL"></span>
+							<a id="id_header_search" href="javascript:void(0)" class="floatL">{% trans "查询" %}</a>
+						</span>
+						<span  style="padding-right:10px;" class="Link_blue1 floatL displayB">
+							<span class="action_topClear floatL"></span>
+						<a id="id_header_clear" href="javascript:void(0)" class="floatL">{% trans "清除" %}</a>	
+						</span>
+						</div>
+					</td>
+				</tr>
+			</table>
+		 </div>
+	</div>
+	<div id="id_datalist"></div>
+</div>
+</div>

@@ -1,0 +1,81 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% if request.user|HasPerm:"iaccess.add_accmap" or request.user|HasPerm:"iaccess.change_accmap" %}
+{% autoescape off %}
+    <tr><td><table>
+        <tr>
+            {{ form.map_name|field_as_td_h }}
+        </tr>
+        <tr>
+            {{ form.area|field_as_td_h }}
+        </tr>
+
+        <tr id="if_modify_path" class="displayN">
+            <th><label>{% trans "修改路径:" %}</label></th>
+            <td><input type="checkbox" checked="checked" name="modify_path"/></td>
+        </tr>
+
+        <tr id="tr_upload_map">
+            <th id="th_map_path">{{ form.map_path|field_as_label_tag }}</th>
+            <td class="td_upload_map">
+                <input type="file" id="id_upload_file" name="fileUpload" size="22"/>
+            </td>
+        </tr>
+
+        {% if form.non_field_errors %}
+            <tr><td>{{ form.non_field_errors }}</td></tr>
+        {% endif %}
+    </table></td></tr>
+{% endautoescape %}
+{% endif %}<!--add/change_accmap-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"iaccess.add_accmap" or request.user|HasPerm:"iaccess.change_accmap" %}
+        $("#th_map_path label").attr("class", "required");
+        var map_name = $("#id_map_name").val();
+        if(map_name != "")//编辑
+        {
+            //$("#id_upload_file").hide();
+            $("#if_modify_path").show();
+            $("#if_modify_path input").click(function(){
+                if($(this).attr("checked"))
+                {
+                    $("#tr_upload_map").show();
+                }
+                else
+                {
+                    $("#tr_upload_map").hide();
+                }
+            });
+        }
+        else
+        {
+            //$("#if_modify_path").hide();
+        }
+        
+        //useless
+        var before_submit = function()
+        {
+            var pic = $("#id_upload_file").val();
+            if(pic == "")
+            {
+                alert(gettext("请选择地图！"));
+                return false;
+            }
+            if(!pic.match( /.jpg|.gif|.png|.bmp/i ) )
+            {
+                alert(gettext('图片格式无效！'));
+                return false;
+            }
+            return true;
+        }
+        //useless
+    {% else %}     
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--add/change_accmap-->
+
+{% endblock %}

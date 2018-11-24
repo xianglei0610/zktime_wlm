@@ -1,0 +1,210 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{% block search_div %}
+<div id="id_search" class="news_topsearch">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                <td width="50"><div class="news_topsearch1">查询</div></td>
+                    <td>
+                        <div class="news_topsearch2">
+                            <table width="99%" >
+                                <tr>
+                                    <td>
+                                        <div>
+                                              <table width="100%" id="id_form_search" class="tbl_form_search">
+                                                 <tbody><tr class="header_div_left"> 
+                                                      <td align="right"><label class="" for="id_alias">设备名称:</label></td> <td><input type="text" maxlength="20" name="alias" id="search_id_alias" ></td>
+                                                      <td align="right"><label for="id_sn">序列号:</label></td> <td><input type="text" maxlength="20" name="sn" id="search_id_sn"></td>
+                                                      {% if "POS_ID"|filter_config_option %}
+                                                          <td align="right">
+                                                                  <label class="" for="id_consume_model">消费模式:</label></td> 
+                                                                  <td>
+                                                                  <select name="consume_model"id="id_consume_model">
+                                                                  <option value="">-------</option>
+                                                                  <option value="1">定值模式</option>
+                                                                  <option value="4">计次模式</option>
+                                                                  <option value="2">金额模式</option>
+                                                                  <option value="3">键值模式</option>
+                                                                  <option value="5">商品模式</option>
+                                                                  <option value="6">计时模式</option>
+                                                                  </select>
+                                                                  </td>
+                                                      {%else%}
+                                                          <td align="right">
+                                                             <label class="" for="id_device_use_type">设备用途:</label></td> 
+                                                             <td>
+                                                             <select name="device_use_type"id="id_device_use_type">
+                                                             <option value="">-------</option>
+                                                             <option value="0">消费机</option>
+                                                             <option value="1">出纳机</option>
+                                                             <option value="2">补贴机</option>
+                                                             </select>
+                                                             </td>
+                                                          
+                                                      {%endif%}
+                                                     </tr>
+                                                     <tr class="header_div_left">
+                                                   </tr> 
+                                                </tbody>
+                                            </table>
+                                        </div> 
+                                    </td>
+                                    <td valign="bottom">  
+                                        <div style="text-align:right;" class="topSearchBtn floatR"><!--height:20px;-->
+                                           
+                                            <span class="Link_blue1">
+                                                <span class="action_topSearch floatL"></span><a href="javascript:void(0)" id="id_header_search" class="floatL">{% trans "查询" %}</a>
+                                            </span>
+                                            {% block advance_search%}
+                                            <span class="Link_blue1" id="id_advanced_search" >
+                                                <span class="action_advancedSearch floatL"></span><a href="javascript:void(0)" class="floatL">{% trans "高级" %}</a>
+                                            </span>
+                                            {% endblock %}
+                                            <span class="Link_blue1">
+                                                <span class="action_topClear floatL"></span><a href="javascript:void(0)" id="id_header_clear" class="floatL">{% trans "清除" %}</a>
+                                            </span>
+                                            
+                                        </div>
+                                   </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+               </tr>
+           </table>
+       </div>
+                   
+
+
+
+{%endblock%}
+{% block getdatalist %}
+{% endblock %}
+{% block op_for_tab %}
+	<!-- <ul>
+        <li>
+        <a href="{{request.dbapp_url}}pos/DiningChange/"  target="_blank" ><span class="ds_DoorMngPage"></span>{% trans "调整明细" %}</a><div class="div_leftBottomLine"></div>
+        </li>
+		
+	</ul> -->
+{% endblock %}
+
+{% block addjs %}
+var data=[]
+{%if "POS_IC"|filter_config_option%}
+$(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("devicedatamanage","ic_device"));
+{%else%}
+$(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("devicedatamanage","id_devicedatamanage"));
+{%endif%}
+
+$(function(){
+    $("#div_id_middiv").hide();
+    $(".leftBoxMiddle").hide();
+     {%if "POS_ID"|filter_config_option%}
+     var d_col = ['user_count','face_count','fp_count','transaction_count','get_dstime_name','show_fp_mthreshold','acpanel_type','Fpversion','show_enabled|boolean_icon','device_type','com_port','com_address','area.areaname','pos_dev_status|boolean_icon','att_cmd_cnt','comm_type','pos_file_count','pos_cmd_count']
+     var DISABLE_ACTIONS = ['OpIcDeviceDataCheck','IcPosOnlineReloadData','_change','OpUpEmpInfo','OpAddDeviceMsg','OpCheckAttInfo','OpUpAttInfo','RemoteUpgrade','OpSearchACPanel','OpChangeElevatorParamters','ClearData','ClearPicture','ClearTransaction','OpReloadData','OpReloadLogData','SyncACPanelTime','OpChangeIPOfACPanel','RefreshDeviceInfo','ResetPassword','OpEnableDevice','OpDisableDevice','UploadLogs','UploadUserInfo','Reboot','OpUpgradeFirmware','OpGetMoreOptions','OpChangeMThreshold','OpCloseAuxOut','OpSetDSTime','OpRemoveDSTime','Syncdata','OpChangeBaudrate']
+     {%else%}
+     var d_col = ['user_count','face_count','fp_count','transaction_count','consume_model','get_dstime_name','show_fp_mthreshold','acpanel_type','Fpversion','show_enabled|boolean_icon','device_type','com_port','com_address','area.areaname','att_cmd_cnt','comm_type']
+     var DISABLE_ACTIONS = ['OpDisableAccPush','OpEnableAccPush','ClearTransaction','ClearPicture','_change','Pause','PowerSuspend','ResetPassword','Resume','OpChangeIPOfACPanel','OpBrowseLog','UploadLogs','OpEnableDevice','OpDisableDevice','OpUpgradeFirmware','OpChangeMThreshold','OpCloseAuxOut','OpSetDSTime','OpRemoveDSTime','OpReloadData','UploadUserInfo','RefreshDeviceInfo','dataPick','PingZProcess','OpAddDeviceMsg','OpChangeBaudrate','OpChangeElevatorParamters','OpUpAttInfo','SyncACPanelTime','RemoteUpgrade','OpCheckAttInfo']      
+     {%endif%}
+{% if request.user|HasPerm:"contenttypes.can_PosDeviceDataManage" %}
+    $('#id_datalist').model_grid(
+        {
+        'model_url':'{{dbapp_url}}iclock/Device/?device_type__exact=5&ref_model=pos.PosDeviceDataManage',
+        'model_actions':false,
+        'object_actions':true,
+        'obj_edit':true,
+        'row_operations':["op_edit","_delete"],
+        'disable_cols':d_col,//['acpanel_type','Fpversion','com_port','area.areaname','com_address','show_enabled|boolean_icon','show_fp_mthreshold','get_dstime_name','device_type','user_count','fp_count','transaction_count','show_last_activity'],
+        'need_plus_sign':false,
+        'multiple_select':true,
+        'init_after_get_jdata':function(){
+            
+            $("#id_datalist").get(0).g.a_div.after("<div class='floatL' style='_position:relative;_z-index:10;'><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+            var $app_menu=$("#id_datalist").get(0).g.a_div;
+            var $menu_more=$(".action_more_list");
+            var min_width=700;
+            resize_menu($app_menu,$menu_more,min_width,"id_action_more");
+            $('.nav li').sfHover();
+			
+            {% block extrajs %}{% endblock %}
+            {%if "POS_IC"|filter_config_option%}
+            $("#id_datalist").on_dbl_click(function(grid, key, row_data){ //双击
+            var device_sn = $($("#id_datalist tr[data="+row_data+"]").find("td")[2]).text();
+            var href= "/{{request.surl}}pos/get_device_redis/?sn="+device_sn+"";
+            var html = "";
+            $.ajax({ 
+                    url:href,
+                    dataType:"json",
+                    type:"post",
+                    success:function(retdata){
+                        if(retdata.ret == 1)
+                        {
+                            html+="<tr><td>"+ (retdata.pos_dev_data_status) +"</td><td>"+ (retdata.pos_log_stamp_id) +"</td><td>"+ (retdata.full_log_stamp_id)+"</td><td>"+ (retdata.allow_log_stamp_id) +"</td></tr>";
+                            var vbox=$("<div class='version_box' style='overflow:scroll;'>"
+                              + "<div class='version_content_box_oem' style = 'width:500px;height:150px;'>"
+                              +"<table class='table table1' width='100%' id='id_tbl_old'><thead> <tr id='tr_first'>"
+                              +"<th>{% trans '流水号核对' %}</th><th>{% trans '消费流水号' %}</th><th>{% trans '出纳流水号' %}</th><th>{% trans '补贴流水号' %}</th></tr>"
+                              + html
+                              + "</thead></table></div>"
+                              + "</div>");
+                            vbox.dialog({title:gettext("设备通信信息")});
+                        }
+                    }
+            }); 
+            });
+            {%endif%}
+        },
+        'disabled_actions':DISABLE_ACTIONS
+    })
+    
+
+    var listDiv=""
+    data=$("#id_datalist").get(0).g.data
+    {% endif %}
+ 
+});
+function view_edit(obj)
+{
+    var Href=$(obj).attr("alt");
+   
+    $.zk._processEdit(Href, $("#id_datalist").get(0), undefined, $(obj));
+    $("#id_datalist_view").css("display","None");
+    $("#id_datalist_view").parent().find("#id_tbl").removeClass("displayN");
+    return false;
+    
+}
+
+//添加查询条件
+function before_query(strwhere){
+	strwhere.push("device_type__exact=5");
+	return strwhere;
+}
+
+
+
+
+
+function tip_info_exit()
+{
+	$("#id_tip").css("display","none")
+}
+
+{% endblock %}
+{% block addmiddiv %}
+{% if request.user|HasPerm:"contenttypes.can_PosDeviceDataManage" %}
+<div id="id_tip" style="display:none" class="div_tip ui-corner-all"></div>
+<div id="div_id_middiv">{% trans '显示方式' %}
+<input type="radio" name="rdo_style" value=1 checked="checked">{% trans '列表方式' %}</input>
+<input type="radio" name="rdo_style" value=2>{% trans '图表方式' %}</input>
+</div>
+<div id="id_datalist"></div>
+{% else %}
+$("#id_datalist").remove();
+$("#id_search").remove();
+alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+
+{% endif %}
+{% endblock %}

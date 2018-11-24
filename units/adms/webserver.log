@@ -1,0 +1,480 @@
+2014-01-17 11:30:55.418000 webserver [pid:7712] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+2014-01-17 11:30:59.442000 webserver [pid:0] be stoped
+
+
+2014-01-17 11:31:07.414000 webserver [pid:9972] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+2014-01-17 11:31:24.889000 webserver [pid:0] be stoped
+
+
+2014-01-17 11:31:29.179000 webserver [pid:6936] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+2014-01-17 11:32:18.571000 webserver [pid:0] be stoped
+
+
+2014-01-17 11:32:23.344000 webserver [pid:3424] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+2014-01-17 11:32:27.853000 webserver [pid:0] be stoped
+
+
+2014-01-17 11:32:52.205000 webserver [pid:9564] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError
+
+-
+9
+2
+
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\models\model_device.py", line 524, in save
+raise Exception(_(u"登记的考勤机数%(d1)s，已经达到系统限制%(d2)s！")%{"d1":count,"d2":zktime_count});
+Exception: 登记的考勤机数0，已经达到系统限制0！
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\models\model_device.py", line 524, in save
+raise Exception(_(u"登记的考勤机数%(d1)s，已经达到系统限制%(d2)s！")%{"d1":count,"d2":zktime_count});
+Exception: 登记的考勤机数0，已经达到系统限制0！
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\models\model_device.py", line 524, in save
+raise Exception(_(u"登记的考勤机数%(d1)s，已经达到系统限制%(d2)s！")%{"d1":count,"d2":zktime_count});
+Exception: 登记的考勤机数0，已经达到系统限制0！
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\iclock\models\model_device.py", line 524, in save
+raise Exception(_(u"登记的考勤机数%(d1)s，已经达到系统限制%(d2)s！")%{"d1":count,"d2":zktime_count});
+Exception: 登记的考勤机数0，已经达到系统限制0！
+2014-01-17 15:36:01.915000 webserver [pid:0] be stoped
+
+
+2014-01-21 17:12:36.425000 webserver [pid:5456] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+已超过允许的设备数目
+已超过允许的设备数目
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+已超过允许的设备数目
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+已超过允许的设备数目
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+
+
+2014-01-21 17:13:31.830000 webserver [pid:5456] exit
+2014-01-21 17:13:31.830000 webserver [pid:5456] auto start
+2014-01-21 17:13:31.971000 webserver [pid:8452] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+2014-01-21 17:14:49.923000 webserver [pid:8164] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+已超过允许的设备数目
+
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+已超过允许的设备数目
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+auth_string: 00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+auth_string:
+00000000000000000000201401210000000000000000000000001110000000000000000000300000100000010000000000000000000000000000000000000050000000000000000000000000
+
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+已超过允许的设备数目
+2014-01-21 17:21:11.385000 webserver [pid:3252] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+2014-01-21 17:23:45.410000 webserver [pid:2616] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+setting area... 1
+
+
+2014-01-21 17:24:50.858000 webserver [pid:2616] exit
+2014-01-21 17:24:50.858000 webserver [pid:2616] auto start
+2014-01-21 17:24:51.018000 webserver [pid:10216] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+2014-01-21 17:29:19.202000 webserver [pid:3968] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 292, in DataList
+return model_data_list(request, dataModel)
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 213, in model_data_list
+item_count = paginator.count
+  File "C:\Python26\lib\site-packages\django\core\paginator.py", line 48, in _get_count
+self._count = self.object_list.count()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 324, in count
+return self.query.get_count(using=self.db)
+  File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 366, in get_count
+number = obj.get_aggregation(using=using)[None]
+  File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 338, in get_aggregation
+    result = query.get_compiler(using).execute_sql(SINGLE)
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 727, in execute_sql
+cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\util.py", line 19, in execute
+return self.cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 462, in execute
+self.execute__(operation, parameters)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 523, in execute__
+self._execute_command()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 413, in _execute_command
+    self._raiseCursorError(klass, _message)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 352, in _raiseCursorError
+eh(self.connection, self, errorclass, errorvalue)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 91, in standardErrorHandler
+raise errorclass(errorvalue)
+DatabaseError: (-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u"\u5bf9\u8c61\u540d  'sync_set' \u65e0\u6548\u3002", None, 0, -2147217865), None)
+Command:
+SELECT COUNT(*) FROM [sync_set] WHERE (NOT ([sync_set].[status] = ? ) AND NOT ([sync_set].[status] = ? ))
+Parameters:
+[Name: p0, Dir.: Input, Type: adInteger, Size: -1, Value: "3", Precision: 0, NumericScale: 0, Name: p1, Dir.: Input, Type: adInteger, Size: -1, Value: "999", Precision: 0, NumericScale: 0]
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 292, in DataList
+    return model_data_list(request, dataModel)
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 213, in model_data_list
+    item_count = paginator.count
+  File "C:\Python26\lib\site-packages\django\core\paginator.py", line 48, in _get_count
+    self._count = self.object_list.count()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 324, in count
+    return self.query.get_count(using=self.db)
+  File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 366, in get_count
+    number = obj.get_aggregation(using=using)[None]
+  File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 338, in get_aggregation
+    result = query.get_compiler(using).execute_sql(SINGLE)
+  File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 727, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\util.py", line 19, in execute
+return self.cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 462, in execute
+    self.execute__(operation, parameters)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 523, in execute__
+self._execute_command()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 413, in _execute_command
+self._raiseCursorError(klass, _message)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 352, in _raiseCursorError
+eh(self.connection, self, errorclass, errorvalue)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 91, in standardErrorHandler
+raise errorclass(errorvalue)
+DatabaseError: (-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u"\u5bf9\u8c61\u540d  'sync_set' \u65e0\u6548\u3002", None, 0, -2147217865), None)
+Command:
+SELECT COUNT(*) FROM [sync_set] WHERE (NOT ([sync_set].[status] = ? ) AND NOT ([sync_set].[status] = ? ))
+Parameters:
+[Name: p0, Dir.: Input, Type: adInteger, Size: -1, Value: "3", Precision: 0, NumericScale: 0, Name: p1, Dir.: Input, Type: adInteger, Size: -1, Value: "999", Precision: 0, NumericScale: 0]
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 292, in DataList
+return model_data_list(request, dataModel)
+  File "F:\zksoftware_code\zktime_wlm\python-support\dbapp\dataviewdb.py", line 213, in model_data_list
+    item_count = paginator.count
+  File "C:\Python26\lib\site-packages\django\core\paginator.py", line 48, in _get_count
+self._count = self.object_list.count()
+  File "C:\Python26\lib\site-packages\django\db\models\query.py", line 324, in count
+    return self.query.get_count(using=self.db)
+File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 366, in get_count
+    number = obj.get_aggregation(using=using)[None]
+  File "C:\Python26\lib\site-packages\django\db\models\sql\query.py", line 338, in get_aggregation
+    result = query.get_compiler(using).execute_sql(SINGLE)
+File "C:\Python26\lib\site-packages\django\db\models\sql\compiler.py", line 727, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\util.py", line 19, in execute
+return self.cursor.execute(sql, params)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 462, in execute
+self.execute__(operation, parameters)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 523, in execute__
+self._execute_command()
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 413, in _execute_command
+self._raiseCursorError(klass, _message)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 352, in _raiseCursorError
+eh(self.connection, self, errorclass, errorvalue)
+  File "C:\Python26\lib\site-packages\django\db\backends\sqlserver_ado\dbapi.py", line 91, in standardErrorHandler
+raise errorclass(errorvalue)
+DatabaseError: (-2147352567, '\xb7\xa2\xc9\xfa\xd2\xe2\xcd\xe2\xa1\xa3', (0, u'Microsoft OLE DB Provider for SQL Server', u"\u5bf9\u8c61\u540d  'sync_set' \u65e0\u6548\u3002", None, 0, -2147217865), None)
+Command:
+SELECT COUNT(*) FROM [sync_set] WHERE (NOT ([sync_set].[status] = ? ) AND NOT ([sync_set].[status] = ? ))
+Parameters:
+[Name: p0, Dir.: Input, Type: adInteger, Size: -1, Value: "3", Precision: 0, NumericScale: 0, Name: p1, Dir.: Input, Type: adInteger, Size: -1, Value: "999", Precision: 0, NumericScale: 0]
+2014-01-21 17:34:24.308000 webserver [pid:5400] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+2014-01-21 17:37:44.488000 webserver [pid:11040] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+1111111111111 2014-01-19 17:38:11 2014-01-21 17:38:14 <type 'datetime.datetime'>
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 163, in do_model_action
+ret=op.action(**param)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\models\model_syncset.py", line 147, in action
+filename=load_data(args['starttime'],args['endtime'])
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\models\model_syncset.py", line 100, in load_data
+os.chdir(file_path) #切换到存放目录
+WindowsError: [Error 3] : 'D:\\test\\my'
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 239, in model_do_action
+ret=cls.do_model_action(op, request, f.cleaned_data)
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 166, in do_model_action
+    raise e
+WindowsError: [Error 3] : 'D:\\test\\my'
+1111111111111 2014-01-19 17:38:11 2014-01-21 17:38:14 <type 'datetime.datetime'>
+file_path-------- D:\test\my
+sql00000000000000000000000000000000 select alias,replace (CONVERT(varchar(12) , c.CheckTime, 1 ),'/','') as TTime ,  			CASE WHEN c.checktype = 'I' THEN 'A100'   			WHEN c.checktype = 'O' THEN 'B200'   			WHEN c.checktype = 3 THEN 'C300'   			WHEN c.checktype = 4 THEN 'D400'   			END AS checktype,  			pec.cardno,  			LEFT(CAST( replace(CONVERT(varchar(100), c.CheckTime, 108),':', '') AS VARCHAR), 4)as CheckTime  			  			from CheckInOut as c LEFT JOIN iclock M ON c.sn_name = M.sn  			 LEFT JOIN UserInfo U ON c.pin = U.badgenumber  			 LEFT JOIN personnel_issuecard pec ON u.userid = pec.userid_id  			where c.CheckTime BETWEEN '2014-01-19 17:38:11' AND '2014-01-21 17:38:14'
+data--------------- ((u'auto_add', u'012014', u'A100',
+u'3333333333', u'1117'), (u'auto_add', u'012014', u'A100', u'3333333333', u'1139')) <type 'tuple'>
+datas------------- [[u'auto_add', u'012014'
+, u'A100', u'3333333333', u'1117'], [u'auto_add', u'012014', u'A100', u'3333333333', u'1139']]
+filename-------------- PC201308271657201401211739.txt
+111111111111111111 D:\test\my
+targUrl-000000000- test\mydata\data
+222222222222222 D:\test\my
+2014-01-21 17:39:10.112000   The file  PC201308271657201401211739.txt upload success!
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 163, in do_model_action
+ret=op.action(**param)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\models\model_syncset.py", line 149, in action
+    raise Exception((u"FTP传递成功，文件名%s")%filename)
+Exception: FTP传递成功，文件名PC201308271657201401211739.txt
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 239, in model_do_action
+ret=cls.do_model_action(op, request, f.cleaned_data)
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 166, in do_model_action
+    raise e
+Exception: FTP传递成功，文件名PC201308271657201401211739.txt
+2014-01-21 17:47:54.789000 webserver [pid:10944] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+2014-01-21 17:48:53.346000 webserver [pid:8872] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+2014-01-21 20:26:14.275000 webserver [pid:5236] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0
+1111111111111 2014-01-05 20:26:42 2014-01-21 20:26:47 <type 'datetime.datetime'>
+file_path-------- D:\test\my
+sql00000000000000000000000000000000 select alias,replace (CONVERT(varchar(12) , c.CheckTime, 1 ),'/','') as TTime ,  			CASE WHEN c.checktype = 'I' THEN 'A100'   			WHEN c.checktype = 'O' THEN 'B200'   			WHEN c.checktype = 3 THEN 'C300'   			WHEN c.checktype = 4 THEN 'D400'   			END AS checktype,  			pec.cardno,  			LEFT(CAST( replace(CONVERT(varchar(100), c.CheckTime, 108),':', '') AS VARCHAR), 4)as CheckTime  			  			from CheckInOut as c LEFT JOIN iclock M ON c.sn_name = M.sn  			 LEFT JOIN UserInfo U ON c.pin = U.badgenumber  			 LEFT JOIN personnel_issuecard pec ON u.userid = pec.userid_id  			where c.CheckTime BETWEEN '2014-01-05 20:26:42' AND '2014-01-21 20:26:47'
+data--------------- ((u'auto_add', u'012014', u'A100', None, u'1117'), (u'auto_add', u'012014', u'A100', None, u'1139')) <type 'tuple'>
+datas------------- [[u'auto_add', u'012014', u'A100', None, u'1117'], [u'auto_add', u'012014', u'A100', None, u'1139']]
+filename-------------- PC201308271657201401212026.txt
+111111111111111111 D:\test\my
+targUrl-000000000-  test\mydata
+222222222222222 D:\test\my
+2014-01-21 20:26:50.186000   The file  PC201308271657201401212026.txt upload success!
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 163, in do_model_action
+ret=op.action(**param)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\models\model_syncset.py", line 149, in action
+raise Exception((u"FTP传递成功，文件名%s")%filename)
+Exception: FTP传递成功，文件名PC201308271657201401212026.txt
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 239, in model_do_action
+ret=cls.do_model_action(op, request, f.cleaned_data)
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 166, in do_model_action
+    raise e
+Exception: FTP传递成功，文件名PC201308271657201401212026.txt
+1111111111111 2014-01-19 20:28:03 2014-01-21 20:28:06 <type 'datetime.datetime'>
+file_path-------- D:\test\my
+sql00000000000000000000000000000000 select alias,replace (CONVERT(varchar(12) , c.CheckTime, 1 ),'/','') as TTime ,  			CASE WHEN c.checktype = 'I' THEN 'A100'   			WHEN c.checktype = 'O' THEN 'B200'   			WHEN c.checktype = 3 THEN 'C300'   			WHEN c.checktype = 4 THEN 'D400'   			END AS checktype,  			pec.cardno,  			LEFT(CAST( replace(CONVERT(varchar(100), c.CheckTime, 108),':', '') AS VARCHAR), 4)as CheckTime  			  			from CheckInOut as c LEFT JOIN iclock M ON c.sn_name = M.sn  			 LEFT JOIN UserInfo U ON c.pin = U.badgenumber  			 LEFT JOIN personnel_issuecard pec ON u.userid = pec.userid_id  			where c.CheckTime BETWEEN '2014-01-19 20:28:03' AND '2014-01-21 20:28:06'
+data--------------- ((u'auto_add', u'012014', u'A100',
+None, u'1117'), (u'auto_add', u'012014', u'A100', None, u'1139')) <type 'tuple'>
+datas------------- [[u'auto_add', u'012014', u'A100', None, u'1117'], [u'auto_add', u'012014', u'A100',
+None, u'1139']]
+filename-------------- PC201308271657201401212028.txt
+111111111111111111 D:\test\my
+targUrl-000000000-  test\mydata
+222222222222222 D:\test\my
+2014-01-21 20:28:09.960000   The file  PC201308271657201401212028.txt upload success!
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 163, in do_model_action
+ret=op.action(**param)
+  File "F:\zksoftware_code\zktime_wlm\units\adms\mysite\att\models\model_syncset.py", line 149, in action
+    raise Exception((u"FTP传递成功，文件名%s")%filename)
+Exception: FTP传递成功，文件名PC201308271657201401212028.txt
+Traceback (most recent call last):
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 239, in model_do_action
+ret=cls.do_model_action(op, request, f.cleaned_data)
+  File "F:\zksoftware_code\zktime_wlm\python-support\base\operation.py", line 166, in do_model_action
+    raise e
+Exception: FTP传递成功，文件名PC201308271657201401212028.txt
+2014-01-21 21:08:11.774000 webserver [pid:3716] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+2014-01-21 21:08:39.407000 webserver [pid:7980] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError -92
+start fcgi services 0
+����: û���ҵ����� "nginx.exe"��
+2014-01-21 21:10:07.740000 webserver [pid:7980] exit
+2014-01-21 21:10:07.740000 webserver [pid:7980] auto start
+2014-01-21 21:10:07.865000 webserver [pid:6740] start
+Start Automatic Data Master Server ... ...
+Open your web browser and go http://127.0.0.1:8090/
+soft key LastError 0

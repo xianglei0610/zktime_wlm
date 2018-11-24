@@ -1,0 +1,237 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block addfields %}
+<td colspan="2">
+<table>
+<tr><td>
+	<div class="div_time_interval" id="id_time_interval">
+		{% trans '请选择时段:' %}
+        <div class="div_time_select">
+            <ul id="id_ul_time"></ul>
+        </div>        
+		<div>
+			<table width="0" border="0" cellspacing="0" cellpadding="0">
+			  <tr class="displayN">
+				<td align="right"><label>{% trans '是否需要加班' %}</label>&nbsp;</td>
+				<td><input type="checkbox" name="if_ot"/></td>
+			  </tr>
+			  <tr class="displayN">
+				<td align="right"><label>{% trans '加班时间(分钟):' %}</label></td>
+				<td><input type="text" name="overtime" value="0"/></td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</td>
+
+</tr>
+</table>
+</td>
+<td rowspan="6">	<div class="div_date" id="id_date">{% trans '选择日期:' %}</div></td>
+{% endblock %}
+
+{% block addjs %}
+
+$(function(){
+	//$("select#id_Units").css({width:"140px"});
+	funprocessNumRumEdit();
+	$div=$("form#id_edit_form");
+	if ($div.find("#id_Name").val()!="")//编辑状态
+	{
+		fillTimeTable();
+	}
+});
+function before_submit()
+{
+	var hascheck=false	
+	$(".div_time_select").find("input[type='checkbox']").each(function(){
+		if($(this).attr("checked"))
+		{
+			hascheck=true;
+			return false;
+		}
+	});
+	if(!hascheck)
+	{
+		alert(gettext("请选择时段"));
+		return false;
+	}
+	
+	
+	var hastt=false
+	$(".chk_date").each(function(){
+		if($(this).attr("checked"))
+		{
+			hastt=true;
+			return false;
+		}
+	});
+	if(!hastt)
+	{
+		alert(gettext("选择日期"));
+		return false;
+	}
+	return true
+	
+}
+function fillTimeTable()
+{
+	$div=$("form#id_edit_form");
+	$.ajax({
+		url:"{{dbapp_url}}../att/getmodeldata/att/NUM_RUN_DEIL/?Num_runID__pk__exact="+ $div.find("input[name='pk']").val()+"&fields=Sdays,Edays,SchclassID,OverTime",
+		dataType:"json",
+		type:"POST",
+		success:function(data){
+			for(var i=0;i<data.length;i++)
+			{
+				var tmp=data[i]				
+				$div.find(".chk_select_date").find(".chk_date").each(function(){
+					if($(this).val()==tmp[0])
+					{
+						$(this).attr("checked","checked");
+					}
+				});
+				$div.find(".div_time_select input[type='checkbox']").each(function(){
+					if($(this).val()==tmp[2])
+					{
+						$(this).attr("checked","checked");
+					}
+				});
+				
+				if(tmp[3]!="")
+				{
+					$div.find("input[name='if_ot']").attr("checked","checked");
+					$div.find("input[name='overtime']").val(tmp[3]);
+				}
+			}
+			var var_chk_date=0
+			$(".class_div_edit #id_date").find(".chk_date").each(function(){
+				if($(this).attr("checked"))
+				{
+					var_chk_date=var_chk_date+1
+				}
+			});
+			$(".class_div_edit #id_date").find("#id_count").text(var_chk_date);
+			
+		}
+	})
+	
+}
+function funprocessNumRumEdit(){
+	//请求时间段
+		var fun_change_data=function(cycle,unit){
+			//根据周期构造选择列
+			var div_date=$(".class_div_edit #id_date");
+			var select_date="{% trans '选择日期' %}<br><div class='div_chk_date'><div class='div_chk_select_all'><input class='chk_select_all' type='checkbox'/>{% trans '已选择' %}(<label id='id_count'>0</label>)</div><div class='chk_select_date'><table width='100%'><tr>";
+			var tmp_cycle="";
+			$(".chk_select_date").empty()
+			if(unit==0){//日
+				for(var i=0;i<cycle;i++){
+					tmp_cycle+="<div><input class='chk_date' name='days' value='"+i+"' type='checkbox'/>"+gettext("第")+(i+1)+gettext("天")+"</div>";	
+				}
+				select_date+=tmp_cycle;			
+			}else if(unit==1){//周
+				if (cycle>52)
+				{
+					alert(gettext('周的周期不能大于52周'));
+					return ;
+				}
+				
+			
+				var dict_date=[ "{% trans '星期日' %}",
+								"{% trans '星期一' %}",
+								"{% trans '星期二' %}",
+								"{% trans '星期三' %}",
+								"{% trans '星期四' %}",
+								"{% trans '星期五' %}",
+								"{% trans '星期六' %}"
+							];
+				for(var c=0;c<cycle;c++){
+					select_date+="<td>"
+					tmp_cycle=""
+					for(var i=0;i<7;i++){
+						tmp_cycle+="<div><input class='chk_date' name='days' value='"+(c*7+i)+"' type='checkbox'/>"+gettext(dict_date[i])+"</div>";
+				}				
+					select_date+=tmp_cycle+"</td>";
+				}
+				
+				
+			}else if(unit==2){//月
+				if (cycle>12)
+				{
+					alert(gettext('月的周期不能大于12个月'));
+					return ;
+				}
+
+				var i=0;
+				for(var j=1;j<=cycle;j++){
+					tmp_cycle="";
+					for(;i<j*31;i++){
+						tmp_cycle+="<div><input class='chk_date' name='days' value='"+i+"'  type='checkbox'/>"+gettext("第")+(i+1)+gettext("天")+"</div>";	
+					}
+					select_date+="<td>"+tmp_cycle+"</td>";
+					
+				}
+				
+			}
+			div_date.empty().append(select_date+"</tr></table></div></div>");
+			div_date.find(".chk_select_all").click(function(){
+				if($(this).attr("checked")){
+					var var_chk_date=div_date.find(".chk_date");
+					var_chk_date.attr("checked","true");
+					div_date.find("#id_count").text(var_chk_date.length);
+				}
+				else{
+					 div_date.find(".chk_date").removeAttr("checked");
+					div_date.find("#id_count").text("0");
+				}
+			});
+			div_date.find(".chk_date").click(function(){
+				var div_count=div_date.find("#id_count");
+				if($(this).attr("checked")){
+					div_count.text(parseInt(div_count.text())+1);
+				}else{
+					div_count.text(parseInt(div_count.text())-1);
+				}
+			});
+			
+		};
+		
+		$.ajax({
+			type:"POST",
+			url:"../../../att/newgetSchClass/",
+			dataType:"json",
+			success:function(data){
+				var contain_time=$("#id_ul_time");
+				for(var i in data){
+					var tmp_option="<li value='"+data[i]["SchclassID"]+"'>"
+						+"<input type='checkbox' name='schs' value='"+data[i]['SchclassID'] +"'/>"
+						+data[i]["SchName"]
+						+"("+data[i]["StartTime"]+"-"+data[i]["EndTime"]+")"
+						+"</li>";
+					contain_time.append(tmp_option);
+				}
+				var var_cycle=$("div.class_div_edit").find("#id_Cycle").val();//周期
+				var var_unit=$("div.class_div_edit").find("#id_Units").val();//单位
+				fun_change_data(var_cycle,var_unit);
+				
+				
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {
+				alert(textStatus+errorThrown);
+			}
+		});
+		
+		$(".class_div_edit").find("#id_Cycle").keyup(function(){
+			var var_unit=$(".class_div_edit").find("#id_Units").val(); 
+			fun_change_data($(this).val(),var_unit);
+		});
+		$(".class_div_edit").find("#id_Units").change(function(){
+			var var_cycle=$(".class_div_edit").find("#id_Cycle").val();
+			fun_change_data(var_cycle,$(this).val());
+		});
+	
+}
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+{% autoescape off %} 
+<tr><td>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+	
+    
+    <tr>
+        {{form.country_name|field_as_td_h}}
+      <td  >{{form.country_name.errors }}</td>
+      
+    </tr>
+    <tr>
+        {{form.country_code|field_as_td_h}}
+	 
+      <td  >{{form.country_code.errors }}<div id="yanzheng" class="floatL Link_blue1 lineH22"><a href="javascript:void(0)" onclick="wgCheckNo('country_code','div_id_code',this,'{{dbapp_url}}','personnel','Country')">{%trans '验证'%}</a></div><div id='div_id_code'  class="floatL color_orange lineH22"></div></td>
+     
+    </tr>
+    
+
+   {% for i,k in form.errors.items %}
+   {{i}}{{k}}
+   {% endfor %}
+   
+
+  </table>
+</td></tr>
+
+{% endautoescape %}
+{% endblock %}
+{% block addjs %}
+$("label[for='id_code']").attr("class","required");
+$(function(){
+	 if($("#id_edit_form").find("#id_country_name").val()!=""){
+		$("#yanzheng").hide();
+	 }else{
+		 $("#yanzheng").show();
+	 }
+});
+{% endblock %}

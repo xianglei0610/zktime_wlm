@@ -1,0 +1,49 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+{%  block search_div  %}
+{% if searchform %}
+<div id="id_search" class="div_box" style="margin-bottom:0px !important; padding-bottom:2px;">
+    <h1 style="margin-bottom:5px;">{% trans "查询" %}</h1>
+    <table style="width:99%;">
+    <tr>
+        <td>
+            <div>
+               {{ searchform }}
+            </div> 
+        </td>
+	</tr>
+	<tr>
+        <td valign="bottom">  
+                <div style="text-align:right;" class="topSearchBtn floatR"><!--height:20px;-->
+                   
+                    <span class="Link_blue1">
+                        <span class="action_topSearch floatL"></span><a href="javascript:void(0)" id="id_header_search" class="floatL">{% trans "查询" %}</a>
+                    </span>
+                    {% block advance_search%}
+                    <span class="Link_blue1" id="id_advanced_search" >
+                        <span class="action_advancedSearch floatL"></span><a href="javascript:void(0)" class="floatL">{% trans "高级" %}</a>
+                    </span>
+                    {% endblock %}
+                    <span class="Link_blue1">
+                        <span class="action_topClear floatL"></span><a href="javascript:void(0)" id="id_header_clear" class="floatL">{% trans "清除" %}</a>
+                    </span>
+                    <div class="clear"></div>
+                </div>
+       </td>
+    </tr>
+    </table>
+</div>
+{% endif %}
+{%  endblock  %}
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_ReportFormPage" %}
+        
+        {% block acc_reportform %}{% endblock %}
+
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--contenttypes.can_ReportFormPage-->
+{% endblock %}
+
+{% block addjs %}{% endblock %}

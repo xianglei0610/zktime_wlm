@@ -1,0 +1,105 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+    <link href="{{ MEDIA_URL }}/css/app_guide.css" rel="stylesheet" />
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+{% endblock %}
+
+{% block content %}
+<div id="content" >
+  <table border="0" width="98%" style="margin:15px 0px 0px 5px;">
+    <tr>
+      <td colspan="7"><div class="section">
+          <h2>
+            <div class="back"></div>
+            <span>{% trans '人事流程' %}</span> </h2>
+      </div></td>
+    </tr>
+    <tr>
+      <td><div class="guide_step_box">
+          <div class="tl"></div>
+        <div class="tr"></div>
+        <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+            <tr>
+              <td rowspan="2" width="60px" valign="top"><div class="guide_icon_box icon_department"></div></td>
+              <td height="16px" class="guide_step_name"><ul>
+                  <li> <span class="color_orange">&raquo;</span> <a onclick="window.open('{{request.dbapp_url}}personnel/Department/','Department')" href="javascript:void(0)" class="Link_blue1 font14">{% trans '部门' %}</a></li>
+              </ul></td>
+            </tr>
+            <tr>
+              <td valign="top" class="Link_hui1">录入员工请假记录</td>
+            </tr>
+          </table>
+        <div class="bl"></div>
+        <div class="br"></div>
+      </div></td>
+      <td><div class="icon_arrow_r"></div></td>
+      <td><div class="guide_step_box">
+          <div class="tl"></div>
+        <div class="tr"></div>
+        <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+            <tr>
+              <td rowspan="2" width="60px" valign="top"><div class="guide_icon_box icon_user"></div></td>
+              <td height="16px" class="guide_step_name"><ul>
+                  <li> <span class="color_orange">&raquo;</span> <a onclick="window.open('{{request.dbapp_url}}personnel/Employee/','Employee')" href="javascript:void(0)" class="Link_blue1 font14">{% trans '人员' %}</a></li>
+              </ul></td>
+            </tr>
+            <tr>
+              <td valign="top" class="Link_hui1">设定班次</td>
+            </tr>
+          </table>
+        <div class="bl"></div>
+        <div class="br"></div>
+      </div></td>
+      <td><div class="icon_arrow_r"></div></td>
+      <td>
+        <div class="guide_step_box">
+          <div class="tl"></div>
+              <div class="tr"></div>
+              <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                <tr>
+                  <td rowspan="2" width="60px" valign="top"><div class="guide_icon_box icon_issuecard"></div></td>
+                  <td height="16px" class="guide_step_name"><ul>
+                    <li> <span class="color_orange">&raquo;</span> <a onclick="window.open('{{request.dbapp_url}}personnel/IssueCard/','IssueCard')" href="javascript:void(0)" class="Link_blue1 font14">{% trans '人员发卡' %}</a> </li>
+                  </ul></td>
+                </tr>
+                <tr>
+                  <td valign="top" class="Link_hui1">请假、排班、补签卡</td>
+                </tr>
+          </table>
+              <div class="bl"></div>
+              <div class="br"></div>
+        </div>
+          <br />
+        
+        <div class="guide_step_box">
+          <div class="tl"></div>
+              <div class="tr"></div>
+              <table border="0" cellspacing="0" cellpadding="2" class="guide_step">
+                <tr>
+                  <td rowspan="2" width="60px" valign="top"><div class="guide_icon_box icon_leavelog"></div></td>
+                  <td height="16px" class="guide_step_name"><ul>
+                    <li> <span class="color_orange">&raquo;</span> <a onclick="window.open('{{request.dbapp_url}}personnel/LeaveLog/','LeaveLog')" href="javascript:void(0)" class="Link_blue1 font14">{% trans '人员离职' %}</a> </li>
+                  </ul></td>
+                </tr>
+                <tr>
+                  <td valign="top" class="Link_hui1">请假、排班、补签卡</td>
+                </tr>
+          </table>
+              <div class="bl"></div>
+              <div class="br"></div>
+        </div></td></tr>
+  </table>
+</div>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+{% block op_for_tab %}
+{% endblock %}
+{% block export %}
+{% endblock %}
+{% block addjs %}
+$("#id_tab").remove();
+{% endblock %}

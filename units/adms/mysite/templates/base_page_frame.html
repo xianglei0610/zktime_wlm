@@ -1,0 +1,170 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+	<title>{% block title %}{% trans '载入中' %}...{% endblock %}</title>
+	{% block blockbots %}
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /><!--解决IE8链接下划线贴得太近-->
+	<meta name="robots" content="NONE,NOARCHIVE" />
+	<link rel="shortcut icon" href="{{ MEDIA_URL }}/images/ZKECO16.ico" type="image/x-icon" ></link>
+	{% endblock %}
+    {% include "site_medias_css.html" %}
+	{% block extracss %}
+	{% endblock %}
+	<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+</head>
+<body {% block left_span %} class="indexBody" {% endblock %}>
+
+	<div id="id_page_load">
+		<div class="div_page_load">
+			<div style="float: left; height: 40px;margin-right:6px">
+				<img src="{{ MEDIA_URL }}/img/loadpage.gif">
+			</div>
+			<div style="line-height: 40px; height: 40px; display: block;text-align:left; float: left; color:#32598A; font-size:14px;">{% trans "正在处理，请稍候..." %}</div>
+			<div class="clear displayN"></div>
+		</div>
+		<div class="clear displayN"></div>
+	</div>
+    <div id="id_gz" style="position:absolute;z-index:26;display:none;"></div>
+	<input type="hidden" id="id_user" value="{{request.user.username}}" />
+    <div class='com_tooltip_class' id="obj_tooltip"> </div>
+	<div class="container">
+    	<div class="headBox">
+        	<div class="headRight">
+					<div class="{% get_config_option 'BASE_PAGE_HEADLOG_NAME' %}">
+                	<div class="headTopRight">
+                        <div class="headTopLeft">
+                            <ul id="id_true_app"  class="Link_hui font12 noUnderl">
+								{% block worktable %} <li class="borderR {% ifequal current_app 'worktable' %} app_focus {% endifequal %}"  name="worktable"><a id="id_worktable" href="#">{% trans "我的工作面板" %}</a></li> {% endblock %}
+								{% for label, app in apps %}
+									{% if "IACCESS"|filter_config_option %}
+										{% if "IACCESS_WITH_ATT"|filter_config_option and not "mysite"|is_contain_att %}
+											{% ifnotequal label 'att'%}
+												<li name="{{ label }}" class="borderR nowrap {% ifequal label current_app %}app_focus{% endifequal %} {% if forloop.last %}headTopLeft_r{% endif %}"><a href="{{ request.dbapp_url }}{{ label }}/">{{ app.name }}</a></li>
+											{% endifnotequal %}
+										{% else %}
+											<li name="{{ label }}" class="borderR nowrap {% ifequal label current_app %}app_focus{% endifequal %} {% if forloop.last %}headTopLeft_r{% endif %}"><a href="{{ request.dbapp_url }}{{ label }}/">{{ app.name }}</a></li>
+										{% endif %}
+									{% else %}
+										<li name="{{ label }}" class="borderR nowrap {% ifequal label current_app %}app_focus{% endifequal %} {% if forloop.last %}headTopLeft_r{% endif %}"><a href="{{ request.dbapp_url }}{{ label }}/">{{ app.name }}</a></li>
+									{% endif %}
+								{% endfor %}
+                            </ul>
+                        </div>
+                    	<div class="headTopRight_t">
+                            <ul class="Link_hui font12 noUnderl">
+                                <li class="head_welcome_info">{% trans '欢迎，' %}{{ login_username }}.</li>
+                                {% block option_settings %}<li><span class="btn_option"></span><a id="id_btn_option" href="javascript:void(0);" ref="{{ request.dbapp_url }}option">{% trans "个性设置" %}</a></li>{% endblock %}
+                                <li>
+									<span class="btn_help"></span>
+									<div class='floatL btn_help_box' style='position:relative\9;z-index:10\9;'>
+										<ul id="id_help_more" class='nav font12 noUnderl floatL help_more'>
+											<li style="margin-right:0px;">
+												<a class="" href='javascript:void(0)'>{% trans '帮助' %}</a>
+												<ul class="help_more_list clearL">
+													<li><a id="id_btn_help" href="{{ request.dbapp_url }}system/help/" target="_blank">{% trans '系统手册' %}</a></li>
+													<li><a id="id_copy_right" href="javascript:void(0);">
+													{% trans '关于' %} 
+													{% get_config_option "BASE_PAGE_SYSTEM_NAME" %}</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li>
+									<span class="btn_changePW"></span>
+									{% block change_pwd %}<a id="id_btn_changePW" href='javascript:void(0);' ref="/{{request.surl }}accounts/password_change/">{% trans '修改密码' %}</a> {% endblock %}
+								</li>
+                                <li>
+									<span class="btn_logout"></span>
+									<a id="id_btn_logout" href="javascript:void(0);" ref="/{{request.surl }}accounts/logout/">{% trans '注销' %}</a>
+								</li>
+                            </ul>
+                        </div>
+						{% if "IACCESS"|filter_config_option and request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+						<div id="id_comm_error" class="headTopRight_b">
+							<marquee  scrollamount=2  height="16px" width="550px">
+							</marquee>
+						</div>
+						{% endif %}
+						{% block headTopRight_menu %}
+
+						{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabBody">
+			<div class="tabs_outBox">
+				<ul id="id_app_menu" class="Link_tabs font12 noUnderl">
+					{% for model in myapp.models %}
+						{% if model.index < 100000 %}
+							<li  class="tabs_li{% ifequal model.name menu_focus %} tabs_li_focus{% endifequal %}"><table cellpadding="0"><tr><td></td><td></td><td class="tboc h1"></td><td></td><td></td></tr><tr><td></td><td class="tboc w1 h1"></td><td class="tbac"></td><td class="tboc w1"></td><td></td></tr><tr><td class="tboc w1"></td><td class="tbac tbg"></td><td class="tbac tabs_contant tbg"><a  href="{% if model.url %}{{ model.url }}{% else %}{{ request.dbapp_url }}{{ model.app_label }}/{{ model.name }}/{% endif %}">{{ model.verbose_name }}</a></td><td class="tbac tbg"></td><td class="tboc w1"></td></tr></table></li>
+						{% endif %}	
+					{% endfor %}
+				</ul>
+				<div class="tabBodyR">
+					<ul id="nav"  class="nav Link_tabs font12 noUnderl" style="display:none;">
+						<li class="NavMore">{% trans '更多' %}...<br /><ul class="menu_more"></ul></li>
+					</ul>
+				</div>
+			</div>
+			<!--<div id="id_loading"  class="displayN tabBodyR_loading nowrap">
+				<img src="{{ MEDIA_URL }}/images/loading.gif" align="top" /> {% trans "正在处理中..." %}
+			</div>-->
+				<div class="spacerT"><img src="/media/images/spacer.gif" width="887px" height="0px" /></div>
+			</div>
+		
+				<div class="spacerT"><img src="/media/images/spacer.gif" width="887px" height="0px" /></div>
+            <div class="leftBox">        
+            	<div class="leftTop">
+                </div>
+			</div>
+        <div class="rightBox">				
+			<div id="id_first_content" class="hide">
+            
+			</div>
+		</div>      
+	    <div id="id_main_content">{% block datalist_content %}{% endblock %}</div>
+        {% block addition_content %} {% endblock %}
+    </div>
+	<div id="error_tooltip" style="display:none"> </div>
+	<div class="sys_Message" style="display:none">
+		<div class="sys_Message_l"></div>
+		<div class="sys_Message_m">{% trans "设置成功!" %}</div>
+		<div class="sys_Message_r"></div>
+	</div>
+	<input type="hidden" id="id_sys_type" value='{% get_config_option "BASE_PAGE_SYSTEM_TYPE" %}'/>
+	<input type="hidden" id="id_pos_type" value='{% get_config_option "POS" %}'/>
+	<input type="hidden" id="id_oem" value='{{ "mysite"|is_oem }}'/>
+		<input type="hidden" id="id_meeting_type" value='{{ "mysite"|has_meeting }}'/>
+	<input type="hidden" id="id_zkaccess_att" value='{{ "mysite"|is_zkaccess_att }}'/>
+	<input type="hidden" id="id_surl" value='{{request.surl }}'/>
+	<input type="hidden" id="id_dbapp_url" value='{{request.dbapp_url}}'/>
+	<input type="hidden" id="id_browse_title" value='{%autoescape off%}{{ request.browse_title }}{%endautoescape%}'/>
+	<input type="hidden" id="id_current_year" value='{% get_this_year %}'/>
+	<input type="hidden" id="id_dog_info" value='{% get_dog_info %}'/>
+	<input type="hidden" id="id_dog_server_date" value='{% get_service_end_date %}'/>
+    {% include "site_medias_js.html" %}
+    {% block headjs %}{% endblock %}
+	<script src="{{ MEDIA_URL }}/jslib/init_base_frame.js"></script>
+    <script>
+	init_page();
+	//skin_creat_link();
+	//skin_add_event();
+	{% if "IACCESS"|filter_config_option %}
+		{% if request.user|HasPerm:"contenttypes.can_DevRTMonitorPage" %}
+			init_iaccess();
+		{% endif %}
+		var contain_att_temp = eval({% get_config_option "BASE_PAGE_IS_CONTAIN_ATT" %});//检查是否添加了考勤模块
+	{% endif %}
+	{% block addjs_base %}{% endblock %}
+	</script>
+    {% block extend_js %}{% endblock %}
+
+</body>
+</html>
+

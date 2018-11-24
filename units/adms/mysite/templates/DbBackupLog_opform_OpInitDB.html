@@ -1,0 +1,51 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+
+{% block operation_panel %}
+<div  style="margin-left:10px; margin-right: 5px ! important;width:305px;" id='init_model_class_tree' class="div_box floatL displayN">
+	<h1 style="margin:0px 0px 5px 5px;margin:0px 0px 2px 5px\9;">&nbsp;</h1>
+	<div id='show_deptment'  >
+	</div>
+</div>
+{% endblock %}
+
+
+{% block addjs %}
+	var model_json=null;
+	var $tree=$("#init_model_class_tree");
+	$.ajax({
+		type:"POST",
+		url:"{{request.dbapp_url}}get_init_db_data",
+		dataType:"json",
+		success:function(json){
+			var i=0;
+			var html_tree=[];
+			for(var k in json){
+				html_tree[i++]="<li class='collapsable lastCollapsable'><p class='t'>"+k+"</p><ul>";
+				for(var kk in json[k]){
+					html_tree[i++]="<li><p class='t'><input type='checkbox' class='displayN' name='KK' value='"+json[k][kk].join("__")+"'/>"+kk.split("__")[0]+"</p></li>";
+				}
+				html_tree[i++]="</ul></li>";
+			}
+			$tree.find("#show_deptment")
+			.append("<div class='filetree' style='overflow: auto; height: 323px;'><li class='collapsable lastCollapsable'><p class='t' style='*float:left;'>"+gettext("全部")+"</p><ul class='treeview'>"+html_tree.join("")+"</ul></li></div>")
+			$tree.treeview().show();
+			$tree.find("p.t").click(function(){
+				if($(this).hasClass("s")){
+					$(this).add($(this).parent("li").find("li>p.t"))
+					.removeClass("s")
+					.find("input").removeAttr("checked");
+				}else{
+					$(this)
+					.add($(this).parent("li").find("li>p.t"))
+					.addClass("s")
+					.find("input").attr("checked","checked");
+				}
+				return false;
+			});
+			
+		}
+		
+	});
+{% endblock %}

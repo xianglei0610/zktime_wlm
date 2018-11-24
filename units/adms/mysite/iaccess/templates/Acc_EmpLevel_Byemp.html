@@ -1,0 +1,205 @@
+{% extends "Acc_EmpLevel_Set.html" %}
+{% load i18n %}
+
+{% block id_main_div %}
+    {% if request.user|HasPerm:"contenttypes.can_EmpLevelByEmpPage" %}
+	<div id="emplevel_byemp" style="margin:15px 0px 10px 0px;">
+        <!-- 对应人员列表 -->
+		<div id="id_datalist" class="div_box" style="float:left; width:50%; margin:0px 0px 0px 10px; _margin:0px 0px 0px 5px;"><h1>{% trans "为人员编辑权限组" %}</h1>
+		</div>
+		<!-- 权限组列表 -->
+		<div id="id_extend" class="div_box" style="float:right; width:40%; margin:0px 10px 0px 0px; _margin:0px 5px 0px 0px;"><h1 style="width:98%">{% trans "浏览指定人员所属的权限组" %}</h1>
+		</div>
+    </div>
+    {% endif %}<!-- contenttypes.can_EmpLevelByEmpPage --> 
+{% endblock %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_EmpLevelByEmpPage" %}
+
+    function process_str(string, num)
+    {
+        if(string.length > num)
+        {
+            string = string.substr(0, num) + "..."
+        }
+        return string;
+    }
+    
+    $("#id_sys_cur_model").val("Employee");
+    $("#id_datalist").model_grid({
+        "model_url": "{{ dbapp_url }}personnel/Employee/",
+        "need_plus_sign": false,
+        "model_actions": false,
+        "object_actions": true,
+        "fields_show": ['PIN','EName','DeptID.name','Card','level_count'],
+        "obj_edit": false,
+        "record_per_page": 20,
+        "max_no_page": 30,  
+        "layout_types": [], 
+        "disabled_actions": ["_change","_delete","DeleteUserFace","DeleteUserPhoto","OpAddUserMsg","OpCardPrinting","id_OpPositionChange","PushUserFace","PushUserPhoto","OpDeleteTemplate","OpAdjustArea","OpAdjustDept","OpEmpType","OpIssueCard","OpLeave","OpRegisterFinger","OpSetAcc","OpTitileChange","OpUploadPhoto","OpDelLevelFromEmp", "OpSyncToDevice"],
+        "row_operations": ["OpAddLevelToEmp"],
+        "init_after_get_jdata": function(){
+            var left_data = 0;//右边记录对应的左边记录id
+            //处理第一次加载时权限组为空时，右侧不显示
+            var $tr = $("#id_datalist #id_tbl tbody tr:first");
+            left_data = $tr.attr("data");
+            var base_query = [];
+            $("#id_OpAddLevelToEmp").remove();
+            if($tr.length != 0)
+            {
+                var emp = $($tr.find("td")[1]).text();//pin
+                var name = $($tr.find("td")[2]).text();
+                name = process_str(name, 10);
+                if(name != "")
+                {
+                    emp = emp + "("+ name +")";
+                }
+        
+                $("#id_extend h1").text(gettext("浏览人员：")+ emp +gettext(" 所属权限组"));
+                
+                base_query = ["emp__id__exact="+$tr.attr("data"),"levelset_type__exact=1"];
+            }
+            else
+            {
+                $("#id_extend h1").text(gettext("当前不存在人员"));
+                base_query = ["emp__id__exact=0"];
+            }
+            $("#id_extend").model_grid({
+                "model_url": "{{ dbapp_url }}iaccess/AccLevelSet/",
+                "init_query": ["exception_fields=door_group&exception_fields=emp","levelset_type__exact=1"],
+                "base_query": base_query,
+                "model_actions": false,
+                "object_actions": false,
+                "fields_show": ['level_name','level_timeseg'],
+                "obj_edit": false,
+                "record_per_page": 20,
+                "max_no_page": 30,
+                //"multiple_select":null,
+                "row_operations": [],
+                "cached_data": false,
+                "init_after_get_jdata": function(){
+                    {% if request.user|HasPerm:"personnel.opdellevelfromemp_employee" %}
+                    $("#id_extend div.action").append('<li name="OpDelLevelOfEmp" id="id_OpDelLevelOfEmp"><a alt="OpDelLevelOfEmp" href="javascript:void(0)" class="action_OpDelLevelOfEmp">'+gettext("删除所属权限组")+'</a></li>')
+                    $("#id_OpDelLevelOfEmp a").click(function(){
+                        var levels = new Array()
+                        $("#id_extend .select_row_style").each(function(){
+                            levels.push($(this).attr("data"));            
+                        });
+                        
+                        if(levels == "")
+                        {
+                            alert(gettext("请先选择要删除的权限组！"));
+                            return false;
+                        }
+                        
+                        if(!confirm(gettext("确认要删除人员所属权限组？")))
+                        {
+                            return false;
+                        }
+                                                 
+                        //同步右边表格权限组数量到左边表格 -- wangz
+                        var count = levels.length;
+                        var current = $("#id_datalist .click_row");
+                        if(current.length!=0)
+                        {
+                            var current_count = $(current.find("td")[5]).text();
+                            //alert(current_count);
+                            //$(current.find("td")[5]).text(current_count - count);                        
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url:"/{{ request.surl }}iaccess/EmpLevelOp/?func=emp&data="+left_data+"&levels="+levels,
+                            success: function(data)
+                            {
+                                if(data.ret == 1)
+                                {
+                                    alert(gettext("操作成功！"));
+                                    $("#id_extend").get(0).g.load_data();
+                                    if(current.length==0)
+                                    {
+                                        $("#id_datalist").get(0).g.load_data();
+                                    }
+                                }
+                                else
+                                {
+                                    alert(gettext("操作失败！"));
+                                }
+                            },
+                            error:function (XMLHttpRequest, textStatus, errorThrown) 
+                            {
+                                alert(gettext("服务器处理数据失败，请重试！错误码：")+"-610");
+                                return false;
+                            }              
+                        });
+                    });
+                    {% endif %}<!-- opdellevelfromemp_employee-->
+                }  
+            });
+            
+            
+            $("#id_datalist").on_row_click(function(grid, key, row_data){ //单击
+                left_data = row_data;
+                var level_name = $($("#id_datalist tr[data="+row_data+"]").find("td")[1]).text();
+                $("#id_extend h1").text(gettext("浏览人员：")+process_str(level_name, 15)+gettext(" 所属权限组"));
+                
+                var $tr = $("#id_datalist tr[data="+row_data+"]");
+                var emp = $($tr.find("td")[1]).text();//pin
+                var name = $($tr.find("td")[2]).text();
+                name = process_str(name, 10);
+                if(name != "")
+                {
+                    emp = emp+"("+name+")";
+                }
+                $("#id_extend h1").text(gettext("浏览人员：")+emp+gettext(" 所属权限组"));
+                
+                $('#id_extend').get(0).g.base_query=["emp__id__exact="+row_data];
+                $('#id_extend').get(0).g.load_data();
+               
+                return true;
+            });
+            
+            function onclick_left()
+            {
+                var $tr2 = $("#id_datalist #id_tbl tbody tr:first");
+                if($tr2.length != 0)
+                {
+                    $("#id_datalist #id_tbl tbody tr:first").click();
+                }
+                else
+                {
+                    $("#id_extend h1").text(gettext("当前不存在人员"));
+                    $('#id_extend').get(0).g.base_query=["emp__id__exact=0"];
+                    $('#id_extend').get(0).g.load_data();
+                }
+                return true;        
+            }
+            onclick_left();//控制颜色 以及操作完成后刷新右侧列表
+            //处理查询之后加载时权限组为空时，右侧不显示
+            //默认单击左边的datalist的第一行
+            after_query = function()
+            {
+                onclick_left();
+            }
+            
+            //左边编辑后右侧列表需要同步
+            after_submit = function()
+            {
+                var row_data2 = $($("#id_datalist").get(0).current_row).attr("data");
+                $($("#id_datalist tr[data="+row_data2+"]")).click();        
+            }
+        }
+    });
+    
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!-- contenttypes.can_EmpLevelByEmpPage --> 
+{% endblock %}
+
+{% block addjs %}
+{% endblock %}
+

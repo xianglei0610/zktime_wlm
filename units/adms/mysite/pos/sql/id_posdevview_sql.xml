@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+    <sql id = "get_id_device_query">
+    			<!--设备汇总-->
+        		<content engine = "default">
+        			<![CDATA[
+                            select type_id,money from pos_carcashsz 
+                            where sn_name = '%(device_sn)s' and type_id in (6,8,9,10,12) and checktime>='%(st)s' and checktime <'%(et)s'   
+        			]]>
+        		</content>	
+        </sql>
+        
+    <sql id = "get_id_emp_query">
+        			<!--个人汇总-->
+            		<content engine = "default">
+            			<![CDATA[
+                         select type_id,money from pos_carcashsz 
+                         where card = '%(card)s' and sn_name='%(device_sn)s' and type_id in (6,8,9,10,12) and checktime>='%(st)s' and checktime <'%(et)s' 
+                                 
+            			]]>
+            		</content>	
+            </sql>
+    
+    
+</sqlgroup>

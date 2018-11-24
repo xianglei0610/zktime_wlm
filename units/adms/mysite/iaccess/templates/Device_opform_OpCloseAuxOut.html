@@ -1,0 +1,117 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block form %}
+{% autoescape off %}
+<table class = "tbl_data_edit"  cellpadding="3px">
+	<tr id="tr_auxout">
+		<th><label class="required">{%trans "选择要关闭的辅助输出点"%}:</label></th>
+		<td>
+			<div style="height: 230px;" id="id_door_group" name="door_group" class="wZBaseZManyToManyField">
+				<ul style="list-style-type: none;" class="filetree treeview">
+					<li class="root_node collapsable lastCollapsable" id="id_all"><div class="hitarea root_node-hitarea expandable-hitarea lastExpandable-hitarea "></div>
+						<p class="t">{%trans "全部" %}</p><!-- <input id="id_0" type="checkbox" value="0" name="auxout" class="displayN"> -->
+						<ul id="id_aux_info">					
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</td>
+	</tr>
+</table>
+
+{% endautoescape %}
+{% endblock %}
+
+{% block loading %}
+
+{% endblock %}
+
+{% block addjs %}
+	{% if request.user|HasPerm:"iclock.opcloseauxout_device" %}
+	var dev_id = 0;
+	$(".select_row").each(function(){
+		if($(this).attr("checked"))
+		{
+			dev_id = $(this).parents("tr").attr("data");
+		}
+	});
+	
+	$.ajax({
+		type: "POST",
+		url: "/{{ request.surl }}iaccess/GetData/?func=get_device_auxout&dev_id="+ dev_id,
+		dataType: "json",
+		async: false,
+		success: function(data)
+		{
+			var info = data.auxout_info;
+			if(info != "")
+			{
+				for(i in info)
+				{
+					$("#id_all ul").append('<li><div class="hitarea expandable-hitarea lastExpandable-hitarea "></div><p class="t">'+info[i][1]+'<input type="checkbox" value="'+info[i][0]+'" id="id_'+info[i][0]+'" name="auxout" class="displayN" disabled="true"></p></li>');
+				}
+			}
+			else
+			{
+				$("#tr_auxout").empty().append('<td><div style="margin:2px 2px 2px 10px;color:red;">'+gettext("获取设备扩展参数失败，当前操作不可用！")+'</div></td>');
+			}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown)
+		{
+			alert(gettext("服务器处理数据失败，请重试！错误码：")+"-623");
+		}
+	});
+	
+	//remove_single_perm_node($("#id_door_group .filetree"));
+	$("#id_door_group .filetree").treeview();
+	
+	check_selected("id_door_group"); 
+	check_root("id_door_group"); 
+	
+	$("#id_aux_info li p").click(function(){
+		//alert($(this).find("input").val())
+		var has_false = false;
+		$("#id_aux_info li p").each(function(){
+			if($(this).hasClass("s") == false)//有一个false就点掉“全部”
+			{
+				$("#id_all p:first").removeClass("s");
+				has_false = true;
+			}
+			if(!has_false)//全选
+			{
+				$("#id_all p:first").addClass("s");
+			}
+		});
+	});
+
+    var before_submit = function()
+	{
+		after_init = undefined;
+		
+		var has_s = false;//检查是否有选择
+		$("#id_all p").each(function(){
+			if($(this).hasClass("s"))
+			{
+				has_s = true;
+			}
+		});
+		if(!has_s)
+		{
+			alert(gettext("请选择要关闭的辅助输出点！"));
+			return false;
+		}
+
+		$("#id_aux_info li p").each(function(){
+			if($(this).hasClass("s"))
+			{
+				$(this).find("input").removeAttr("disabled");
+			}
+		});
+		return true;
+    }
+
+	{% else %}
+		alert(gettext("对不起,您没有访问该页面的权限,不能浏览更多信息！"));
+		window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!-- iclock.opgetmoreoptions_device -->
+{% endblock%}

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Door settings -&gt; Anti-passback settings</div>
+<div class="help_mainContant">
+  <h2>Door settings </h2><br />
+
+  <h3>Anti-passback  settings</h3><br />
+  Currently anti-passback settings support in and out  anti-passback. In some special occasions, it is required that the card holder  who entered from a door by card punching must exit from the same door by card  punching, with the entry and exit records strictly consistent. One who followed  another to enter the door without card punching will be denied when trying to  exit by card punching, and one who followed another to exit without card  punching will be denied when trying to enter by card punching. And when one who  entered by card punching gives the card to another to try entering, the other  person will be denied. The user can use this function just by enable it in the  settings. This function is normally used in prisons, the army, national  defense, scientific research, bank vaults, etc.<br />
+      <br /><b>Add anti-passback settings:</b><br /><br />
+    1. Click [Access Control] - [Door configurations] - [Anti-passback  settings] - [Add] to show anti-passback setting edit interface;<br /><br />
+    2. Select device (N-door control panel), because one  device can only correspond to one anti-passback setting record, so when adding,  devices with anti-passback settings cannot be seen in the dropdown list. When  deleting established anti-passback information, the corresponding device will appear  in the dropdown list. The settings vary with the number of doors controlled by  the device:<br /><br />
+Anti-passback can be set between readers and between doors. The card holder enter from door A, he must exit from door B, this function is used for channel or ticket management.
+
+.<br />
+<br />
+Anti-passback settings of one-door control panel: 
+
+
+Anti-passback between door readers
+
+;<br />
+<br />
+Anti-passback settings of a two-door control panel:<br />
+<br />
+Anti-passback between readers of door 1, anti-passback between readers of door 2, anti-passback between doors 1/2
+
+;<br />
+<br />
+Anti-passback settings of a four-door control panel
+
+:<br />
+<br />
+Anti-passback of doors 1-2, anti-passback of doors 3-4, anti-passback of doors 1/2-3/4, anti-passback of doors 1-2/3, anti-passback of doors 1-2/3/4, Anti-passback between readers of door 1, anti-passback between readers of door 2, Anti-passback between readers of door 3, anti-passback between readers of door 4.
+
+<div class="alignC"></div>
+  <br />
+  <b>Note: </b>The reader mentioned above includes Wiegand reader that connected with access control panel and inBIO reader. The single door and two door control panel with Wiegand reader include out reader and in reader. There is only in reader for four door control panel. The reader number of 1, 2 (that is RS485 address or device number, the same below) is for door 1, the reader number of 3, 4 is for door 2, etc. No need to consider if it is Wiegand reader or inBIO reader in setting of anti-passback between doors or between readers, just make sure the in or out state (means it is the in reader or out reader) and set according to the actual need. For the reader number, odd number is for in reader, and even number is for out reader. <br />
+  <br />
+    3. Select anti-passback settings, and tick one item  (anti-passback without repetition of doors or readers can be subject to  multi-choice), click [OK] to complete setting, and the added anti-passback  settings can be shown in the list.<br /><br />
+  <b>Note: </b>When editing, you can not  modify the device, but can modify anti-passback settings. If anti-passback setting  is not required for the device any more, the anti-passback setting record can  be deleted. When deleting a device record, its anti-passback setting record, if  exist, will be deleted.
+  <p>&nbsp;</p>
+</div>
+</body>
+</html>

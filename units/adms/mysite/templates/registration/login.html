@@ -1,0 +1,220 @@
+{% load i18n %}
+{% load dbapp_tags %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+     {% get_config_option "BROWSER_TITLE" %}- {% trans '登录' %}
+</title>
+
+<link href="{{ MEDIA_URL }}/css/css.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="{{ MEDIA_URL }}/images/ZKECO16.ico" type="image/x-icon" ></link>
+<script src="{{ MEDIA_URL }}/jslib/i18n.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/login.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.validate.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/i18n_{{ LANGUAGE_CODE }}.js"></script>
+</head>
+<body style="overflow:hidden;">   
+
+    <div id="wrap"> 
+        <div id="subwrap"> 
+            <div id="content_login">
+                <div>
+                    <div class="login_leftBox"></div>    
+                    <div class="login_rightBox"></div>  
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <OBJECT classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width=0 height=0 id=zkonline >
+    </OBJECT>
+
+    <COMMENT style="display:None">
+    <EMBED type="application/x-eskerplus"
+        classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+        codebase="ZKOnline.ocx"                        
+    </EMBED>
+    </COMMENT>
+
+	<div class="login_middleBox">
+        <div class="login_middle_l">
+            <div class="login_middle_logo">
+                <img src="{{ MEDIA_URL }}/images/login/{% get_config_option "LOGIN_IMAGE" %}_{{ LANGUAGE_CODE }}.jpg">
+            </div>
+            <div class="login_middle_title user_login">
+				<div class="user_login_only {% if 'SELF_LOGIN'|filter_config_option %}displayN{% endif %}" ><!--开放员工自助则将此DIV隐藏-->
+					<span class="icon_user_login">&nbsp;</span>
+					{% trans '用户登录' %}
+				</div>
+				<ul style="height:25px; overflow:hidden;" class="{% if not 'SELF_LOGIN'|filter_config_option %}displayN{% endif %}"><!--开放员工自助则将此ul放开-->
+					<li class="line_focus" cc="user_login">
+						<ul>
+							<li class="btn_logType_l">&nbsp;</li>
+							<li class="btn_logType_m">
+								<span>&nbsp;</span>{% trans '用户登录' %}
+							</li>
+							<li class="btn_logType_r">&nbsp;</li>
+						</ul>
+					</li>
+					<li cc="employee_self">						
+						<ul>
+							<li class="btn_logType_l">&nbsp;</li>
+							<li class="btn_logType_m">
+								<span>&nbsp;</span>{% trans '员工自助' %}
+							</li>
+							<li class="btn_logType_r">&nbsp;</li>
+						</ul>
+					</li>
+				</ul><div class="clear"></div>
+            <form action="" method="post" id="login-form" class="user_login" style="display:none;">{% csrf_token %}
+                <div class="login_inputBox">
+                    <div  class="floatL Link_black fontB login_titleBox">{% trans '用户名' %}</div>
+                    <div>
+                        <input type="text" name="username" id="id_username" class="login_textBox" />
+                    </div>
+                    <div style="clear:both"></div>
+                    <div id="id_classlabel" class="floatL Link_black fontB login_titleBox " >
+                        {% trans '密码' %}
+                    </div>
+                    <div id="id_pwdtxt" >
+                        <input type="password" name="password" id="id_password" class="login_textBox" />
+                    </div>
+					<div class="clear"></div>
+					<div class="login_line">&nbsp;</div>
+                    <!--<div class="floatL login_titleBox" style="width:15px;" cellpadding="10"></div>-->					
+                    <div style="margin:10px 0px 0px 35px;" id="login_btn_box">
+                        <div class="login_btn0">
+							<div class="login_btn_l"></div>
+							<div class="login_btn_m">
+								<span id="id_login" tabindex = 0>{% trans '登 录' %}</span>
+							</div>
+							<div class="login_btn_r"></div>
+						</div>
+                        <div class="login_btn0">
+							<div class="login_btn_l"></div>
+							<div class="login_btn_m">
+								<span id="id_reset" tabindex = 0>{% trans '重 置' %}</span>
+							</div>
+							<div class="login_btn_r"></div>
+						</div>
+                        <div class="login_btn0">
+                            {% if "FINGER_LOGIN"|filter_config_option %}
+                                <div class="login_btn0">
+                                <div class="login_btn_l"></div>
+                                <div class="login_btn_m">
+                                    <span id="id_fp_identify" tabindex = 0>{% trans '指纹登录' %}</span>
+                                </div>
+                                <div class="login_btn_r"></div>
+                                </div>
+                            {% endif %}
+						</div>
+						<div class="clear">sadfsdf</div>
+                        <input type="hidden" id="id_template9" value="" name="template9" alt=""></input>
+                        <input type="hidden" id="id_finnger10" name="finnger10" alt="" value="">   </input>
+                        <input type="hidden" id="id_finnger9" name="finnger9" alt="" value=""></input>
+                        <input type="hidden" id="id_template10"  value="" name="template10" alt="">   </input>
+                        <!-- <input type="hidden" id="id_tfids" name="tfids" alt="" value=""></input> -->
+                        <input type="hidden" id="id_login_type" name="login_type" alt="" value='pwd'></input>
+                        <input type="hidden" id="id_client_language" name="client_language" alt="" value="{{ LANGUAGE_CODE }}"></input>
+                    </div>
+                    <div id="id_selpwd" class="displayN" >
+
+                    </div>
+                    <div class="messageBox" style="display:none;">{% trans '会话超时，请重新登录！' %}</div>
+                </div>
+            </form>
+			<form action="" method="post" id="login-self-form" class="employee_self" style="display:none;"><!-- 员工自助的表单 -->
+                <div class="login_inputBox">
+                    <div  class="floatL Link_black fontB login_titleBox">{% trans '用户名' %}</div>
+                    <div>
+                        <input type="text" name="username" id="id_username_self" class="login_textBox" />
+                    </div>
+                    <div style="clear:both"></div>
+                    <div id="id_classlabel" class="floatL Link_black fontB login_titleBox " >
+                        {% trans '密码' %}
+                    </div>
+                    <div id="id_pwdtxt" >
+                        <input type="password" name="password" id="id_password_self" class="login_textBox" />
+                    </div>
+					<div class="clear"></div>
+					<div class="login_line">&nbsp;</div>
+                    <div class="floatL login_titleBox" style="width:15px;" cellpadding="10"></div>					
+                    <div style="margin:10px 0px 0px 35px;" id="login_btn_box">
+                        <div class="login_btn0">
+							<div class="login_btn_l"></div>
+							<div class="login_btn_m">
+								<span id="id_login_self">{% trans '登 录' %}</span>
+							</div>
+							<div class="login_btn_r"></div>
+						</div>
+                        <div class="login_btn0">
+							<div class="login_btn_l"></div>
+							<div class="login_btn_m">
+								<span id="id_reset_self">{% trans '重 置' %}</span>
+							</div>
+							<div class="login_btn_r"></div>
+						</div>
+                        {% if "SELF_FG_LOG"|filter_config_option %}
+                            <div class="login_btn0">
+                                <div class="login_btn_l"></div>
+                                <div class="login_btn_m">
+                                    <span id="id_fp_identify_self">{% trans '指纹登录' %}</span>
+                                </div>
+                                <div class="login_btn_r"></div>
+                            </div>
+                        {%endif%}
+						<div class="clear"></div>
+                        <input type="hidden" id="id_template9" value="" name="template9" alt=""></input>
+                        <input type="hidden" id="id_finnger10" name="finnger10" alt="" value="">   </input>
+                        <input type="hidden" id="id_finnger9" name="finnger9" alt="" value=""></input>
+                        <input type="hidden" id="id_template10"  value="" name="template10" alt="">   </input>
+                        <!-- <input type="hidden" id="id_tfids" name="tfids" alt="" value=""></input> -->
+                        <input type="hidden" id="id_login_type" name="login_type" alt="" value='pwd'></input>
+                        <input type="hidden" id="id_client_language" name="client_language" alt="" value="{{ LANGUAGE_CODE }}"></input>
+                    </div>
+                    <div id="id_selpwd" class="displayN" >
+
+                    </div>
+                    <div class="messageBox" style="display:none;">{% trans '会话超时，请重新登录！' %}</div>
+                </div>
+			</form>
+			</div>
+        </div>
+        {% if "LOGIN_RIGHT_IMAGE"|filter_config_option %}
+                  <div class="login_middle_r_pos">
+                  </div> 
+        {% endif %}
+        
+        {% if "PIC_INFO_ACC_NAME"|filter_config_option %}
+            <div class="login_middle_r_iaccess">
+                <div class="login_iClock">C4&nbsp;{% trans '系列' %}</div>
+                <div class="login_C">C3&nbsp;{% trans '系列' %}</div>
+                <div class="login_IFace">F6</div>
+                <div class="login_P">F7</div>
+                <div class="login_PT">F18</div>
+            </div> 
+         {% endif %}
+			 
+        {% if "PIC_INFO_NORMAL_NAME"|filter_config_option %}
+            <div class="login_middle_r">
+                <div class="login_iClock">Time&Attendance</div>
+                <div class="login_C">Access Control</div>
+                <div class="login_IFace">Patrol</div>
+                <div class="login_P">Handset</div>
+                <div class="login_PT">Multi Biometric</div>
+            </div>
+        {% endif %}
+    	<div class="login_middle_l1{% if "mysite"|is_oem %}_oem{% endif %}"></div>
+        <div class="login_middle_r1">
+        	<p class="Link_hui">{% if not "mysite"|is_oem %}<span class="font12">{% trans '深圳市中控生物识别技术有限公司 版权所有' %}</span><br />{% endif %}<span class="font11">Copyright &copy; {% get_this_year %} {% if not "mysite"|is_oem %}ZKTeco Inc{% endif %}. All Rights Reserved.</span></p>
+        </div>
+        <input type="hidden" id="id_change_css" value="{% if 'CHANGE_CSS'|filter_config_option %}TRUE{% endif %}"/>
+        <input type ="hidden" id="id_corrent_up_info" value="{% trans '请输入正确的用户名和密码！'%}" />
+        <div style="display:none">login_page_tag_for_ajax</div>
+    </div>      
+</body>
+</html>

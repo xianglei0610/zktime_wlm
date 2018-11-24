@@ -1,0 +1,42 @@
+{% extends "special_menu.html" %}
+{% load i18n %}
+
+{% block id_main_div %}
+    {% if request.user|HasPerm:"contenttypes.can_VisitorManagePage" %}
+        <div id="emplevel_byemp" style="margin:15px 0px 10px 0px;">
+            <!-- 对应人员列表 -->
+            <div id="id_datalist" class="div_box" style="float:left; width:96%; margin:0px 0px 0px 10px; _margin:0px 0px 0px 5px;"><h1>{% trans "&nbsp;" %}</h1>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+{% block getdatalist %}
+    {% if request.user|HasPerm:"contenttypes.can_VisitorManagePage" %}
+    
+    $("#id_sys_cur_model").val("Employee");
+    $("#id_datalist").model_grid({
+        "model_url": "{{ dbapp_url }}personnel/Employee/",
+        "need_plus_sign": false,
+        "model_actions": false,
+        "base_query": ["is_visitor=1"],
+        "object_actions": true,
+        "fields_show": ['PIN','EName','Gender','Card','identitycard','visit_company','visit_reason','visit_number'],
+        "obj_edit": false,
+        "sort_fields": ['visit_time'],
+        "record_per_page": 20,
+        "max_no_page": 30,  
+        "layout_types": [], 
+        "disabled_actions": ["_change","_delete","OpAdjustArea","OpAdjustDept","OpEmpType","OpIssueCard","OpLeave","OpRegisterFinger","OpSetAcc","OpTitileChange","OpUploadPhoto","OpDelLevelFromEmp","OpSyncToDevice","OpAddLevelToEmp"],
+
+    });
+    
+    {% else %}
+        $("#id_search").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!-- contenttypes.can_EmpLevelByEmpPage --> 
+{% endblock %}
+
+{% block addjs %}
+{% endblock %}

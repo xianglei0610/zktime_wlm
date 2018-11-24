@@ -1,0 +1,2609 @@
+#///////////////strat of file \iaccess\models\__init__.py///////////////////////////////////////////////////////////////
+msgid "门禁默认页面"
+msgstr "default access control page"
+
+msgid "门禁"
+msgstr "Access Control"
+#//////////////////////////////////////////////////////////////////////////////
+
+#////////////////strat of file .\iaccess\models\accantiback.py/////////////////
+#: .\iaccess\models\accantiback.py
+msgid "反潜模式1"
+msgstr "Anti-Passback mode 1"
+
+msgid "反潜模式2"
+msgstr "Anti-Passback Mode 2"
+
+msgid "反潜模式3"
+msgstr "Anti-Passback Mode 3"
+
+msgid "反潜模式4"
+msgstr "Anti-Passback Mode 4"
+
+msgid "反潜模式5"
+msgstr "Anti-Passback Mode 5"
+
+msgid "请设置设备的反潜信息"
+msgstr "Please set anti-passback information for the device."
+
+msgid "暂无反潜设置信息"
+msgstr "No anti-passback settings yet."
+
+msgid "门禁系统 -> 门设置 -> 反潜设置"
+msgstr "Access Control System -> Door Configuration -> Anti-Passback Settings"
+
+msgid "反潜设置"
+msgstr "Anti-Passback Settings"
+
+#, python-format
+msgid "设备 %s 的反潜信息"
+msgstr "Device %s anti-passback information"
+
+#: .\iaccess\models\accantiback.py:91 .\iaccess\models\accantiback.py:96
+#: .\iaccess\models\accantiback.py:98
+#, python-format
+msgid "%s 读头间反潜"
+msgstr "Anti-passback between Readers of Door %s"
+
+#: .\iaccess\models\accantiback.py:100 .\iaccess\models\accantiback.py:105
+#: .\iaccess\models\accantiback.py:112 .\iaccess\models\accantiback.py:114
+#, python-format
+msgid "%(a)s 与 %(b)s 反潜"
+msgstr "Anti-passback between %(a)s and %(b)s"
+
+#, python-format
+msgid "%(a)s与%(b)s 或 %(c)s与%(d)s 反潜"
+msgstr "Anti-passback between %(a)s and %(b)s or between %(c)s and %(d)s"
+
+msgid "%(a)s 与 %(b)s或%(c)s 反潜"
+msgstr "Anti-passback between %(a)s and %(b)s or %(c)s"
+
+msgid "%(a)s 与 %(b)s或%(c)s或%(d)s 反潜"
+msgstr "Anti-passback between %(a)s and %(b)s or or %(c)s or %(d)s"
+#////////////////end of file .\iaccess\models\accantiback.py///////////////////
+
+#////////////////strat of file .\iaccess\models\accdoor.py/////////////////////
+#: .\iaccess\models\accdoor.py
+msgid "卡读头"
+msgstr "Card Reader"
+
+msgid "指纹读头"
+msgstr "Fingerprint Reader"
+
+msgid "通道1"
+msgstr "Channel1"
+
+msgid "通道2"
+msgstr "Channel2"
+
+msgid "通道3"
+msgstr "Channel3"
+
+msgid "通道4"
+msgstr "Channel4"
+
+msgid "通道5"
+msgstr "Channel5"
+
+msgid "通道6"
+msgstr "Channel6"
+
+msgid "通道7"
+msgstr "Channel7"
+
+msgid "通道8"
+msgstr "Channel8"
+
+msgid "常闭"
+msgstr "Normal Close"
+
+msgid "锁驱动时长"
+msgstr "Lock Open Duration"
+
+msgid "秒(范围0-254)"
+msgstr "s(0-254)"
+
+msgid "闭门回锁"
+msgstr "Close and Revserse State"
+
+msgid "门磁延时"
+msgstr "Door Status Delay"
+
+msgid "秒(范围1-254)"
+msgstr "s(1-254)"
+
+msgid "门有效时间段"
+msgstr "Door Active Time Zone"
+
+msgid "门常开时间段"
+msgstr "Door Passage Mode Time Zone"
+
+msgid "刷卡间隔"
+msgstr "Punch Interval"
+
+msgid "秒(范围:0-10)"
+msgstr "s(0-10)"
+
+msgid "读头类型"
+msgstr "Reader Type"
+
+msgid "胁迫密码"
+msgstr "Duress Password"
+
+msgid "紧急状态密码"
+msgstr "Emergency Password"
+
+msgid "门磁类型"
+msgstr "Door Sensor Type"
+
+msgid "门名称设置重复！"
+msgstr "The name of the door has existed!"
+
+msgid "刷卡间隔范围为0-10秒"
+msgstr "The card punch interval must range from 0s to 10(second)."
+
+msgid "门磁延时范围为1-254秒"
+msgstr "The range of door sensor delay is 1-254(second)."
+
+msgid "锁驱动时长范围为0-254秒"
+msgstr "The range of lock open duration is 0-254(second)."
+
+msgid "门磁延时需大于锁驱动时长"
+msgstr "The door sensor delay must be longer than the lock open duration."
+
+msgid "胁迫密码不能与任意人员密码相同"
+msgstr "The access duress password cannot equal to any personal password."
+
+msgid "胁迫密码必须为整数"
+msgstr "The duress password must be an integer."
+
+msgid "紧急状态密码必须为整数"
+msgstr "The emergency password must be an integer."
+
+msgid "没有可以选择的门，请先添加设备！"
+msgstr "There is no door available. Please add device first."
+
+msgid ""
+"必须设定门有效时间段才能启用该门。门磁类型如果不设置（即为无），在实时监控中"
+"将无法检测到门的当前状态。<br>将当前的设置信息应用于其他门，这里的所有控制器"
+"指的是当前用户权限管理范围内的控制器。"
+msgstr ""
+"This door can be enabled only when the door Active Time Zone has been set. "
+"If the door sensor type is selected as “None”, the current status of the "
+"door cannot be detected during real-time monitoring.<br>The 'Apply this "
+"setting to all the doors of current access control panel:' will only apply "
+"to the doors which has been allocated to the current users authorization "
+"settings."
+
+msgid "门图标宽度"
+msgstr "Door Icon Width"
+
+msgid ""
+"如果设备通讯不成功或者其他原因导致服务器无法获取设备参数，那么该设备将无法进"
+"行反潜设置。<br>已经设置过反潜功能的控制器将不会出现在设备列表中。<br>单门双"
+"向、两门双向控制器可设置读头间反潜和门之间的反潜，两门单向、四门单向控制器只"
+"能设置门之间的反潜。"
+msgstr ""
+"If the server cannot obtain the device parameters due to unsuccessful device "
+"communication or any other reasons, anti-passback settings will be "
+"unavailable to the device.The access control panels for which the anti-"
+"passback functions has been set will not appear in the device list.For one-"
+"door two-way and two-door two-way access control panels, the anti-passback "
+"between readers and doors are both available within the same access "
+"controlpanel. While for the two-door one-way and four-door one-way access "
+"control panels, only the anti-passback between doors is available."
+ 
+ 
+msgid "左边距"
+msgstr "Margin Left"
+
+msgid "上边距"
+msgstr "Margin Top"
+
+msgid "门坐标"
+msgstr "Door Coordinates"
+
+msgid "门数量"
+msgstr "Door Quantity"
+
+msgid "读头数量"
+msgstr "Reader Quantity"
+
+msgid "辅助输入数量"
+msgstr "Auxiliary Input Quantity"
+
+msgid "辅助输出数量"
+msgstr "Auxiliary Output Quantity"
+
+msgid "只支持RF卡"
+msgstr "Only RF Card Supported"
+
+msgid "门禁设备扩展参数"
+msgstr "Access control device extension parameter"
+
+msgid "入"
+msgstr "In"
+
+msgid "仅指纹"
+msgstr "Only Fingerprint"
+
+msgid "仅卡"
+msgstr "Only Card"
+
+msgid "卡或指纹"
+msgstr "Card or Fingerprint"
+
+msgid "卡加指纹"
+msgstr "Card plus Fingerprint"
+
+msgid "卡加密码"
+msgstr "Card Plus Password"
+
+msgid "门编号"
+msgstr "Door Number"
+
+msgid "门名称"
+msgstr "Door Name"
+
+msgid "常开"
+msgstr "Normal Open"
+
+msgid "出入状态"
+msgstr "In/Out Status"
+
+msgid "门"
+msgstr "Door"
+
+msgid "(最大8位整数)"
+msgstr "(max 8-digit integer)"
+
+msgid "所属地图"
+msgstr "Map"
+#///////////////end of file .\iaccess\models\accdoor.py////////////////////////
+
+#///////////////start of file .\iaccess\models\accfirstopen.py////////////////////////
+
+#: .\iaccess\models\accfirstopen.py:51 .\iaccess\models\accfirstopen.py:55
+msgid "当前用户或其他用户已添加过该门在当前时间段内的首卡常开设置"
+msgstr ""
+"The current user or another user has added to this door the First-Card "
+"normal open settings in the current time zone."
+
+msgid "删除开门人员"
+msgstr "Delete an opening person"
+
+msgid "添加开门人员"
+msgstr "Add an opening person"
+
+msgid "添加具有首卡常开权限人员。"
+msgstr "Add a person with the First-Card normal open level"
+
+msgid "系统不允许存在该门在当前时间段内重复的首卡常开设置。"
+msgstr ""
+"The system does not allow this door to have repeated First-Card normal open "
+"setting in the current time zone."
+
+msgid "门禁系统 -> 门设置 -> 首卡常开设置"
+msgstr ""
+"Access Control System -> Door Configuration -> First-Card Normal Open Setting"
+
+#///////////////end of file .\iaccess\models\accfirstopen.py////////////////////////
+
+
+#///////////////start of file .\iaccess\models\accholidays.py////////////////////
+#: .\iaccess\models\accholidays.py
+msgid ""
+"每种假日类型包含的节假日数量不能超过32个。节假日长度不能大于365天。<br>如果某"
+"个节假日只有一天请设置结束日期等于开始日期。<br>按年循环是指某个节假日的日期"
+"在所有年份是不会变化的。"
+msgstr ""
+"Each holiday type cannot contain more than 32 holidays. A holiday cannot "
+"last more than 365 days. <br>If a holiday lasts only one day, set its end "
+"date the same as the start date. <br>Recurring means the dates of a "
+"holiday will not change in every year."
+
+msgid "门禁节假日名称设置重复"
+msgstr "The holiday name setting for access control repeated."
+
+msgid "开始日期不能大于结束日期."
+msgstr "Start date cannot be later than end date."
+
+msgid "开始日期设置错误"
+msgstr "The start date setting is wrong."
+
+msgid "节假日日期不能跨年"
+msgstr "The dates of a holiday cannot cross new year’s eve."
+
+#, python-format
+msgid "日期:%s 已经被设置为节假日，不能重复设置！"
+msgstr "Date:%s has already been set as holiday, it cannot be set repeatedly!"
+
+msgid "门禁节假日"
+msgstr "Holidays"
+
+#, python-format
+msgid "每种假日类型包含的节假日数量不能超过%s个"
+msgstr ""
+"The number of holidays contained in each holiday type cannot exceed %s."
+
+#, python-format
+msgid "按年循环日期:%(a)s-%(b)s 设置重复"
+msgstr "Setting of recurring date: %(a)s-%(b)s repeated!"
+
+#: .\iaccess\models\accholidays.py:13
+#: .\iaccess\templates\AccTimeSeg_edit.html.py:150
+msgid "假日类型1"
+msgstr "Holiday Type 1"
+
+#: .\iaccess\models\accholidays.py:13
+#: .\iaccess\templates\AccTimeSeg_edit.html.py:165
+msgid "假日类型2"
+msgstr "Holiday Type 2"
+
+#: .\iaccess\models\accholidays.py:13
+#: .\iaccess\templates\AccTimeSeg_edit.html.py:180
+msgid "假日类型3"
+msgstr "Holiday Type 3"
+
+msgid "时间区间1"
+msgstr "Interval 1"
+
+msgid "时间区间2"
+msgstr "Interval 2"
+
+msgid "时间区间3"
+msgstr "Interval 3"
+#//////////////end of file .\iaccess\models\accholidays.py/////////////////////
+
+#//////////////strat of file .\iaccess\models\accinterlock.py//////////////////
+msgid "1-2两门互锁"
+msgstr "Interlock between doors 1 and 2"
+
+msgid "3-4两门互锁"
+msgstr "Interlock between doors 3 and 4"
+
+msgid "1-2-3三门互锁"
+msgstr "Interlock between doors 1, 2, and 3"
+
+msgid "1-2-3-4四门互锁"
+msgstr "Interlock between doors 1, 2, 3, and 4"
+
+msgid "请设置设备的互锁信息"
+msgstr "Please set interlock information for the device."
+
+msgid "暂无互锁设置信息"
+msgstr "No interlock setting information yet."
+
+msgid "门禁系统 -> 门设置 -> 互锁设置"
+msgstr "Access Control System -> Door Configuration -> Interlock Settings"
+
+msgid ""
+"互锁设置是门与门之间的互锁，故单门控制器不能设置互锁。已经设置过互锁功能的控"
+"制器将不会出现在设备列表中。"
+msgstr ""
+"The Interlock setting is designed to enable interlock between doors, so this "
+"setting is not available to a one-door access control panel. Any access "
+"control panel for which the interlock function has been set will not appear "
+"in the device list."
+
+msgid "互锁设置"
+msgstr "Interlock Settings"
+
+#, python-format
+msgid "设备 %s 的互锁信息"
+msgstr "Interlock information for the device %s"
+
+#, python-format
+msgid "%(a)s 与 %(b)s 与 %(c)s 互锁"
+msgstr "Interlock among %(a)s and %(b)s and %(c)s"
+
+#, python-format
+msgid "%(a)s 与 %(b)s 与 %(c)s 与 %(d)s 互锁"
+msgstr "Interlock among %(a)s and %(b)s and %(c)s and %(d)s"
+
+#: .\iaccess\models\accinterlock.py:53 .\iaccess\models\accinterlock.py:59
+#, python-format
+msgid "%(a)s 与 %(b)s 互锁"
+msgstr "Interlock between %(a)s and %(b)s"
+#///////////////end of file .\iaccess\models\accinterlock.py///////////////////
+
+
+#////////////////strat of file .\iaccess\models\acclevelset.py/////////////////
+msgid "权限组名称"
+msgstr "Access Level Name"
+
+msgid "门组合"
+msgstr "Door Combination"
+
+msgid "权限组名称设置重复"
+msgstr "The access level name repeated."
+
+msgid "门禁权限组不能超过255个"
+msgstr "There cannot be more than 255 access levels."
+
+msgid "该权限组已变动"
+msgstr "This access level has changed."
+
+msgid "暂未设置门信息"
+msgstr "No door info"
+
+msgid "暂未设置人员信息"
+msgstr "No personnel information is set yet."
+
+msgid "向门禁权限组中添加人员，使其具有开门权限。"
+msgstr ""
+"Add personnel to the access level to give them access to the selected doors "
+"in the access level."
+
+msgid ""
+"门禁权限组包含时间段、门组合以及能开门的人员，此处只设置时间段和门组合。<br>"
+"系统中不允许设置时间段和门组合完全相同的两个权限组。"
+msgstr ""
+"An access level contains time zone, door combination, and personnel that can "
+"open the door. Only time zone and door combination are set here.<br>The "
+"system does not allow two access levels with the same time zone and door "
+"combination."
+
+msgid "门禁权限组"
+msgstr "Access Levels"
+
+msgid "已添加过时间段和门组合完全相同的两个权限组，请重新添加！"
+msgstr ""
+"You have added two access levels with the same time zone and door "
+"combination. Please add another."
+
+#////////////////end of file .\iaccess\models\acclevelset.py///////////////////
+
+
+#//////////////strat of file .\iaccess\models\acclinkageio.py//////////////////
+msgid "任意"
+msgstr "Any"
+
+msgid "门1"
+msgstr "Door 1"
+
+msgid "门2"
+msgstr "Door 2"
+
+msgid "门3"
+msgstr "Door 3"
+
+msgid "门4"
+msgstr "Door 4"
+
+msgid "门锁1"
+msgstr "Lock 1"
+
+msgid "门锁2"
+msgstr "Lock 2"
+
+msgid "门锁3"
+msgstr "Lock 3"
+
+msgid "门锁4"
+msgstr "Lock 4"
+
+msgid "辅助输出1"
+msgstr "Auxiliary Output 1"
+
+msgid "辅助输出3"
+msgstr "Auxiliary Output 3"
+
+msgid "辅助输出6"
+msgstr "Auxiliary Output 6"
+
+msgid "辅助输出8"
+msgstr "Auxiliary Output 8"
+
+msgid "辅助输出9"
+msgstr "Auxiliary Output 9"
+
+msgid "辅助输出10"
+msgstr "Auxiliary Output 10"
+
+msgid "打开"
+msgstr "Open"
+
+msgid "联动设置名称"
+msgstr "Linkage Setting Name"
+
+msgid "触发条件"
+msgstr "Trigger Condition"
+
+msgid "输出类型"
+msgstr "Output Type"
+
+msgid "动作类型"
+msgstr "Action Type"
+
+msgid "延时"
+msgstr "Delay"
+
+msgid "秒 (范围:1-254)"
+msgstr "s(1-254)"
+
+msgid "绑定通道"
+msgstr "Bound Channel"
+
+msgid "联动设置名称设置重复"
+msgstr "The linkage setting name repeated."
+
+msgid "系统中已存在该设备在该触发条件下输入点不为“任意”的联动设置"
+msgstr ""
+"In the system, this device already has the linkage setting that the input "
+"point is not “Any” in this trigger condition."
+
+msgid "系统中已存在该设备在该触发条件下输入点为“任意”的联动设置"
+msgstr ""
+"In the system, this device already has the linkage setting that the input "
+"point is “Any” in this trigger condition."
+
+msgid "系统中已存在该设备在该触发条件下输入点和输出点都相同的联动设置"
+msgstr ""
+"System already exists the same linkage setting of the device under the "
+"conditions of the trigger input and output points to set "
+
+msgid "延时时间的设置范围为 1-254(秒)"
+msgstr "The range of delay time is 1-254 (second)."
+
+msgid "门禁系统 -> 门设置 -> 联动设置"
+msgstr "Access Control System -> Door Configuration -> Linkage Settings"
+
+msgid "请先输入联动设置名称再选择要设置的设备。每台设备可进行多次联动设置。"
+msgstr ""
+"Please input a linkage setting name and then select the device you want to "
+"set. Linkage setting can be done for each device more than once."
+
+msgid "联动设置"
+msgstr "Linkage Settings"
+
+msgid "辅助输入1"
+msgstr "Auxiliary Input 1"
+
+msgid "辅助输入2"
+msgstr "Auxiliary Input 2"
+
+msgid "辅助输入3"
+msgstr "Auxiliary Input 3"
+
+msgid "辅助输入4"
+msgstr "Auxiliary Input 4"
+
+msgid "辅助输入9"
+msgstr "Auxiliary Input 9"
+
+msgid "辅助输入10"
+msgstr "Auxiliary Input 10"
+
+msgid "辅助输入11"
+msgstr "Auxiliary Input 11"
+
+msgid "辅助输入12"
+msgstr "Auxiliary Input 12"
+
+msgid "辅助输出2"
+msgstr "Auxiliary Output 2"
+
+msgid "辅助输出4"
+msgstr "Auxiliary Output 4"
+
+msgid "输入点地址"
+msgstr "Input Point Address"
+
+msgid "输出点地址"
+msgstr "Output Point Address"
+
+msgid "请选择输出点地址"
+msgstr "Please select the output point address !"
+
+msgid "请选择输出点地址或硬盘录像机"
+msgstr "Please select the output point address or netWork video recorder!"
+#///////////////end of file .\iaccess\models\acclinkageio.py///////////////////
+
+#/////////////////start of file .\iaccess\models\accmap.py/////////////////////
+msgid "移除门"
+msgstr "Remove Door"
+
+msgid "更改地图所属区域将清空地图上所有门！"
+msgstr "Change the area of a map will clear all the doors on the map!"
+
+msgid "保存位置信息"
+msgstr "Save Positions"
+
+msgid "放大"
+msgstr "Zoom in"
+
+msgid "缩小"
+msgstr "Zoom out"
+
+msgid "添加门"
+msgstr "Add Door"
+
+msgid "门禁系统 -> 实时监控 -> 电子地图"
+msgstr "Access Control System -> Real-Time Monitoring -> Map"
+
+msgid "地图名称"
+msgstr "Map Name"
+
+msgid "地图路径"
+msgstr "Map Path"
+
+msgid "宽度"
+msgstr "Width"
+
+msgid "高度"
+msgstr "Height"
+
+msgid "地图名称设置重复！"
+msgstr "The map name repeated!"
+#\\\\\\\\\\\\\\\\end of file .\iaccess\models\accmap.py\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+#\\\\\\\\\\\\\\\\strat of file .\iaccess\models\accmonitorlog.py\\\\\\\\\\\\\\\\
+#: .\iaccess\models\accmonitorlog.py
+msgid "仅密码"
+msgstr "Only Password"
+
+msgid "门事件点"
+msgstr "Door Event Point"
+
+msgid "辅助输入点"
+msgstr "Auxiliary Input Point"
+
+msgid "辅助输出点"
+msgstr "Auxiliary Output Point"
+
+msgid "联动触发条件"
+msgstr "Condition Triggered Linkage"
+
+msgid ""
+"全部事件记录包含了所有的实时监控记录（包含异常事件记录），确认后将会被清空！"
+msgstr ""
+"All event entries contain all real-time monitoring entries (including "
+"exception event entries), which will be cleared after confirmation."
+
+msgid "确认要清空全部事件记录"
+msgstr "Confirm to clear all event entries"
+
+msgid "清空全部事件记录"
+msgstr "Clear all event entries"
+
+msgid "门禁异常事件记录是实时监控记录中存在异常的部分，确认后将会被清空！"
+msgstr ""
+"Access control exception event entries are an exceptional part of the real-"
+"time monitoring entries, and they will be cleared after confirmation."
+
+msgid "确认要清空异常事件记录"
+msgstr "Confirm to clear exceptional event entry"
+
+msgid "清空异常事件记录"
+msgstr "Clear exceptional event entry"
+
+msgid "实时监控记录"
+msgstr "Real Time Monitoring Entries"
+
+msgid "远程关门"
+msgstr "Remote Closing"
+
+msgid "设备ID"
+msgstr "Device"
+
+msgid "正常刷卡开门"
+msgstr "Normal Punch Open"
+
+msgid "常开时间段内刷卡"
+msgstr "Punch during Passage Mode Time Zone"
+
+msgid "首卡开门(刷卡)"
+msgstr "First-Card Normal Open(Punch Card)"
+
+msgid "紧急状态密码开门"
+msgstr "Emergency Password Open"
+
+msgid "常开时间段开门"
+msgstr "Open during Passage Mode Time Zone"
+
+msgid "触发联动事件"
+msgstr "Linkage Event Triggered"
+
+msgid "禁用当天常开时间段"
+msgstr "Disable Intraday Passage Mode Time Zone"
+
+msgid "开启辅助输出"
+msgstr "Open Auxiliary Output"
+
+#   event_id=14 仅5.0
+msgid "正常按指纹开门"
+msgstr "Normal Fingerprint Open"
+
+#   event_id=15 仅5.0
+msgid "多卡开门(按指纹)"
+msgstr "Multi-Card Open(Press Fingerprint)"
+
+#   event_id=16 仅5.0
+msgid "常开时间段内按指纹"
+msgstr "Press Fingerprint during Passage Mode Time Zone"
+
+#   event_id=17 仅5.0
+msgid "卡加指纹开门"
+msgstr "Card plus Fingerprint Open"
+
+#   event_id=18 仅5.0
+msgid "首卡开门(按指纹)"
+msgstr "First-Card Normal Open(Press Fingerprint)"
+
+#   event_id=19 仅5.0
+msgid "首卡开门(卡加指纹)"
+msgstr "First-Card Normal Open(Card plus Fingerprint)"
+
+msgid "刷卡间隔太短"
+msgstr "Punch Interval too Short"
+
+msgid "门非有效时间段(刷卡)"
+msgstr "Door Inactive Time Zone(Punch Card)"
+
+msgid "非法时间段"
+msgstr "Illegal Time Zone"
+
+msgid "非法访问"
+msgstr "Access Denied"
+
+msgid "反潜"
+msgstr "Anti-Passback"
+
+msgid "互锁"
+msgstr "Interlock"
+
+msgid "多卡验证(刷卡)"
+msgstr "Multi-Card Authentication(Punch Card)"
+
+msgid "卡未注册"
+msgstr "Unregistered Card"
+
+msgid "门开超时"
+msgstr "Open Door Time Out"
+
+msgid "卡已过有效期"
+msgstr "Card Expired"
+
+msgid "密码错误"
+msgstr "Password Error"
+
+msgid "按指纹间隔太短"
+msgstr "Press Fingerprint Interval too Short"
+
+#   event_id=32 仅5.0
+msgid "多卡验证(按指纹)"
+msgstr "Multi-Card Authentication(Press Fingerprint)"
+
+#   event_id=33 仅5.0
+msgid "指纹已过有效期"
+msgstr "Fingerprint Expired"
+
+#   event_id=34 仅5.0
+msgid "指纹未注册"
+msgstr "Unregistered Fingerprint"
+
+#   event_id=35 仅5.0
+msgid "门非有效时间段(按指纹)"
+msgstr "Door Inactive Time Zone(Press Fingerprint)"
+
+msgid "门非有效时间段(按出门按钮)"
+msgstr "Door Inactive Time Zone(Press Exit Button)"
+
+msgid "常开时间段无法关门"
+msgstr "Failed to Close during Passage Mode Time Zone"
+
+#   event_id=101 仅5.0
+msgid "胁迫密码开门"
+msgstr "Duress Password Open"
+
+msgid "胁迫指纹开门"
+msgstr "Duress Fingerprint Open"
+
+msgid "门已打开"
+msgstr "Door Opened Correctly"
+
+msgid "门已关闭"
+msgstr "Door Closed Correctly"
+
+msgid "出门按钮开门"
+msgstr "Exit Button Open"
+
+#   event_id=203 仅5.0
+msgid "多卡开门(卡加指纹)"
+msgstr "Multi-Card Open(Card plus Fingerprint)"
+
+msgid "常开时间段结束"
+msgstr "Passage Mode Time Zone Over"
+
+msgid "远程开门常开"
+msgstr "Remote Normal Opening"
+
+msgid "设备启动"
+msgstr "Device Started"
+
+msgid "辅助输入点断开"
+msgstr "Auxiliary Input Disconnected"
+
+msgid "辅助输入点短路"
+msgstr "Auxiliary Input Shorted"
+
+msgid "多卡开门(刷卡)"
+msgstr "Multi-Card Open(Punch Card)"
+
+msgid "远程开门"
+msgstr "Remote Opening"
+
+msgid "数据异常"
+msgstr "Data Exception"
+
+msgid "多卡开门"
+msgstr "Multi-Card Open"
+
+msgid "硬盘录像机"
+msgstr "NetWork Video Recorder"
+#\\\\\\\\\\\\\\\end of file .\iaccess\models\accmonitorlog.py\\\\\\\\\\\\\\\\\\
+
+
+
+msgid "当前门"
+msgstr "Current Door"
+
+msgid "组合名称"
+msgstr "Combination Name"
+
+msgid "组合名称设置重复"
+msgstr "The combination name repeated."
+
+msgid "暂无多卡开门组合设置信息"
+msgstr "No information on Multi-Card opening combination settings yet."
+
+msgid "门禁系统 ->门设置 -> 多卡开门设置"
+msgstr ""
+"Access Control System -> Door Configuration -> Multi-Card Opening Settings"
+
+msgid "最多五人同时开门，且五人至少要来自一个组。"
+msgstr ""
+"At most five persons can open the door simultaneously, but they must come "
+"from one group at least."
+
+msgid "多卡开门人员组合"
+msgstr "Multi-Card Opening Personnel Combination"
+
+msgid "人数"
+msgstr "Personnel quantity"
+
+msgid "多卡开门组"
+msgstr "Multi-Card Opening Group"
+
+msgid "多卡开门设置"
+msgstr "Multi-Card Opening Settings"
+
+msgid "多卡开门组合"
+msgstr "Multi-Card opening combination"
+#\\\\\\\\\\\\\start of file .\iaccess\models\accmorecardset.py\\\\\\\\\\\\\\\\\
+
+
+#\\\\\\\\\\\\\\\\\strat of file .\iaccess\models\acctimeseg.py\\\\\\\\\\\\\\\\\
+#: .\iaccess\models\acctimeseg.py
+msgid "时间段名称"
+msgstr "Time Zone Name"
+
+msgid "周日时间区间1开始时间"
+msgstr "Start time of Sunday interval 1"
+
+msgid "周日时间区间1结束时间"
+msgstr "End time of Sunday interval 1"
+
+msgid "周日时间区间2开始时间"
+msgstr "Start time of Sunday interval 2"
+
+msgid "周日时间区间2结束时间"
+msgstr "End time of Sunday interval 2"
+
+msgid "周日时间区间3开始时间"
+msgstr "Start time of Sunday interval 3"
+
+msgid "周日时间区间3结束时间"
+msgstr "End time of Sunday interval 3"
+
+msgid "周一时间区间1开始时间"
+msgstr "Start time of Monday interval 1"
+
+msgid "周一时间区间1结束时间"
+msgstr "End time of Monday interval 1"
+
+msgid "周一时间区间2开始时间"
+msgstr "Start time of Monday interval 2"
+
+msgid "周一时间区间2结束时间"
+msgstr "End time of Monday interval 2"
+
+msgid "周一时间区间3开始时间"
+msgstr "Start time of Monday interval 3"
+
+msgid "周一时间区间3结束时间"
+msgstr "End time of Monday interval 3"
+
+msgid "周二时间区间1开始时间"
+msgstr "Start time of Tuesday interval 1"
+
+msgid "周二时间区间1结束时间"
+msgstr "End time of Tuesday interval 1"
+
+msgid "周二时间区间2开始时间"
+msgstr "Start time of Tuesday interval 2"
+
+msgid "周二时间区间2结束时间"
+msgstr "End time of Tuesday interval 2"
+
+msgid "周二时间区间3开始时间"
+msgstr "Start time of Tuesday interval 3"
+
+msgid "周二时间区间3结束时间"
+msgstr "End time of Tuesday interval 3"
+
+msgid "周三时间区间1开始时间"
+msgstr "Start time of Wednesday interval 1"
+
+msgid "周三时间区间1结束时间"
+msgstr "End time of Wednesday interval 1"
+
+msgid "周三时间区间2开始时间"
+msgstr "Start time of Wednesday interval 2"
+
+msgid "周三时间区间2结束时间"
+msgstr "End time of Wednesday interval 2"
+
+msgid "周三时间区间3开始时间"
+msgstr "Start time of Wednesday interval 3"
+
+msgid "周三时间区间3结束时间"
+msgstr "End time of Wednesday interval 3"
+
+msgid "周四时间区间1开始时间"
+msgstr "Start time of Thursday interval 1"
+
+msgid "周四时间区间1结束时间"
+msgstr "End time of Thursday interval 1"
+
+msgid "周四时间区间2开始时间"
+msgstr "Start time of Thursday interval 2"
+
+msgid "周四时间区间2结束时间"
+msgstr "End time of Thursday interval 2"
+
+msgid "周四时间区间3开始时间"
+msgstr "Start time of Thursday interval 3"
+
+msgid "周四时间区间3结束时间"
+msgstr "End time of Thursday interval 3"
+
+msgid "周五时间区间1开始时间"
+msgstr "Start time of Friday interval 1"
+
+msgid "周五时间区间1结束时间"
+msgstr "End time of Friday interval 1"
+
+msgid "周五时间区间2开始时间"
+msgstr "Start time of Friday interval 2"
+
+msgid "周五时间区间2结束时间"
+msgstr "End time of Friday interval 2"
+
+msgid "周五时间区间3开始时间"
+msgstr "Start time of Friday interval 3"
+
+msgid "周五时间区间3结束时间"
+msgstr "End time of Friday interval 3"
+
+msgid "周六时间区间1开始时间"
+msgstr "Start time of Saturday interval 1"
+
+msgid "周六时间区间1结束时间"
+msgstr "End time of Saturday interval 1"
+
+msgid "周六时间区间2开始时间"
+msgstr "Start time of Saturday interval 2"
+
+msgid "周六时间区间2结束时间"
+msgstr "End time of Saturday interval 2"
+
+msgid "周六时间区间3开始时间"
+msgstr "Start time of Saturday interval 3"
+
+msgid "周六时间区间3结束时间"
+msgstr "End time of Saturday interval 3"
+
+msgid "假日类型1时间区间1开始时间"
+msgstr "Start time of interval 1 for Holiday type 1"
+
+msgid "假日类型1时间区间1结束时间"
+msgstr "End time of interval 1 for Holiday type 1"
+
+msgid "假日类型1时间区间2开始时间"
+msgstr "Start time of interval 2 for Holiday type 1"
+
+msgid "假日类型1时间区间2结束时间"
+msgstr "End time of interval 2 for Holiday type 1"
+
+msgid "假日类型1时间区间3开始时间"
+msgstr "Start time of interval 3 for Holiday type 1"
+
+msgid "假日类型1时间区间3结束时间"
+msgstr "End time of interval 3 for Holiday type 1"
+
+msgid "假日类型2时间区间2开始时间"
+msgstr "Start time of interval 2 for Holiday type 2"
+
+msgid "假日类型2时间区间2结束时间"
+msgstr "End time of interval 2 for Holiday type 2"
+
+msgid "假日类型2时间区间3开始时间"
+msgstr "Start time of interval 3 for Holiday type 2"
+
+msgid "假日类型2时间区间3结束时间"
+msgstr "End time of interval 3 for Holiday type 2"
+
+msgid "假日类型3时间区间1开始时间"
+msgstr "Start time of interval 1 for Holiday type 3"
+
+msgid "假日类型3时间区间1结束时间"
+msgstr "End time of interval 1 for Holiday type 3"
+
+msgid "假日类型3时间区间2开始时间"
+msgstr "Start time of interval 2 for Holiday type 3"
+
+msgid "假日类型3时间区间2结束时间"
+msgstr "End time of interval 2 for Holiday type 3"
+
+msgid "假日类型3时间区间3开始时间"
+msgstr "Start time of interval 3 for Holiday type 3"
+
+msgid "假日类型3时间区间3结束时间"
+msgstr "End time of interval 3 for Holiday type 3"
+
+msgid "门禁时间段名称设置重复"
+msgstr "The time zone name repeated."
+
+msgid ""
+"如果开始时间不为‘00:00’，那么开始时间需小于结束时间。<br>如果不设置某个时间区"
+"间，只需默认开始时间和结束时间为‘00:00’到‘00:00’即可。"
+msgstr ""
+"The End Time must always be greater than the Start Time, except that the "
+"start and end time are both '00:00'."
+
+msgid "24小时通行"
+msgstr "24-Hour Accessible"
+
+msgid "门禁时间段"
+msgstr "Time Zones"
+
+#, python-format
+msgid "%(f)s 不能大于 %(ev)s"
+msgstr "%(f)s cannot be larger than %(ev)s."
+
+msgid "%(f)s 不能等于 %(ev)s"
+msgstr "%(f)s cannot be equal to %(ev)s."
+
+msgid "%s 填写错误，请先使用时间区间1"
+msgstr "%s input error, please use the interval 1 first"
+
+msgid "%s 填写错误，请先使用时间区间2"
+msgstr "%s input error, please use the interval 2 first"
+
+msgid "%(a)s 不能小于等于 %(b)s"
+msgstr "%(a)s cannot be equal to or smaller than %(b)s."
+
+msgid "初始化的门禁时间段  %s 不能编辑"
+msgstr "The initialized time zone %s cannot be modified."
+
+msgid "门禁时间段不能超过%s个"
+msgstr "There cannot be more than %s time zones."
+
+msgid "初始化的门禁时间段  %s 不能删除"
+msgstr "The initialized time zone %s cannot be deleted."
+
+msgid "门禁时间段 %s 正在使用中,不能删除"
+msgstr "The time zone %s is in use and cannot be deleted."
+
+#: .\iaccess\models\acctimeseg.py:86 .\iaccess\models\acctimeseg.py:87
+msgid "假日类型2时间区间1开始时间"
+msgstr "Start time of interval 1 for Holiday type 2"
+
+#\\\\\\\\\\\\\\\\end of file .\iaccess\models\acctimeseg.py\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\start of file .\iaccess\models\accwiegandfmt.py\\\\\\\\\\\\\\\
+
+msgid "韦根卡格式名称"
+msgstr "Wiegand card format name"
+
+msgid "韦根卡格式"
+msgstr "Wiegand Card Format"
+
+msgid "奇校验开始位"
+msgstr "Odd parity check start bit"
+
+msgid "奇校验结束位"
+msgstr "Odd parity check end bit"
+
+msgid "偶校验开始位"
+msgstr "Even parity check start bit"
+
+msgid "偶校验结束位"
+msgstr "Even parity check end bit"
+
+msgid "CID开始位"
+msgstr "CID start bit"
+
+msgid "CID结束位"
+msgstr "CID end bit"
+
+msgid "公司码开始位"
+msgstr "Corporation code start bit"
+
+msgid "公司码结束位"
+msgstr "Corporation code end bit"
+
+msgid "韦根卡格式名称设置重复"
+msgstr "The Wiegand card format name repeated."
+
+msgid "门禁系统 -> 门设置 -> 韦根卡格式"
+msgstr "Access Control System -> Door Configuration -> Wiegand card format"
+
+msgid "标准韦根26"
+msgstr "Standard Wiegand 26"
+
+msgid "标准韦根34"
+msgstr "Standard Wiegand 34"
+
+msgid "总位数"
+msgstr "Total bit"
+
+#, python-format
+msgid "初始化的韦根卡格式:%s 不能删除"
+msgstr "The initialized Wiegand card format %s cannot be deleted."
+
+#, python-format
+msgid "韦根卡格式 %s 正在使用中,不能删除"
+msgstr "The Wiegand card format %s is in use and cannot be deleted."
+#\\\\\\\\\\\\\\\end of file .\iaccess\models\accwiegandfmt.py\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\strat of file .\iaccess\models\models.py\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\models\models.py
+msgid "门管理"
+msgstr "Door Management"
+
+msgid "门禁系统 -> 门设置 -> 门管理"
+msgstr "Access Control System -> Door Configuration -> Door Management"
+
+msgid "人员门禁权限设置"
+msgstr "Personnel Access Levels"
+
+msgid "以权限组显示"
+msgstr "Show by Access Levels"
+
+msgid "门禁系统 -> 人员门禁权限设置 -> 以权限组显示"
+msgstr ""
+"Access Control System -> Personnel Access Levels -> Shown by Access Levels"
+
+msgid "以人员显示"
+msgstr "Show by Personnel"
+
+msgid "门禁系统 -> 人员门禁权限设置 -> 以人员显示"
+msgstr "Access Control System -> Personnel Access Levels -> Shown by Personnel"
+
+msgid "实时监控"
+msgstr "Real-Time Monitoring"
+
+msgid "监控全部"
+msgstr "Monitor All"
+
+msgid "门禁系统 -> 实时监控 -> 监控全部"
+msgstr "Access Control System -> Real-Time Monitoring -> Monitor All"
+
+msgid "报警事件"
+msgstr "Alarm Events"
+
+msgid "门禁系统 -> 实时监控 -> 报警事件"
+msgstr "Access Control System -> Real-Time Monitoring -> Alarm Events"
+
+msgid "全部门禁事件"
+msgstr "All Access Control Events"
+
+msgid "门禁系统 -> 报表 -> 全部门禁事件"
+msgstr "Access Control System -> Reports -> All Access Control Events"
+
+msgid "门禁系统 -> 报表 -> 门禁异常事件"
+msgstr "Access Control System -> Reports -> Access Control Exception Events"
+
+msgid "门禁系统 -> 报表 -> 人员门禁权限"
+msgstr "Access Control System -> Reports -> Personnel Access Level"
+
+msgid "门设置"
+msgstr "Door Configuration"
+
+msgid "门禁异常事件"
+msgstr "Access Control Exception Events"
+
+msgid "人员门禁权限"
+msgstr "Personnel Access Levels"
+
+msgid "电子地图"
+msgstr "Map"
+#\\\\\\\\\\\\\\\\\\end of file .\iaccess\models\models.py\\\\\\\\\\\\\\\\\\\\\\
+
+
+#/////////////////start of file .\iaccess\dev_comm_center.py///////////////////
+# .\iaccess\dev_comm_center.py 
+msgid "用户信息"
+msgstr "Users Information"
+
+msgid "门禁权限信息"
+msgstr "Access Control Levels"
+
+msgid "假日设置"
+msgstr "Holiday Settings"
+
+msgid "时间段设置"
+msgstr "TimeTable Settings"
+
+msgid "更新数据:"
+msgstr "Update data:"
+
+msgid "查询数据:"
+msgstr "Search data:"
+
+msgid "删除数据:"
+msgstr "Delete data:"
+
+msgid "获取设备状态"
+msgstr "Obtain device status"
+
+msgid "设置设备状态"
+msgstr "Set device status"
+
+msgid "获取设备参数:"
+msgstr "Obtain device parameters:"
+
+msgid "设置设备参数:"
+msgstr "Set device parameters:"
+
+msgid "连接设备"
+msgstr "Connecting"
+
+msgid "获取实时事件"
+msgstr "Obtain Real-Time Events"
+
+msgid "获取新记录"
+msgstr "Get New Entries"
+
+msgid "命令队列检测"
+msgstr ""
+
+msgid "命令发送失败"
+msgstr "Fail to Send the Command"
+
+msgid "命令超时"
+msgstr "Command not Response"
+
+msgid "需要的缓存不足"
+msgstr "Buffer not Enough"
+
+msgid "解压失败"
+msgstr "Fail to Decompress File"
+
+msgid "读取数据长度错误"
+msgstr "Length of Reading Data not Correct"
+
+msgid "通讯错误"
+msgstr "Communication Error"
+
+msgid "命令重复"
+msgstr "Command Repeated"
+
+msgid "连接尚未授权"
+msgstr "Connection Unauthorized"
+
+msgid "数据错误，CRC校验失败"
+msgstr "Data Error: The CRC Result Failed"
+
+msgid "数据错误，SDK无法解析"
+msgstr "Data Error: SDK Cannot Resolve the Data"
+
+msgid "数据参数错误"
+msgstr "Data Parameter Error"
+
+msgid "命令执行错误"
+msgstr "Commands Excuted Failure"
+
+msgid "命令错误，没有此命令"
+msgstr "Command Error: Command not Available "
+
+msgid "通讯密码错误"
+msgstr "Communication Password Error"
+
+msgid "写文件失败"
+msgstr "Fail to Write the File"
+
+msgid "读文件失败"
+msgstr "Fail to Read the File"
+
+msgid "文件不存在"
+msgstr "File not Exist"
+
+msgid "存储空间已满"
+msgstr "Storage space is full"
+
+msgid "校验和出错"
+msgstr "CheckSum Failed"
+
+msgid "数据长度错误"
+msgstr "Wrong Data Length"
+
+msgid "没有设置平台参数"
+msgstr "Platform Parameter not Set"
+
+msgid "固件平台不一致"
+msgstr "Firmware Platform not Consistent"
+
+msgid "升级的固件版本过旧"
+msgstr "Firmware Version too Old"
+
+msgid "升级文件标识出错"
+msgstr "Wrong Upgrade File Stamp"
+
+msgid "文件名错误"
+msgstr "Wrong File Name"
+
+msgid "未知错误"
+msgstr "Unknown Error"
+
+msgid "表结构不存在"
+msgstr "Table Structure not Exist"
+
+msgid "表结构中，条件字段不存在"
+msgstr "Condition Field not Exist in table structure "
+
+msgid "字段总数不一致"
+msgstr "Total Number of Fields not Consistent "
+
+msgid "字段排序不一致"
+msgstr "Sequence of Fields Consistent"
+
+msgid "实时事件数据错误"
+msgstr "Real-time Event Data Error"
+
+msgid "解析数据时，数据错误"
+msgstr "Data Errors Occur during Data Resolution. "
+
+msgid "数据溢出，下发数据超出4M"
+msgstr "Data Overflow:Delivered Data more than 4 MB"
+
+msgid "获取表结构失败"
+msgstr "Fail to Get Table Structure"
+
+msgid "无效OPTIONS选项"
+msgstr "Invalid Options "
+
+msgid "库文件不存在"
+msgstr "LoadLibrary Failure "
+
+msgid "调用接口失败"
+msgstr "Fail to Invoke Interface "
+
+msgid "通讯初始化失败"
+msgstr "Communication Initialization Fails"
+
+msgid "获取TCP/IP版本失败"
+msgstr "Requested TCP/IP Version Error"
+
+msgid "错误的TCP/IP版本号"
+msgstr "Incorrect TCP/IP Version"
+
+msgid "获取协议类型失败"
+msgstr "Fail to Get Protocol Type "
+
+msgid "无效SOCKET"
+msgstr "Invalid SOCKET"
+
+msgid "SOCKET错误"
+msgstr "SOCKET Error"
+
+msgid "HOST错误"
+msgstr "HOST Error"
+
+msgid "队列异常! 请取消队列后重新同步数据"
+msgstr "Exception queue! Cancel and re-synchronize the data"
+
+msgid "首卡常开设置"
+msgstr "First-Card Normal Open Settings"
+
+msgid "事件记录"
+msgstr "Event Entries"
+
+msgid "正常"
+msgstr "Normal"
+
+#, python-format
+msgid "%(f)s:错误代码%(ff)d"
+msgstr "%(f)s: wrong code %(ff)d"
+
+msgid "数据中心服务检测"
+msgstr "Check Data Center Service"
+
+msgid "正在连接"
+msgstr "Connecting"
+
+msgid "服务未启动"
+msgstr "Service not Running"
+
+msgid "指纹数据"
+msgstr "Fingerprint Data"
+
+msgid "升级固件失败，原因:后台串口进程忙"
+msgstr "Firmware upgrade failed, reason: process of background Serial Port busy."
+
+msgid "升级固件失败，原因:后台设备线程忙"
+msgstr "Firmware upgrade failed, reason: background thread of device is busy."
+
+msgid "指纹模板长度不能为0"
+msgstr "Length of the fingerprint template cannot be zero."
+
+msgid "找不到指纹模板对应用户"
+msgstr "PIN of the fingerprint template not found."
+
+msgid "设备线程暂停"
+msgstr "Device Thread Paused"
+
+msgid "后台处理命令失败"
+msgstr "Background Processing Command Failed"
+
+msgid "连接断开"
+msgstr "Disconnected"
+
+msgid "获取记录数"
+msgstr "Get Records"
+#///////////////end of file .\iaccess\dev_comm_center.py///////////////////////
+
+#////////////////start of file .\iaccess\view.py////////////////////////////////
+msgid "控制器类型错误，设备被禁用"
+msgstr "The device is disabled as the access control panel type is wrong."
+#/////////////////end of file .\iaccess\view.py////////////////////////////////
+
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\Acc_Electro_Map.html.py
+
+msgid "正在获取系统内用户授权范围内的所有地图......"
+msgstr "Obtaining all maps authorized to users in the system..."
+
+msgid "添加地图"
+msgstr "Add Map"
+
+msgid "删除地图"
+msgstr "Delete Map"
+
+msgid "编辑地图"
+msgstr "Edit Map"
+
+msgid "当前系统中没有添加地图或者您没有权限查看已有地图！"
+msgstr ""
+"The current system has no map or you have no permission to view!"
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+#\\\\\\\\\\\strat of file .\iaccess\templates\Acc_Monitor_All.html.py\\\\\\\\\\
+
+
+msgid "重新启用当天常开时间段"
+msgstr "Reenable Today's Passage Mode Time Zone"
+
+msgid "无操作"
+msgstr "No Operation"
+
+msgid "秒"
+msgstr "second(s)"
+
+msgid "开"
+msgstr "Open for"
+
+msgid "读取中......"
+msgstr "Reading…"
+
+msgid "启用当天常开时间段"
+msgstr "Enable Intraday Passage Mode Time Zone"
+
+msgid "事件点"
+msgstr "Event point"
+
+msgid "人员编号(姓名)"
+msgstr "No.(First Name)"
+
+msgid "门状态监控"
+msgstr "Door Status Monitoring"
+
+msgid "控制器"
+msgstr "Access Control Panel"
+
+msgid "开当前所有门"
+msgstr "Open all current doors"
+
+msgid "关当前所有门"
+msgstr "Close all current doors"
+
+msgid "取消全部报警"
+msgstr "Cancel all alarms"
+
+msgid "正在获取系统内用户授权范围内的所有门......"
+msgstr "Obtaining all doors authorized to users in the system..."
+
+msgid "事件监控"
+msgstr "Events Monitoring"
+
+msgid "发现报警事件"
+msgstr "Alarm Events Detected"
+
+msgid "当前系统中没有添加门或者没有查询到符合您需要的门!"
+msgstr ""
+"The current system has no door added or cannot find any door that meets your need."
+
+msgid "所属设备"
+msgstr "Owned Device"
+
+msgid "当前状态"
+msgstr "Current Status"
+
+msgid "全部"
+msgstr "All"
+
+msgid "读取中..."
+msgstr "Reading…"
+
+#: .\iaccess\templates\Acc_Monitor_Alarm.html.py
+msgid "报警事件监控"
+msgstr "Alarm Events Monitoring"
+#\\\\\\\\\\\end of file .\iaccess\templates\Acc_Monitor_All.html\\\\\\\\\\\\\\
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iaccess\templates\AccWiegandFmt_edit.html.py
+msgid "偶校验"
+msgstr "Even parity check"
+
+msgid "奇校验"
+msgstr "Odd parity check"
+
+msgid "CID"
+msgstr "CID"
+
+msgid "公司码"
+msgstr "corporation code"
+
+msgid "起始位"
+msgstr "Start bit"
+
+msgid "数字位"
+msgstr "Digit"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\AccMap_edit.html.py:16
+msgid "修改路径:"
+msgstr "Modify Path:"
+
+#: .\iaccess\templates\Device_opform_OpCloseAuxOut.html
+msgid "选择要关闭的辅助输出点"
+msgstr "Select the Auxiliary Output Point"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\Device_opform_ResetPassword.html
+msgid "旧通讯密码"
+msgstr "Old Communication Password"
+
+msgid "(最大15位整数)"
+msgstr "(max 15-digit integer)"
+
+msgid "正确"
+msgstr "Ok"
+
+msgid "通讯密码必须为整数"
+msgstr "The Communication password must be an integer."
+
+msgid "错误"
+msgstr "Error"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\AccDoor_edit.html 
+msgid "重置胁迫密码"
+msgstr "Reset the Duress Password"
+
+msgid "旧密码"
+msgstr "Old Password"
+
+msgid "新密码"
+msgstr "New Password"
+
+msgid "重置紧急状态密码"
+msgstr "Reset the Emergency Password"
+
+msgid "将该设置应用于当前控制器所有门:"
+msgstr "Apply this settings to all the doors of current access control panel:"
+
+msgid "将该设置应用于所有控制器所有门:"
+msgstr "Apply this settings to all the doors of all access control panels:"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\start of file .\iclock\models\model_device.py\\\\\\\\\\\\\\\
+#: .\iclock\models\model_device.py
+msgid "启用夏令时"
+msgstr "Enable daylight saving time"
+
+msgid ""
+"给设备设置夏令时，每次可以同时对多台设备进行设置，修改成功后服务器将会自动同"
+"步到选中设备当中。"
+msgstr "To set the daylight saving time to the device,you can set it to multiple devices in once and the server will synchronize it to the selected devices after it sets successfully."
+
+msgid "夏令时设置成功！"
+msgstr "The daylight saving time is set successfully!"
+
+msgid "夏令时设置失败！"
+msgstr "The daylight saving time is set failed!"
+
+msgid "该设备未设置夏令时！"
+msgstr "The daylight saving time hasn't been set in this device!"
+
+msgid "夏令时已禁用！"
+msgstr "The daylight saving time has been disabled!"
+
+msgid "夏令时禁用失败！"
+msgstr "Disable the daylight saving time failed!"
+
+msgid "夏令时名称"
+msgstr "DST Name"
+
+msgid "夏令时名称设置重复"
+msgstr "The daylight saving time name setting repeated."
+
+msgid "关闭辅助输出"
+msgstr "Close Auxiliary Output"
+
+#: .\iclock\models\model_device.py:781 .\iclock\models\model_device.py:782
+msgid "禁用夏令时"
+msgstr "Disable daylight saving time"
+
+#, python-format
+msgid "夏令时 %s 正在使用中，不能删除"
+msgstr "The daylight saving time %s is in use and cannot be deleted."
+
+msgid "搜索门禁控制器"
+msgstr "Search Access Control Panels"
+
+msgid "搜索局域网内存在的门禁控制器。"
+msgstr "Search Access Control Panels in LAN"
+
+msgid ""
+"设备名称、各通信参数以及所属区域为必填项。<br>系统会验证用户提交的设备是否存"
+"在，并判断门禁控制器类型是否正确。"
+msgstr ""
+"The 'Device Name', the communication parameters, and their respective areas "
+"are mandatory. The system will verify the existence of device submitted by "
+"the user, and determine whether the correct type of access control panels "
+"has been selected."
+
+msgid "门禁控制器"
+msgstr "Access Control Panel"
+
+msgid "单门控制器"
+msgstr "One-Door Access Control Panel"
+
+msgid "两门控制器"
+msgstr "Two-Door Access Control Panel"
+
+msgid "四门控制器"
+msgstr "Four-Door Access Control Panel"
+
+#: .\iclock\models\model_device.py:283 .\iclock\models\model_device.py:765
+msgid "夏令时"
+msgstr "Daylight Saving Time"
+
+#, python-format
+msgid "系统最大支持%s台门禁控制器"
+msgstr "There cannot be more than %s Access Control Panels."
+
+msgid "输入新的IP地址"
+msgstr "New IP Address"
+
+msgid "输入子网掩码"
+msgstr "Subnet Mask"
+
+msgid "输入网关地址"
+msgstr "Gateway Address"
+
+msgid "获取失败或不支持"
+msgstr "Failed to Obtain or Not Support"
+
+msgid "当前设备不支持指纹！"
+msgstr "The device cannot support fingerprint!"
+
+msgid "获取人员信息"
+msgstr "Get information of personnel"
+
+msgid "重新获取设备中当前的人员数量和总的指纹数。"
+msgstr "Again to get the current total number of personnel and count of the fingerprint in the device."
+
+msgid "新通讯密码"
+msgstr "New Password"
+
+msgid "确认通讯密码"
+msgstr "Confirm Password"
+
+#: .\iclock\models\model_device.py:767 .\iclock\models\model_device.py:769
+msgid "获取人员信息失败！"
+msgstr "Get information of personnel failed!"
+
+msgid "<font color='blue'>升级固件成功</font>"
+msgstr "<font color='blue'>Upgrade firmware successful!</font>"
+
+msgid "硬盘录像机不支持该操作！"
+msgstr "Video server don't support this operation,please choose other device!"
+
+msgid "获取所有记录"
+msgstr "Get All Entries"
+
+#: .\iclock\models\model_device.py:717 .\iclock\models\model_device.py:719
+msgid "目标文件格式错误"
+msgstr "File format error"
+
+msgid "通过SD卡获取记录"
+msgstr "Get Entries From SD Card"
+
+msgid "TCP/IP"
+msgstr "TCP/IP"
+
+msgid "RS485"
+msgstr "RS485"
+
+msgid "门禁控制器类型"
+msgstr "Access Control Panel Type"
+
+msgid "串口号"
+msgstr "Serial Port No. "
+
+msgid "波特率"
+msgstr "Baud Rate"
+
+msgid "RS485地址"
+msgstr "RS485 Address"
+
+msgid "通讯密码"
+msgstr "Communication Password"
+
+msgid "自动同步设备时间"
+msgstr "Auto Synchronize Device Time"
+
+msgid "切换为两门双向"
+msgstr "Switch to Two-door Two-way"
+
+
+msgid "修改指纹比对阈值"
+msgstr "Change the fingerprint identification threshold"
+
+msgid "修改设备中进行指纹比对时的阈值。请首先确认当前设备是否支持指纹。"
+msgstr "Change the threshold for your fingerprint matching in the device. Please check whether the device supports fingerprint."
+
+
+msgid "(范围35-70)"
+msgstr "(Range 35-70)"
+
+msgid "指纹比对阈值范围为35-70！"
+msgstr "The fingerprint identification threshold is from 35 to 70!"
+
+msgid ""
+"该操作只对当前打开的辅助输出点有效，如果选择的辅助输出点是关闭的，那么该操作"
+"无效。"
+msgstr "This operation can only close the opened auxiliary outputs, if the auxiliary output you check is closed, then the operation won't be valid."
+
+msgid "升级固件"
+msgstr "Upgrade Firmware"
+
+msgid "升级设备中的固件。"
+msgstr "Upgrade firmware"
+
+msgid "选择目标文件"
+msgstr "Select File"
+
+msgid "目标文件不存在"
+msgstr "The file does not exist!"
+
+msgid "目标文件名错误"
+msgstr "File name error. "
+
+msgid "升级固件成功"
+msgstr "Upgrade firmware successful!"
+
+#, python-format
+msgid "升级固件失败，错误码：%d"
+msgstr "Firmware upgrade failed, error code: %d"
+
+#, python-format
+msgid "连接设备失败（原因：%s），无法升级固件。"
+msgstr "Connected device failed (reason: %s), can not upgrade the firmware."
+
+#, python-format
+msgid "设备连接失败（错误码：%d），无法升级固件。"
+msgstr ""
+"Connected device failed (error code: %d), can not upgrade the firmware."
+
+msgid "获取事件记录"
+msgstr "Get event entries"
+
+msgid "获取设备中的事件记录到服务器中。"
+msgstr "Get event entries from the device to the server."
+
+#, python-format
+msgid "<font color='blue'>获取事件记录成功，共 %d 条</font>"
+msgstr "<font color='blue'>Get a total of %d  event entries successfully.</font>"
+
+msgid "获取事件记录失败"
+msgstr "Failed to get event entries."
+
+
+msgid "设备通讯密码不能包含空格！"
+msgstr "The device communication password cannot contain whitespace!"
+
+msgid "两次输入密码不一致,请重新输入！"
+msgstr "The two passwords are different. Please input again!"
+
+msgid "修改通讯密码成功！"
+msgstr "The communication password is modified successfully!"
+
+msgid "修改通讯密码失败！"
+msgstr "The communication password fails to be modified!"
+
+msgid ""
+"修改设备IP地址，每次只能修改一台设备。修改成功后服务器将会自动将软件中的设备"
+"IP地址同步为新的IP地址。"
+msgstr ""
+"Upon successful modification, the server will automatically synchronize the "
+"device IP address in the software with the new IP address."
+
+msgid "修改IP地址成功！"
+msgstr "The IP address is modified successfully!"
+
+msgid "修改IP地址失败！"
+msgstr "The IP address fails to be modified!"
+
+#, python-format
+msgid "该设备的序列号：%s 已存在"
+msgstr "Current device's serial number %s already exists."
+
+msgid "修改通讯密码"
+msgstr "Modify communication password"
+
+#\\\\\\\\\\\\\\\\\end of file .\iclock\models\model_device.py\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iclock\templates\DSTime_edit.html.py:11
+msgid "夏令时名称:"
+msgstr "DST Name:"
+
+#: .\iclock\templates\DSTime_edit.html.py:22
+#: .\iclock\templates\DSTime_edit.html.py:29
+msgid "(MM-dd hh:mm)"
+msgstr "(MM-dd hh:mm)"
+
+#: .\iclock\templates\DSTime_edit.html.py:68
+#: .\iclock\templates\DSTime_edit.html.py:105
+msgid "时"
+msgstr "hour"
+
+#: .\iclock\templates\DSTime_edit.html.py:69
+#: .\iclock\templates\DSTime_edit.html.py:106
+msgid "分"
+msgstr "minute"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\start of file D:/trunk/python-support/base\variable_for_trans.py\\\\\\\\\
+
+#: D:/trunk/python-support/base\variable_for_trans.py
+
+msgid "浏览全部门禁事件"
+msgstr "All Access Control Events"
+
+msgid "浏览门禁异常事件"
+msgstr "Access Control Exception Events"
+
+msgid "浏览人员门禁权限"
+msgstr "Personnel Access Levels"
+
+msgid "浏览多卡开门人员组"
+msgstr "Browse"
+
+msgid "浏览多卡开门组"
+msgstr "Browse"
+
+msgid "浏览多卡开门设置"
+msgstr "Browse"
+
+msgid "浏览门禁时间段"
+msgstr "Browse"
+
+msgid "浏览门禁节假日"
+msgstr "Browse"
+
+msgid "浏览门禁权限组"
+msgstr "Browse"
+
+msgid "浏览门禁设备扩展参数"
+msgstr "Browse"
+
+msgid "编辑多卡开门"
+msgstr "Edit Multi-Card opening"
+
+#\\\\\end of file D:/trunk/python-support/base\variable_for_trans.py\\\\\\\\\\\
+
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\AccFirstOpen_list.html.py
+msgid "浏览开门人员"
+msgstr "Browse Opening Personnel"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\templates\init_models.html.py
+msgid "门禁权限"
+msgstr "Access Levels"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\start of file .\personnel\models\model_emp.py\\\\\\\\\\\\\\\\
+
+
+msgid "启用门禁日期"
+msgstr "Access Control Start Date"
+
+msgid "结束门禁日期"
+msgstr "Access Control End Date"
+
+msgid "门禁组"
+msgstr "Access control group"
+
+msgid "立即关闭门禁"
+msgstr "Close access control immediately"
+
+msgid "门禁有效时间的开始日期不能大于结束日期"
+msgstr ""
+"The start date of access control validity time cannot be later than the end "
+"date."
+
+msgid "人员密码不能与任意门禁胁迫密码相同"
+msgstr "The password cannot equal to any access duress password."
+
+msgid "多卡开门人员组"
+msgstr "Multi-Card Opening Personnel Groups"
+
+msgid "您已选择设置门禁有效时间,请填写开始日期和结束日期"
+msgstr ""
+"You have chosen to set access control validity time. Please input start date "
+"and end date."
+
+msgid ""
+"人员信息是系统的基本信息，人员编号、部门为必填项<br>门禁控制器仅支持6位密码，"
+"超过规定长度后系统将自动截取！"
+msgstr ""
+"Personnel information is the system’s basic information, so No. and "
+"department are required items. <br>an access control panel only supports 6-"
+"digit passwords. If a password exceeds the specified length, the system will "
+"truncate it automatically!"
+
+msgid "删除所属权限组"
+msgstr "Delete from access levels"
+
+msgid "添加所属权限组"
+msgstr "Add to access levels"
+
+msgid "添加人员所属权限组，一个人可以属于多个权限组。"
+msgstr ""
+"Add personnel into access levels. One person can be a member of multiple "
+"access levels."
+
+msgid "该区域中已包含电子地图，不能撤消"
+msgstr "This area has included maps and cannot be deleted."
+
+#\\\\\\\\\\\\\\\\\end of file .\personnel\models\model_emp.py\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\AccMoreCardEmpGroup_list.html.py
+msgid "多卡开门人员组列表"
+msgstr "Multi-Card Opening Personnel Group List"
+
+msgid "浏览指定人员组的人员"
+msgstr "Browse members of a specified personnel group"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\AccMoreCardSet_edit.html.py
+msgid "各组开门人数"
+msgstr "Number of opening personnel in each group"
+
+msgid "(括号内为该组中当前实际人数)"
+msgstr ""
+"(the number in brackets indicates the actual personnel quantity in this "
+"group)"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\Acc_EmpLevel_Byemp.html.py
+msgid "为人员编辑权限组"
+msgstr "Edit Access Levels for Personnel"
+
+msgid "浏览指定人员所属的权限组"
+msgstr "Browse access level of a specified person"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\Acc_EmpLevel_Bylevel.html.py
+msgid "为权限组编辑人员"
+msgstr "Edit personnel for access levels"
+
+msgid "浏览指定权限组的人员"
+msgstr "Browse members of a specified access level"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iaccess\templates\Device_opform_OpSearchACPanel.html.py
+msgid "搜索以太网中的门禁控制器"
+msgstr "Search for the access control panels on the TCP/IP network."
+
+msgid "开始搜索"
+msgstr "Search"
+
+msgid "搜索中..."
+msgstr "Searching…"
+
+msgid "搜索结果"
+msgstr "Search result"
+
+msgid "MAC地址"
+msgstr "MAC Address"
+
+msgid "该设备已添加"
+msgstr "This device has been added."
+
+msgid "子网掩码"
+msgstr "Subnet Mask"
+
+msgid "网关"
+msgstr "Gateway"
+
+msgid "修改IP地址"
+msgstr "Modify IP Address"
+
+msgid "添加设备"
+msgstr "Add Device"
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\personnel\models\model_leave.py
+msgid "关闭门禁"
+msgstr "Close Access Control"
+
+msgid "门禁已经关闭！"
+msgstr "Access control has been closed!"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\iclock\models\model_dstime.py
+#, python-format
+msgid "设备%s夏令时设置失败！"
+msgstr "The daylight saving time of device%s set failed!"
+
+msgid "将当前夏令时设置到某个或某些设备"
+msgstr "Set this daylight saving time to one or more devices."
+
+#: .\iclock\models\model_dstime.py:67 .\iclock\models\model_dstime.py:69
+msgid "设置夏令时"
+msgstr "Daylight saving time setting"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\personnel\models\model_morecardempgroup.py
+msgid ""
+"向多卡开门人员组中添加人员，已经添加过组的人员将不能重复添加。要更改某个人员"
+"的组别，请先将其从原有组中删除。"
+msgstr ""
+"Add personnel to Multi-Card opening personnel groups. A person can only be "
+"added to one group at a time. To regroup a person, first delete the person "
+"from the original group."
+
+msgid "门禁系统 -> 门设置 -> 多卡开门人员组"
+msgstr ""
+"Access Control System -> Door Configuration -> Multi-Card Opening Personnel "
+"Groups"
+
+msgid "多卡开门人员组是对人员的分组，每个人员只能属于一个组。"
+msgstr ""
+"Multi-Card opening personnel groups are intended to group personnel, and "
+"each person can belong to only one group."
+
+msgid "组名称"
+msgstr "Group Name"
+
+#, python-format
+msgid "组名称：%s 设置重复"
+msgstr "Group name %s repeated"
+
+msgid "该组中已包含人员，请先删除组中的人员再删除该组！"
+msgstr ""
+"This group already contains personnel, which must be deleted before this "
+"group can be deleted."
+
+msgid "该组已被使用，请先删除对应的多卡开门组合再删除该组！"
+msgstr ""
+"The group has been used, please delete the corresponding Multi-Card opening "
+"combination and then remove the group!"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\personnel\templates\Employee_edit.html.py
+msgid "门禁设置"
+msgstr "Access Control Settings"
+
+msgid "门禁权限组:"
+msgstr "Access Levels:"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\templates\registration\login.html.py
+msgid "门禁管理系统"
+msgstr "Access Control System"
+
+msgid "ZKAccess5.0 门禁管理系统"
+msgstr "ZKAccess5.0 Security System"
+
+msgid "ZKAccess4.0 门禁管理系统"
+msgstr "ZKAccess4.0 Security System"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\worktable\templates\worktable.html.py
+msgid "第五步:门设置"
+msgstr "Step 5: Door Configuration"
+
+msgid "第六步:建立门禁权限组"
+msgstr "Step 6: Create Access Levels"
+
+msgid "第七步:人员门禁权限设置"
+msgstr "Step 7: Personnel Access Levels Settings"
+
+msgid "新增门禁时间段"
+msgstr "Add a Access Control Time Zone"
+
+msgid "查看门禁报表"
+msgstr "View Access Control Reports"
+
+msgid "门禁设备监控"
+msgstr "Access Control Device Monitoring"
+
+msgid "新增时间段"
+msgstr "Add Time Zone"
+
+msgid "第一步:设备管理"
+msgstr "Step 1: Device Management"
+
+msgid "第二步:人员管理"
+msgstr "Step 2: Personnel Management"
+
+msgid "第三步:时间段设置"
+msgstr "Step 3: Time Zone Settings"
+
+msgid "第四步:节假日设置"
+msgstr "Step 4: Holidays Settings"
+
+msgid "第八步:实时监控"
+msgstr "Step 8: Real-Time Monitoring"
+
+msgid "查看报表"
+msgstr "View Reports"
+
+msgid "新增门禁节假日"
+msgstr "Add Access Control Holiday"
+
+msgid "新增节假日"
+msgstr "Add Holiday"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#: .\personnel\models\model_dept.py
+msgid "门ID"
+msgstr "Door ID"
+
+#: .\iclock\templates\Device_edit.html.py
+msgid "新增时删除设备中数据"
+msgstr "Clear Data in the Device when Adding"
+
+msgid "重置通讯密码"
+msgstr "Reset the communication password"
+
+#: .\authorize_fun.py
+#, python-format
+msgid "ECO门禁设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！"
+msgstr "The access control panel number %(d1)s connected with ECO exceeds the maximum device number %(d2)s of dongle, please upgrade."
+
+#, python-format
+msgid "ECO门禁设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！"
+msgstr "The access control panel number %(d1)s connected with ECO exceeds the maximum device number %(d2)s of system, please upgrade."
+
+#, python-format
+msgid "门禁设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！"
+msgstr "The access control panel number %(d1)s exceeds the maximum device number %(d2)s of system, please upgrade."
+
+#: .\iaccess\templates\AccLinkageIO_edit.html.py
+msgid "联动条件"
+msgstr "Linkage Condition"
+
+msgid "联动动作"
+msgstr "Linkage Action"
+
+msgid "视频联动"
+msgstr "Video Linkage"
+
+msgid "删除人员"
+msgstr "Delete a person"
+
+msgid "添加人员"
+msgstr "Add Personnel"
+
+#: .\personnel\templates\Employee_opform_OpAddLevelToEmp.html.py:7
+msgid "选择权限组:"
+msgstr "Select Access Level:"
+
+#: \templates\base_page_frame.html
+msgid "通讯失败"
+msgstr "Failure"
+
+#: .\iaccess\templates\Acc_Reportform_allevent.html.py:9
+msgid "所有事件"
+msgstr "All Events"
+#//////////////////////////////////////////////////////////////////////////////
+
+#////////////////////////////start of special text//////////////////////////////////
+#, python-format
+msgid "已设置数:%(d)d | %(s)s"
+msgstr "Quantity Set:%(d)d | %(s)s"
+
+msgid "accfirstopen_set"
+msgstr "First-Card Normal Open"
+
+msgid "首卡常开"
+msgstr "First-Card Normal Open"
+
+msgid "get_name_by_PIN"
+msgstr "Name"
+
+msgid "accmorecardset_set"
+msgstr "Multi-Card Open"
+
+msgid "interlock_details"
+msgstr "Interlock setting information"
+
+msgid "互锁设置信息"
+msgstr "Interlock Settings Information"
+
+msgid "antiback_details"
+msgstr "Anti-Passback Settings Information"
+
+msgid "反潜设置信息"
+msgstr "Anti-passback settings information"
+
+msgid "emp_group"
+msgstr "Personnel"
+
+msgid "morecard_emp_count"
+msgstr "Personnel quantity"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:22
+#: D:/trunk/python-support/base\variable_for_trans.py:26
+msgid "人员数"
+msgstr "Personnel quantity"
+
+msgid "foemp_count"
+msgstr "Opening personnel quantity"
+
+msgid "可开门人数"
+msgstr "Opening personnel quantity"
+
+msgid "emp_count"
+msgstr "Personnel quantity"
+
+msgid "level_count"
+msgstr "Subordinate Access Level Quantity"
+
+msgid "从属权限组数"
+msgstr "Subordinate access levels quantity"
+
+msgid "morecardgroup"
+msgstr "Multi-Card opening combination"
+
+msgid "iaccess"
+msgstr "Access Control System"
+
+#//////////////////////////////end of special text//////////////////////////////////
+
+#////////////start of 角色相关/////////////////////////////////////////////////
+msgid "浏览设备监控"
+msgstr "Device Monitoring"
+
+msgid "浏览监控全部"
+msgstr "Monitor All"
+
+msgid "浏览报警事件"
+msgstr "Alarm Events"
+
+msgid "浏览互锁设置"
+msgstr "Browse"
+
+msgid "浏览反潜设置"
+msgstr "Browse"
+
+msgid "浏览实时监控记录"
+msgstr "Browse"
+
+msgid "浏览门"
+msgstr "Browse"
+
+msgid "浏览韦根卡格式"
+msgstr "Browse"
+
+msgid "浏览首卡常开设置"
+msgstr "Browse"
+
+msgid "浏览联动设置"
+msgstr "Browse"
+#////////////end of 角色相关///////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\models.py .\iclock\templates\Dev_RTMonitor.html
+msgid "设备监控"
+msgstr "Device Monitoring"
+
+msgid "设备 -> 设备监控"
+msgstr "Device -> Device Monitoring"
+
+msgid "操作类型"
+msgstr "Operation type"
+
+msgid "待执行命令条数"
+msgstr "Commands List"
+
+msgid "进度"
+msgstr "Progress"
+
+msgid "取消"
+msgstr "Cancel"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\video\models\__init__.py:6
+msgid "视频"
+msgstr "Video"
+
+msgid "视频默认页面"
+msgstr "Default page of Video"
+
+#: .\video\models\models.py
+msgid "视频预览"
+msgstr "Video Preview"
+
+msgid "视频 -> 视频预览"
+msgstr "Video -> Video Preview"
+
+msgid "视频联动记录"
+msgstr "Linkage Video Records"
+
+msgid "视频 -> 视频联动记录"
+msgstr "Video -> Linkage Video Records"
+
+#: .\video\templates\Vid_Linkage.html
+msgid "查询视频"
+msgstr "Search the Video"
+
+msgid "视频联动录像"
+msgstr "Linkage Video"
+
+msgid "文件名"
+msgstr "Filename"
+
+msgid "视频回放"
+msgstr "Video Playback"
+
+#: .\video\templates\Vid_Linkage.html
+#: .\video\templates\Vid_Linkage.html
+msgid "播放"
+msgstr "Play"
+
+#: .\video\templates\Vid_Preview.html
+msgid "服务器设置"
+msgstr "Video Server Settings"
+
+msgid "视频列表"
+msgstr "Video List"
+
+msgid "请在上方选择硬盘录像机"
+msgstr "Please select a network video recorder from the list above."
+
+#//////////////////////////////////////////////////////////////////////////////
+msgid "控制器:"
+msgstr "Access Control Panel:"
+
+msgid "门:"
+msgstr "Door:"
+
+msgid "硬盘录像机:"
+msgstr "network video recorder:"
+
+msgid "浏览夏令时"
+msgstr "Browse"
+
+msgid "浏览电子地图"
+msgstr "Browse"
+
+msgid "驱动下载"
+msgstr "Download Driver"
+
+msgid "开始时间:"
+msgstr "DST Start"
+
+msgid "结束时间:"
+msgstr "DST End"
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+msgid "反潜模式7"
+msgstr "anti-submarine mode 7"
+
+msgid "反潜模式6"
+msgstr "anti-submarine mode 6"
+
+msgid "反潜模式8"
+msgstr "anti-submarine mode 8"
+
+msgid "反潜模式9"
+msgstr "anti-submarine mode 9"
+
+msgid "记录ID"
+msgstr "Record ID"
+
+msgid "报表json字符串"
+msgstr "Report json string"
+
+msgid "报表设计"
+msgstr "Report Designer"
+
+msgid "预览"
+msgstr "Preview"
+
+msgid "预览报表"
+msgstr "Preview Report"
+
+msgid "下载"
+msgstr "Download"
+
+msgid "下载报表"
+msgstr "Download Report"
+
+msgid "报表类别名称"
+msgstr "Report category name"
+
+msgid "请选择列:"
+msgstr "Please choose column:"
+
+msgid "上一步"
+msgstr "Back"
+
+msgid "视频通道"
+msgstr "Video channel"
+
+msgid "重新获取设备中当前的人员基本信息和指纹数据。"
+msgstr "Retrieve the personnel basic information and fingerprint data from the device."
+
+msgid "重新获取设备中当前的人员基本信息。"
+msgstr "Retrieve the personnel basic information from the device."
+
+msgid "获取人员基本信息成功，但获取人员指纹数据失败！"
+msgstr "Get the personnel basic information succeed, but failed to get the fingerprint data!"
+
+msgid "获取人员指纹数据成功，但获取人员基本信息失败！"
+msgstr "Get the fingerprint data succeed, but failed to get the personnel basic information!"
+
+msgid "获取人员基本信息和指纹数据均失败！"
+msgstr "Failed to get the personnel basic information and the fingerprint data"
+
+msgid "同步人员到其所在区域的设备中"
+msgstr "Synchronize the personnel information to devices within the area that the personnel belonging to"
+
+msgid "同步人员到设备"
+msgstr "Synchronize the personnel to device"
+
+msgid "登记"
+msgstr "Register"
+
+msgid "无法登记指纹？"
+msgstr "Need help?"
+
+msgid "是否添加考勤"
+msgstr "Add attendance"
+
+msgid "ZKAccess4.1 门禁管理系统"
+msgstr "ZKAccess4.1 Security System"
+
+
+msgid "硕士 "
+msgstr "Master "
+
+msgid ""
+"人员信息是系统的基本信息，人员编号、部门为必填项"
+"<br>指纹登记需要指纹仪驱动，如果您未安装驱动，请先下载驱动程序！"
+"<br>门禁控制器仅支持6位密码，超过规定长度后系统将自动截取！"
+msgstr ""
+"Personnel information is the system’s basic information, so No. and "
+"department are required items. <br>Fingerprint registration needs to be "
+"driven by a fingerprint scanner.If you have not installed such a driver yet, "
+"download one first!<br>an access control panel only supports 6-"
+"digit passwords. If a password exceeds the specified length, the system will "
+"truncate it automatically!"
+
+msgid "指纹加密码"
+msgstr "Fingerprint plus Password"
+
+msgid "职员状态"
+msgstr "Activate"
+
+msgid "重新获取设备中当前的人员数量。"
+msgstr "Again to get the current total number of personnel in the device."
+
+#id=81994
+msgid "门禁系统 -> 门禁节假日"
+msgstr "Access Control System -> Access Control Holiday"
+
+#id=81993
+msgid "门禁系统 -> 门禁时间段"
+msgstr "Access Control System -> Access Control Time Zone"
+
+#id=81992
+msgid "门禁系统 -> 门禁权限组"
+msgstr "Access Control System -> Access Levels"
+
+msgid "输出开门信号"
+msgstr "Output opening signal"
+
+msgid "修改门禁设置"
+msgstr "Clear access control setting"
+
+msgid "修改用户门禁设置"
+msgstr "Modify user access control setting"
+
+msgid "修改门禁时间段"
+msgstr "Modify time zone"
+
+msgid "修改开锁组合设置"
+msgstr "Modify unlocking combination setting"
+
+msgid "门被非法关闭"
+msgstr "Illegally closed"
+
+msgid "门被非法打开"
+msgstr "Illegally opened"
+
+msgid "出门按钮"
+msgstr "Exit button"
+
+msgid "连接超时"
+msgstr "Connect timeout"

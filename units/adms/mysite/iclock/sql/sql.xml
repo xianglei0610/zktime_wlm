@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "CalcReportItem_sql">
+		<content engine = "default">
+			<![CDATA[
+                select s.userid as userid,u.badgenumber as pin,u.name as name,u.ssn as ssn,s.schid as schid,s.attdate as attdate,d.deptname as deptname,s.clockInTime as clockintime,s.clockouttime as clockouttime,
+                s.starttime as starttime,s.endtime as endtime,s.workday as workday,s.realworkday as realworkday,s.noin as noin,s.noout as noout,
+                s.early as early,s.late as late,s.absent as absent,s.absentr as absentr,s.overtime as overtime,s.exceptionid as exceptionid,s.mustin as mustin,s.mustout as mustout,  
+                s.worktime as worktime,s.atttime as atttime,s.workmins as workmins,s.SSpeDayNormal as SSpeDayNormal,s.SSpeDayWeekend as SSpeDayWeekend,s.SSpeDayHoliday as SSpeDayHoliday ,s.symbol as symbol,
+                s.SSpeDayNormalOT as SSpeDayNormalOT,s.SSpeDayWeekendOT as SSpeDayWeekendOT,s.SSpeDayHolidayOT as SSpeDayHolidayOT
+                from attshifts s,userinfo u,Departments d where u.userid=s.userid and d.deptID=u.defaultdeptid and  %(where)s
+                s.userid = %(uid)s order by u.badgenumber,u.defaultdeptid  
+			]]>
+			<part id = "oracleengine">
+				<![CDATA[
+					s.attdate>=to_date('%(d1)s','YYYY-MM-DD HH24:MI:SS') and s.attdate<=to_date('%(d2)s','YYYY-MM-DD HH24:MI:SS') and
+				]]>
+			</part>
+			<part id = "otherengine">
+				<![CDATA[
+					s.attdate>='%(d1)s' and s.attdate<='%(d2)s' and
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select s.userid as userid,u.badgenumber as pin,u.name as name,u."SSN" as ssn,s."SchId" as schid,s."AttDate" as attdate,d."DeptName" as deptname,s."ClockInTime" as clockintime,s."ClockOutTime" as clockouttime,
+                s."StartTime" as starttime,s."EndTime" as endtime,s."WorkDay" as workday,s."RealWorkDay" as realworkday,s."NoIn" as noin,s."NoOut" as noout,
+                s."Early" as early,s."Late" as late,s."Absent" as absent,s."AbsentR" as absentr,s."OverTime" as overtime,s."ExceptionID" as exceptionid,s."MustIn" as mustin,s."MustOut" as mustout,  
+                s."WorkTime" as worktime,s."AttTime" as atttime,s."WorkMins" as workmins,s."SSpeDayNormal" as SSpeDayNormal,s."SSpeDayWeekend" as SSpeDayWeekend,s."SSpeDayHoliday" as SSpeDayHoliday ,s."Symbol" as symbol,
+                s."SSpeDayNormalOT" as SSpeDayNormalOT,s."SSpeDayWeekendOT" as SSpeDayWeekendOT,s."SSpeDayHolidayOT" as SSpeDayHolidayOT
+                from attshifts s,userinfo u,Departments d where u.userid=s.userid and d."DeptID"=u.defaultdeptid and %(where)s 
+                s.userid = %(uid)s order by u.badgenumber,u.defaultdeptid 
+			]]>
+			<part id = "pgengine">
+				<![CDATA[
+					s."AttDate">='%(d1)s' and s."AttDate"<='%(d2)s' and
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "PrepareCalcDate_sql">
+		<content engine = "default">
+			<![CDATA[
+                insert into %(attc)s(userid,startdate,enddate,opertime,type) %(where)s   
+			]]>
+			<part id = "timedel">
+				<![CDATA[
+					values('%(u)s','%(StartDate)s','%(ed1)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+			<part id = "timenow">
+				<![CDATA[
+					values('%(u)s','%(StartDate)s','%(EndDate)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                insert into %(attc)s("UserId","StartDate","EndDate","OperTime","Type") %(where)s   
+			]]>
+			<part id = "timedel">
+				<![CDATA[
+					values('%(u)s','%(StartDate)s','%(ed1)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+			<part id = "timenow">
+				<![CDATA[
+					values('%(u)s','%(StartDate)s','%(EndDate)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	
+	<sql id = "PrepareCalcDateByDept_sql">
+		<content engine = "default">
+			<![CDATA[
+                insert into %(attc)s(deptid,userid,startdate,enddate,opertime,type)  %(where)s  
+			]]>
+			<part id = "timedel">
+				<![CDATA[
+					values('%(deptid)s',0,'%(StartDate)s','%(ed1)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+			<part id = "timenow">
+				<![CDATA[
+					values('%(deptid)s',0,'%(StartDate)s','%(EndDate)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                insert into %(attc)s("DeptID","UserId","StartDate","EndDate","OperTime","Type")  %(where)s  
+			]]>
+			<part id = "timedel">
+				<![CDATA[
+					values('%(deptid)s',0,'%(StartDate)s','%(ed1)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+			<part id = "timenow">
+				<![CDATA[
+					values('%(deptid)s',0,'%(StartDate)s','%(EndDate)s','%(nti)s',%(itype)s)
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "SaveLeaveClass_sql">
+		<content engine = "default">
+			<![CDATA[
+                update %(dbTable)s set %(s)s where LeaveId=%(t)s 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                update %(dbTable)s set %(s)s where "LeaveID"=%(t)s 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	
+	<sql id = "ClearTableData_sql">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(TableName)s  %(where)s  
+			]]>
+			<part id = "hascon">
+				<![CDATA[
+					where (%(Condition)s)
+				]]>
+			</part>
+			<part id = "nocon">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+
+
+	<sql id = "MainCalc_sql1">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(u)s and attdate>='%(StartDate)s' and attdate<='%(EndDate)s' 
+                 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(u)s and "AttDate">='%(StartDate)s' and "AttDate"<='%(EndDate)s'    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id = "MainCalc_sql2">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(u)s and StartDate>='%(StartDate)s' and EndDate<='%(EndDate)s'
+                 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "UserId"=%(u)s and "StartDate">='%(StartDate)s' and "EndDate"<='%(EndDate)s'   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id = "MainCalc_sql3">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(u)s and attdate>='%(StartDate)s' and attdate<='%(EndDate)s' 
+                 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "UserId"=%(u)s and "AttDate">='%(StartDate)s' and "AttDate"<='%(EndDate)s'    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+
+	
+	
+	
+	<sql id = "deleteShiftTime_sql">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where sdays=%(sd)s and edays=%(ed)s and starttime>='%(st)s' 
+                and endtime<='%(et)s' and num_runid=%(shift_id)s 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>	
+		<content engine = "oracle">
+			<![CDATA[
+                delete from %(db_table)s where sdays=%(sd)s and edays=%(ed)s and to_char(starttime, 'HH24:Mi:SS')>='%(st)s' and 
+        			to_char(endtime, 'HH24:Mi:SS')<='%(et)s' and num_runid=%(shift_id)s    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "Sdays"=%(sd)s and "Edays"=%(ed)s 
+                and "StartTime">='%(st)s' and "EndTime"<='%(et)s' and "Num_runID"=%(shift_id)s 
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "deleteShiftDetail_sql">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where Num_runID=%(SchID)s    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "Num_runID"=%(SchID)s     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "SaveTempSch_sql">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(userid)s and leavetime>='%(st)s' and cometime<'%(et)s' and cometime>='%(st)s'    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "UserID"=%(userid)s and "LeaveTime">='%(st)s' and "ComeTime"<'%(et)s' and "ComeTime">='%(st)s'    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "SaveSchPlan_sql1">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(userid)s    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "UserId"=%(userid)s     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "SaveSchPlan_sql2">
+		<content engine = "default">
+			<![CDATA[
+                delete from %(db_table)s where userid=%(userid)s and StartDate='%(st)s' and EndDate='%(et)s'    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                delete from %(db_table)s where "UserID"=%(userid)s and "StartDate"='%(st)s' and "EndDate"='%(et)s'     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "commit_log_sql">
+		<content engine = "default">
+			<![CDATA[
+                insert into %(db_table)s (userid, checktime, checktype, verifycode, SN, WorkCode, Reserved,sn_name) 
+    			values(%%s, %%s, %%s, %%s, %%s, %%s, %%s,%%s)    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                insert into %(db_table)s (userid, checktime, checktype, verifycode, "SN", "WorkCode", "Reserved",sn_name) 
+    			values(%%s, %%s, %%s, %%s, %%s, %%s, %%s,%%s)    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "OpUploadAttLog_sql">
+		<content engine = "mysql">
+			<![CDATA[
+                INSERT INTO checkinout(userid,checktime,checktype,verifycode,workcode)
+    			VALUES %(batch_rows)s    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "sqlserver">
+			<![CDATA[
+                INSERT INTO checkinout(userid,checktime,checktype,verifycode,workcode)
+    			VALUES('%(uid)s','%(time)s','%(type)s','%(vf)s','%(wc)s')    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                INSERT INTO checkinout(userid,checktime,checktype,verifycode,"WorkCode")
+    			VALUES('%(uid)s','%(time)s','%(type)s','%(vf)s','%(wc)s')    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "createDefautValue_sql">
+		<content engine = "default">
+			<![CDATA[
+                (
+				    "ALTER TABLE departments ADD CONSTRAINT sdf DEFAULT 1 FOR supdeptid",
+				    "ALTER TABLE userinfo ADD CONSTRAINT ddf DEFAULT 1 FOR defaultdeptid",
+				    "ALTER TABLE userinfo ADD CONSTRAINT tdf DEFAULT 1 FOR ATT",
+				    "ALTER TABLE userinfo ADD CONSTRAINT indf DEFAULT 1 FOR INLATE",
+				    "ALTER TABLE userinfo ADD CONSTRAINT oedf DEFAULT 1 FOR OutEarly",
+				    "ALTER TABLE userinfo ADD CONSTRAINT otdf DEFAULT 1 FOR OverTime",
+				    "ALTER TABLE userinfo ADD CONSTRAINT hdf DEFAULT 1 FOR Holiday",
+				    "ALTER TABLE userinfo ADD CONSTRAINT ldf DEFAULT 1 FOR Lunchduration",
+				    "ALTER TABLE userinfo ADD CONSTRAINT sepdf DEFAULT 1 FOR SEP",
+				    "ALTER TABLE userinfo ADD CONSTRAINT offdutydf DEFAULT 0 FOR OffDuty",
+				    "ALTER TABLE userinfo ADD CONSTRAINT DelTagdf DEFAULT 0 FOR DelTag",
+				    "ALTER TABLE userinfo ADD CONSTRAINT enamedf DEFAULT ' ' FOR name",
+				    "ALTER TABLE template ADD CONSTRAINT fiddf DEFAULT 0 FOR FingerID",
+				    "ALTER TABLE template ADD CONSTRAINT vdf DEFAULT 1 FOR Valid",
+				    "ALTER TABLE template ADD CONSTRAINT dtdf DEFAULT 0 FOR DelTag",
+				    "ALTER TABLE checkinout ADD CONSTRAINT stdf DEFAULT 'I' FOR checktype",
+				    "ALTER TABLE checkinout ADD CONSTRAINT vcedf DEFAULT 0 FOR verifycode",
+				    "CREATE INDEX DEPTNAME ON DEPARTMENTS(DEPTNAME)",
+				    "CREATE UNIQUE INDEX EXCNOTE ON EXCNOTES(USERID, ATTDATE)",
+				    "ALTER TABLE iclock ADD CONSTRAINT accfundf DEFAULT 0 FOR AccFun",
+				    "ALTER TABLE iclock ADD CONSTRAINT tzadjdf DEFAULT 8 FOR TZAdj",
+				    )    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                (
+				    "ALTER TABLE departments ADD CONSTRAINT sdf DEFAULT 1 FOR supdeptid",
+				    "ALTER TABLE userinfo ADD CONSTRAINT ddf DEFAULT 1 FOR defaultdeptid",
+				    "ALTER TABLE userinfo ADD CONSTRAINT tdf DEFAULT 1 FOR "ATT"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT indf DEFAULT 1 FOR "INLATE"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT oedf DEFAULT 1 FOR "OutEarly"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT otdf DEFAULT 1 FOR "OverTime"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT hdf DEFAULT 1 FOR "Holiday"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT ldf DEFAULT 1 FOR "Lunchduration"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT sepdf DEFAULT 1 FOR "SEP"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT offdutydf DEFAULT 0 FOR "OffDuty"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT DelTagdf DEFAULT 0 FOR "DelTag"",
+				    "ALTER TABLE userinfo ADD CONSTRAINT enamedf DEFAULT ' ' FOR name",
+				    "ALTER TABLE template ADD CONSTRAINT fiddf DEFAULT 0 FOR "FingerID"",
+				    "ALTER TABLE template ADD CONSTRAINT vdf DEFAULT 1 FOR "Valid"",
+				    "ALTER TABLE template ADD CONSTRAINT dtdf DEFAULT 0 FOR "DelTag"",
+				    "ALTER TABLE checkinout ADD CONSTRAINT stdf DEFAULT 'I' FOR checktype",
+				    "ALTER TABLE checkinout ADD CONSTRAINT vcedf DEFAULT 0 FOR verifycode",
+				    "CREATE INDEX "DeptName" ON DEPARTMENTS("DeptName")",
+				    "CREATE UNIQUE INDEX EXCNOTE ON EXCNOTES(USERID, ATTDATE)",
+				    "ALTER TABLE iclock ADD CONSTRAINT accfundf DEFAULT 0 FOR "AccFun"",
+				    "ALTER TABLE iclock ADD CONSTRAINT tzadjdf DEFAULT 8 FOR "TZAdj"",
+				    )    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	
+	<sql id = "cache_utils_insert_sql">
+		<content engine = "default">
+			<![CDATA[
+                INSERT INTO devcmds_bak(
+                    SN_id,CmdOperate_id,CmdContent,CmdCommitTime,CmdTransTime,
+                    CmdOverTime,CmdReturn,CmdReturnContent,CmdImmediately,status
+                ) VALUES(
+                    %(sn_id)s,%(cmdoperate_id)s,%(cmdcontent)s,
+                    %(cmdcommittime)s,%(cmdtranstime)s,%(cmdovertime)s,
+                    %(cmdreturn)s,%(cmdreturncontent)s,%(cmdimmediately)s,
+                    '0'
+                ) 
+              
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "mysql">
+			<![CDATA[
+                INSERT INTO devcmds_bak(
+                        SN_id,CmdOperate_id,CmdContent,CmdCommitTime,CmdTransTime,
+                        CmdOverTime,CmdReturn,CmdReturnContent,CmdImmediately,status
+                    ) VALUES %(batch_rows)s;
+    	    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                INSERT INTO devcmds_bak(
+                    "SN_id","CmdOperate_id","CmdContent","CmdCommitTime","CmdTransTime",
+                    "CmdOverTime","CmdReturn","CmdReturnContent","CmdImmediately",status
+                ) VALUES(
+                    %(sn_id)s,%(cmdoperate_id)s,%(cmdcontent)s,
+                    %(cmdcommittime)s,%(cmdtranstime)s,%(cmdovertime)s,
+                    %(cmdreturn)s,%(cmdreturncontent)s,%(cmdimmediately)s,
+                    '0'
+                )    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+	</sql>
+	
+	
+	
+	<sql id = "cache_utils_delete_sql">
+		<content engine = "default">
+			<![CDATA[
+      
+        DELETE FROM devcmds WHERE id in 
+        (%(ids)s)
+   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "cache_utils_update_sql">
+		<content engine = "default">
+			<![CDATA[
+    
+        UPDATE  devcmds SET SN_id =%(sn_id)s ,CmdOperate_id =%(cmdoperate_id)s ,CmdContent = %(cmdcontent)s ,
+            CmdCommitTime =%(cmdcommittime)s ,CmdTransTime =%(cmdtranstime)s ,CmdOverTime = %(cmdovertime)s,
+            CmdReturn = %(cmdreturn)s,CmdReturnContent = %(cmdreturncontent)s,CmdImmediately = %(cmdimmediately)s,
+            status ='0' 
+        WHERE id = %(id)s
+
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+			    UPDATE  devcmds SET "SN_id" =%(sn_id)s ,"CmdOperate_id" =%(cmdoperate_id)s ,"CmdContent" = %(cmdcontent)s ,
+			    "CmdCommitTime" =%(cmdcommittime)s ,"CmdTransTime" =%(cmdtranstime)s ,"CmdOverTime" = %(cmdovertime)s,
+			    "CmdReturn" = %(cmdreturn)s,"CmdReturnContent" = %(cmdreturncontent)s,"CmdImmediately" = %(cmdimmediately)s,
+			    status ='0' 
+			    WHERE id = %(id)s   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "update_device_sql_sql">
+		<content engine = "default">
+			<![CDATA[
+                update iclock set %(sql)s where sn='%(sn)s'  
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	
+	<sql id = "devview_log_sql">
+		<content engine = "default">
+			<![CDATA[
+                insert into %(db_table)s (userid, checktime, checktype, verifycode, SN, WorkCode, Reserved,sn_name) 
+    values(%%s, %%s, %%s, %%s, %%s, %%s, %%s,%%s)   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                insert into %(db_table)s (userid, checktime, checktype, verifycode, "SN", "WorkCode", "Reserved",sn_name) 
+    values(%%s, %%s, %%s, %%s, %%s, %%s, %%s,%%s)     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	<sql id = "">
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+
+</sqlgroup>

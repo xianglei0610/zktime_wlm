@@ -1,0 +1,32 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"base.browse_logentry" %}                          
+        $("#id_datalist").model_grid({
+            "dbapp_url": "{{ dbapp_url }}",
+            "model_url": "{{ model_url }}",
+            "row_operations": [],
+            "disabled_actions": ["_change"],
+            "init_after_get_jdata": function(){
+                $(".class_select_col").remove();
+            },
+            "reload_after_get_jdata":function(){
+                $(".class_select_col").remove();
+            },
+            "cached_data": false
+        });
+    {% else %}<!--base.browse_logentry-->
+        $("#id_datalist").remove();
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--base.browse_logentry-->
+{% endblock %}
+
+{% block addjs %}
+    {% if request.user|HasPerm:"base.browse_logentry" %}  
+        var $label_type=$("label[for=id_content_type__name]");
+        $label_type.text(gettext($label_type.text()));
+        $("#id_advanced_search").remove();
+    {% endif %}<!--base.browse_logentry-->
+{% endblock %}

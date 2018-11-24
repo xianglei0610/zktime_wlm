@@ -1,0 +1,160 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block operation_panel %}
+{% autoescape off %}
+    <div class="div_backup_db">
+        <input type="radio" name="backuptype" checked="checked" value='1' id="id_chk_backupNow" >{% trans '立即备份' %}</input>
+        <br />
+		<input type="radio" name="backuptype" value='2' id="id_chk_backupPlan" >{% trans '计划备份' %}</input>
+        <br />
+        <input type="radio" name="backuptype" value='3' id="id_chk_cancelPlan" >{% trans '取消计划备份' %}</input>
+	</div>
+
+	<div class ="div_box" id="id_div_backupPlan" style="display:none;width:550px;height:60px;">
+		<h1>{% trans '计划备份' %}</h1>
+		<div class="floatL">
+		  	{% trans '从' %}</div>
+			<div class="floatL">
+				<div id ="since_first_date">
+					<input type="text" size="19" id="id_start" class="wZBaseDateTimeField required" name="start" style="margin-top:2px;_margin-top:0px;">
+					<span class="pop_time"> 
+						| <a id="clocklink" style="cursor:pointer;"><img alt={% trans "时间" %}  src="/media/img/icon_clock.gif" style="_padding-top:2px;margin-right:3px;"></a>
+					</span>
+			  	</div>
+			</div>
+			<div class="floatL lineH22">{% trans '开始,' %}</div>
+			<div class="floatL" style="margin-left:10px;">
+				{% trans '每隔' %}<input type='text' onkeydown="check_number(this,event)" value='2' id="id_intervaltime" name="intervaltime" style="width:100px" />{% trans '天' %}
+            </div> 
+    </div>
+    
+{% endautoescape %}
+{% endblock %}
+
+{% block addjs %}
+   
+	var check_number = function(el,ev){
+    	var event = ev || window.event;                           
+      	var currentKey = event.charCode||event.keyCode;
+		if (currentKey!=8 && currentKey != 46 && (currentKey<37 || currentKey>40) && (currentKey<48 || currentKey>57) && (currentKey<96 || currentKey>105))
+        {
+         	if (window.event)
+         	{                   
+              	event.returnValue=false;
+            }           
+          	else
+          	{                            
+             	event.preventDefault();
+            }
+        }
+    }
+    
+    var before_submit = function(){
+        var type = 0;
+        $("input[name='backuptype']").each(function(){
+            if($(this).attr("checked"))
+            {
+                type = $(this).attr("value");
+            }
+        });
+        
+        if(type == 2)
+        {
+            var intervaltime = $("#id_intervaltime").val();
+            if(parseInt(intervaltime) > 365)
+            {
+                alert(gettext("间隔时间不能超过一年"));
+                return false;
+            }
+            
+        }
+
+        if(type != 3)
+        {
+        	var ret = true;
+            $.ajax({ 
+               type: "POST",
+               url: "{{ request.dbapp_url }}BackupDBValidate/"+type,
+               dataType: "text",
+               async: false,
+               success: function(mess){
+                   if(mess == "fail")
+                   {
+                       alert(gettext("在当前时间的一个小时内只能备份一次"));
+                       ret = false;
+                   }
+                   else if(mess == "null")
+                   {
+                       alert(gettext("请先在服务控制台中设置数据库备份路径"));
+                       ret = false;
+                   }
+                   else if(mess == "notexist")
+                   {
+                       conf = confirm(gettext("备份路径不存在，是否自动创建？"));
+                       if(!conf)
+                       {
+                           ret = false;
+                       } 
+                   }else{
+                    alert(gettext("数据库将备份到:")+mess)
+                }
+               }
+       		});
+       		return ret;
+        }
+        return true;
+    }
+    
+	$(function(){    
+		$.ajax({ 
+			type: "POST",
+		  	url: "{{ request.dbapp_url }}getBackupsched",
+		 	dataType: "json",
+		  	async: false,
+		  	success:function(json){
+				if (json.Info == "OK")
+				{
+               
+                	$("#id_start").val(json.starttime);
+                    $("#id_intervaltime").val(json.inc);
+                }
+                else
+               {
+                    var date = new Date();
+                    var y = date.getFullYear();
+                    var m = date.getMonth()+1;
+                    var d =  date.getDate();
+                    var H = date.getHours()+'';
+                    if(H.length == 1)
+                    {
+                        H = '0'+H;
+                    }
+                    var M = date.getMinutes();
+                    var S = date.getSeconds();
+                    $("#id_start").val(y+"-"+m+"-"+d +" " + H+":"+M+":" +S);
+                    $("#id_intervaltime").val("2");
+               }   
+                
+			}
+		});
+	});
+	
+	$(function(){
+		$("input[name='backuptype']").click(function(e){
+	 		if($(this).attr("id")=="id_chk_backupPlan")
+	 		{
+				$("#id_div_backupPlan").show();
+			}
+			else
+			{
+				$("#id_div_backupPlan").hide();
+			}
+		});
+	});
+
+    
+{% endblock%}
+
+
+

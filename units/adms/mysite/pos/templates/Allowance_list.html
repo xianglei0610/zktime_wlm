@@ -1,0 +1,42 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+<!-- model Imod 会使用这个模板，而不是默认的data_list.html -->
+{% block for_special_menu %}<!-- 特殊菜单？ span_class:ds_DoorMngPage is for bg img, CSS in base.css-->
+	<div>
+		<ul class="Link_blue2" >
+		<!-- 	<li>
+            	<a href="/pos/SettingOp/"><span class="ds_DoorMngPage"></span>补贴参数设置</a><div class="div_leftBottomLine"></div>
+            </li>
+			
+		 
+			<li id="id_li_import" class="displayY">
+			   <div id="id_model_import"><a href="javascript:void(0)"><span class="action_import"></span>{% trans "导入" %}</a></div>
+			   <div class='div_leftBottomLine'></div>
+			</li>-->
+
+			
+    	</ul>
+	</div>
+{% endblock %}
+
+{% block addjs %}
+//$(function(){
+//$("#id_model_export").hide()
+//})
+
+
+
+
+{%if "POS_IC"|filter_config_option%}
+	function is_row_operations_show(rowdata){
+		return rowdata[8]=="否"
+	}
+	$(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("allowance","ic_allowance"));
+{%else%}
+	function is_row_operations_show(rowdata){
+		return rowdata[4]=="否"
+	}
+
+{%endif%}
+
+{% endblock %}

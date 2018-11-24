@@ -1,0 +1,285 @@
+@charset "utf-8";
+/* CSS Document */
+
+.font14{font-size:14px;}
+.Link_hui1{color:#888888; white-space:normal;}
+.guide_step{width:100%;border:1px solid #E6E6E6; background-color:#FFFFFF;}
+.guide_step_name{border-bottom:1px dotted #cccccc;/*height:19px;*/}
+.guide_step_name li{float:left;margin-right:5px;}
+.guide_icon_box{width:60px;height:60px;display:block; background-repeat:no-repeat; background-position:center;}
+
+/** 图标 **/
+	/** 考勤 **/
+	.icon_empspecday{background-image:url(../images/icon_guid/icon_empspecday.jpg);}
+	.icon_checkexact{background-image:url(../images/icon_guid/icon_checkexact.jpg);}
+	.icon_attuserofrun{background-image:url(../images/icon_guid/icon_attuserofrun.jpg);}
+	.icon_setuseratt{background-image:url(../images/icon_guid/icon_setuseratt.jpg);}
+	.icon_schclass{background-image:url(../images/icon_guid/icon_schclass.jpg);}
+	.icon_attcalculate{background-image:url(../images/icon_guid/icon_attcalculate.jpg);}
+	.icon_numrun{background-image:url(../images/icon_guid/icon_numrun.jpg);}
+	.icon_deviceusermanage{background-image:url(../images/icon_guid/icon_deviceusermanage.jpg);}
+	.icon_devicedatamanage{background-image:url(../images/icon_guid/icon_devicedatamanage.jpg);}
+	
+	/** 人事 **/
+	.icon_department{background-image:url(../images/icon_guid/icon_department.jpg);}
+	.icon_user{background-image:url(../images/icon_guid/icon_user.jpg);}
+	.icon_leavelog{background-image:url(../images/icon_guid/icon_leavelog.jpg);}
+	.icon_issuecard{background-image:url(../images/icon_guid/icon_issuecard.jpg);}
+	
+	/** 设备 **/
+	.icon_devrtmonitorpage{background-image:url(../images/icon_guid/icon_devrtmonitorpage.jpg);}
+	.icon_area{background-image:url(../images/icon_guid/icon_area.jpg);}
+	.icon_devcmd{background-image:url(../images/icon_guid/icon_devcmd.jpg);}
+	.icon_devlog{background-image:url(../images/icon_guid/icon_devlog.jpg);}
+	.icon_operatecmd{background-image:url(../images/icon_guid/icon_operatecmd.jpg);}
+	.icon_device{background-image:url(../images/icon_guid/icon_device.jpg);}
+	
+	/** 消费 **/
+	.pos_guide_icon_box{width:57px;height:50px;display:block; margin:auto;background-image:url(../images/icon_guid/icon_posguide.jpg); background-repeat:no-repeat; }
+	.icon_posdevice{background-position:0px 0px;}
+	.icon_pos_deviceset{background-position:-57px 0px;}
+	.icon_pos_deviceexchange{background-position:-114px 0px;}
+	.icon_pos_user{background-position:-171px 0px;}
+	.icon_pos_issuecard{background-position:-228px 0px;}
+	.icon_pos_recharge{background-position:-285px 0px;}
+	.icon_pos_refund{background-position:-342px 0px;}
+	.icon_pos_retirementcards{background-position:-399px 0px;}
+	.icon_pos_leavelog{background-position:-456px 0px;}
+	.icon_pos_loss{background-position:0px -53px;}
+	.icon_pos_addcard{background-position:-57px -53px;}
+	.icon_pos_handconsume{background-position:-114px -53px;}
+	.icon_pos_allowance{background-position:-171px -53px;}
+	.icon_pos_poslog{background-position:-228px -53px;}
+	.icon_pos_consume{background-position:-285px -53px;}
+	.icon_pos_report{background-position:-342px -53px;}
+	.icon_pos_carcashsz{background-position:-399px -53px;}
+		/** 消费 工作面板快速上手 **/		
+		.guide_icon_box_pos{width:32px;height:30px;display:block;margin: auto;background-image:url(../images/icon_guid/icon_posguide.jpg); background-repeat:no-repeat; background-repeat:no-repeat;}
+		.icon_pos_stepNo2{background-position:0px -114px;}
+		.icon_pos_stepNo3{background-position:-32px -114px;}
+		.icon_pos_stepNo4{background-position:-64px -114px;}
+		.icon_pos_stepNo5{background-position:-96px -114px;}
+		.icon_pos_stepNo6{background-position:-128px -114px;}
+		.icon_pos_stepNo7{background-position:-160px -114px;}	
+
+/** 边框 **/
+.guide_step_box{position:relative;padding:4px;background-color:#F0F0F0; margin:0px auto;}
+.rightBox .guide_step_box{width:185px;}
+.tl,.tr,.bl,.br{position:absolute; width:13px; height:13px; display:block;}
+.tl{left:0px;top:0px; background:url(../images/icon_guid/guide_border_tl.jpg) top left no-repeat;}
+.tr{right:0px;_right:-1px;top:0px; background:url(../images/icon_guid/guide_border_tr.jpg) top left no-repeat;}
+.bl{left:0px;bottom:0px;_bottom:-1px; background:url(../images/icon_guid/guide_border_bl.jpg) top left no-repeat;}
+.br{right:0px;_right:-1px;bottom:0px;_bottom:-1px; background:url(../images/icon_guid/guide_border_br.jpg) top left no-repeat;}
+
+/** 箭头 **/
+.icon_arrow_r,.icon_arrow_l,.icon_arrow_b0,.icon_arrow_r0{display:block; background-repeat:no-repeat; margin:auto; background-position:right center;}
+.icon_arrow_r{width:35px;height:45px; background-image:url(../images/icon_guid/icon_arrow_r.jpg);}
+.icon_arrow_l{width:35px;height:45px; background-image:url(../images/icon_guid/icon_arrow_l.jpg);}
+.icon_arrow_b0{width:15px; height:48px; background-image:url(../images/icon_guid/icon_arrow_b0.jpg);}
+.icon_arrow_r0{width:48px; height:15px;background-image:url(../images/icon_guid/icon_arrow_r0.jpg);}
+.section {position:relative;margin-left:20px;}
+.section h2 span{font-size:14px;background:#ffffff url(../images/images_icon.gif) no-repeat -795px -146px;padding-left:20px;}
+.section h2 .back{position: absolute;border-top: 1px solid #E5E5E5;position: absolute;left: 0;top: 0.75em;width: 100%;height: 1.5em;z-index: -1;}
+
+/** 工作面板流程图 **/
+.move .guide_step_name{border:none;}
+.move .guide_step_box{height:35px;}
+.move .guide_step{height:35px;}
+.move .tr,.move .br{_right:-1px;}
+.icon_arrow_b{width:45px;height:15px;background:url(../images/icon_guid/icon_arrow_b.jpg) bottom center no-repeat; margin:auto;}
+
+
+
+
+/**消费导航**/
+.posguide_di {
+	background-image: url(images/kaoping_001.gif);
+	height: 74px;
+	width: 194px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	clear: both;
+}
+.posguide_di_xiao {
+	background-image: url(images/kaoping_002.gif);
+	height: 74px;
+	width: 178px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	clear: both;
+}
+
+.conference_icodi {
+	background-image: url(images/conference_icodi.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.conference_icodi1 {
+	background-image: url(images/conference_icodi1.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.posguide_ico,.posguide_ico1,.posguide_ico2,.posguide_ico3,.posguide_ico4,.posguide_ico5,.posguide_ico6,.posguide_ico7,.posguide_ico8,.posguide_ico9,.posguide_ico10,.posguide_ico11,.posguide_ico12,.posguide_ico13,.conference_ico1,.conference_ico2,.conference_ico3,.conference_ico4,.conference_ico5,.conference_ico6,.conference_ico7,.conference_ico8,.conference_ico9{
+	float: left;
+	height: 60px;
+	width: 55px;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 8px;
+	padding-right: 8px;
+	padding-left: 8px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.conference_ico1 {
+	background-image: url(images/conference_ico001.jpg);
+
+}
+.conference_ico2 {
+	background-image: url(images/conference_ico002.jpg);
+
+}
+.conference_ico3 {
+	background-image: url(images/conference_ico003.jpg);
+
+}
+.conference_ico4 {
+	background-image: url(images/conference_ico004.jpg);
+
+}
+.conference_ico5 {
+	background-image: url(images/conference_ico005.jpg);
+
+}
+.conference_ico6 {
+	background-image: url(images/conference_ico006.jpg);
+
+}
+.conference_ico7 {
+	background-image: url(images/conference_ico007.jpg);
+
+}
+.conference_ico8 {
+	background-image: url(images/conference_ico008.jpg);
+
+}
+.conference_ico9 {
+	background-image: url(images/conference_ico009.jpg);
+
+}
+.posguide_ico {
+	background-image: url(images/posguide_ico001.jpg);
+
+}
+.posguide_ico1 {
+	background-image: url(images/posguide_ico012.jpg);
+
+}
+.posguide_ico2 {
+	background-image: url(images/posguide_ico011.jpg);
+
+}
+.posguide_ico3 {
+	background-image: url(images/posguide_ico016.jpg);
+
+}
+.posguide_ico4 {
+	background-image: url(images/posguide_ico015.jpg);
+
+}
+.posguide_ico5 {
+	background-image: url(images/posguide_ico002.jpg);
+
+}
+.posguide_ico6 {
+	background-image: url(images/posguide_ico006.jpg);
+
+}.posguide_ico7 {
+	background-image: url(images/posguide_ico013.jpg);
+
+}.posguide_ico8 {
+	background-image: url(images/posguide_ico007.jpg);
+
+}
+.posguide_ico9 {
+	background-image: url(images/posguide_ico009.jpg);
+
+}
+.posguide_ico10 {
+	background-image: url(images/posguide_ico014.jpg);
+
+}
+.posguide_ico11 {
+	background-image: url(images/posguide_ico005.jpg);
+
+}
+.posguide_ico12 {
+	background-image: url(images/posguide_ico010.jpg);
+
+}
+.posguide_ico13 {
+	background-image: url(images/posguide_ico008.jpg);
+
+}
+
+.posguide_icobiao span,.posguide_icobiao_xiao span {
+	font-size: 14px;
+	line-height: 28px;
+}
+.posguide_icobiao span a:link,.posguide_icobiao span a:visited,.posguide_icobiao span a:active,
+.posguide_icobiao_xiao span a:link,.posguide_icobiao_xiao span a:visited,.posguide_icobiao_xiao span a:active
+ {
+ 	font-size: 14px;
+	line-height: 28px;
+	color: #32598a;
+}
+
+.posguide_icobiao span a:hover, .posguide_icobiao_xiao span a:hover{
+	color: #ff6600;
+	text-decoration: none;
+}
+
+.posguide_icobiao p, .posguide_icobiao_xiao p {
+	font-size: 12px;
+	color: #888;
+	margin: 0px;
+}
+.posguide_icobiao, .posguide_icobiao_xiao {
+	float: right;
+	text-align: left;
+	line-height:16px;
+	margin-top: 2px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	margin-left: 4px;
+}
+
+.posguide_icobiao {
+	width: 105px;
+}
+.posguide_icobiao_xiao {
+	width: 88px;
+}
+.icon_arrow_r {
+	background-image: url(images/icon_arrow_r.jpg);
+	height: 45px;
+	width: 45px;
+}
+.icon_arrow_u {
+	background-image: url(images/icon_arrow_u.jpg);
+	height: 45px;
+	width: 45px;
+}
+.icon_arrow_l {
+	background-image: url(images/icon_arrow_l.jpg);
+	height: 45px;
+	width: 45px;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}

@@ -1,0 +1,98 @@
+@charset "UTF-8";
+.treeview, .treeview ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.treeview ul {
+	margin-top: 4px;
+	width:auto;
+}
+.treeview ul li{
+	list-style-type:none;
+	width:auto;
+}
+#show_deptment .treeview .hitarea {zoom:1;}
+.treeview .hitarea {
+	background: url(../img/images/treeview-default.gif)  -80px -3px no-repeat;
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	_margin-left: -8px;
+	float:left;
+	display:block;
+/*	float:none\9;	
+	display:inline\9;*/
+	cursor: pointer;
+}
+
+.treeview li {
+	margin: 0;
+	padding: 3px 0px 3px 16px;
+}
+.treeview ul{ *display:block; clear:both;}
+.treeview ul li{*width:200px !important; *display:block;}
+.treeview p{*width:170px !important;*word-break:break-all !important;*word-wrap:break-word !important;*white-space:normal !important; *display:block !important; min-height:16px;}
+#id_permissions .treeview ul li{*width:400px !important;}
+#id_permissions .treeview p{*width:300px !important;}
+
+.treeview a.selected {
+	background-color: #eee;
+}
+
+#treecontrol { margin: 1em 0; display: none; }
+
+.treeview .hover { color: red; cursor: pointer; }
+
+.treeview li { background: url(../img/images/treeview-default-line.gif) 0 0 no-repeat; }
+.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
+
+.treeview .expandable-hitarea {background-position:-80px -3px;}
+.treeview .collapsable-hitarea {background-position:-64px -25px;}
+
+.treeview li.last { background-position: 0 -1766px }
+.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url(../img/images/treeview-default.gif); }
+.treeview li.lastExpandable { background-position:-48px -45px; }
+.treeview li.lastCollapsable { background-position:-16px -89px;}
+
+.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0; }
+
+.treeview-red li { background-image: url(../img/images/treeview-red-line.gif); }
+.treeview-red .hitarea, .treeview-red li.lastCollapsable, .treeview-red li.lastExpandable { background-image: url(../img/images/treeview-red.gif); }
+
+.treeview-black li { background-image: url(../img/images/treeview-black-line.gif); }
+.treeview-black .hitarea, .treeview-black li.lastCollapsable, .treeview-black li.lastExpandable { background-image: url(../img/images/treeview-black.gif); }
+
+.treeview-gray li { background-image: url(../img/images/treeview-gray-line.gif); }
+.treeview-gray .hitarea, .treeview-gray li.lastCollapsable, .treeview-gray li.lastExpandable { background-image: url(../img/images/treeview-gray.gif); }
+
+.treeview-famfamfam li { background-image: url(../img/images/treeview-famfamfam-line.gif); }
+.treeview-famfamfam .hitarea, .treeview-famfamfam li.lastCollapsable, .treeview-famfamfam li.lastExpandable { background-image: url(../img/images/treeview-famfamfam.gif); }
+
+
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; /*display: block;*/ }
+.filetree span.folder { background: url(../images/team1.gif) 0 0 no-repeat; }
+.filetree li span { padding-left: 16px; background: url(../images/team2.gif) 0 0 no-repeat; }
+.filetree li span.folder { background: url(../images/team1.gif) 0 0 no-repeat; }
+.filetree li span.file { background: url(../images/team2.gif) 0 0 no-repeat; }
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree p.t, .filetree p.file { padding: 1px 0 1px 18px; display: block; }
+.filetree p.t { background: url(../images/team1.gif) 0 0 no-repeat; }
+.filetree li p { padding-left: 18px; background: url(../images/team2.gif) 0 0 no-repeat; }
+.filetree li p.t { background: url(../images/team1.gif) 0 0 no-repeat; }
+.filetree li p.file { background: url(../images/team2.gif) 0 0 no-repeat; }
+.filetree li p.s {  background: url("../img/checked.gif") 0 0 no-repeat; }
+
+#id_permissions .filetree li p.t{background:url(../img/unchecked.gif) no-repeat !important;}
+#id_permissions .filetree li p.s{background:url(../img/checked.gif) no-repeat !important;}
+
+#id_door_group .filetree li p.t{background:url(../img/unchecked.gif) no-repeat !important;}
+#id_door_group .filetree li p.s{background:url(../img/checked.gif) no-repeat !important;}
+
+#id_door .filetree li p.t{background:url(../img/unchecked.gif) no-repeat !important; cursor:pointer;}
+#id_door .filetree li p.s{background:url(../img/checked.gif) no-repeat !important; cursor:pointer;}
+
+
+

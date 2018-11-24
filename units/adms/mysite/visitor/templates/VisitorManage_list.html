@@ -1,0 +1,22 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{% block addjs%}
+    $(function(){
+        $("#id_OpLeaveRegister").parent().append($("#id_OpLeaveRegister"));
+        $.ajax({
+            url: "/{{ request.surl }}visitor/get_total_info/",
+            type: "GET",
+            dataType: "json",
+            success: function(datas){
+                $("#id_datalist div.action").append('<li>'+gettext("当日进入")+':'
+                +datas.enter_times_total+gettext("次")+'/'+datas.enter_number_total+gettext("人")
+                +'&nbsp;&nbsp;&nbsp;&nbsp;'+gettext("当日离开")+':'+datas.leave_times+gettext("次")
+                +'/'+datas.leave_number+gettext("人")+'&nbsp;&nbsp;&nbsp;&nbsp;'+gettext("未离开")
+                +':'+datas.surplus_times+gettext("次")+'/'+datas.surplus_number+gettext("人")+'</li>');
+            }
+        });
+    });
+{% endblock %}
+

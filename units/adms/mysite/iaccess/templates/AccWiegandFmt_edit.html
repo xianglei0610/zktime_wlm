@@ -1,0 +1,47 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block form %}
+	{% if request.user|HasPerm:"iaccess.add_accwiegandfmt" or request.user|HasPerm:"iaccess.change_accwiegandfmt" %}
+	{% autoescape off %} 
+	<tr>
+		{{ form.wiegand_name|field_as_td_h }}
+	</tr>
+
+	<table width="300" class="wiegandfmt_edit_table">
+		<tr>
+			<td rowspan="2" class="blue_bgcolor">{% trans "总位数" %}</td>
+			<td colspan="2" class="blue_bgcolor">{% trans "偶校验" %}</td>
+			<td colspan="2" class="blue_bgcolor">{% trans "奇校验" %}</td>
+			<td colspan="2" class="blue_bgcolor">{% trans "CID" %}</td>
+			<td colspan="2" class="blue_bgcolor">{% trans "公司码" %}</td>
+		</tr>
+		<tr>
+			<td class="blue_bgcolor">{% trans "起始位" %}</td>
+			<td class="blue_bgcolor">{% trans "数字位" %}</td>
+			<td class="blue_bgcolor">{% trans "起始位" %}</td>
+			<td class="blue_bgcolor">{% trans "数字位" %}</td>
+			<td class="blue_bgcolor">{% trans "起始位" %}</td>
+			<td class="blue_bgcolor">{% trans "数字位" %}</td>
+			<td class="blue_bgcolor">{% trans "起始位" %}</td>
+			<td class="blue_bgcolor">{% trans "数字位" %}</td>
+		</tr>
+		<tr>
+			{{ form.wiegand_count|field_as_td_h_special }}
+			{{ form.odd_start|field_as_td_h_special }}
+			{{ form.odd_count|field_as_td_h_special }}
+			{{ form.even_start|field_as_td_h_special }}
+			{{ form.even_count|field_as_td_h_special }}
+			{{ form.cid_start|field_as_td_h_special }}
+			{{ form.cid_count|field_as_td_h_special }}
+			{{ form.comp_start|field_as_td_h_special }}
+			{{ form.comp_count|field_as_td_h_special }}
+		</tr>
+	</table>
+	{% if form.non_field_errors %}
+		<tr><td>{{ form.non_field_errors }}</td></tr>
+	{% endif %}
+
+	{% endautoescape %}
+	{% endif %}<!--add/change_accwiegandfmt-->
+{% endblock %}

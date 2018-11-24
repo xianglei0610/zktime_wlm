@@ -1,0 +1,14 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{%block addjs%}
+$(function(){
+    $('#id_name').attr("readonly","true");
+    {%if "POS_IC"|filter_config_option%}
+        $("#page_help").attr("href",$("#page_help").attr("href").replace("batchtime","ic_batchtimepage"));
+    {%else%}
+        $("#page_help").attr("href",$("#page_help").attr("href").replace("batchtime","batchtimepage"));
+    {%endif%}
+    $('.tbl_data_edit >tbody> tr').eq(7).hide()
+})
+{%endblock%}

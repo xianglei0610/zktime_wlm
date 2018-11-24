@@ -1,0 +1,19 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block addjs %}
+$(function(){
+$("#id_model_export").hide()
+//    $(".pop_time").hide();
+//    
+//    $(".dp-choose-date").click(function(){
+//       var dd = $("search_id_checktime__gte").val();
+//       alert(dd);
+//    });
+//    $("#dropDevice").parent().css({position:"relative","z-index":"3"});
+    $("#dropTime").parent().css({position:"relative","z-index":"5"});
+    {%if "POS_IC"|filter_config_option%}
+    $(".icon_help_current").attr("href",$(".icon_help_current").attr("href").replace("carcashsz","ic_carcashsz"));
+    {%endif%}
+    
+})
+{% endblock %}

@@ -1,0 +1,287 @@
+{% extends "data_list.html" %}
+
+{% load i18n %}
+
+{%  block search_div  %}
+
+<div style="margin-bottom: 0px ! important; padding-bottom: 2px;" class="news_xaxunkuang" id="id_search">
+	<dl><dt>查询</dt>
+	<dd>
+	<table style="width: 99%;">
+		<tbody>
+			<tr>
+				<td>
+					<div>
+						<table width="100%" id="id_form_search" class="tbl_form_search">
+							<tbody>
+							   <tr class="header_div_left"> 
+									<td align="right"><label class="" for="id_alias">{%trans '设备名称'%}:</label></td> <td><input type="text" maxlength="20" name="alias" id="id_alias"></td>
+									<td align="right"><label for="id_sn">{%trans '序列号'%}:</label></td> <td><input type="text" maxlength="20" name="sn" id="id_sn" ></td>
+									<td align="right"><label class="" for="id_area__areaname">{%trans '区域名称'%}:</label></td> <td><input type="text" maxlength="30" name="area__areaname" id="id_area__areaname" ></td>
+								</tr>
+								<tr class="header_div_left">
+								</tr> 
+							</tbody>
+						</table>
+					</div> 
+				</td>
+				<td width="160" valign="bottom">  
+					<div class="topSearchBtn" style="text-align: right; height: 20px; width: 190px;">
+						<span class="Link_blue1">
+							<span class="action_topSearch floatL"></span><a class="floatL" id="id_header_search" href="javascript:void(0)">{%trans '查询'%}</a>
+						</span>						
+						<span id="id_advanced_search" class="Link_blue1">
+							<span class="action_advancedSearch floatL"></span><a class="floatL" href="javascript:void(0)">{%trans '高级'%}</a>
+						</span>						
+						<span class="Link_blue1">
+							<span class="action_topClear floatL"></span><a class="floatL" id="id_header_clear" href="javascript:void(0)">{%trans '清除'%}</a>
+						</span>
+					</div>
+			   </td>
+			</tr>
+		</tbody>
+	</table>
+    </dd>
+    </dl>
+</div>
+
+{% endblock %}
+
+{% block getdatalist %}
+{% endblock %}
+
+{% block addjs %}
+$(".portlet").removeClass("floatL").css({width:"73%",float:"right"});
+$("#id_main_div").before("<div id='AreaAdjust' class ='div_box clearL' style='float:left;width:22%;height:465px;_width:22%;margin:5px 0px 0px 10px !important;*margin:5px 0px 0px 5px !important;' >"
+		+"<h1>"
+			+"{% trans '区域' %}"
+		+"</h1>"
+		+"<a id='id_queryall' class ='link_style' href='javascript:void(0)' title='"+"{% trans '显示全部设备' %}"+"'style ='position:absolute; top:6px;right:5px' >"
+			+"{% trans '显示全部设备' %}"
+		+"</a>"
+		+"<div id ='id_area_select' style='width:100%;' >"
+		+"</div> "   
+	+"</div>"
+)
+var after_init=function(){
+	$("#id_span_title").css({"margin-left":"120px"});
+	$('#id_area_select').parent(".div_box").hide();
+	$("#id_main_div").css({width:"100%",float:"right"});
+	return true;
+}
+var after_close=function(){
+	$("body").removeClass("indexBody").css("width","auto");
+	$(".rightBox").eq(1).attr("class","rightBox1");
+	
+	$('#id_area_select').parent(".div_box").show();
+	$("#id_main_div").css({width:"73%",float:"right"});
+   return true;
+
+}
+
+var after_submit=function(){
+	$("body").removeClass("indexBody").css("width","auto");
+	$(".rightBox").eq(1).attr("class","rightBox1");
+	
+    $('#id_area_select').parent(".div_box").show();
+	$("#id_main_div").css({width:"73%",float:"right"});
+	return true;
+	
+}
+
+
+var data=[]
+
+$(function(){
+	$("body").removeClass("indexBody").css("width","auto");
+	$(".rightBox").eq(1).attr("class","rightBox1");
+    $("#div_id_middiv").hide();
+    $(".leftBoxMiddle").hide();
+    {% if request.user|HasPerm:"contenttypes.can_AttDeviceDataManage" %}
+    $('#id_datalist').model_grid(
+        {
+        'model_url':'{{dbapp_url}}iclock/Device/?device_type__exact=1&ref_model=att.AttDeviceDataManage',
+        'model_actions':false,
+        'object_actions':true,
+        'obj_edit':false,
+        'row_operations':["op_edit"],
+        'disable_cols':['comm_type','acpanel_type','device_use_type','dining.name','consume_model','com_port','com_address','show_enabled|boolean_icon','show_fp_mthreshold','get_dstime_name','device_type','fw_version','pos_dev_status|boolean_icon','pos_file_count','pos_cmd_count'],
+        'need_plus_sign':false,
+        'multiple_select':true,
+        'init_after_get_jdata':function(){
+            $("#id_datalist").get(0).g.a_div.after("<div class='floatL' style='_position:relative;_z-index:10;'><ul id='id_action_more' class='nav Link_blue2 font12 noUnderl floatL ul_action_more'><li><a href='javascript:void(0)' class='action_more'>{% trans '更多' %}...</a><ul class='action_more_list'></ul></li></ul></div>");
+            var $app_menu=$("#id_datalist").get(0).g.a_div;
+            var $menu_more=$(".action_more_list");
+            var min_width=$("#id_datalist").width()-500;
+            resize_menu($app_menu,$menu_more,min_width,"id_action_more");
+            $(".div_leftBottomLine").hide()
+            $('.nav li').sfHover();
+			
+            {% block extrajs %}{% endblock %}
+        },
+        'disabled_actions':['_change','ClearData','ClearPosData','OpReloadICPOSData','Pause','PowerSuspend','ResetPassword','_delete','Resume','Syncdata','SyncACPanelTime','OpChangeIPOfACPanel','OpBrowseLog','UploadLogs','OpEnableDevice','OpDisableDevice','OpUpgradeFirmware','OpChangeMThreshold','OpCloseAuxOut','OpSetDSTime','OpRemoveDSTime','UploadUserInfo','OpChangeBaudrate','OpChangeElevatorParamters','OpDisableAccPush','OpEnableAccPush','IcPosOnlineReloadData','OpIcDeviceDataCheck','','']
+    })
+    
+
+    var listDiv=""
+    data=$("#id_datalist").get(0).g.data
+    
+    $.ajax({ 
+          	type: "POST",
+          	url:"../../data/personnel/Area/choice_data_widget?areatree=True",
+          	dataType:"html",
+          	success:function(json){
+               $("#id_area_select").hide().html(json).show();
+//               $('#id_AreaSelect p').click(function(){
+//                   var vItem = $(this).parent().attr("id")
+//                   $('#id_datalist').get(0).g.base_query=["area__exact="+vItem]
+//                   $('#id_datalist').get(0).g.load_data()
+//               })
+               //$("#AreaAdjust").find("#id_area_select").css({height:$("#id_datalist").height()+44});
+          	}
+       });
+    
+    $("#id_queryall").click(function(){
+           $("#id_AreaSelect").find("p[class*='s']").attr("class","t")
+           $("#id_area_select").find("input[type='hidden']").attr("value","")
+           $('#id_datalist').get(0).g.init_query=[]
+           $('#id_datalist').get(0).g.base_query=["device_type__exact=1"]
+           $('#id_datalist').get(0).g.load_data()    
+    })
+    
+    {% endif %}
+//    $("input[name='rdo_style']").click(function(){
+//        var v=$(this).val();
+//        if(v==1)
+//        {
+//            $(this).parent().parent().find("#id_tbl").removeClass("displayN");
+//            $("#id_datalist_view").css("display","None");
+//
+//        }
+//        else
+//        {
+//            //if($("#id_datalist_view").length>0)
+//            $("#id_datalist_view").remove();
+//            listDiv=showBox(data);               
+//           
+//            $(this).parent().parent().append(listDiv);
+//            $(this).parent().parent().find("#id_tbl").addClass("displayN");
+//      
+//        }
+//    });
+});
+//function view_edit(obj)
+//{
+//    var Href=$(obj).attr("alt");
+//   
+//    $.zk._processEdit(Href, $("#id_datalist").get(0), undefined, $(obj));
+//    $("#id_datalist_view").css("display","None");
+//    $("#id_datalist_view").parent().find("#id_tbl").removeClass("displayN");
+//    return false;
+//    
+//}
+//添加查询条件
+function before_query(strwhere){
+	strwhere.push("device_type__exact=1");
+	return strwhere;
+}
+
+//function showBox(data)
+//{	
+//	var html="";
+//	if(data.length>0)
+//	{
+//        html+="<div id='id_datalist_view'>"
+//		for(var i=0;i<data.length;i++)
+//		{	
+//			html+="<div id='ic_"+data[i][0]+"' class='AIClockBox'>"
+//				
+//				+"<div class='iclockButton Link_blue2' >"
+//				+"<input type='checkbox' class='class_select' id='id_row_"+i+"' />"
+//				+"<a href='javascript:void(0)' onclick='view_edit(this)' alt='{{dbapp_url}}iclock/Device/"+data[i][0]+"/'><img border='0' src='/media/img/model/iclock.Device.png' onmouseover='index_tip_info(this);' onmouseout='tip_info_exit();' index='"+i+"'/><br />"+data[i][1]+"</a>"
+//				+"</div>"
+//				+"<div id='tt_"+data[i][0]+"' class='iclockTT'>"
+//					+"<span>"+data[i][0]+"<br/>"
+//					+"{%trans "区域" %}:"+data[i][2]+"<br/>"
+//					+"{%trans "状态" %}:"+data[i][7]+"<br/></span>"
+//					//+"{%trans "数据维护" %}:"+data[i]+"</span>"
+//					
+//					
+//				+'</div>'
+//				+"</div>"
+//        }
+//        html+="</div>"
+//            
+//	}
+//	else
+//		html+="<div id='id_datalist_view' class='NoIclock'>{%trans "没有设备！" %}</div>"
+//	return html;
+//
+//}
+//function getMoreInfo(index){
+//	return 		"<iframe class='maskIframe'></iframe><div><table><tr><th>{% trans "设备名称" %}:</th><td>"+(data[index][8]=="None"?"":data[index][8])
+//				+"</td></tr><tr><th>{% trans "设备别名" %}:</th><td>"+data[index][1]
+//				+"</td></tr><tr><th>{% trans "传送时间" %}:</th><td>"+data[index][4]
+//				+"</td></tr><tr><th>{% trans "刷新间隔时间" %}:</th><td>"+data[index][5]
+//				+"</td></tr><tr><th>{% trans "最近联机时间" %}:</th><td>"+data[index][6]
+//				+"</td></tr><tr><th>{% trans "固件版本" %}:</th><td>"+(data[index][8]=="None"?"":data[index][8])
+//				+"</td></tr><tr><th>{% trans "用户数" %}:</th><td>"+(data[index][10]=="None"?"":data[index][10])
+//				+"</td></tr><tr><th>{% trans "指纹数" %}:</th><td>"+(data[index][11]=="None"?"":data[index][11])
+//				+"</td></tr><tr><th>{% trans "记录数" %}:</th><td>"+(data[index][12]=="None"?"":data[index][12])
+//				+"</td></tr></table></div>"
+//}
+
+//function index_tip_info(obj)
+//{
+//    //alert(obj);
+//	var index=$(obj).attr("index");
+//        
+//	$("#id_tip").html(getMoreInfo(index));
+//	var offset=$(obj).offset();
+//	if($("#id_tip").css("display")=="none"){
+//		$("#id_tip").css({"z-index":"16","display":"block","position":"absolute","top":(offset.top+70),"left":(offset.left-70)})
+//		$("#id_tip").mouseover(function(){
+//			$(this).css({"z-index":"16","display":"block","position":"absolute","top":(offset.top+70),"left":(offset.left-70)})
+//		
+//		}).mouseout(function(){
+//			$("#id_tip").css("display","none");
+//		});
+//	}
+//	else
+//		$("#id_tip").css("display","none");
+//	$(".maskIframe").css("width",$(".div_tip").width()+14);
+//	$(".maskIframe").css("height",$(".div_tip").height()+14);
+//}
+//function tip_info_exit()
+//{
+//	$("#id_tip").css("display","none")
+//}
+
+function reflash_child_area_list(event, treeId, treeNode){
+	var parent_id = treeNode.id;
+    var strwhere=[];
+    strwhere = before_query(strwhere)
+    strwhere.push("area__id__exact="+parent_id);  
+    var $grid = $('#id_datalist');
+    var datalist=$grid.get(0);
+    datalist.g.init_query=strwhere;
+    datalist.g.load_data();
+ }
+
+{% endblock %}
+
+
+{% block addmiddiv %}
+{% if request.user|HasPerm:"contenttypes.can_AttDeviceDataManage" %}
+<div id="id_tip" style="display:none" class="div_tip ui-corner-all"></div>
+<div id="div_id_middiv">{% trans '显示方式' %}
+<input type="radio" name="rdo_style" value=1 checked="checked">{% trans '列表方式' %}</input>
+<input type="radio" name="rdo_style" value=2>{% trans '图表方式' %}</input>
+</div>
+<div id="id_datalist"></div>
+{% else %}
+<div>{% trans '用户无设备浏览权限，请与管理员联系' %}</div>
+{% endif %}
+{% endblock %}
+
+

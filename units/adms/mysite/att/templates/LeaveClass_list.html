@@ -1,0 +1,7 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block addjs %}
+function is_row_operations_show(rowdata){
+	return rowdata[0]>6
+}
+{% endblock%}

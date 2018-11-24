@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> System Settings -> Database management</div>
+<div class="help_mainContant">
+  <h2>Database Management</h2>
+  <br />
+
+  The homepage of the system shows database backup  history. The system allows database backup, database initialization and  database restoration.<br />
+      <br />
+<b>1.  Database backup path configuration:</b><br /><br />
+    Select [Database backup path configuration] in the [Server Controller] operation menu, the edit interface appears.<br />
+    <br />
+	Click [Browse] to select the backup path, click [Save] to save the selection and quit.
+	<br />
+	<br />
+	<b>Note:</b><br />
+	<br />
+	(1) In software installation process, it will prompt to set the database backup path. If you haven’t set the backup path, the operation of backup database can’t be executed (The server for other computer to access, need to set the backup path in the server firstly).
+  <br />
+  <br />
+  (2) 
+
+
+Proposal that the database backup path and the present system installed path not be under the same disk. Don’t set the path to the root of a disk, and no blanket permitted.
+
+  <div class="alignC"></div>
+  <br />
+<b>2. Backup database:</b><br />
+<br />
+
+    Periodically backup the system’s database to ensure  data security. To use the backed up data, just restore the data.<br />
+    <br />
+	(1) Click [Backup database] to enter the backup interface;
+  <div class="alignC"></div>
+  <br />
+    (2) Select from backup now, scheduled backup and cancel  scheduled backup. Scheduled backup can set backup every several hours since a  start time;<br />
+    <br />
+	(3) Click [OK]. For Backup now, it will return after  backup. For scheduled backup, it will backup as scheduled.<br />
+  <br />
+<b>Note:</b>
+<br /><br />
+(1) After database backing up, the value under “Whether backup successful” will change to “Yes” or “No”. “Yes” indicates database backing up successfully, otherwise, the back up operation is failed.
+<br /><br />
+(2) We recommended backing up the database after you create the personnel file, device information or part of access control level settings.
+<br /><br />
+(3) The system not support to backup Oracle database, if you need to backup, please uses the specific Oracle backup tools.
+<br /><br />
+
+<b>3. Restore Database:</b><br />
+    <br />
+	Select [Restore Database] in the [Server Controller] operation menu, the following interface appears.<br />
+ <br />
+Click [Browse] to select a successfully backed up database from the backup database list, click [Start] begin the database restoration.<br />
+ <br />
+ <b>4. Initialize database:</b><br />
+ 
+    <br />
+	Initialize database is to restore data to system  initialization status. Initialized data in the database will be deleted. Please  operate with care.<br />
+    <br />
+	Click [Initialize database] to enter edit interface,  select one or several datasheets to initialize, and click [OK] to complete  initialization and return.
+  <div class="alignC"></div>
+  <br />
+  <b>For example:</b><br />
+  <br />
+  <b>Select to initialize access  level: </b>After selection, it  will initialize access control time periods, access control holidays and access  levels. All contents on these three pages will restore initial statuses;<br />
+  <br />
+  <b>Select to initialize door  settings: </b>After selection,  it will initialize all interlock settings, anti-passback settings, linkage  settings, first-card opening settings, and multi-card opening settings  (including personnel group of multi-card verification);<br />
+  <br />
+  <b>Select to initialize events: </b>After selection, it will initialize all  real-time monitoring records;<br />
+  <br />
+  <b>Select to initialize access  control: </b>After selection,  it will initialize all settings and information in the access control system,  including the above three items, and only reserve system default settings;<br />
+  <br />
+  <b>Select to initialize devices:</b> After selection, it will initialize all device  information in the system (including access control). If the device is an  access control panel, corresponding device parameters and door information will  be deleted.<br />
+  <br /><b> </b><b>Note: </b>If the device is still in  normal use, please initialize database cautiously, especially when involving  access level-related departments and personnel, access levels, door settings,  areas, devices, users and roles. It is recommended that if there are still  devices in use after database initialization, the user shall [Synchronize all  data] for the setting to avoid unexpected errors.<br />
+<br /><br />
+</div>
+</body>
+</html>

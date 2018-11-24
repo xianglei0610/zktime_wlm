@@ -1,0 +1,33 @@
+{% block base_js %}
+<script src="{{ MEDIA_URL }}/jslib/appconfig.js"> </script>
+<script src="{{ MEDIA_URL }}/jslib/i18n.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.validate.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/i18n_{{ LANGUAGE_CODE }}.js"></script>
+{% endblock %}
+
+{% block extrajs %}{% endblock %}
+
+{% block common_js %}
+<script src="{{ MEDIA_URL }}/jslib/jquery.plus.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.zcommon.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.ztree-2.6.min.js"></script>
+
+<script src="{{ MEDIA_URL }}/jslib/dwz.util.date.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/dwz.datepicker.js"></script>
+
+<script src="{{ MEDIA_URL }}/jslib/widgets.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/jquery.tools.min.js"></script>
+
+<script src="{{ MEDIA_URL }}/jslib/jquery.zgrid.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/datalist.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/datalistadd.js"></script>
+<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>
+{% if "POS_IC"|filter_config_option %}
+    <script src="{{ MEDIA_URL }}/jslib/pos_ic.js"></script>
+{% endif %}
+{% endblock %}
+
+
+
+
+

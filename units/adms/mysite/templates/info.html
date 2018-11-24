@@ -1,0 +1,18 @@
+
+{% block extrastyle %}
+{% load i18n %}
+<style>
+code, pre{
+padding-left:30px;
+}
+</style>
+{% endblock %}
+{% block content %}
+<p>&nbsp;</p>
+{% autoescape off %}
+{{ content }}
+{% endautoescape %} 
+<br />
+<p>&nbsp;</p>
+
+{% endblock %}

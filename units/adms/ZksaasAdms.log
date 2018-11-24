@@ -1,0 +1,73 @@
+2014-01-17 11:30:56.354000 ZksaasAdms [pid:7144] start
+soft key LastError -92
+2014-01-17 11:30:59.442000 ZksaasAdms [pid:0] be stoped
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+
+2014-01-17 11:31:08.132000 ZksaasAdms [pid:10076] start
+soft key LastError -92
+2014-01-17 11:31:24.889000 ZksaasAdms [pid:0] be stoped
+
+
+2014-01-17 11:31:29.897000 ZksaasAdms [pid:4416] start
+soft key LastError -92
+2014-01-17 11:32:18.571000 ZksaasAdms [pid:0] be stoped
+
+
+2014-01-17 11:32:23.641000 ZksaasAdms [pid:6348] start
+soft key LastError -92
+2014-01-17 11:32:27.853000 ZksaasAdms [pid:0] be stoped
+Traceback (most recent call last):
+  File "manage.py", line 16, in <module>
+    execute_manager(settings)
+  File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+
+2014-01-17 11:32:52.736000 ZksaasAdms [pid:2420] start
+soft key LastError -92
+Traceback (most recent call last):
+File "manage.py", line 16, in <module>
+
+
+execute_manager(settings)
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 438, in execute_manager
+
+utility.execute()
+File "C:\Python26\lib\site-packages\django\core\management\__init__.py", line 379, in execute
+
+self.fetch_command(subcommand).run_from_argv(self.argv)
+File "C:\Python26\lib\site-packages\django\core\management\base.py", line 195, in run_from_argv
+2014-01-17 15:36:01.917000 ZksaasAdms [pid:0] be stoped
+
+
+2014-01-21 17:12:37.494000 ZksaasAdms [pid:8740] start
+soft key LastError -92
+2014-01-21 17:14:50.588000 ZksaasAdms [pid:9128] start
+soft key LastError 0
+2014-01-21 17:21:12.089000 ZksaasAdms [pid:8548] start
+soft key LastError 0
+2014-01-21 17:23:46.117000 ZksaasAdms [pid:3952] start
+soft key LastError 0
+2014-01-21 17:29:19.900000 ZksaasAdms [pid:4004] start
+soft key LastError 0
+2014-01-21 17:34:25.052000 ZksaasAdms [pid:2140] start
+soft key LastError 0
+2014-01-21 17:37:45.185000 ZksaasAdms [pid:5428] start
+soft key LastError 0
+2014-01-21 17:47:55.771000 ZksaasAdms [pid:8924] start
+soft key LastError 0
+2014-01-21 17:48:54.120000 ZksaasAdms [pid:7184] start
+soft key LastError 0
+
+
+2014-01-21 20:26:14.992000 ZksaasAdms [pid:7868] start
+soft key LastError 0
+
+
+2014-01-21 21:08:12.586000 ZksaasAdms [pid:1324] start
+soft key LastError -92
+2014-01-21 21:08:40.172000 ZksaasAdms [pid:8060] start
+soft key LastError -92

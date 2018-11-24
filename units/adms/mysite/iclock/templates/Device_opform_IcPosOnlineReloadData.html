@@ -1,0 +1,32 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+{% block addjs %}
+ $(function(){
+         $(':checkbox[class=wZBaseBooleanField]').each(function(){
+             $(this).click(function(){
+                 if($(this).attr('checked')){
+                     $(':checkbox[class=wZBaseBooleanField]').removeAttr('checked');
+                     $(this).attr('checked','checked');
+                 }
+             });
+         });
+     });
+ function before_submit()
+     {
+        var et=new Date($("#id_start_time").val().replace(/-/g,"/"))
+        if(et>new Date())
+        {
+            alert(gettext("开始时间不能大于当前时间"));
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+         
+     }
+ 
+{% endblock %}
+
+
+

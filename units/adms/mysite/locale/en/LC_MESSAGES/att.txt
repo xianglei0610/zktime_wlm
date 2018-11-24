@@ -1,0 +1,3160 @@
+#: .\att\reports.py
+msgid "恢复设备上的人员数据"
+msgstr "Restore personnel data on the device"
+
+msgid "班次详情"
+msgstr "Shift details"
+
+msgid "异常报表"
+msgstr "Exception report"
+
+#: .\att\reports.py:240 .\att\reports.py:245
+msgid "重新计算报表"
+msgstr "Recalculate Report"
+
+msgid "原始记录"
+msgstr "AC Log"
+
+msgid "人员管理"
+msgstr "Personnel Management"
+
+msgid "考勤类型"
+msgstr "Attendance type"
+
+msgid "更正状态"
+msgstr "Correction"
+
+msgid "结束签退时间"
+msgstr "Check-out end"
+
+msgid "异常"
+msgstr "Exception"
+
+msgid "总时长"
+msgstr "Total Duration"
+
+msgid "有效时长"
+msgstr "Effective Duration"
+
+msgid "原因"
+msgstr "Cause"
+
+msgid "员工考勤修改日志日期"
+msgstr "Modification log date"
+
+msgid "原始考勤"
+msgstr "Original attendance"
+
+msgid "假类编号"
+msgstr "Exception number"
+
+#: .\att\reports.py:430 .\att\reports.py:442
+msgid "考勤编号"
+msgstr "Attendance number"
+
+msgid "考勤->考勤计算与报表"
+msgstr "Attendance -> Report"
+
+#: .\att\reports.py:296 .\att\reports.py:306 .\att\reports.py:323
+#: .\att\reports.py:345 .\att\reports.py:353 .\att\reports.py:365
+msgid "考勤号码"
+msgstr "Attendance number"
+#: .\att\reports.py:296 .\att\reports.py:345 .\att\reports.py:353
+#: .\att\reports.py:365 
+msgid "考勤时间"
+msgstr "Attendance Time"
+
+#: .\att\reports.py:345 .\att\reports.py:353
+msgid "考勤状态"
+msgstr "Attendance status"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\views.py
+msgid "考勤->员工排班"
+msgstr "Attendance -> Schedule"
+
+#: .\att\views.py:140 .\att\views.py:141
+msgid "打卡日期"
+msgstr "Punch date"
+
+#: .\att\views.py:140 .\att\views.py:141
+msgid "打卡时间"
+msgstr "Punch time"
+
+msgid "考勤->区域用户管理"
+msgstr "Attendance -> Area user management"
+
+msgid "考勤->考勤设备管理"
+msgstr "Attendance -> Device management"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\__init__.py
+msgid "考勤默认页面"
+msgstr "default access control page"
+
+msgid "考勤"
+msgstr "Attendance"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\attexception.py
+msgid "请假类型"
+msgstr "Exception type"
+
+msgid "前次审核状态"
+msgstr "Pervious review status"
+
+msgid "排班时长"
+msgstr "Schedule Duration"
+
+msgid "总时长（分钟）"
+msgstr "Total Duration (minute)"
+
+msgid "有效时长（分钟）"
+msgstr "Effective duration (minute)"
+
+msgid "排班工作日"
+msgstr "Schedule workday"
+
+msgid "区域用户管理"
+msgstr "Area user"
+
+msgid "考勤设备管理"
+msgstr "Device"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\attparam.py
+msgid "考勤规则参数名称"
+msgstr "Rule name"
+
+msgid "考勤规则参数类型"
+msgstr "Rule type"
+
+msgid "考勤规则参数值"
+msgstr "Rule value"
+
+msgid "考勤参数"
+msgstr "Parameter"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\attshifts.py
+msgid "上班时间"
+msgstr "Check-in"
+
+msgid "下班时间"
+msgstr "Check-out"
+
+msgid "符号"
+msgstr "Symbol"
+
+msgid "工作分钟"
+msgstr "Work minute"
+
+msgid "时段时间(分钟)"
+msgstr "TimeTable (minute)"
+
+msgid "旷工时间(分钟)"
+msgstr "Absence time (minute)"
+
+msgid "例外情况明细"
+msgstr "Exception detail"
+
+msgid "考勤明细表"
+msgstr "Daily detail"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\checkexact_model.py
+
+#: .\att\models\checkexact_model.py:29 .\att\models\checkexact_model.py:90
+msgid "签卡时间"
+msgstr "Punch time"
+
+#: .\att\models\checkexact_model.py:32 .\att\models\checkexact_model.py:92
+msgid "签卡原因"
+msgstr "Punch reason"
+
+#: .\att\models\checkexact_model.py:43 .\att\models\checkexact_model.py:104
+msgid "补签记录输入重复"
+msgstr "Append repeated"
+
+msgid ""
+"新增补签卡同时会在原始记录表中增加一条相同记录，修改时会同时修改原始记录表中"
+"的相同记录"
+msgstr ""
+"Adding a log will simultaneously add an identical entry in the AC log table, "
+"and modifying it will simultaneously modify the same entry in the AC log "
+"table."
+
+msgid "请选择人员"
+msgstr "Select a person."
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\user_of_run.py
+msgid "新增员工排班"
+msgstr "Add"
+
+msgid "请选择班次"
+msgstr "Select shifts"
+
+msgid "新增员工临时排班"
+msgstr "Add temporary schedule"
+
+msgid "请选择日期"
+msgstr "Select dates"
+
+msgid "请选择时段"
+msgstr "Select timetable"
+
+msgid "员工排班"
+msgstr "Schedule"
+
+msgid "新增排班"
+msgstr "Add Schedule"
+
+msgid "新增临时排班"
+msgstr "Add temporary schedule"
+
+msgid "清除排班记录"
+msgstr "Clear "
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_empspecday.py
+msgid "正在审核"
+msgstr "Reviewing"
+
+msgid "已接受"
+msgstr "Accepted"
+
+msgid "拒绝"
+msgstr "Reject"
+
+msgid "暂停"
+msgstr "Suspend"
+
+msgid "重申请"
+msgstr "Re-apply"
+
+msgid "重新申请"
+msgstr "Re-apply"
+
+msgid "取消请假"
+msgstr "Cancel exception"
+
+#: .\att\models\model_empspecday.py:40 .\att\models\model_empspecday.py:86
+msgid "请假原因"
+msgstr "Reason"
+
+#: .\att\models\model_empspecday.py:41 .\att\models\model_empspecday.py:87
+msgid "填写时间"
+msgstr "Completion time"
+
+msgid "申请状态"
+msgstr "Status"
+
+#: .\att\models\model_empspecday.py:45 .\att\models\model_empspecday.py:96
+msgid "结束时间不能小于开始时间"
+msgstr "End time cannot be earlier than start time."
+
+msgid "请假时间重复"
+msgstr "Time repeated"
+
+msgid "已存在相同请假记录！"
+msgstr "The same exception entry already exits!"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_holiday.py
+msgid "汉族"
+msgstr "Han"
+
+msgid "蒙古族"
+msgstr "Mongolian"
+
+msgid "回族"
+msgstr "Hui"
+
+msgid "藏族"
+msgstr "Tibetan"
+
+msgid "维吾尔族"
+msgstr "Uygur"
+
+msgid "苗族"
+msgstr "Miao"
+
+msgid "彝族"
+msgstr "Yi"
+
+msgid "壮族"
+msgstr "Zhuang"
+
+msgid "布依族"
+msgstr "Bouyei"
+
+msgid "朝鲜族"
+msgstr "Korean"
+
+msgid "满族"
+msgstr "Manchu"
+
+msgid "侗族"
+msgstr "Dong"
+
+msgid "瑶族"
+msgstr "Yao"
+
+msgid "白族"
+msgstr "Bai"
+
+msgid "土家族"
+msgstr "Tujia"
+
+msgid "哈尼族"
+msgstr "Hani"
+
+msgid "哈萨克族"
+msgstr "Kazakh"
+
+msgid "傣族"
+msgstr "Dai"
+
+msgid "黎族"
+msgstr "Li"
+
+msgid "僳僳族"
+msgstr "Lisu"
+
+msgid "佤族"
+msgstr "Wa"
+
+msgid "畲族"
+msgstr "She"
+
+msgid "高山族"
+msgstr "Gaoshan"
+
+msgid "拉祜族"
+msgstr "Lahu"
+
+msgid "水族"
+msgstr "Shui"
+
+msgid "东乡族"
+msgstr "Dongxiang"
+
+msgid "纳西族"
+msgstr "Naxi"
+
+msgid "景颇族"
+msgstr "Jingpo"
+
+msgid "柯尔克孜族"
+msgstr "Kirgiz"
+
+msgid "土族"
+msgstr "Tu"
+
+msgid "达斡尔族"
+msgstr "Daur"
+
+msgid "仫佬族"
+msgstr "Mulam"
+
+msgid "羌族"
+msgstr "Qiang"
+
+msgid "布朗族"
+msgstr "Bulang"
+
+msgid "撒拉族"
+msgstr "Sala"
+
+msgid "仡佬族"
+msgstr "Gelao"
+
+msgid "锡伯族"
+msgstr "Xibo"
+
+msgid "阿昌族"
+msgstr "Achang"
+
+msgid "普米族"
+msgstr "Primi"
+
+msgid "塔吉克族"
+msgstr "Tajik"
+
+msgid "怒族"
+msgstr "Nu"
+
+msgid "乌孜别克族"
+msgstr "Uzbek"
+
+msgid "俄罗斯族"
+msgstr "Russian"
+
+msgid "鄂温克族"
+msgstr "Ewenki"
+
+msgid "德昂族"
+msgstr "Deang"
+
+msgid "保安族"
+msgstr "Baoan"
+
+msgid "裕固族"
+msgstr "Yugur"
+
+msgid "京族"
+msgstr "Gin"
+
+msgid "塔塔尔族"
+msgstr "Tatar"
+
+msgid "独龙族"
+msgstr "Drung"
+
+msgid "鄂伦春族"
+msgstr "Oroqen"
+
+msgid "赫哲族"
+msgstr "Hezhe"
+
+msgid "门巴族"
+msgstr "Monba"
+
+msgid "珞巴族"
+msgstr "Luoba"
+
+msgid "基诺族"
+msgstr "Jinuo"
+
+msgid "年"
+msgstr "Year"
+
+msgid "月"
+msgstr "Month"
+
+msgid "持续时间(天)"
+msgstr "Duration (day)"
+
+msgid "节假日性别"
+msgstr "Gender"
+
+msgid "节假日民族"
+msgstr "Nationality"
+
+msgid "元旦节"
+msgstr "New Year’s Day"
+
+msgid "中国国庆节"
+msgstr "National Day"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_leaveclass.py:
+msgid "是否按四舍五入计算"
+msgstr "Whether round off"
+
+#: .\att\models\model_leaveclass.py:37 .\att\models\model_leaveclass1.py:30
+msgid "假类名称"
+msgstr "Name"
+
+#: .\att\models\model_leaveclass.py:38 .\att\models\model_leaveclass1.py:31
+msgid "最小单位"
+msgstr "Min unit"
+
+#: .\att\models\model_leaveclass.py:39 .\att\models\model_leaveclass1.py:32
+msgid "单位"
+msgstr "Unit"
+
+#: .\att\models\model_leaveclass.py:42 .\att\models\model_leaveclass1.py:35
+msgid "报表中的表示符号"
+msgstr "Sign in report"
+
+#: .\att\models\model_leaveclass.py:43 .\att\models\model_leaveclass1.py:36
+msgid "每一最小单位扣款"
+msgstr "Deduct per min unit"
+
+msgid "分类"
+msgstr "Category"
+
+msgid "是否自动销假"
+msgstr "Whether auto cancel leave "
+
+msgid "所属类型"
+msgstr "Type"
+
+msgid "假类以小时为单位，最小单位不能超过10"
+msgstr "Exception is calculated by hour. Minimum unit cannot exceed 10."
+
+msgid "假类以分钟为单位，最小单位不能超过60"
+msgstr "Exception is calculated by minute. Minimum unit cannot exceed 60."
+
+msgid "假类以工作日为单位，最小单位不能超过1"
+msgstr "Exception is calculated by workday. Minimum unit cannot exceed 1."
+
+#: .\att\models\model_leaveclass.py:31 .\att\models\model_leaveclass.py:101
+msgid "因公外出"
+msgstr "Business Trip"
+
+#, python-format
+msgid "%s 假类名称已经存在"
+msgstr "The %s exception name already exists."
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_leaveclass1.py:
+msgid "假类类型"
+msgstr "Exception type"
+
+msgid "统计项目表"
+msgstr "Statistic table"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_report.py
+msgid "共享 读/写"
+msgstr "Share read/write"
+
+msgid "考勤报表"
+msgstr "Report"
+
+msgid "考勤异常表"
+msgstr "Exception"
+
+msgid "其它考勤异常表"
+msgstr "Other exception"
+
+msgid "补签记录表"
+msgstr "Append entry"
+
+msgid "假类汇总"
+msgstr "Exception summary"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_setuseratt.py
+msgid "正常上班"
+msgstr "Normal work"
+
+msgid "休息"
+msgstr "Rest"
+
+msgid "请选择人员！"
+msgstr "Select a person!"
+
+msgid "结束时间不能小于或等于开始时间！"
+msgstr "End time cannot be earlier than start time!"
+
+msgid "调休记录输入重复"
+msgstr "Append repeated"
+
+msgid ""
+"设置人员调休：可以在已经安排了排班的情况下，设置人员为休息，也可以人员为休息"
+"时，设置为上班状态！"
+msgstr ""
+"Reschedule rest: set a person that has been scheduled to work to rest or set "
+"a personat rest to work!"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_waitforprocessdata.py
+msgid "处理完成"
+msgstr "Command processing completion time"
+
+msgid "处理失败"
+msgstr "Failed"
+
+msgid "后台计算命令队列"
+msgstr ""
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\nomodelview.py
+msgid "保存失败，考勤记录可能重复了"
+msgstr "Failed to save. The entry is probably repeated."
+
+#: .\att\models\nomodelview.py:445 .\att\models\nomodelview.py:531
+#: .\att\models\nomodelview.py:571
+msgid "账户已经被锁定！"
+msgstr "The account has been locked!"
+
+msgid "非法异常"
+msgstr "Illegal"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\num_run.py
+msgid "周"
+msgstr "Week"
+
+#: .\att\models\num_run.py:19 .\att\models\num_run.py:30
+#, python-format
+msgid "第%s天"
+msgstr "No. %s day"
+
+msgid "周期单位"
+msgstr "Unit of period"
+
+msgid "周期数"
+msgstr "Number of period"
+
+msgid "周的周期数不能超过52周！"
+msgstr "A weekly period cannot exceed 52 weeks!"
+
+msgid "月的周期数不能超过12个月！"
+msgstr "A monthly period cannot exceed 12 months!"
+
+msgid "正在使用，不能被删除"
+msgstr "Is in use, can not be deleted!"
+
+#: .\att\models\num_run.py:66 .\att\models\num_run.py:67
+msgid "增加时间段"
+msgstr "Add timeTable"
+
+msgid "时间段"
+msgstr "TimeTable"
+
+#: .\att\models\num_run.py:148 .\att\models\num_run.py:149
+msgid "清空时间段"
+msgstr "Clear"
+
+msgid ""
+"多个时间段一起选择时，时段的起始时间不能相同,如果存在多个相同的起始时间，保存"
+"只以时段列表中从上到下排列最前且已选中的第一个的时段为准！\n"
+" 选择多个时段时，选择的日期将作用于所有已选择的时段！"
+msgstr ""
+"When multiple TimeTables are selected at the same time, they cannot have the "
+"same start time. If there is more than one TimeTable with identical start "
+"time, the system will save the first TimeTable that is selected and on the "
+"top the TimeTable list.\n"
+"When multiple TimeTables are selected, the selected date will apply to all "
+"the selected TimeTables."
+
+#: .\att\models\num_run.py:173 .\att\models\num_run_deil.py:46
+msgid "弹性班次"
+msgstr "Flexible shift"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\num_run_deil.py
+msgid "时段类型"
+msgstr "Type"
+
+msgid "弹性时段"
+msgstr "Flexible TimeTable"
+
+msgid "班次明细"
+msgstr "Details"
+
+msgid "加班"
+msgstr "Overtime"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\schclass.py:
+
+msgid "允许迟到分钟数"
+msgstr "Allowed late minute"
+
+msgid "允许早退分钟数"
+msgstr "Allowed early leave minute"
+
+msgid "必须签到"
+msgstr "Check-in required"
+
+msgid "必须签退"
+msgstr "Check-out required"
+
+msgid "开始签到时间"
+msgstr "Check-in start time"
+
+msgid "结束签到时间"
+msgstr "Check-in end time"
+
+msgid "开始签退时间"
+msgstr "Check-out start time"
+
+msgid "计为工作日数"
+msgstr "Calculated as workday"
+
+msgid "段中休息开始时间"
+msgstr "Break start time"
+
+msgid "段中休息结束时间"
+msgstr "Break end time"
+
+msgid "段中休息开始时间2"
+msgstr "Break start time"
+
+msgid "段中休息结束时间2"
+msgstr "Break end time"
+
+msgid "工作时间(分钟)"
+msgstr "Work time (minute)"
+
+msgid "0:表示加班时间段，计算的时候将会直接计算成平时加班。"
+msgstr "0: overtime TimeTable, calculated directly as workday overtime."
+
+msgid "延时是否计加班"
+msgstr "Whether delay calculated as overtime"
+
+msgid "该时段内包含固定加班时间(分钟)"
+msgstr "Including fixed overtime (minutes):"
+
+msgid "已存在相同起始时间与结束时间的时段"
+msgstr "There are already TimeTables with the same start time and end time."
+
+msgid "起始时间与结束时间的时间不能超过系统设置最大时段时间长度660分钟！"
+msgstr ""
+"The interval between start time and end time cannot exceed the maximum "
+"TimeTable duration 660 minutes defined by the system."
+
+msgid "开始签到时间不能大于上班时间"
+msgstr "Check-in start time can not be greater than On-duty time"
+
+msgid "结束签到时间不能小于上班时间"
+msgstr "Check-in end time cannot be less than On-duty time."
+
+msgid "开始签退时间不能大于下班时间"
+msgstr "Check-out start time can not be greater than Off-duty time."
+
+msgid "结束签退时间不能小于下班时间"
+msgstr "Check-out end time cannot be less than Off-duty time."
+
+msgid "段中休息开始时间不正确"
+msgstr "Break start time is error"
+
+msgid "段中休息结束时间不正确"
+msgstr "Break end time is error"
+
+msgid "起始时间与结束时间的时间不能小于系统设置最小时段时间长度120分钟！"
+msgstr ""
+"The interval between start time and end time cannot exceed the minimum "
+"TimeTable duration 120 minutes defined by the system."
+
+msgid ""
+"1、不能与已存在的时段有相同上班时间和下班时间<br>2、必须签到与签退，选取否"
+"时，系统在计算时会自动创建相应的随机签卡!"
+msgstr ""
+"1. There cannot be TimeTables with the same start time! <br>2. Both check-in "
+"and check-out are required. If “No” is selected, the system "
+"will automatically create corresponding random punch during calculation."
+
+msgid "考勤时段"
+msgstr "TimeTable"
+
+msgid "%s 不能被删除！"
+msgstr "The %s cannot be deleted!"
+
+msgid "%s 不能被修改！"
+msgstr "The %s cannot be modified!"
+
+msgid "显示颜色"
+msgstr "Show color"
+
+#, python-format
+msgid "起始时间与结束时间的时间不能超过系统设置最大时段时间长度% s 分钟！"
+msgstr ""
+"The interval between start time and end time cannot exceed the maximum "
+"TimeTable duration % s (minute) defined by the system."
+
+#, python-format
+msgid "起始时间与结束时间的时间不能小于系统设置最小时段时间长度% s 分钟！"
+msgstr ""
+"The interval between start time and end time cannot exceed the minimum "
+"TimeTable duration % s (minute) defined by the system."
+
+#, python-format
+msgid "%s 该时段还有班次正在使用，不能删除!"
+msgstr ""
+"The %s TimeTable is still being used by some shifts and cannot be deleted."
+
+#, python-format
+msgid "%s 该时段还有临时排班次正在使用，不能删除!"
+msgstr ""
+"The %s TimeTable is still being used by some temporary shifts and cannot be "
+"deleted."
+
+msgid "设置时间"
+msgstr "Set time"
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "考勤计算与报表"
+msgstr "Report"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_trans.py
+msgid "起始考勤时间"
+msgstr "Attendance Time Start"
+
+msgid "结束考勤时间"
+msgstr "Attendance Time End"
+
+msgid "加班签退"
+msgstr "Overtime check-out"
+
+msgid "工作代码"
+msgstr "Work code"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\user_temp_sch.py
+msgid "加班时长"
+msgstr "Overtime duration"
+
+msgid "临时排班类型"
+msgstr "Temporary schedule type"
+
+msgid "临时排班导出"
+msgstr "Temporary schedule export"
+
+msgid "正常工作"
+msgstr "Normal work"
+
+msgid "仅临时排班有效"
+msgstr "Only temporary scheduling effect"
+
+msgid "追加于员工排班之后"
+msgstr "Add after the existing scheduling"
+
+msgid "当天存在员工排班时"
+msgstr "Had schedule in current day"
+
+msgid "工作类型"
+msgstr "Work type"
+
+#: .\att\models\user_temp_sch.py:68
+#: .\att\models\user_temp_sch.py:69
+msgid "清除临时排班记录"
+msgstr "Clear temporary schedule"
+
+msgid "临时排班"
+msgstr "Temporary schedule"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\authorize_fun.py
+msgid "软件狗初始化失败！"
+msgstr "Dongle initialization failed!"
+
+#, python-format
+msgid "ECO设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！"
+msgstr "The device number %(d1)s connected with ECO exceeds the maximum device number %(d2)s of dongle."
+
+#, python-format
+msgid "ECO考勤设备台数%(d1)s超过软件狗所允许的台数%(d2)s，请升级！"
+msgstr "The attendance device number %(d1)s connected with ECO exceeds the maximum device number %(d2)s of dongle, please upgrade."
+
+msgid "未找到对应的加密狗。"
+msgstr "Not found the corresponding dongle."
+
+#, python-format
+msgid "考勤设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！"
+msgstr "The attendance device number %(d1)s exceeds the maximum device number %(d2)s of system, please upgrade."
+
+#, python-format
+msgid "ECO考勤设备台数%(d1)s超过系统所允许的台数%(d2)s，请升级！"
+msgstr "The attendance device number %(d1)s connected with ECO exceeds the maximum device number %(d2)s of system, please upgrade."
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_device.py
+#, python-format
+msgid "登记的设备总数%(d1)s，已经达到系统限制%(d2)s！"
+msgstr "The attendance device number %(d1)s connected  exceeds the maximum device number %(d2)s of system."
+
+#, python-format
+msgid "登记的考勤机数%(d1)s，已经达到系统限制%(d2)s！"
+msgstr "The registered attendance device number %(d1)s has reached the system maximum capacity %(d2)s"
+
+msgid "登记的设备总数，已经达到系统限制！"
+msgstr "The registered device number has reached the system maximum capacity."
+
+msgid "考勤机"
+msgstr "Attendance Machine"
+
+msgid "登记的考勤机数，已经达到系统限制！"
+msgstr "The number of registered attendance machines has reached the system limit!"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_cmmdata.py
+#, python-format
+msgid "调整设备:%(f)s 的区域至:%(f2)s"
+msgstr "Adjust device: %(f)s area to %(f2)s"
+
+#, python-format
+msgid "调整设备:%(f)s 到区域:%(f2)s"
+msgstr "Adjust device: %(f)s to area: %(f2)s"
+
+#: .\iclock\models\model_cmmdata.py:117 .\iclock\models\model_cmmdata.py:122
+#, python-format
+msgid "删除用户:%s"
+msgstr "Delete user: %s"
+
+#: .\iclock\models\model_cmmdata.py:145 .\iclock\models\model_cmmdata.py:165
+#, python-format
+msgid "调整用户:%(f)s 到区域:%(f2)s"
+msgstr "Adjust user: %(f)s to area: %(f2)s"
+
+msgid "上传用户信息"
+msgstr "Upload user information"
+
+msgid "上传用户指纹"
+msgstr "Upload user fingerprint"
+
+msgid "上传日志"
+msgstr "Re-upload log"
+
+msgid "上传考勤记录"
+msgstr "Upload attendance entry"
+
+msgid "上传照片"
+msgstr "Upload picture"
+
+msgid "----重新处理"
+msgstr "---Reprocessing"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\num_run.py
+#, python-format
+msgid "%s 名称已经存在,班次不能同名！"
+msgstr "The %s name already exists. Any two shifts cannot share one name!"
+
+#, python-format
+msgid "%(t)s 与 %(ss)s 已有时间段有重复! 在第%(d)s 天"
+msgstr "%(t)s and %(ss)s have repeated TimeTable on the No. %(d)s day."
+
+msgid "上班"
+msgstr "On-duty"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+msgid "浏览考勤时段"
+msgstr "Browse"
+
+msgid "浏览考勤参数"
+msgstr "Browse"
+
+msgid "浏览考勤明细表"
+msgstr "Browse"
+
+msgid "浏览考勤节假日"
+msgstr "Browse"
+
+msgid "浏览考勤报表"
+msgstr "Browse"
+
+msgid "浏览考勤计算与报表"
+msgstr "Report"
+
+msgid "浏览考勤设备管理"
+msgstr "Device"
+
+#//////////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "补请假"
+msgstr "Append exception"
+
+msgid "请假明细表"
+msgstr "Exception detail"
+
+msgid "补签卡表"
+msgstr "Append log table"
+
+msgid "请假汇总表"
+msgstr "Exception summary"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\AttParam_list.html.py
+msgid "基础设置"
+msgstr "Basic setting"
+
+msgid "最短的考勤时段应大于:"
+msgstr "The shortest shift TimeTable should exceed:"
+
+msgid "最长的考勤时段不超过:"
+msgstr "The longest shift TimeTable should not exceed:"
+
+msgid "有效考勤记录时间间隔应大于:"
+msgstr "Valid attendance entries should have an interval longer than:"
+
+msgid "班次时段跨两日时:"
+msgstr "When a shift TimeTable lasts two days:"
+
+msgid "记为第一日"
+msgstr "Recorded as the first day"
+
+msgid "记为第二日"
+msgstr "Recorded as the second day"
+
+msgid "每周从:"
+msgstr "Each week from:"
+
+#: .\att\templates\AttParam_list.html.py:67
+#: .\att\templates\AttParam_list.html.py:69
+msgid "开始"
+msgstr "Start"
+
+msgid "每月从:"
+msgstr "Each month from:"
+
+msgid "外出状态:"
+msgstr "Out status:"
+
+#: .\att\templates\AttParam_list.html.py:74
+#: .\att\templates\AttParam_list.html.py:80
+msgid "忽略该考勤状态"
+msgstr "Neglect this status"
+
+msgid "表示为一般外出"
+msgstr "Marked as ordinary out"
+
+msgid "表示为因公外出"
+msgstr "Marked as out for business"
+
+#: .\att\templates\AttParam_list.html.py:77
+#: .\att\templates\AttParam_list.html.py:82
+msgid "进行审核"
+msgstr "Review"
+
+msgid "加班状态:"
+msgstr "Overtime status"
+
+msgid "直接记为加班"
+msgstr "Recorded as overtime"
+
+msgid "考勤计算"
+msgstr "Calculation"
+
+msgid "一个工作日记为:"
+msgstr "One workday recorded as:"
+
+msgid "一次迟到大于:"
+msgstr "Late for over:"
+
+#: .\att\templates\AttParam_list.html.py:94
+#: .\att\templates\AttParam_list.html.py:99
+msgid "分钟时记为旷工."
+msgstr "Minutes recorded as absence."
+
+msgid "一次早退大于:"
+msgstr "Early leave for over:"
+
+msgid "上班无签到记录时记:"
+msgstr "Work without check-in entry is recorded as:"
+
+#: .\att\templates\AttParam_list.html.py:107
+#: .\att\templates\AttParam_list.html.py:114
+msgid " "
+msgstr " "
+
+msgid "下班无签退记录时记:"
+msgstr "leave after work without check-out recorded as:"
+
+msgid "下班:"
+msgstr "Off-duty:"
+
+msgid "分钟后签退记加班"
+msgstr "minutes later, check-out recorded as overtime."
+
+msgid "计算项目"
+msgstr "Calculation item"
+
+msgid "最小单位:"
+msgstr "Min unit"
+
+msgid "舍入控制:"
+msgstr "Round-off control"
+
+msgid "向下(舍弃) "
+msgstr "Round-down"
+
+msgid "四舍五入"
+msgstr "Round-off"
+
+msgid "向上(进位)"
+msgstr "Round-up"
+
+msgid "报表中的表示符号:"
+msgstr "Sign in report"
+
+msgid "确认"
+msgstr "Confirm"
+
+msgid "放弃"
+msgstr "Quit"
+
+msgid " 请选择单位"
+msgstr "Select unit"
+
+msgid "保存参数成功"
+msgstr "Saved successfully"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+msgid "考勤设备查询"
+msgstr "Attendance Device Search"
+
+msgid "考勤原始数据查询"
+msgstr "AC Log Search"
+
+msgid "第六步:考勤计算与报表"
+msgstr "Step 6: Attendance Report"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\ForgetAtt_list.html.py
+msgid ""
+" 当某一部分或者全体员工因故未签到、签退，可使用本功能给员工添加签到、签退记"
+"录，其修改情况可在出勤记录查询功能中查询"
+msgstr ""
+"When some or all employees fail to check in/out for some reason, this "
+"function can beused to add check-in/out entries for them, and the "
+"modifications can be queried with theattendance entry search function."
+
+msgid ""
+"单击部门不选人员则按整个部门及其下属部门进行集体补记录，否则按所选人员进行补"
+"记录"
+msgstr ""
+"Clicking a department without selecting any individual means to append "
+"entries collectivelyfor the whole department and its subordinate "
+"departments. Otherwise, the system will appendentries for any individuals "
+"selected."
+
+msgid "人员:"
+msgstr "Personnel"
+
+msgid "补签方式:"
+msgstr "Append way"
+
+msgid "日期:"
+msgstr "Date:"
+
+msgid "时间:"
+msgstr "Time:"
+
+msgid "原因:"
+msgstr "Reason:"
+
+msgid "提交"
+msgstr "Submit"
+
+
+
+msgid "保存成功,如需查看，请浏览<统计与报表-->签卡记录表>"
+msgstr ""
+"Saved successfully. To check it, select Statistics and report -> Punch entry "
+"table."
+
+msgid "保存失败!"
+msgstr "Failed to save!"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+msgid "考勤号码长度:"
+msgstr "Attendance number length:"
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "全选"
+msgstr "Select all"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\NUM_RUN_edit.html.py
+msgid "请选择时段:"
+msgstr "Select TimeTable:"
+
+msgid "加班时间(分钟):"
+msgstr "Overtime (minute):"
+
+msgid "选择日期:"
+msgstr "Select date:"
+
+msgid "已选择"
+msgstr "Selected"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\NUM_RUN_list.html.py
+msgid "点击班次，显示该班次时间段明细"
+msgstr "Click a shift to show its timetable details."
+
+msgid "时段明细"
+msgstr "TimeTable details"
+
+msgid "选择:"
+msgstr "Select"
+
+#: .\att\templates\NUM_RUN_list.html.py:268
+#: .\att\templates\NUM_RUN_list.html.py:322
+msgid "增加时段"
+msgstr "Add TimeTable"
+
+msgid "时段表:"
+msgstr "TimeTable list:"
+
+msgid "请按Ctrl选择更多的时段表"
+msgstr "Press Ctrl to select more TimeTables."
+
+msgid "设计超时？"
+msgstr "Design timeout?"
+
+msgid "超时:"
+msgstr "Timeout:"
+
+msgid "时段和日期必须选择一个！"
+msgstr "Either TimeTable or date must be selected!"
+
+msgid "删除时段"
+msgstr "Delete TimeTable"
+
+msgid "时间段明细"
+msgstr "TimeTable details"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\att_USER_OF_RUN.html.py
+
+msgid "查询排班表"
+msgstr "Search Schedule"
+
+msgid "查询临时排班表"
+msgstr "Search Temporary Schedule"
+
+msgid "员工排班列表"
+msgstr "Personnel scheduling list"
+
+msgid "排班时间段详细明细"
+msgstr "Schedule TimeTable details"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\USER_OF_RUN_opform_OpAddTempShifts.html.py
+msgid "指定工作类型: "
+msgstr "Specify work type:"
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\USER_OF_RUN_opform_OpAddUserOfRun.html.py
+msgid "班次表"
+msgstr "Shift list"
+
+msgid "已选择班次"
+msgstr "Selected shift"
+
+msgid "自动排班"
+msgstr "Auto schedule"
+
+msgid "是否智能排班"
+msgstr "Whether smart schedule"
+
+msgid "最小排班间隔:"
+msgstr "Min schedule interval"
+
+msgid "可用时间段:"
+msgstr "Available TimeTable"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\datasproc.py
+msgid "应到/实到"
+msgstr "Expected/Actual"
+
+# msgid "休息日"
+# msgstr "Rest day"
+
+msgid "自由加班"
+msgstr "Voluntary overtime"
+
+msgid "私事离开"
+msgstr "Private leave"
+
+msgid "公事离开"
+msgstr "Leave for business"
+
+msgid "BL"
+msgstr "BL"
+
+#: .\iclock\datasproc.py:72 .\iclock\datasproc.py:88 .\iclock\datasproc.py:120
+#: .\iclock\datasproc.py:241 .\iclock\datasproc.py:250
+msgid "用户ID"
+msgstr "User ID"
+
+msgid "应签次数"
+msgstr "Scheduled punch count"
+
+msgid "工作时间"
+msgstr "Working hours"
+
+msgid "起始时间"
+msgstr "Start time"
+
+msgid "名称"
+msgstr "Name"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_leave.py
+
+msgid "离职日期"
+msgstr "Date of departure"
+
+msgid "离职类型"
+msgstr "Departure type"
+
+msgid "离职原因"
+msgstr "Reason"
+
+msgid "是否归还工具"
+msgstr "Whether return tools"
+
+msgid "是否归还工衣"
+msgstr "Whether return work clothes"
+
+msgid "是否归还卡"
+msgstr "Whether return card"
+
+#: .\personnel\models\model_leave.py:37
+#: .\personnel\models\model_leave.py:138
+msgid "立即关闭考勤"
+msgstr "Close attendance immediately"
+
+msgid "关闭考勤"
+msgstr "Close Attendance"
+
+msgid "考勤已经关闭！"
+msgstr "Attendance has been closed!"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\importdata.py
+msgid "<h1>数据上传失败</h1>,<br />请选择考勤机"
+msgstr ""
+"<h1>Data upload failed</h1>. <br />Please select an attendance machine."
+
+#, python-format
+msgid "<h1>数据上传失败</h1>,<br />没有权限导入考勤机%(object_name)s上的数据"
+msgstr ""
+"<h1>Data upload failed</h1>. <br />You have no right to import the data on "
+"the attendance machine %(object_name)s."
+
+#, python-format
+msgid ""
+"<h1>数据上传失败</h1><br />人员信息数据文件不是来自考勤机%(object_name)s"
+msgstr ""
+"<h1>Data upload failed</h1>. <br />The personnel information data files are "
+"not from the attendance machine %(object_name)s."
+
+#, python-format
+msgid ""
+"<h1>数据上传失败</h1>,<br />人员指纹数据文件不是来自考勤机 %(object_name)s"
+msgstr ""
+"<h1>Data upload failed</h1>. <br />The personnel fingerprint data files are "
+"not from the attendance machine %(object_name)s."
+
+msgid "考勤记录数据文件不是来自考勤机"
+msgstr "The attendance entry data file is not from the attendance machine."
+
+msgid "考勤记录"
+msgstr "Attendance entry"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\taskview.py
+msgid "指定的考勤机不存在"
+msgstr "The specified attendance machine does not exist."
+
+msgid "指定的考勤机不存在!"
+msgstr "The specified attendance machine does not exist!"
+
+#, python-format
+msgid "%s 不是一个合法的考勤号码"
+msgstr "%s is not a valid attendance number."
+
+msgid "没有指定合适的考勤机，或者该人员没有登记考勤机！"
+msgstr ""
+"No applicable attendance machine is specified, or this person is not "
+"registered with any attendance machine."
+
+msgid "删除考勤机上的人员"
+msgstr "Delete personnel from the attendance machine"
+
+msgid "传送人员姓名到考勤机"
+msgstr "Transmit person name to machine"
+
+#: .\iclock\taskview.py:151 .\iclock\taskview.py:213
+msgid "分派人员到考勤机"
+msgstr "Dispatch personnel to the machine"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\models\model_emp.py
+
+
+#: .\personnel\models\model_emp.py:76 .\personnel\models\model_emp.py:82
+msgid "上班必须签到"
+msgstr "Must Check-in."
+
+#: .\personnel\models\model_emp.py:77 .\personnel\models\model_emp.py:83
+msgid "上班不用签到"
+msgstr "Unnecessary Check-in"
+
+
+msgid "调离"
+msgstr "Transfer"
+
+msgid "停薪留职"
+msgstr "Retain Job without Salary"
+
+msgid "离职标记"
+msgstr "Departure flag"
+
+msgid "是否考勤"
+msgstr "Whether Attendance"
+
+msgid "银行帐号1"
+msgstr "Bank account"
+
+msgid "银行帐号2"
+msgstr "Bank account"
+
+msgid "对员工进行离职操作"
+msgstr "Perform departure operation on personnel"
+
+msgid "离职"
+msgstr "Departure"
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\personnel\templates\Employee_edit.html.py
+msgid "考勤设置"
+msgstr "Attendance Settings"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\upload.html.py
+msgid "选择考勤机"
+msgstr "Select attendance machine"
+
+#: .\templates\upload.html.py:23 .\templates\upload.html.py:29
+msgid "请选择考勤机"
+msgstr "Select attendance machine"
+
+msgid "这里设定要上传的数据文件是从哪个考勤机下载到U盘的"
+msgstr ""
+"From which attendance machine is this data file you want to upload "
+"downloaded to the U disk?"
+
+msgid "考勤记录文件"
+msgstr "AC Log file"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\registration\login.html.py
+msgid "ZKTime8.0 考勤管理系统"
+msgstr "ZKTime8.0 Attendance System"
+
+msgid "考勤管理系统"
+msgstr "Time & Attendance Software"
+#//////////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////
+#: .\worktable\views.py
+msgid "考勤 "
+msgstr "Attendance "
+
+msgid "缺勤 "
+msgstr "Absence "
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_holiday.py:129
+#: .\templates\init_models.html.py:42
+msgid "考勤节假日"
+msgstr "Holiday"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\models\model_report.py:36 .\att\templates\calculateReport.html.py:176
+msgid "每日考勤统计表"
+msgstr "Statistic symbol"
+
+#: .\att\models\model_report.py:48 .\att\templates\calculateReport.html.py:185
+msgid "考勤汇总表"
+msgstr "Summary"
+
+#: .\iclock\dataprocaction.py:172
+#, python-format
+msgid "考勤机选项\"%s\"不可用"
+msgstr "The option \"%s\" of the attendance machine is unavailable."
+
+#: .\iclock\importdata.py:218
+msgid "选择正确的考勤记录数据文件"
+msgstr "Select a correct attendance entry data file."
+
+#: .\iclock\models\model_device.py:660 .\iclock\models\model_device.py:661
+#: .\iclock\models\model_device_1202.py:587
+#: .\iclock\models\model_device_1202.py:588
+#: .\iclock\templatetags\iclock_tags.py:312
+#: D:/trunk/python-support/dbapp\templatetags\dbapp_tags.py:298
+msgid "清除考勤记录"
+msgstr "Clear AC Log"
+
+#: .\iclock\models\model_device.py:667 .\iclock\models\model_device.py:668
+#: .\iclock\models\model_device_1202.py:594
+#: .\iclock\models\model_device_1202.py:595
+msgid "清除考勤图片"
+msgstr "Clear attendance picture"
+
+#: .\personnel\models\model_emp.py:175
+msgid "有效考勤记录"
+msgstr "valid attendance entry"
+
+#: .\personnel\models\model_emp.py:204
+msgid "考勤区域"
+msgstr "Attendance Area"
+
+
+#: .\att\reports.py:306 .\att\models\attshifts.py:38
+#: .\att\templates\AttParam_list.html.py:114 .\iclock\datasproc.py:15
+#: .\iclock\datasproc.py:72 .\iclock\datasproc.py:107
+#: .\iclock\datasproc.py:169
+#: D:/trunk/python-support/base\variable_for_trans.py:164
+msgid "早退"
+msgstr "Early leave"
+
+#: .\att\reports.py:306 .\att\models\attshifts.py:39
+#: .\att\models\attshifts.py:57 .\att\templates\AttParam_list.html.py:108
+#: .\att\templates\AttParam_list.html.py:114 .\iclock\datasproc.py:17
+#: .\iclock\datasproc.py:72 .\iclock\datasproc.py:107
+#: .\iclock\datasproc.py:169
+#: D:/trunk/python-support/base\variable_for_trans.py:166
+msgid "旷工"
+msgstr "Absent"
+
+#: .\att\reports.py:365 .\att\models\num_run.py:38
+#: .\att\templates\USER_OF_RUN_opform_OpAddUserOfRun.html.py:200
+#: .\iclock\datasproc.py:241
+msgid "班次名称"
+msgstr "Shift name"
+
+#: .\att\models\attrecabnormite.py:41 .\att\models\model_report.py:32
+#: .\att\templates\calculateReport.html.py:173
+msgid "统计结果详情"
+msgstr "Log result"
+
+#: .\att\models\attshifts.py:31 .\iclock\datasproc.py:169
+msgid "签到时间"
+msgstr "Check-in"
+
+#: .\att\models\attshifts.py:32 .\iclock\datasproc.py:169
+msgid "签退时间"
+msgstr "Check-out"
+
+#: .\att\models\attshifts.py:33 .\iclock\datasproc.py:72
+#: .\iclock\datasproc.py:107
+msgid "应到"
+msgstr "Expected attendance"
+
+#: .\att\models\attshifts.py:34 .\iclock\datasproc.py:72
+#: .\iclock\datasproc.py:107 .\iclock\datasproc.py:169
+msgid "实到"
+msgstr "Actual attendance"
+
+#: .\att\models\attshifts.py:35 .\iclock\datasproc.py:20
+#: .\iclock\datasproc.py:75
+#: D:/trunk/python-support/base\variable_for_trans.py:168
+msgid "未签到"
+msgstr "Not check-in"
+
+#: .\att\models\attshifts.py:36 .\iclock\datasproc.py:21
+#: .\iclock\datasproc.py:75
+#: D:/trunk/python-support/base\variable_for_trans.py:169
+msgid "未签退"
+msgstr "Not check-out"
+
+#: .\att\models\attshifts.py:37 .\att\templates\AttParam_list.html.py:107
+#: .\iclock\datasproc.py:14 .\iclock\datasproc.py:72 .\iclock\datasproc.py:107
+#: .\iclock\datasproc.py:169
+#: D:/trunk/python-support/base\variable_for_trans.py:163
+msgid "迟到"
+msgstr "Late"
+
+#: .\att\models\attshifts.py:40 .\iclock\datasproc.py:78
+#: .\iclock\datasproc.py:107
+msgid "加班时间"
+msgstr "Overtime"
+
+#: .\att\models\attshifts.py:41 .\iclock\datasproc.py:75
+msgid "出勤时长"
+msgstr "Attendance duration"
+
+#: .\att\models\attshifts.py:44 .\iclock\datasproc.py:74
+#: .\iclock\datasproc.py:169
+msgid "应签到"
+msgstr "Expected check-in"
+
+#: .\att\models\attshifts.py:45 .\iclock\datasproc.py:75
+#: .\iclock\datasproc.py:169
+msgid "应签退"
+msgstr "Expected check-out"
+
+#: .\att\models\attshifts.py:46 .\iclock\datasproc.py:169
+#: .\iclock\models\model_trans.py:68
+msgid "加班签到"
+msgstr "Overtime check-in"
+
+#: .\att\models\attshifts.py:52 .\att\models\user_temp_sch.py:22
+#: .\iclock\datasproc.py:79 .\iclock\datasproc.py:109
+#: .\iclock\datasproc.py:169
+msgid "平日加班"
+msgstr "Weekday overtime"
+
+#: .\att\models\attshifts.py:53 .\att\models\user_temp_sch.py:23
+#: .\iclock\datasproc.py:80 .\iclock\datasproc.py:110
+#: .\iclock\datasproc.py:169
+msgid "休息日加班"
+msgstr "Reset day overtime"
+
+#: .\att\models\attshifts.py:54 .\att\models\user_temp_sch.py:24
+#: .\iclock\datasproc.py:80 .\iclock\datasproc.py:110
+#: .\iclock\datasproc.py:169
+msgid "节假日加班"
+msgstr "Holiday overtime"
+
+#: .\att\models\checkexact_model.py:86
+#: .\worktable\templates\worktable.html.py:129
+#: .\worktable\templates\worktable_common_opt.html.py:256
+msgid "新增补签卡"
+msgstr "Append Log"
+
+
+#: .\att\models\checkexact_model.py:129
+#: .\att\templates\calculateReport.html.py:121
+#: .\templates\init_models.html.py:38
+msgid "补签卡"
+msgstr "Append log"
+
+#: .\att\models\model_empspecday.py:23
+#: .\personnel\models\model_empchange.py:28
+msgid "申请"
+msgstr "Apply"
+
+#: .\att\models\model_empspecday.py:39 .\att\models\model_empspecday.py:85
+#: .\att\models\model_leaveclass.py:113 .\templates\init_models.html.py:45
+msgid "假类"
+msgstr "Type"
+
+#: .\att\models\model_empspecday.py:74
+#: D:/trunk/python-support/base\cached_model.py:146
+#: D:/trunk/python-support/base\options.py:136
+#: D:/trunk/python-support/dbapp\modelutils.py:330
+msgid "新增记录"
+msgstr "Add entry"
+
+#: .\att\models\model_empspecday.py:80
+#: D:/trunk/python-support/base\variable_for_trans.py:139
+msgid "新增请假"
+msgstr "Add"
+
+#: .\att\models\model_empspecday.py:116 .\iclock\datasproc.py:16
+#: .\iclock\datasproc.py:32 .\iclock\datasproc.py:81 .\iclock\datasproc.py:111
+#: .\iclock\datasproc.py:250 .\templates\init_models.html.py:37
+#: .\worktable\templates\worktable.html.py:135
+#: .\worktable\templates\worktable_common_opt.html.py:262
+#: D:/trunk/python-support/base\variable_for_trans.py:165
+msgid "请假"
+msgstr "Exception"
+
+#: .\att\models\model_leaveclass.py:26 .\att\models\model_leaveclass.py:95
+#: D:/trunk/python-support/base\variable_for_trans.py:157
+msgid "病假"
+msgstr "Sick"
+
+#: .\att\models\model_leaveclass.py:27 .\att\models\model_leaveclass.py:96
+#: D:/trunk/python-support/base\variable_for_trans.py:158
+msgid "事假"
+msgstr "Personal"
+
+#: .\att\models\model_leaveclass.py:28 .\att\models\model_leaveclass.py:97
+#: D:/trunk/python-support/base\variable_for_trans.py:159
+msgid "产假"
+msgstr "Maternity"
+
+#: .\att\models\model_leaveclass.py:29 .\att\models\model_leaveclass.py:98
+#: D:/trunk/python-support/base\variable_for_trans.py:160
+msgid "探亲假"
+msgstr "Compassionate"
+
+#: .\att\models\model_leaveclass.py:30 .\att\models\model_leaveclass.py:99
+#: D:/trunk/python-support/base\variable_for_trans.py:161
+msgid "年假"
+msgstr "Annual"
+
+
+#: .\att\models\model_setuseratt.py:94 .\templates\init_models.html.py:46
+msgid "调休"
+msgstr "Reschedule"
+#: .\att\models\num_run.py:71
+#: .\att\templates\NUM_RUN_opform_OpAddTimeTable.html.py:100
+msgid "加班时间(分钟)"
+msgstr "Overtime (minute)"
+
+#: .\att\models\num_run.py:179 .\att\models\num_run_deil.py:24
+#: .\att\models\user_of_run.py:39 .\templates\init_models.html.py:44
+msgid "班次"
+msgstr "Shift"
+
+#: .\att\templates\att_USER_OF_RUN.html.py:176
+msgid "单击人员查看排班详情!"
+msgstr "Click a person to check schedule details!"
+
+#: .\personnel\report.py:79 .\personnel\report.py:80
+msgid "新进"
+msgstr "New"
+
+
+#: .\personnel\report.py:79 .\personnel\report.py:81
+msgid "调出"
+msgstr "Out"
+
+#: .\personnel\report.py:79 .\personnel\report.py:81
+#: .\personnel\models\model_emp.py:137
+msgid "自离"
+msgstr "Quit"
+
+#: .\personnel\report.py:79 .\personnel\report.py:81
+#: .\personnel\models\model_emp.py:138
+msgid "辞退"
+msgstr "Dismissed"
+
+#: .\personnel\models\model_emp.py:677 .\personnel\models\model_emp.py:678
+msgid "职务调动"
+msgstr "Job Transfer"
+
+#: .\personnel\models\model_emp.py:680
+msgid "选择职务"
+msgstr "Select Job"
+
+#: .\personnel\models\model_empchange.py:100
+msgid "调动单号"
+msgstr "Transfer order number"
+
+#: .\personnel\models\model_empchange.py:102
+msgid "调动时间"
+msgstr "Transfer time"
+
+#: .\personnel\models\model_empchange.py:104
+#: .\personnel\templates\EmpChange_edit.html.py:237
+msgid "调动前"
+msgstr "Before transfer"
+
+#: .\personnel\models\model_empchange.py:105
+#: .\personnel\templates\EmpChange_edit.html.py:237
+msgid "调动后"
+msgstr "After transfer"
+
+#: .\personnel\models\model_empchange.py:106
+msgid "调动原因"
+msgstr "Transfer reason"
+
+#: .\worktable\templates\worktable.html.py:226
+#: .\worktable\templates\worktable_common_search.html.py:187
+msgid "离职人员查询"
+msgstr "Departure Personnel Search"
+
+#: .\worktable\templates\worktable.html.py:239
+#: .\worktable\templates\worktable_common_search.html.py:200
+msgid "员工调动查询"
+msgstr "Personnel Transfer Search"
+
+#: .\worktable\templates\worktable.html.py:247
+#: .\worktable\templates\worktable_common_search.html.py:208
+msgid "补签卡查询"
+msgstr "Append Log Search"
+
+
+
+#: .\worktable\templates\worktable.html.py:352
+#: .\worktable\templates\worktable_empstructure.html.py:7
+msgid "按学历"
+msgstr "By Education Background"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:125
+msgid "浏览人员离职"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:126
+msgid "浏览人员调动"
+msgstr "Browse"
+
+#: .\personnel\report.py:79 .\personnel\report.py:80
+msgid "调入"
+msgstr "In"
+
+
+#: .\personnel\report.py:79 .\personnel\report.py:82
+#: .\personnel\models\model_emp.py:139
+msgid "辞职"
+msgstr "Resign"
+
+#: .\iclock\datas.py:66 .\iclock\datasproc.py:24
+#: .\iclock\models\model_trans.py:66
+msgid "外出"
+msgstr "Out"
+
+#: .\personnel\models\model_emp.py:176
+msgid "是否加班"
+msgstr "Whether overtime"
+
+#: .\personnel\models\model_emp.py:188
+msgid "是否自动排班"
+msgstr "Whether auto schedule"
+
+#: .\personnel\models\model_leave.py:59
+msgid "恢复离职人员"
+msgstr "Reinstate personnel after departure"
+
+#: .\personnel\models\model_leave.py:60
+#: D:/trunk/python-support/base\variable_for_trans.py:147
+msgid "离职恢复"
+msgstr "Reinstatement after departure"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:67
+msgid "浏览调休"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:70
+msgid "浏览临时排班"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:71
+msgid "浏览假类"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:72
+msgid "浏览员工排班"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:74
+msgid "浏览班次"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:75
+msgid "浏览班次明细"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:94
+msgid "浏览补签卡"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:95
+msgid "浏览请假"
+msgstr "Browse"
+
+#: D:/trunk/python-support/base\variable_for_trans.py:96
+msgid "浏览轮班表"
+msgstr "Browse"
+
+#: .\att\models\num_run.py:70 .\att\templates\NUM_RUN_edit.html.py:16
+#: .\att\templates\NUM_RUN_opform_OpAddTimeTable.html.py:99
+#: .\att\templates\USER_OF_RUN_opform_OpAddTempShifts.html.py:151
+msgid "是否需要加班"
+msgstr "Whether overtime"
+
+# .\trunk\units\adms\mysite\media\jslib\calculate.js
+msgid "统统计的时间可能会较长，请耐心等待"
+msgstr "Statistics of the time may be longer, please be patient"
+
+#: .\att\templates\calculateReport.html.py:268
+msgid "汇总最早与最晚"
+msgstr "LE log"
+
+
+#: .\att\basefield.py:19
+msgid "最早打卡时间"
+msgstr "First Checktime"
+
+msgid "最晚打卡时间"
+msgstr "Last Checktime"
+
+#: .\iclock\models\model_trans.py.\personnel\models\model_emp.py
+msgid "上班签到"
+msgstr "Check-in"
+
+msgid "下班签退"
+msgstr "Check-out"
+
+#: .\iclock\models\model_trans.py:67
+msgid "外出返回"
+msgstr "Return from outside"
+
+
+
+
+#: .\personnel\models\model_emp.py:789
+msgid ""
+"人员信息是系统的基本信息，人员编号、部门为必填项<br>指纹登记需要指纹仪驱动，"
+"如果您未安装驱动，请先下载驱动程序！<br>黑白屏考勤机仅支持5位密码，彩屏考勤机"
+"支持8位密码，超过规定长度后系统将自动截取！"
+msgstr ""
+"Personnel information is the system’s basic information, so No. and "
+"department are required items. <br>Fingerprint registration needs to be "
+"driven by a fingerprint scanner.If you have not installed such a driver yet, "
+"download one first! <br>A black-and-white attendance machine supports only 5-"
+"digit passwords, a color attendance machine supports 8-digit passwords.If a "
+"password exceeds the specified length, the system will truncate it "
+"automatically!"
+
+
+#: .\personnel\models\model_empchange.py:29
+msgid "已批"
+msgstr "Approved"
+
+#: .\personnel\models\model_empchange.py:34
+#: .\personnel\models\model_empchange.py:250
+#: .\personnel\models\model_empchange.py:256
+#: .\personnel\templates\EmpChange_edit.html.py:241
+msgid "雇用类型"
+msgstr "Employment type"
+
+#: .\personnel\models\model_empchange.py:103
+#: .\personnel\templates\EmpChange_edit.html.py:237
+msgid "调动栏位"
+msgstr "Transfer position"
+
+#: .\personnel\models\model_empchange.py:227
+msgid ""
+"区域的调整：将会把该人员所属原区域内的设备清除掉该人员，并自动下发到新区域内"
+"的所有设备中"
+msgstr ""
+"Area adjustment will remove this person from the devices in the original "
+"area and this person will be sent automatically to all devices in the new "
+"area."
+
+
+
+#: .\personnel\models\model_leave.py:65
+msgid "黑名单不能处理离职恢复！"
+msgstr "Reinstatement after departure is inapplicable to the blacklist."
+
+#: .\personnel\models\model_leave.py:121
+msgid "加入黑名单的人员，将不能离职恢复"
+msgstr "Any person in the blacklist cannot be reinstated after departure."
+
+
+#: .\personnel\models\model_report.py:29
+msgid "人事报表"
+msgstr "Reports"
+
+#: .\personnel\models\model_report.py:39
+#: .\personnel\templates\EmpItemDefine_list.html.py:54
+msgid "人员流动表"
+msgstr "Turnover Report"
+
+#: .\personnel\models\model_report.py:43
+#: .\personnel\templates\EmpItemDefine_list.html.py:46
+msgid "部门花名册"
+msgstr "Department Roll"
+
+#: .\personnel\models\model_report.py:47
+#: .\personnel\templates\EmpItemDefine_list.html.py:50
+msgid "学历构成分析表"
+msgstr "Education Composition Analysis"
+
+#: .\personnel\models\model_report.py:51
+#: .\personnel\templates\EmpItemDefine_list.html.py:59
+msgid "人员卡片清单"
+msgstr "Personnel Card List"
+
+#: .\personnel\templates\EmpChange_edit.html.py:232
+msgid "调动栏位:"
+msgstr "Transfer position"
+
+#: .\personnel\templates\EmpChange_edit.html.py:238
+msgid "请选择调动栏位"
+msgstr "Select transfer position"
+
+#: .\personnel\templates\EmpItemDefine_list.html.py:28
+msgid "选择部门"
+msgstr "Select department"
+
+#: .\personnel\templates\EmpItemDefine_list.html.py:83
+msgid "权限不够，请联系管理员!"
+msgstr "Limited right. Please contact the administrator!"
+
+
+#: .\templates\index.html.py:29
+msgid "设备监控与管理"
+msgstr "Device monitor and management"
+
+#: .\templates\index.html.py:31
+msgid "使用人员管理"
+msgstr "User management"
+
+#: .\templates\index.html.py:32
+msgid "签到记录管理"
+msgstr "Check-in entry management"
+
+#: .\templates\index.html.py:33
+msgid "导入从设备复制到U盘的数据"
+msgstr "Import data copied from device to U disk"
+
+#: .\templates\index.html.py:35
+msgid "设备上传数据日志"
+msgstr "Device uploaded data log"
+
+#: .\templates\upload.html.py:7 .\templates\upload.html.py:9
+msgid "上传导出到U盘的数据"
+msgstr "Upload data exported to U disk"
+
+#: .\templates\upload.html.py:39
+msgid "如果您打算上传指纹模版，请同时上传用户信息"
+msgstr ""
+"If you want to upload a fingerprint template, upload user information "
+"simultaneously."
+
+
+#: .\att\reports.py:29 .\att\reports.py:32 .\templates\testpage.html.py:119
+msgid "刷卡"
+msgstr "Punch"
+
+
+#: .\att\reports.py:239 .\att\models\attshifts.py:42
+#: D:/trunk/python-support/base\variable_for_trans.py:36
+msgid "例外情况"
+msgstr "Exception"
+
+#: .\att\reports.py:242 .\templates\logcheck.html.py:76
+msgid "无新记录"
+msgstr "No entry"
+
+
+#: .\att\models\attexception.py:26 .\personnel\models\model_empchange.py:108
+msgid "审核状态"
+msgstr "Review status"
+
+#: .\att\models\attrecabnormite.py:26 .\iclock\templatetags\iclock_tags.py:137
+msgid "时段"
+msgstr "TimeTable"
+
+
+
+#: .\att\models\model_leaveclass.py:23
+#: .\att\templates\AttParam_list.html.py:476 .\iclock\datasproc.py:169
+msgid "工作日"
+msgstr "Workday"
+
+#: .\att\models\model_leaveclass.py:41 .\att\models\model_leaveclass1.py:34
+#: .\att\templates\AttParam_list.html.py:140
+msgid "按次计算"
+msgstr "By times"
+
+#: .\att\models\model_leaveclass1.py:33
+#: .\att\templates\AttParam_list.html.py:141
+msgid "累计后再进行舍入"
+msgstr "Rounded off after accumulation"
+
+#: .\att\models\model_report.py:9 .\personnel\models\model_report.py:10
+msgid "不共享"
+msgstr "Not shared"
+
+#: .\att\models\model_report.py:10 .\personnel\models\model_report.py:11
+msgid "共享读"
+msgstr "Share read"
+
+#: .\att\models\model_report.py:28 .\att\templates\calculateReport.html.py:155
+msgid "统计"
+msgstr "Statistic"
+
+#: .\att\models\model_report.py:52 .\att\templates\calculateReport.html.py:188
+#: .\iclock\models\model_trans.py:170 .\templates\init_models.html.py:40
+
+msgid "原始记录表"
+msgstr "AC log"
+
+
+#: .\att\models\attshifts.py:48 .\iclock\datasproc.py:169
+msgid "平日"
+msgstr "Weekday"
+
+#: .\att\models\attshifts.py:49 .\iclock\datasproc.py:19
+#: .\iclock\datasproc.py:169
+msgid "休息日"
+msgstr "Rest Day"
+
+#: .\att\models\attshifts.py:50 .\iclock\datasproc.py:169
+msgid "节假日"
+msgstr "Holiday"
+
+
+#: .\att\models\nomodelview.py:447 .\att\models\nomodelview.py:533
+#: .\iclock\attcalc.py:1893
+msgid "计算成功"
+msgstr "Calculated"
+
+#: .\att\models\nomodelview.py:447 .\att\models\nomodelview.py:533
+#: .\iclock\attcalc.py:1893
+msgid "总时间"
+msgstr "Total Time"
+
+#: .\att\models\num_run.py:72 .\att\models\num_run.py:79
+#: .\att\templates\NUM_RUN_edit.html.py:126
+msgid "选择日期"
+msgstr "Select date"
+
+#: .\att\templates\att_USER_OF_RUN.html.py
+msgid "星期日S"
+msgstr "SUN"
+
+msgid "星期一S"
+msgstr "MON"
+
+msgid "星期二S"
+msgstr "TUE"
+
+msgid "星期三S"
+msgstr "WED"
+
+msgid "星期四S"
+msgstr "THU"
+
+msgid "星期五S"
+msgstr "FRI"
+
+msgid "星期六S"
+msgstr "SAT"
+
+msgid "开始日期:"
+msgstr "Start date"
+
+msgid "结束日期:"
+msgstr "End date"
+
+msgid "和服务器通讯的最大数据包长度(KB)"
+msgstr "max packet size (KB) communicating with server"
+
+msgid "和服务器通讯的最大命令个数"
+msgstr "Max command communicating with server"
+
+msgid "实时上传数据"
+msgstr "Real-time data upload"
+
+msgid "查询记录时间(秒)"
+msgstr "Search Entry Time (second)"
+
+msgid "加密传输数据"
+msgstr "Encrypt transmission data"
+
+#////////////start of 角色相关//////////////////////////////////////////////////////////////////
+
+
+msgid "设备执行命令进度"
+msgstr "Device executing command progress"
+
+msgid "浏览区域用户管理"
+msgstr "Area user"
+
+msgid "浏览原始记录表"
+msgstr "Browse"
+
+msgid "浏览操作设备日志"
+msgstr "Browse"
+
+msgid "浏览设备通讯日志"
+msgstr "Browse"
+
+msgid "浏览人事报表"
+msgstr "Browse"
+
+msgid "浏览卡类型"
+msgstr "Browse"
+
+msgid "浏览公告发布"
+msgstr "Browse"
+
+msgid "浏览系统提醒设置"
+msgstr "Browse"
+
+msgid "浏览用户消息确认"
+msgstr "Browse"
+
+msgid "查看设备操作日志"
+msgstr "View device operation log"
+
+msgid "员工卡片清单"
+msgstr "Card list"
+
+msgid "数据初始化"
+msgstr "Data initialization"
+
+msgid "为区域添加用户"
+msgstr "Add user to area"
+
+msgid "重新上传日志"
+msgstr "Re-upload log"
+
+msgid "设置自动关机"
+msgstr "Set auto off"
+
+msgid "更新设备信息"
+msgstr "Update device information"
+
+msgid "清除图片"
+msgstr "Clear Picture"
+
+msgid "恢复使用"
+msgstr "Reuse"
+
+msgid "浏览公告类别"
+msgstr "Browse"
+
+msgid "浏览统计结果详情"
+msgstr "Browse"
+
+msgid "浏览统计项目表"
+msgstr "Browse"
+#////////////end of 角色相关//////////////////////////////////////////////////////////////////
+
+#: .\att\reports.py:306 .\att\models\attshifts.py:27
+#: .\att\models\schclass.py:28 .\iclock\datasproc.py:169
+msgid "时段名称"
+msgstr "TimeTable name"
+
+
+#: .\att\models\model_leaveclass.py:21 .\att\models\model_leaveclass1.py:22
+#: .\att\templates\AttParam_list.html.py:474
+#: .\att\templates\USER_OF_RUN_opform_OpAddUserOfRun.html.py:216
+#: .\iclock\datasproc.py:46
+msgid "小时"
+msgstr "Hour"
+
+#: .\att\models\model_leaveclass.py:22 .\att\models\model_leaveclass1.py:23
+#: .\att\templates\AttParam_list.html.py:50
+#: .\att\templates\AttParam_list.html.py:55
+#: .\att\templates\AttParam_list.html.py:59
+#: .\att\templates\AttParam_list.html.py:91
+#: .\att\templates\AttParam_list.html.py:109
+#: .\att\templates\AttParam_list.html.py:115
+#: .\att\templates\AttParam_list.html.py:475
+#: .\att\templates\NUM_RUN_list.html.py:277 .\iclock\datasproc.py:46
+msgid "分钟"
+msgstr "Minute"
+
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\dataprocaction.py
+msgid "没有指定登记设备"
+msgstr "No registered device is specified."
+
+msgid "所有指纹已经被登记"
+msgstr "All fingerprints have been registered."
+
+#, python-format
+msgid "设备%(object_name)s固件版本号未知"
+msgstr "The firmware version number of the device %(object_name)s is unknown."
+
+msgid ""
+"服务器上的固件文件%(object_name)s 不存在，不能对设备%(esc_name)s升级固件"
+msgstr ""
+"The firmware file %(object_name)s on the server does not exist, so the "
+"firmware of the device %(esc_name)s cannot be upgraded."
+
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\datas.py
+msgid "开锁"
+msgstr "Unlock"
+
+#: .\iclock\datas.py:3219 .\iclock\datas.py:3242 .\iclock\datas.py:3269
+msgid "LeaveName"
+msgstr "Leave name"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\desfiles.py
+#, python-format
+msgid "%d attendance record(s)."
+msgstr "%d attendance record(s)."
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\expview.py
+msgid "自动导出数据格式定义"
+msgstr "Auto export data format definition"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#/////////////start of file model_device.py////////////////////////////////////
+msgid "无线局域网"
+msgstr "Wireless LAN"
+
+msgid "GPRS"
+msgstr "GPRS"
+
+msgid "3G适配器"
+msgstr "3G adapter"
+
+msgid "232"
+msgstr "232"
+
+msgid "485"
+msgstr "485"
+
+msgid "定时传送时间"
+msgstr "Fixed transmission time"
+
+msgid "刷新间隔时间(分钟)"
+msgstr "Refresh Interval (minute)"
+
+msgid "传送签到记录标记"
+msgstr "Transmit check-in entry flag"
+
+msgid "传送用户数据标记"
+msgstr "Transmit user data flag"
+
+msgid "传送图片标记"
+msgstr "Transmit picture flag"
+
+msgid "数据更新标志"
+msgstr "Data Update Flag"
+
+
+#: .\iclock\models\model_device.py:618 .\iclock\models\model_device.py:619
+msgid "重新上传数据"
+msgstr "Re-upload data"
+
+#: .\iclock\models\model_device.py:637 .\iclock\models\model_device.py:638
+msgid "获取设备信息"
+msgstr "Obtain device information"
+
+#: .\iclock\models\model_device.py:645 .\iclock\models\model_device.py:646
+
+msgid "重启设备"
+msgstr "Restart device"
+
+#: .\iclock\models\model_device.py:653 .\iclock\models\model_device.py:654
+msgid "清除全部数据"
+msgstr "Clear all data"
+
+
+
+#/////////////end of file model_device.py//////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\att_DeviceDataManage.html.py
+msgid "数据维护"
+msgstr "Data maintenance"
+
+msgid "没有设备！"
+msgstr "No device!"
+
+msgid "设备别名"
+msgstr "Device alias"
+
+msgid "刷新间隔时间"
+msgstr "Refresh interval"
+
+msgid "显示方式"
+msgstr "Display mode"
+
+msgid "列表方式"
+msgstr "List mode"
+
+msgid "图表方式"
+msgstr "Chart mode"
+
+msgid "用户无设备浏览权限，请与管理员联系"
+msgstr "The user has no device browse right. Please contact the administrator."
+
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\att\templates\att_DeviceUSERManage.html.py:6
+msgid "显示全部人员"
+msgstr "Show all staff"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\personnel\models\model_report.py:12
+msgid "共享读写"
+msgstr "Share read/write"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "指纹机登记"
+msgstr "Fingerprint scanner registration"
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\logcheck.html.py
+msgid "取到"
+msgstr "Obtain"
+
+msgid "新记录"
+msgstr "New entry"
+
+msgid "访问最后的数据错误！"
+msgstr "Something is wrong with access to the last data!"
+
+msgid "id"
+msgstr "ID"
+
+msgid "设备管理"
+msgstr "Device management"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////start of worktable/////////////////////////////////////////
+msgid "新增人员离职"
+msgstr "Person Departure"
+
+msgid "第一步:人员管理"
+msgstr "Step 1: Personnel Management"
+
+msgid "第四步:设备管理"
+msgstr "Step 4: Device Management"
+
+msgid "第二步:时段设置"
+msgstr "Step 2: TimeTable Setting"
+
+msgid "第五步:为员工指定班次"
+msgstr "Step 5: Schedule Shift for Personnel"
+
+msgid "第三步:班次设置"
+msgstr "Step 3: Shift Setting"
+
+msgid "身份证号查询"
+msgstr "ID Card Number Search"
+
+msgid "卡片查询"
+msgstr "Card Search"
+
+msgid "部门查询"
+msgstr "Department Search"
+
+#//////////////////end of worktable///////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_devoperate.py:31
+
+msgid "设备自动命令"
+msgstr "Device auto command"
+
+msgid "用户下发命令"
+msgstr "User sent command"
+
+msgid "成功"
+msgstr "Successful"
+
+msgid "命令描述"
+msgstr "Command description"
+
+msgid "命令创建时间"
+msgstr "Command creation time"
+
+msgid "命令处理完成时间"
+msgstr "Command processing completion time"
+
+msgid "处理次数"
+msgstr "Times of processing"
+
+msgid "命令数据"
+msgstr "Command data"
+
+msgid "命令类型"
+msgstr "Type"
+
+msgid "命令系统"
+msgstr "System"
+
+
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#====================start of file .\iclock\importdata.py======================
+
+#: .\iclock\importdata.py
+#, python-format
+msgid "成功插入了 %(object_num)d 条"
+msgstr "%(object_num)d entries are inserted successfully."
+
+#, python-format
+msgid "成功修改了%(object_num)d 条"
+msgstr "%(object_num)d entries are modified successfully."
+
+#, python-format
+msgid "%(object_num)d条已存在数据库中"
+msgstr "%(object_num)d entries have been saved in the database."
+
+#, python-format
+msgid "数据文件中有%(object_num)d %(object_name)s"
+msgstr "The data files have %(object_num)d %(object_name)s."
+
+#: .\iclock\importdata.py:64 .\iclock\importdata.py:68
+#: .\iclock\importdata.py:92 .\iclock\importdata.py:147
+#: .\iclock\importdata.py:152 .\iclock\importdata.py:191
+#: .\iclock\models\model_devoperate.py:19
+msgid "失败"
+msgstr "Failed"
+
+#: .\iclock\importdata.py:153 .\templates\upload.html.py:71
+msgid "如果上传指纹模版，必须同时上传相关的用户信息文件"
+msgstr ""
+"If you upload a fingerprint template, you must also upload related user "
+"information files."
+
+msgid "指纹模版"
+msgstr "fingerprint template"
+
+#, python-format
+msgid ""
+"<h1>数据上传成功</h1><br /><br />%(object_name)s<br /><h1>数据导入失败</"
+"h1><br /><br />指纹模版数据不匹配或者数据文件为空，请选择正确的<b>指纹模版</"
+"b>数据文件"
+msgstr ""
+"<h1>Data upload succeeded</h1><br /><br />%(object_name)s<br /><h1>Data "
+"import failed.h1><br /><br />The fingerprint template data do not match or "
+"the data file is empty. Please select a correct <b>fingerprint template</b> "
+"data file."
+
+msgid "上传数据失败"
+msgstr "Data upload failure"
+
+#: .\iclock\importdata.py:218 .\iclock\importdata.py:220
+msgid "数据导入结果"
+msgstr "Data import result"
+
+msgid "数据导入失败"
+msgstr "Data import failure"
+
+msgid "该版本服务器程序没有安装U盘数据导入模块"
+msgstr ""
+"This version of server program is not equipped with a USB disk data import "
+"template."
+
+#====================end of file .\iclock\importdata.py========================
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#=====================start of file .\iclock\taskview.py=======================
+
+#: .\iclock\taskview.py
+#, python-format
+msgid "没有权限传送 %s 上登记的人员"
+msgstr "You have no right to transfer personnel registered on %s."
+
+#, python-format
+msgid "没有权限传送人员到设备 %s"
+msgstr "You have no right to transfer personnel to the device %s."
+
+msgid "没有指定设备"
+msgstr "No device is specified."
+
+#: .\iclock\taskview.py:70 .\iclock\taskview.py:72
+msgid "指定人员不存在"
+msgstr "The specified person does not exist."
+
+#, python-format
+msgid "没有权限删除设备 %s 中的人员"
+msgstr "You have no right to delete personnel from the device %s."
+
+#, python-format
+msgid "没有指定设备， 并且没有权限从登记设备 %s 中删除该人员"
+msgstr ""
+"No device is specified, and you have no right to delete this person from the "
+"registered device %s."
+
+msgid "没有指定设备，并且该人员没有登记设备"
+msgstr ""
+"No device is specified, and this person is not registered with any device."
+
+msgid "该用户在数据库中还没有录入姓名"
+msgstr "This user has not entered a name in the database yet."
+
+msgid "在设备中删除人员"
+msgstr "Delete person from device"
+
+msgid "服务器升级"
+msgstr "Server upgrade"
+
+msgid "成功重启设备"
+msgstr "The device is restarted successfully."
+
+#, python-format
+msgid ""
+"其固件大小与标准%(object_name)s需要升级固件，稍后检查如果没有自动进行固件升级"
+"的话，请手工升级固件"
+msgstr ""
+"Its firmware size does not meet the standard %(object_name)s, and the "
+"firmware needs upgrade. Check later, and if the firmware is not upgraded "
+"automatically,upgrade the firmware manually."
+
+msgid "重新启动机器失败"
+msgstr "The machine fails to be restarted."
+
+msgid "请输入一个有效的 IP 地址。"
+msgstr "Please input a valid IP address."
+
+msgid "程序重新启动"
+msgstr "The program is restarted."
+
+msgid "自动检查呆滞设备"
+msgstr "Auto check idle device"
+
+msgid ""
+"The device(s) does not connect with the server more than half and an hour: </"
+"p><p>"
+msgstr ""
+"The device(s) does not connect with the server more than half an hour: </"
+"p><p>"
+
+msgid ""
+"The system will connect and re-start the following device automaticly: </"
+"p><p>"
+msgstr ""
+"The system will connect and re-start the following device automatically: </"
+"p><p>"
+
+#======================end of file .\iclock\taskview.py========================
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\weatherview.py
+msgid "设备:"
+msgstr "Device "
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\setoption.py
+msgid "你必须从你的站点修改配置！"
+msgstr "You must modify configuration from your site."
+
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\index.html.py:36
+msgid "服务器下发命令日志"
+msgstr "Server sent command log"
+
+#: .\templates\index.html.py:41
+msgid "系统帮助"
+msgstr "System help"
+
+#: .\templates\index.html.py:43
+msgid "服务器版本号：V2.5 （Build 2218, 20080328）"
+msgstr "Server version number: V2.5 (Build 2218, 20080328)"
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\realtime.html.py
+msgid "实时"
+msgstr "Real-time"
+
+msgid "日期时间"
+msgstr "Date and time"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\restore.html.py:20
+msgid "数据库恢复"
+msgstr "Restore database"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\piclist.html.py
+msgid "成功的验证"
+msgstr "Successful authentication"
+
+msgid "失败的验证"
+msgstr "Failed authentication"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#: .\templates\setoption.html.py:7 .\templates\setoption.html.py:19
+msgid "设置配置文件"
+msgstr "Set configuration file"
+
+msgid "语言选择"
+msgstr "Select language"
+
+msgid "WEB端口:"
+msgstr "WEB port"
+
+msgid "数据库引擎:"
+msgstr "Database engine"
+
+msgid "数据库名称:"
+msgstr "Database name:"
+
+msgid "数据库用户名:"
+msgstr "Database username:"
+
+msgid "数据库密码:"
+msgstr "Database password:"
+
+msgid "数据库端口:"
+msgstr "Database port:"
+
+msgid "数据库地址:"
+msgstr "Database address:"
+
+msgid "加密:"
+msgstr "Encrypt:"
+
+msgid "每页长度:"
+msgstr "Length of each page:"
+
+msgid "实时:"
+msgstr "Real-time"
+
+msgid "自动注册:"
+msgstr "Auto register"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\setoption.html.py
+msgid "首页"
+msgstr "First page"
+
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\testpage.html.py
+msgid "上传下载"
+msgstr "Upload/download"
+
+msgid "时间监控"
+msgstr "Time monitor"
+
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\models\model_trans.py
+msgid "就餐开始"
+msgstr "Dinner start"
+
+msgid "就餐结束"
+msgstr "Dinner end"
+
+msgid "未设置状态"
+msgstr "Not set status"
+
+msgid "保留"
+msgstr "Retain"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\iclock\templatetags\iclock_tags.py
+#: D:/trunk/python-support/dbapp\templatetags\dbapp_tags.py
+msgid "人员信息"
+msgstr "Information"
+
+msgid "检查服务器配置"
+msgstr "Check server configuration"
+
+msgid "更新服务器上的设备信息"
+msgstr "Update device information on the server"
+
+msgid "检查并传送新数据"
+msgstr "Check and transmit new data"
+
+msgid "发送文件到设备"
+msgstr "Send file to device"
+
+msgid "从设备传文件"
+msgstr "Transfer file from device"
+
+msgid "执行内部命令"
+msgstr "Execute internal command"
+
+msgid "修改配置"
+msgstr "Modify configuration"
+
+msgid "清除设备上的所有数据"
+msgstr "Remove all data form the device"
+
+msgid "中断报警信号"
+msgstr "Interrupt alarm signal"
+
+msgid "登记人员指纹"
+msgstr "Register fingerprint"
+
+msgid "人员信息及其指纹"
+msgstr "Personnel information and fingerprint"
+
+#: .\iclock\templatetags\iclock_tags.py:313
+#: .\iclock\templatetags\iclock_tags.py:314
+#: D:/trunk/python-support/dbapp\templatetags\dbapp_tags.py:299
+#: D:/trunk/python-support/dbapp\templatetags\dbapp_tags.py:300
+msgid "重新启动设备"
+msgstr "Restart device"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\transaction_list.html.py
+msgid "照片"
+msgstr "Photo"
+
+msgid "在"
+msgstr "On"
+
+msgid "无数据!"
+msgstr "No data !"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+
+#: .\templates\upgrade.html.py
+msgid "上传文件位置"
+msgstr "Upload file location"
+
+msgid "确 定"
+msgstr "OK"
+#//////////////////////////////////////////////////////////////////////////////
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\templates\upload.html.py
+msgid "选择文件"
+msgstr "Select file"
+
+msgid "用户信息文件"
+msgstr "User information file"
+
+msgid "指纹模版文件"
+msgstr "Fingerprint template file"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+msgid "消息监控时间"
+msgstr "Message monitor time"
+
+#: D:/trunk/python-support/base\options.py:162
+#: D:/trunk/python-support/base\options.py:202
+msgid ""
+"系统参数即系统的一些设置项，如消息监控时间，\n"
+"系统会根据此参数值来监控过生日和转正的人员！"
+msgstr ""
+"System parameters are some setting items of the system, such as message "
+"monitor time. \n"
+"The system will use this parameter value to monitor personnel whose "
+"birthdays are coming and who will become regular employees."
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#: .\worktable\common_panel.py
+
+#: .\worktable\common_panel.py:109 .\worktable\common_panel.py:154
+msgid "员工工号"
+msgstr "Personnel No. "
+
+#: .\worktable\common_panel.py:111 .\worktable\common_panel.py:156
+msgid "员工姓名"
+msgstr "Personnel Name"
+
+msgid "今天转正!"
+msgstr "Be regular employee today!"
+
+msgid "转正！"
+msgstr "Be Formal Employee!"
+
+msgid "今天过生日！"
+msgstr "Your birthday today!"
+
+msgid "过生日！"
+msgstr "Your birthday!"
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#==================start of file .\worktable\models.py=========================
+#: .\worktable\models.py
+msgid "值"
+msgstr "Value"
+
+msgid "持续(天)"
+msgstr "Continue (day)"
+
+msgid "提前提醒(天)"
+msgstr "Advance notice (day)"
+
+#, python-format
+msgid "系统默认类别(%s)不能删除!"
+msgstr "This is a default system type (%s) and cannot be deleted!"
+
+msgid "类别不能重复"
+msgstr "The type cannot be repeated."
+
+msgid "分配给角色"
+msgstr "Assigned to role"
+
+#, python-format
+msgid "\"%(f)s\"已经分配过给\"%(ff)s\"角色"
+msgstr "\"%(f)s\" has been assigned to the role \"%(ff)s\"."
+
+msgid "系统提醒设置用于将公告分配给不同的角色查看。"
+msgstr ""
+"The system reminder setting is used to distribute notices to different roles "
+"to read."
+
+msgid "消息"
+msgstr "Message"
+
+msgid "标记"
+msgstr "Flag"
+
+msgid "用户消息确认"
+msgstr "Confirm user information"
+
+msgid "公告内容"
+msgstr "Notice content"
+
+msgid "公告内容不能超过2000字符！"
+msgstr "Notice content cannot contain more than 2000 characters!"
+
+#====================end of file .\worktable\models.py=========================
+#//////////////////////////////////////////////////////////////////////////////
+
+
+#//////////////////////////////////////////////////////////////////////////////
+#====================start of file .\worktable\views.py========================
+#: .\worktable\views.py
+msgid "十年 "
+msgstr "Ten years "
+
+msgid "八年 "
+msgstr "Eight years "
+
+msgid "五年 "
+msgstr "Five years "
+
+msgid "三年 "
+msgstr "Three years "
+
+msgid "两年 "
+msgstr "Two years "
+
+msgid "一年 "
+msgstr "One year "
+
+msgid "男 "
+msgstr "Male "
+
+msgid "女 "
+msgstr "Female "
+
+msgid "小学 "
+msgstr "Primary School "
+
+msgid "中学 "
+msgstr "Secondary School "
+
+msgid "高中 "
+msgstr "High School "
+
+msgid "大学 "
+msgstr "College "
+
+msgid "研究生 "
+msgstr "graduate "
+
+msgid "博士 "
+msgstr "Doctor "
+
+msgid "其他 "
+msgstr "Others "
+
+msgid "请假 "
+msgstr "Exception "
+
+#====================end of file .\worktable\views.py==========================
+#//////////////////////////////////////////////////////////////////////////////
+
+msgid "调整区域"
+msgstr "Adjust Area"
+
+msgid ""
+"调整区域:将会把该人员所属原区域内的设备清除掉该人员，并自动下发到新区域内的所"
+"有设备中"
+msgstr ""
+"Area adjustment will remove this person from the devices in the original "
+"area and this person will be automatically sent to all devices in the new "
+"area."
+
+msgid "调整到的区域"
+msgstr "Adjusted to Area"
+
+
+msgid "该区域还有人员，不能撤消"
+msgstr "This area has persons and cannot be deleted."
+
+msgid "该区域用户数"
+msgstr "Number of users in this area"
+
+
+msgid "为区域添加人员"
+msgstr "Add personnel to the area"
+
+msgid ""
+"区域的调整,将会把该人员从所属原区域内的设备中清除掉，并自动下发到新区域内的所"
+"有设备中"
+msgstr ""
+"Area adjustment will remove this person from the devices in the original "
+"area, and send to all devices in the new area automatically."
+#: .\iclock\models\model_oplog.py:25 .\iclock\models\model_oplog.py:26
+
+#//////////////////////////////////////////////////////////////////////////////
+#================start of file .\iclock\models\model_oplog.py==================
+#: .\iclock\models\model_oplog.py
+msgid "开机"
+msgstr "On"
+
+msgid "关机"
+msgstr "Off"
+
+msgid "验证失败"
+msgstr "Authentication failure"
+
+msgid "报警"
+msgstr "Alarm"
+
+msgid "进入菜单"
+msgstr "Enter menu"
+
+msgid "更改设置"
+msgstr "Modify setting"
+
+
+msgid "卡登记"
+msgstr "Card registration"
+
+msgid "删除用户"
+msgstr "Delete user"
+
+msgid "删除指纹"
+msgstr "Delete fingerprint"
+
+msgid "删除密码"
+msgstr "Delete password"
+
+msgid "删除射频卡"
+msgstr "Delete RF card"
+
+msgid "清除数据"
+msgstr "Clear data"
+
+msgid "创建MF卡"
+msgstr "Create MF card"
+
+msgid "登记MF卡"
+msgstr "Register MF card"
+
+msgid "删除MF卡注册"
+msgstr "Delete MF card registration"
+
+msgid "清除MF卡内容"
+msgstr "Clear MF card content"
+
+msgid "把登记数据移到卡中"
+msgstr "Move registration data to the card"
+
+msgid "把卡中的数据复制到机器中"
+msgstr "Copy data in the card to the machine"
+
+msgid "恢复出厂设置"
+msgstr "Restore factory setting"
+
+msgid "删除进出记录"
+msgstr "Delete access entry"
+
+msgid "清除管理员权限"
+msgstr "Clear administrator right"
+
+msgid "登记新用户"
+msgstr "Register user"
+
+msgid "更改指纹属性"
+msgstr "Modify fingerprint attribute"
+
+msgid "胁迫报警"
+msgstr "Duress alarm"
+
+msgid "机器被拆除"
+msgstr "Machine dissembled"
+
+msgid "多次验证失败"
+msgstr "Multiple authentication failures"
+
+msgid "设备超级管理员"
+msgstr "Device super-administrator"
+
+msgid "参数1"
+msgstr "Parameter 1"
+
+msgid "参数2"
+msgstr "Parameter 2"
+
+msgid "参数3"
+msgstr "Parameter 3"
+
+msgid "操作设备日志"
+msgstr "Device operation log"
+
+msgid "数据记录数"
+msgstr "Number of data entry"
+
+msgid "上传时间"
+msgstr "Upload time"
+
+msgid "账户被锁定！"
+msgstr "The account is locked!"
+
+msgid "导入u盘考勤记录"
+msgstr "Import ac log from udisk"
+
+msgid "选择考勤记录文件"
+msgstr "Select the attendance file"
+
+msgid "考勤文件格式无效！"
+msgstr "Attendance file format is invalid!"
+
+msgid "数据格式不正确"
+msgstr "Data format is incorrect"
+
+msgid "时间格式不正确"
+msgstr "Time format is incorrect"

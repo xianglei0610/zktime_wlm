@@ -1,0 +1,123 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block model_extend %}{%endblock%}
+{% block content %}
+    <div style="margin-left:10px;">
+        <form method="post" onkeydown="if(event.keyCode==13){return false;}"  id="id_edit_form" enctype="multipart/form-data">
+        <div class="floatL lineH22">{% trans "清理垃圾数据时间小于" %}</div><input type="text" size="10" id="id_before_date" class="date" format="yyyy-MM-dd" value="{{ before_date }}" name="before_date">
+		<div class="clear"></div>
+		<div style="height:30px;width:624px;margin-bottom:5px; margin-left:0px" class="div_box2 color_orange">
+			<span class="icon_Shift_Detail" style="margin-left:20px;">&nbsp;</span>{% trans "将清空选中的项目内容。该操作无法撤销。" %}
+		</div>
+          <div  style="margin-right: 5px !mportant;width:302px;" id='id_clear_data' class="div_box floatL displayN">
+			<h1 style="margin: 3px 10px 1px 10px;">{% trans "选择清理内容" %}</h1>
+          	<div id='show_deptment'>
+                <div class='filetree' style='overflow: auto; height: 200px;'>
+                    <li class="expandable lastCollapsable"><p class='t' style='*float:left;'>{% trans "选择全部" %}</p>
+                        <ul class='treeview'>
+                            <li>
+                                <p class='t'>
+                                <input  type='checkbox' class='displayN' name='clear_log' />{% trans "清理日志记录" %}
+                                </p>
+                            </li>
+                            {%if 'WORKTABLE_CLEAR_UPLOAD_DIR'|filter_config_option %}
+                            <li class="clean_att_files" >
+                                <p class='t'>
+                                    <input type='checkbox' class='displayN' name='clear_upload_dir' />{% trans "清理机器上传的过期文件夹" %}
+                                </p>
+                            </li>
+                            {%endif%}
+                            <!--  门禁缓存 不处理
+                            <li>
+                                <p class='t'>
+                                    <input type='checkbox' class='displayN' name='fqueue_file' />{% trans "清理文件缓存" %}
+                                </p>
+                            </li>
+                            -->
+                            {%if 'WORKTABLE_DEVCMD_BAK'|filter_config_option %}
+                            <li class="clean_att_files">
+                                <p class='t'>
+                                    <input type='checkbox' class='displayN' name='clear_devcmd_bak' />{% trans "清理失败命令" %}
+                                </p>
+                            </li>
+                            {%endif%}
+                            {% if 'WORKTABLE_OPERATE_CMDS'|filter_config_option %}
+                            <li class="clean_att_files">
+                                <p class='t'>
+                                    <input type='checkbox' class='displayN' name='clear_operate_cmds' />{% trans "清理通讯命令日志" %}
+                                </p>
+                            </li>
+                             {%endif%}
+                            <li>
+                                <p class='t'>
+                                <input type='checkbox' class='displayN' name='clear_tmp_dir' />{% trans "清理临时文件夹" %}
+                                </p>
+                            </li>
+                            <li>
+                                <p class='t'>
+                                <input type='checkbox' class='displayN' name='clear_session' />{% trans "清理用户会话记录" %}
+                                </p>
+                            </li>
+                            
+                            
+                        </ul>
+                    </li>
+                </div>
+          	</div>
+            
+          </div>
+          <div id ="id_info" class="div_box floatL error" style="margin-top:0px;width:300px;height:212px;margin-left:5px\9;">
+            <h1>{% trans "清理结果" %}</h1>
+			<div id="id_info_content" style="height: 185px;overflow: auto;"></div>
+          </div>
+          <div class="editformbtn">
+                <div class="lineH22 img_padding">
+                    <span class="action_OK"></span>
+                    <a id="OK" href="javascript:void(0)" class="Link_blue1">{% trans "确定" %}</a>
+                </div>
+          </div>
+    </form>
+</div>
+
+ {% endblock %}
+ {% block extend_js %} 
+    <script>
+    render_widgets($("#id_edit_form"));//添加验证
+    $tree = $("#id_clear_data");
+    $tree.treeview().show();
+    
+    $tree.find("p.t").click(function(){
+        if($(this).hasClass("s")){
+            $(this).add($(this).parent("li").find("li>p.t"))
+            .removeClass("s")
+            .find("input").removeAttr("checked");
+        }else{
+            $(this)
+            .add($(this).parent("li").find("li>p.t"))
+            .addClass("s")
+            .find("input").attr("checked","checked");
+        }
+        return false;
+    });
+    
+    $("#OK").click(function(){
+            var selected_count = $tree.find("p.t input[checked=true]").length;
+            if (selected_count==0){
+                $("#id_info").find("#id_info_content").html('{% trans "请选择清理项." %}');
+                return false;
+            }
+            $("#id_edit_form").ajaxSubmit({
+                url:"/worktable/get_clear_data_html/", 
+                dataType:"json",
+                success:function(msgback){
+                    if (msgback.length>0){
+                        $("#id_info").find("#id_info_content").html(msgback.join("<br/>")+"<p class='color_gray'>-----------------------</p>");
+                        $("#id_info_content").scrollTop($("#id_info_content")[0].scrollHeight);
+                    }else{
+                        $("#id_info").find("#id_info_content").html('{% trans "请选择清理项." %}');
+                    }
+                }
+            })
+    });
+    </script>
+{% endblock %}

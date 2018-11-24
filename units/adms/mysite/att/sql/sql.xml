@@ -1,0 +1,1060 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "get_temp_flex_id_sql">
+		<content engine = "default">
+			<![CDATA[
+                select t.id from user_temp_sch as t,schclass as s
+     			where t.UserID=%(emp)s and t.SchClassID = s.SchclassID and (t.LeaveTime>'%(start_date)s' and t.ComeTime<'%(end_date)s') and t.SchClassID=1 
+     			order by t.ComeTime    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select t.id from user_temp_sch as t,schclass as s
+     			where t."UserID"=%(emp)s and t."SchClassID" = s."SchclassID" and (t."LeaveTime">'%(start_date)s' and t."ComeTime"<'%(end_date)s') and t."SchClassID"=1 
+     			order by t."ComeTime"    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "get_emp_run_time_temp_sql">
+		<content engine = "default">
+			<![CDATA[
+                select t.ComeTime,t.LeaveTime,t.Flag,t.SchClassID,s.CheckInTime1, s.CheckInTime2,s.CheckOutTime1,s.CheckOutTime2,t.WorkType,t.id
+    			from user_temp_sch as t,schclass as s
+    			where t.UserID=%(emp)s and t.SchClassID = s.SchclassID and (t.LeaveTime>'%(start_date)s' and t.ComeTime<'%(end_date)s') 
+    			order by t.ComeTime     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select t."ComeTime",t."LeaveTime",t."Flag",t."SchClassID",s."CheckInTime1", s."CheckInTime2",s."CheckOutTime1",s."CheckOutTime2",t."WorkType",t.id
+    			from user_temp_sch as t,schclass as s
+    			where t."UserID"=%(emp)s and t."SchClassID" = s."SchclassID" and (t."LeaveTime">'%(start_date)s' and t."ComeTime"<'%(end_date)s') 
+    			order by t."ComeTime"     
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "get_emp_run_sql">
+		<content engine = "default">
+			<![CDATA[
+                select UserID,StartDate,EndDate,NUM_OF_RUN_ID,id from user_of_run 
+    			where UserID=%(emp)s and (enddate>'%(start_date)s' and startdate<'%(end_date)s') 
+    			order by user_of_run.StartDate    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select "UserID","StartDate","EndDate","NUM_OF_RUN_ID",id from user_of_run 
+    			where "UserID"=%(emp)s and ("EndDate">'%(start_date)s' and "StartDate"<'%(end_date)s') 
+    			order by user_of_run."StartDate"    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "get_emp_num_run_sql">
+		<content engine = "default">
+			<![CDATA[
+                select Num_runID,Units,Cyle from num_run    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select "Num_runID","Units","Cyle" from num_run    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "get_run_detail_sql">
+		<content engine = "default">
+			<![CDATA[
+                select d.StartTime,d.EndTime,d.Sdays,d.SchclassID,s.CheckInTime1, s.CheckInTime2,s.CheckOutTime1,s.CheckOutTime2
+    			from num_run_deil as d,schclass as s
+    			where num_runid = %(num_run_ID)s and d.SchclassID = s.SchclassID
+    			order by d.Sdays,d.StartTime
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select d."StartTime",d."EndTime",d."Sdays",d."SchclassID",s."CheckInTime1", s."CheckInTime2",s."CheckOutTime1",s."CheckOutTime2"
+    			from num_run_deil as d,schclass as s
+    			where "Num_runID" = %(Num_run_ID)s and d."SchclassID" = s."SchclassID"
+    			order by d."Sdays",d."StartTime"
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "get_holiday_sql">
+		<content engine = "default">
+			<![CDATA[
+                select HolidayID,StartTime,Duration from holidays
+    			order by StartTime    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select "HolidayID","StartTime","Duration" from holidays
+    			order by "StartTime"    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "get_askleave_sql">
+		<content engine = "default">
+			<![CDATA[
+                select id,StartSpecDay,EndSpecDay from user_speday 
+    			where State=1 and UserID=%(emp)s and (EndSpecDay>'%(start_date)s' and StartSpecDay<'%(end_date)s')
+    			order by StartSpecDay   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select id,"StartSpecDay","EndSpecDay" from user_speday 
+    			where "State"='1' and "UserID"=%(emp)s and ("EndSpecDay">'%(start_date)s' and "StartSpecDay"<'%(end_date)s')
+    			order by "StartSpecDay"   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+	</sql>
+	
+	
+	
+	<sql id = "get_syncftp_sql">
+		<content engine = "default">
+			<![CDATA[
+                select alias,replace (CONVERT(varchar(12) , c.CheckTime, 3 ),'/','') as TTime ,
+				CASE WHEN c.checktype = 'I' THEN 'A100' 
+				WHEN c.checktype = 'O' THEN 'B200' 
+				WHEN c.checktype = 3 THEN 'C300' 
+				WHEN c.checktype = 4 THEN 'D400' 
+				END AS checktype,
+				Right('0000000000' + pec.cardno,10) as cardno,
+				LEFT(CAST( replace(CONVERT(varchar(100), c.CheckTime, 108),':', '') AS VARCHAR), 4)as CheckTime
+				
+				from CheckInOut as c LEFT JOIN iclock M ON c.sn_name = M.sn
+				 LEFT JOIN UserInfo U ON c.pin = U.badgenumber
+				 LEFT JOIN personnel_issuecard pec ON u.userid = pec.userid_id
+				where c.CheckTime BETWEEN '%(startdate)s' AND '%(end_date)s'
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		
+	</sql>
+	<sql id = "get_setleave_sql">
+		<content engine = "default">
+			<![CDATA[
+                select id,starttime,endtime from setuseratt
+    			where UserID_id = %(emp)s and atttype=2 and (endtime>'%(start_date)s' and starttime<'%(end_date)s')
+    			order by starttime   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select id,starttime,endtime from setuseratt
+    			where "UserID_id" = %(emp)s and atttype=2 and (endtime>'%(start_date)s' and starttime<'%(end_date)s')
+    			order by starttime   
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "get_initial_record_sql">
+		<content engine = "default">
+			<![CDATA[
+                select id,userid, checktime, checktype, 0 as counter 
+    			from checkinout 
+    			where userid=%(emp)s and checktime>='%(start_date)s' and checktime<='%(end_date)s' 
+    			order by checktime
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+	</sql>
+	
+	
+	<sql id = "get_tjjgxq_report_sql--">
+		<content engine = "default">
+			<![CDATA[
+                SELECT
+                userinfo.badgenumber,
+                userinfo.name,
+                attrecabnormite.checktime,
+                attrecabnormite."CheckType",
+                attrecabnormite."NewType"
+                FROM attrecabnormite ,userinfo
+                where attrecabnormite.userid = userinfo.userid  and  %(where)s 
+                attrecabnormite.userid in (%(uid)s) order by userinfo.badgenumber,userinfo.defaultdeptid 
+			]]>
+			<part id = "oracleengine">
+				<![CDATA[
+					attrecabnormite.AttDate>=to_date('%(d1)s','YYYY-MM-DD HH24:MI:SS') and attrecabnormite.AttDate<=to_date('%(d2)s','YYYY-MM-DD HH24:MI:SS') and
+				]]>
+			</part>
+			<part id = "pgengine">
+				<![CDATA[
+					attrecabnormite."AttDate">='%(d1)s' and attrecabnormite."AttDate"<='%(d2)s' and
+				]]>
+			</part>
+			<part id = "otherengine">
+				<![CDATA[
+					attrecabnormite.AttDate>='%(d1)s' and attrecabnormite.AttDate<='%(d2)s' and
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	<sql id = "get_tjjgxq_report_sqla">
+		<content engine = "default">
+			<![CDATA[
+				SELECT 
+					TOP 100 PERCENT
+	                userinfo.badgenumber,
+	                userinfo.name,
+	                attrecabnormite.checktime,
+	                attrecabnormite.CheckType,
+	                attrecabnormite.NewType
+	            FROM attrecabnormite ,userinfo
+	            where attrecabnormite.userid = userinfo.userid  and
+	                attrecabnormite.AttDate>='%(st)s' and attrecabnormite.AttDate<='%(et)s' and
+	                attrecabnormite.userid in (%(userids)s) order by userinfo.badgenumber,userinfo.defaultdeptid
+			]]>
+			<part id = "date">
+				<![CDATA[
+					
+				]]>
+			</part>
+			<part id="uids">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>
+		<content engine = "oracle">
+			<![CDATA[
+				SELECT
+	                userinfo.badgenumber,
+	                userinfo.name,
+	                attrecabnormite.checktime,
+	                attrecabnormite.CheckType,
+	                attrecabnormite.NewType
+	            FROM attrecabnormite ,userinfo
+	            where attrecabnormite.userid = userinfo.userid  and
+	                attrecabnormite.AttDate>=to_date('%(st)s','YYYY-MM-DD HH24:MI:SS') and attrecabnormite.AttDate<=to_date('%(et)s','YYYY-MM-DD HH24:MI:SS')
+	                attrecabnormite.userid in (%(userids)s) order by userinfo.badgenumber,userinfo.defaultdeptid
+			]]>
+			<part id = "date">
+				<![CDATA[
+					
+				]]>
+			</part>
+			<part id="uids">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+					SELECT 
+		                userinfo.badgenumber,
+		               	userinfo.name,
+		                attrecabnormite.checktime,
+		                attrecabnormite."CheckType",
+		                attrecabnormite."NewType"
+		            FROM attrecabnormite ,userinfo
+		            where attrecabnormite.userid = userinfo.userid  and 
+						attrecabnormite."AttDate">='%(st)s' and attrecabnormite."AttDate"<='%(et)s' and
+						attrecabnormite.userid in (%(userids)s) order by userinfo.badgenumber,userinfo.defaultdeptid
+			]]>
+			<part id = "date">
+				<![CDATA[
+					
+				]]>
+			</part>
+			<part id="uids">
+				<![CDATA[
+					
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+
+	<sql id = "get_calc_report_sqla">
+		<content engine = "default">
+			<![CDATA[
+                select 
+	                s.userid as userid,u.badgenumber as pin,u.name as name,u.ssn as ssn,s.schid as schid,s.attdate as attdate,d.deptname as deptname,s.clockInTime as clockintime,s.clockouttime as clockouttime,
+	                s.starttime as starttime,s.endtime as endtime,s.workday as workday,s.realworkday as realworkday,s.noin as noin,s.noout as noout,
+	                s.early as early,s.late as late,s.absent as absent,s.absentr as absentr,s.overtime as overtime,s.exceptionid as exceptionid,s.mustin as mustin,s.mustout as mustout,  
+	                s.worktime as worktime,s.atttime as atttime,s.workmins as workmins,s.SSpeDayNormal as SSpeDayNormal,s.SSpeDayWeekend as SSpeDayWeekend,s.SSpeDayHoliday as SSpeDayHoliday ,s.symbol as symbol,
+	                s.SSpeDayNormalOT as SSpeDayNormalOT,s.SSpeDayWeekendOT as SSpeDayWeekendOT,s.SSpeDayHolidayOT as SSpeDayHolidayOT
+	            from attshifts s,userinfo u,Departments d 
+	            where u.userid=s.userid and d.deptID=u.defaultdeptid and   
+	            	s.attdate>='%(st)s' and s.attdate<='%(et)s' and s.userid = %(userids)s order by u.badgenumber,u.defaultdeptid
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = "oracle">
+			<![CDATA[
+                select 
+	                s.userid as userid,u.badgenumber as pin,u.name as name,u.ssn as ssn,s.schid as schid,s.attdate as attdate,d.deptname as deptname,s.clockInTime as clockintime,s.clockouttime as clockouttime,
+	                s.starttime as starttime,s.endtime as endtime,s.workday as workday,s.realworkday as realworkday,s.noin as noin,s.noout as noout,
+	                s.early as early,s.late as late,s.absent as absent,s.absentr as absentr,s.overtime as overtime,s.exceptionid as exceptionid,s.mustin as mustin,s.mustout as mustout,  
+	                s.worktime as worktime,s.atttime as atttime,s.workmins as workmins,s.SSpeDayNormal as SSpeDayNormal,s.SSpeDayWeekend as SSpeDayWeekend,s.SSpeDayHoliday as SSpeDayHoliday ,s.symbol as symbol,
+	                s.SSpeDayNormalOT as SSpeDayNormalOT,s.SSpeDayWeekendOT as SSpeDayWeekendOT,s.SSpeDayHolidayOT as SSpeDayHolidayOT
+	            from attshifts s,userinfo u,Departments d 
+	            where u.userid=s.userid and d.deptID=u.defaultdeptid and
+	            	s.attdate>=to_date('%(st)s','YYYY-MM-DD HH24:MI:SS') and s.attdate<=to_date('%(et)s','YYYY-MM-DD HH24:MI:SS') and
+	            	s.userid = %(userids)s order by u.badgenumber,u.defaultdeptid    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>
+		<content engine = "postgresql">
+			<![CDATA[
+                select 
+	                s.userid as userid,u.badgenumber as pin,u.name as name,u."SSN" as ssn,s."SchId" as schid,s."AttDate" as attdate,d."DeptName" as deptname,s."ClockInTime" as clockintime,s."ClockOutTime" as clockouttime,
+	                s."StartTime" as starttime,s."EndTime" as endtime,s."WorkDay" as workday,s."RealWorkDay" as realworkday,s."NoIn" as noin,s."NoOut" as noout,
+	                s."Early" as early,s."Late" as late,s."Absent" as absent,s."AbsentR" as absentr,s."OverTime" as overtime,s."ExceptionID" as exceptionid,s."MustIn" as mustin,s."MustOut" as mustout,  
+	                s."WorkTime" as worktime,s."AttTime" as atttime,s."WorkMins" as workmins,s."SSpeDayNormal" as SSpeDayNormal,s."SSpeDayWeekend" as SSpeDayWeekend,s."SSpeDayHoliday" as SSpeDayHoliday ,s."Symbol" as symbol,
+	                s."SSpeDayNormalOT" as SSpeDayNormalOT,s."SSpeDayWeekendOT" as SSpeDayWeekendOT,s."SSpeDayHolidayOT" as SSpeDayHolidayOT
+                from attshifts s,userinfo u,Departments d 
+               	where u.userid=s.userid and d."DeptID"=u.defaultdeptid and
+                	s."AttDate">='%(st)s' and s."AttDate"<='%(et)s' and
+                	s.userid = %(userids)s order by u.badgenumber,u.defaultdeptid    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	<sql id = "attShifts_report_sql">
+		<content engine = "default">
+			<![CDATA[
+                select TOP 100 PERCENT
+				    a.id,
+                    departments.code,departments.DeptName,userinfo.badgenumber,userinfo.name,
+                    a.AttDate as AttDate,schclass.SchName,
+                    a.ClockInTime as ClockInTime,
+                    a.ClockOutTime as ClockOutTime,
+                    a.StartTime as StartTime,
+                    a.EndTime as EndTime,
+                    a.WorkDay,a.RealWorkDay,a.MustIn,a.MustOut,a.NoIn,a.NoOut,a.Late,a.Early,a.AbsentR,a.WorkTime,
+                    a.Exception,
+                    a.OverTime_des,a.AttTime,
+                    a.SSpeDayNormalOT,a.SSpeDayWeekendOT,a.SSpeDayHolidayOT,a.userid
+                 from attshifts as a
+                    left join userinfo  on userinfo.userid=a.userid 
+                    left join departments  on userinfo.defaultdeptid=departments.DeptID 
+                    left join schclass on schclass.SchclassID = a.SchId 
+                 where a.AttDate>='%(st)s' and a.AttDate<='%(et)s' and
+                 a.userid in (%(userids)s) order by userinfo.badgenumber,userinfo.defaultdeptid   
+			]]>
+			<part id = "oracleengine">
+				<![CDATA[
+					a.AttDate>=to_date('%(d1)s','YYYY-MM-DD HH24:MI:SS') and a.AttDate<=to_date('%(d2)s','YYYY-MM-DD HH24:MI:SS') and
+				]]>
+			</part>
+			<part id = "otherengine">
+				<![CDATA[
+					a.AttDate>='%(d1)s' and a.AttDate<='%(d2)s' and
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select 
+                    departments.code,departments."DeptName",userinfo.badgenumber,userinfo.name,
+                    a."AttDate" as AttDate,schclass."SchName",
+                    a."ClockInTime" as ClockInTime,
+                    a."ClockOutTime" as ClockOutTime,
+                    a."StartTime" as StartTime,
+                    a."EndTime" as EndTime,
+                    a."WorkDay",a."RealWorkDay",a."MustIn",a."MustOut",a."NoIn",a."NoOut",a."Late",a."Early",a."AbsentR",a."WorkTime",
+                    a."Exception",
+                    a."OverTime_des",a."WorkMins",a."SSpeDayNormal",a."SSpeDayWeekend",a."SSpeDayHoliday",a."AttTime",
+                    a."SSpeDayNormalOT",a."SSpeDayWeekendOT",a."SSpeDayHolidayOT",a.userid
+                 from attshifts as a
+                    left join userinfo  on userinfo.userid=a.userid 
+                    left join departments  on userinfo.defaultdeptid=departments."DeptID" 
+                    left join schclass on schclass."SchclassID" = a."SchId"
+                 where %(sqlengine)s
+                 a.userid in (%(uid)s) order by userinfo.badgenumber,userinfo.defaultdeptid    
+			]]>
+			<part id = "pgengine">
+				<![CDATA[
+					a."AttDate">='%(d1)s' and a."AttDate"<='%(d2)s' and
+				]]>
+			</part>
+			<part id="">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id = "get_yc_report_sql">
+		<content engine = "default">
+			<![CDATA[
+                select * from(
+		            select row_number() over( order by  defaultdeptid,userid,att_date ) as row_no,userid,
+			            (select deptname from departments where deptid=(select supdeptid from departments where deptid=v.defaultdeptid)) as super_dept,
+			            (select deptname from departments where deptid=v.defaultdeptid ) as dept_name,
+			            badgenumber,name,att_date, 
+			            sum(late)as late_minutes,
+			            sum(early)as early_minutes,
+			            sum(absent) as absent_days,
+			            (select count(*) from attshifts a2 where late>0 and a2.attdate=v.attdate and a2.userid = v.userid) as late_times,
+			            (select count(*) from attshifts a3 where early>0 and a3.attdate=v.attdate and a3.userid = v.userid) as early_times,
+			            (select count(*) from attshifts a4 where absent>0 and a4.attdate=v.attdate and a4.userid = v.userid) as absent_times,
+			            sum(worktime) as work_time,
+			            (select wmsys.wm_concat(to_char(checktime,'HH24:Mi:SS')) from attrecabnormite t where t.attdate=v.attdate and t.userid=v.userid) as card_times
+	            	from 
+	            		(select u.userid, defaultdeptid, name, badgenumber,late,early,absent,attdate,worktime,to_char(attdate,'YYYY-MM-DD') as att_date from userinfo u, attshifts a where u.userid=a.userid and ( a.late>0 or a.early>0 or a.absent>0)%(where)s )v
+	            	group by userid, att_date, defaultdeptid, name, badgenumber,attdate
+	            	order by userid, att_date)
+	            	%(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and to_char(attdate,'YYYY-MM-DD HH24-Mi-SS') between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and to_char(attdate,'YYYY-MM-DD HH24-Mi-SS') between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+		</content>	
+		<content engine = "mysql">
+			<![CDATA[
+                select '',
+            a.userid,
+            (select deptname from departments where deptid=(select supdeptid from departments where deptid=u.defaultdeptid)) as 'super_dept',
+            (select deptname from departments where deptid=u.defaultdeptid )as 'dept_name',
+            u.badgenumber,
+            u.name,
+            date(a.attdate) as attdate,
+            sum(a.late) as late,
+            sum(a.early) as early,
+            sum(a.absent) as absent,
+           (select count(*) from attshifts a2 where  late >0  and a2.attdate = a.attdate and a2.userid = a.userid)as late_times,
+           (select count(*) from attshifts a3 where  early >0  and a3.attdate = a.attdate and a3.userid = a.userid) as early_times,
+           (select count(*) from attshifts a4 where  absent>0 and a4.attdate = a.attdate and a4.userid = a.userid) as absent_times,                               
+            sum(a.worktime) as worktime,
+            (select group_concat(time(checktime) order by checktime SEPARATOR ',')  from attrecabnormite t  where date(a.attdate)=t.AttDate and  t.userid=a.userid) as card_times
+            
+            from attshifts a,userinfo u
+            where a.userid=u.userid and ( a.late>0 or a.early>0 or a.absent>0) %(where)s
+            group by a.userid,date(a.attdate) 
+            order by dept_name,a.userid,a.attdate
+            %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and a.attdate >= '%(st)s' and a.attdate<='%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and a.attdate >= '%(st)s' and a.attdate<='%(et)s'
+				]]>
+			</part>
+		</content>
+		<content engine = "sqlserver">
+			<![CDATA[
+                select * from (
+           select row_number() over( order by  a.attdate,u.defaultdeptid,a.userid ) as 'row_no',
+           a.userid,
+           (select deptname from departments where deptid=(select supdeptid from departments where deptid=u.defaultdeptid)) as 'super_dept',
+           (select deptname from departments where deptid=u.defaultdeptid )as 'dept_name',
+           u.badgenumber,u.[name],convert(nvarchar(10),a.attdate,120) as attdate,
+            sum(a.late) as late,
+            sum(a.early) as early,
+            sum(a.absent) as absent,
+           (select count(*) from attshifts a2 where  late >0  and a2.attdate = a.attdate and a2.userid = a.userid)as late_times,
+           (select count(*) from attshifts a3 where  early >0  and a3.attdate = a.attdate and a3.userid = a.userid) as early_times,
+           (select count(*) from attshifts a4 where  absent>0 and a4.attdate = a.attdate and a4.userid = a.userid) as absent_times,                               
+           
+           sum(a.worktime) as 'worktime',
+           (SELECT checktime 
+                                       FROM ( 
+                                           SELECT 
+                                              right(convert(nvarchar(20),checktime,120),8) + ',' 
+                                           FROM (
+                                               SELECT  checktime 
+                                               FROM attrecabnormite t
+                                               where t.attdate=a.attdate and t.userid=a.userid
+                                           ) AS SUM_COL 
+                                           FOR XML PATH('') 
+                                       )as card_times(checktime)
+                                   ) as card_times
+            from attshifts a,userinfo u
+           where a.userid=u.userid and ( a.late>0 or a.early>0 or a.absent>0) %(where)s
+           group by a.attdate,u.defaultdeptid,a.userid,u.badgenumber,u.[name]
+           ) bb
+         %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and a.attdate between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and a.attdate between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select * from(
+	                select row_number() over( order by  defaultdeptid,userid,att_date ) as row_no,
+	                userid,
+	                 (select "DeptName" from departments where "DeptID"=(select supdeptid from departments where "DeptID"=v.defaultdeptid)) as super_dept,
+	                 (select "DeptName" from departments where "DeptID"=v.defaultdeptid ) as dept_name,
+	                 badgenumber,
+	                 name,
+	                att_date, 
+	                sum("Late")as late_minutes,
+	                sum("Early")as early_minutes,
+	                sum("Absent") as absent_days,
+	                (select count(*) from attshifts a2 where "Late">0 and a2."AttDate"=v."AttDate" and a2.userid = v.userid) as late_times,
+	                (select count(*) from attshifts a3 where "Early">0 and a3."AttDate"=v."AttDate" and a3.userid = v.userid) as early_times,
+	                (select count(*) from attshifts a4 where "Absent">0 and a4."AttDate"=v."AttDate" and a4.userid = v.userid) as absent_times,
+	                sum("WorkTime") as work_time,
+	                (select array_to_string(array_accum(to_char(checktime,'HH24:MI:SS')), ',') 
+	                from attrecabnormite t
+	                where t."AttDate"=v."AttDate"
+	                and t.userid=v.userid group by userid, "AttDate") as card_times
+	                from 
+	                (select u.userid, defaultdeptid, name, badgenumber,"Late","Early","Absent","AttDate","WorkTime",to_char("AttDate",'YYYY-MM-DD') as att_date
+	                from userinfo u, attshifts a
+	                where u.userid=a.userid 
+	                and ( a."Late">0 or a."Early">0 or a."Absent">0) %(where)s)v
+                group by userid, att_date, defaultdeptid, name, badgenumber,"AttDate"
+                order by userid, att_date)s
+                %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and a."AttDate" between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and a."AttDate" between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	<sql id = "get_cardtimes_report_sql">
+		<content engine = "default">
+			<![CDATA[
+                select * from (
+                     select row_number() over( order by  defaultdeptid,userid,"date" ) as row_no,
+                     userid,
+                     (select deptname from departments where deptid=(select supdeptid from departments where deptid=v.defaultdeptid)) as super_dept,
+                     (select deptname from departments where deptid=v.defaultdeptid ) as deptname,
+                     badgenumber,                         
+                     name,
+                     "date", 
+                     count(checktime) as times,
+                     wmsys.wm_concat(to_char(checktime,'HH24:Mi:SS')) as card_times
+                     from 
+                     (select u.userid, defaultdeptid, name, badgenumber,checktime,to_char(checktime,'YYYY-MM-DD') as "date" from userinfo u, checkinout c where u.userid=c.userid %(where)s ) v
+                     group by userid, "date", defaultdeptid, name, badgenumber
+                     order by userid, "date" )
+                    %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and to_char(checktime,'YYYY-MM-DD HH24-Mi-SS') between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and c.userid in (%(userids)s)  and to_char(checktime,'YYYY-MM-DD HH24-Mi-SS') between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+		</content>	
+		<content engine = "mysql">
+			<![CDATA[
+                select '',
+                     a.userid,
+                     (select deptname from departments where deptid=(select supdeptid from departments where deptid=u.defaultdeptid)) as 'super_dept',
+                     (select deptname from departments where deptid=u.defaultdeptid )as 'dept_name',
+                     u.badgenumber,
+                     u.name, 
+                     date(checktime) as date,             
+                     count(checktime) as times,
+                     group_concat(time(checktime) order by checktime SEPARATOR ',') as card_times
+                    
+                     from userinfo u ,checkinout a
+                     where u.userid=a.userid  %(where)s
+                     group by a.userid  ,date(a.checktime)         
+                     order by dept_name,a.userid,a.checktime
+                     %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and a.checktime >= '%(st)s' and a.checktime<='%(et)s'
+				]]>
+			</part>
+			<part id="nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and a.checktime >= '%(st)s' and a.checktime <= '%(et)s'
+				]]>
+			</part>
+		</content>
+		<content engine = "sqlserver">
+			<![CDATA[
+                select * from (
+                    select row_number() over( order by  u.defaultdeptid,a.userid,convert(nvarchar(10),a.checktime,120) ) as 'row_no',
+                    a.userid,
+                    (select deptname from departments where deptid=(select supdeptid from departments where deptid=u.defaultdeptid)) as 'super_dept',
+                    (select deptname from departments where deptid=u.defaultdeptid )as 'dept_name',
+                    u.badgenumber,u.[name],convert(nvarchar(10),a.checktime,120) as date,
+                    
+                    count(*) as times,
+                    (SELECT checktime 
+                        FROM ( 
+                            SELECT 
+                               right(convert(nvarchar(20),checktime,120),8) + ',' 
+                            FROM (
+                                SELECT  checktime 
+                                FROM checkinout t
+                                where convert(nvarchar(10),t.checktime,120)=convert(nvarchar(10),a.checktime,120) and t.userid=a.userid
+                                
+                            ) AS SUM_COL 
+                            FOR XML PATH('') 
+                        )as card_times(checktime)
+                    ) as card_times
+    
+                    from userinfo u ,checkinout a
+                    where u.userid=a.userid  %(where)s
+                    group by u.defaultdeptid,a.userid,convert(nvarchar(10),a.checktime,120),u.badgenumber,u.[name]
+                    ) bb
+                    
+                 %(row_no)s
+                
+                order by dept_name,userid,date    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and a.checktime between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.userid in (%(userids)s)  and a.checktime between '%(st)s' and '%(et)s'
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select * from (
+				    select row_number() over( order by  defaultdeptid,userid,"date" ) as row_no,
+						userid,
+						(select "DeptName" from departments where "DeptID"=(select supdeptid from departments where "DeptID"=v.defaultdeptid)) as super_dept,
+						(select "DeptName"  from departments where "DeptID"=v.defaultdeptid ) as deptname,
+						badgenumber,
+						name,
+						date,
+						count(checktime) as times,
+						array_to_string(array_accum(to_char(checktime,'HH24:MI:SS')), ',') as card_times
+				    from
+					(select u.userid, defaultdeptid, name, badgenumber,checktime,to_char(checktime,'YYYY-MM-DD') as date
+					from userinfo u, checkinout c
+					where u.userid=c.userid %(where)s
+				    ) v
+				    group by userid, date, defaultdeptid, name, badgenumber
+				    order by userid, date
+				        )s
+                    %(row_no)s    
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and u.defaultdeptid in (%(deptids)s)  and c.checktime >= '%(st)s' and c.checktime<='%(et)s'
+				]]>
+			</part>
+			<part id="nodeptids">
+				<![CDATA[
+					and c.userid in (%(userids)s)  and c.checktime >= '%(st)s' and c.checktime <= '%(et)s'
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	
+	<sql id = " ">
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	<sql id = "checkinout">
+		<content engine = "default">
+			<![CDATA[
+					SELECT
+						   id,
+					       u.badgenumber AS badgenumber,
+					       u.name        AS name,
+						   d.DeptName as DeptName,
+					       checktime,
+					       checktype,
+					       sn_name
+					FROM   checkinout,
+					       userinfo u,
+						   departments d
+					WHERE  u.badgenumber = checkinout.pin and u.defaultdeptid = d.DeptID
+			]]>
+		</content>	
+	</sql>
+	
+	<sql id = "cardtimes">
+		<content engine = "default">
+			<![CDATA[
+				select TOP 100 PERCENT
+				u.userid,d.DeptName,u.badgenumber,u.name,
+				convert(nvarchar(10),c.checktime,120) as card_date,
+				count(1) as  times ,
+				(
+					SELECT 
+			            right(time_list.time,8) + ',' 
+			            from
+							(SELECT  convert(nvarchar(20),ck.checktime,120) as time
+								 FROM checkinout ck
+								 where convert(nvarchar(10),ck.checktime,120)=convert(nvarchar(10),c.checktime,120) and ck.pin=u.badgenumber
+							) as time_list
+						for xml path('')
+				) as card_times
+				from userinfo u
+				inner join checkinout c on c.pin = u.badgenumber
+				left join departments d on u.defaultdeptid = d.DeptID
+				where  c.checktime>='%(st)s' and c.checktime<='%(et)s' and
+	                u.userid in (%(userids)s)
+				group by u.userid,u.badgenumber,u.name,d.DeptName,
+						convert(nvarchar(10),c.checktime,120)
+				order by u.badgenumber,convert(nvarchar(10),c.checktime,120)
+			]]>
+		</content>	
+	</sql>
+	
+	<sql id = "firstlast">
+		<content engine = "default">
+			<![CDATA[
+				select TOP 100 PERCENT
+					u.userid,d.DeptName,u.badgenumber,u.name,
+					convert(nvarchar(10),c.checktime,120) as card_date,
+					min(c.checktime) as first,
+				    max(c.checktime) as last
+				from userinfo u
+				    inner join checkinout c on c.pin = u.badgenumber
+					left join departments d on u.defaultdeptid = d.DeptID
+				where  c.checktime>='%(st)s' and c.checktime<='%(et)s' and
+	                u.userid in (%(userids)s)
+				group by u.userid,u.badgenumber,u.name,d.DeptName,
+					   convert(nvarchar(10),c.checktime,120)
+			]]>
+		</content>	
+	</sql>
+	<sql id = "day_abnormal">
+		<content engine = "default">
+			<![CDATA[
+			select * from (
+				select TOP 100 PERCENT
+					u.userid,d.DeptName,u.badgenumber,u.name,
+					convert(nvarchar(10),a.AttDate,120) as att_date,
+					sum(a.Late)as late_minutes,
+					sum(a.Early)as early_minutes,
+					sum(a.Absent) as absent_days,
+					sum(a.LateCount) as late_times,
+					sum(a.EarlyCount) as early_times,
+					sum(a.AbsentCount) as absent_times,
+					sum(a.worktime) as work_time
+				from userinfo u
+				    inner join attshifts a on a.userid = u.userid
+					left join departments d on u.defaultdeptid = d.DeptID
+				where  a.AttDate>='%(st)s' and a.AttDate<='%(et)s' and
+	                u.userid in (%(userids)s)
+				group by u.userid,u.badgenumber,u.name,d.DeptName,
+					   a.AttDate
+			) t where t.late_times>0 or t.early_times>0 or t.absent_times>0
+			]]>
+		</content>	
+	</sql>
+	
+	<sql id = "leave_exception_attshifts">
+		<content engine = "default">
+			<![CDATA[
+				select l.LeaveName,
+					e.InScopeTime as scope,
+					s.id,s.StartSpecDay,s.EndSpecDay,s.YUANYING,
+					l.MinUnit,l.Unit,l.RemaindProc
+				 from attexception as e
+					left join user_speday s on s.id = e.ExceptionID
+					inner join leaveclass l on l.LeaveID = s.DateID
+				 where  e.id in (%(ids)s)
+			]]>
+		</content>	
+	</sql>
+
+	<sql id = "exception_emp_ids">
+		<content engine = "default">
+			<![CDATA[
+				select UserID  
+				from attexception 
+				where   AttDate>='%(st)s' and AttDate<='%(et)s'  and 
+							 UserID in (%(userids)s)  
+				group by UserID
+			]]>
+		</content>	
+	</sql>
+</sqlgroup>

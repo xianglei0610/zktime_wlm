@@ -1,0 +1,9 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block addjs %}
+$("#id_optname").attr("readonly","readonly");
+if ($("#id_optname").val() == 'dbversion')
+{
+    $("#id_value").attr("readonly","readonly");
+} 
+{% endblock %}

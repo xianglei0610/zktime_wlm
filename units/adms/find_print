@@ -1,0 +1,3 @@
+grep "^\s*print" mysite/iclock/*.py mysite/*.py mysite/att/*.py mysite/iaccess/*.py -n
+
+

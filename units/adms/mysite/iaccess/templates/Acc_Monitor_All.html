@@ -1,0 +1,1225 @@
+{% extends "Acc_RTMonitor.html" %}
+{% load i18n %}
+
+{% block headjs %}
+    {% if request.user|HasPerm:"contenttypes.can_MonitorAllPage" %}
+    <script src="{{ MEDIA_URL }}/jslib/jquery.contextmenu.r2.packed.js"></script>
+    <script src="{{ MEDIA_URL }}/jslib/jquery.messager.js"></script>
+        {% block add_headjs %}
+        {% endblock %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.user|HasPerm:"contenttypes.can_MonitorAllPage" %}
+    {% block monitor_doors_maps %}
+    <div id="id_monitor_doors" class="div_box"><h1>{% trans "门状态监控" %}</h1>
+        <div id="id_door_ops" class="grid Link_blue1">
+			<div class="floatL">
+				<div id="monitor_area"><label>{% trans "区域" %}</label><select><option value="0">{% trans "全部" %}</option></select></div>
+				<div id="monitor_device"><label>{% trans "控制器" %}</label><select><option value="0">-----------------</option></select></div>
+				<div id="monitor_door"><label>{% trans "门" %}</label><select><option value="0">-----------------</option></select></div>
+			</div>
+            <div class="floatL">
+				<table><tr>
+					<td>
+                        <div class="action openalldoor nowrap">
+                            <a id="openpart_all" onclick="show_opendoor(this.id)" href="javascript:void(0)">{% trans "开当前所有门" %}</a>
+                        </div>
+                    </td>
+					<td>
+                        <div class="action nowrap">
+                            <a id="closepart_all" onclick="show_closedoor(this.id)" href="javascript:void(0)">{% trans "关当前所有门" %}</a>
+                        </div>
+                    </td>
+                    <!--<td>
+                       <div class="action nowrap">
+                           <a id="rtmonitor_switch" onclick="show_rtmonitor(this.id)" href="javascript:void(0)">{% trans "实时监控常开" %}</a>
+                       </div>
+                   </td>-->
+				</tr></table>
+			</div>
+			<div class="action nowrap displayN"><a id="cancelall" href="javascript:void(0)">{% trans "取消全部报警" %}</a></div>
+			<div class="clear"></div>
+        </div>
+        <div id="id_door_loading">{% trans "正在获取系统内用户授权范围内的所有门......" %}</div>
+        <div id="id_door_state"></div>
+		<div class="clearB"></div>
+    </div>
+	{% endblock %}<!--end of monitor_doors_maps-->
+
+    {% block alarm_sound %}
+    <div id="id_alarm_sound"></div><!--警报声-->
+    {% endblock %}<!--end of alarm_sound-->
+    
+    {% block right_click_menu %}
+        <div class="contextMenu displayN" id="add_card_menu">
+          <ul>
+            <li id="add_card">{% trans '新增卡' %}</li>
+          </ul>
+        </div>
+        <div id ="id_add_card" class ="displayN">
+            <div>
+                <a href="javascript:void(0)" relgo="{{request.dbapp_url}}personnel/Employee/_new_/?_lock=1">{% trans '新增卡' %}</a>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block addmiddiv %}
+    <div id="id_tip" style="display:none" class="div_tip ui-corner-all"></div>
+    {% endblock %}<!--end of addmiddiv-->
+
+	{% block monitor_events %}
+    <div>
+        <input id="id_video_state" type="hidden" value="00000000"/> 
+        <input type="hidden" id="id_picture_savepath" value='{{ get_videolinkage_picture_savepath }}'/>  
+    </div>
+    <div id="id_monitor_events" class="div_box acc_monitor_280" style="{% block monitor_events_style %}min-height: 20em;{% endblock %}">
+        <h1>{% trans "事件监控" %}</h1>
+        <div id="id_show_alarm" class="link_alarm_unsure displayN">
+                <a>{% trans '发现报警事件' %}</a>
+        </div>
+        <div id="id_showTbl">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="vertical-align:top;border:0px;">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="15%">{% trans '时间' %}</th>
+                                        <th width="12%">{% trans '设备' %}</th>
+                                        <th width="15%">{% trans '事件点' %}</th>
+                                        <th width="15%">{% trans '事件描述' %}</th>
+                                        <th width="9%">{% trans '卡号' %}</th>
+                                        <th width="13%">{% trans '人员编号(姓名)' %}</th>
+                                        <th width="8%">{% trans '出入状态' %}</th>
+                                        <th width="10%">{% trans '验证方式' %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rt_content">
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="vertical-align:top;border:0px;width:1px;overflow:hidden;">
+                        <div style="height:260px;width:0px; overflow:hidden"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% endblock %}<!-- end of monitor_events -->
+
+    {% endif %}<!--can_MonitorAllPage-->
+{% endblock %}<!--end of content-->
+
+{% block addjs %}
+    {% if request.user|HasPerm:"contenttypes.can_RTMonitorPage" %}
+
+    {% block base_variables %}
+        //$("#id_show_alarm").hide();//默认此div不显示
+        var gdata = null;//global variable
+        var gdev_filter = "";//门状态的监控的设备条件传给事件监控
+
+        var src_disabled = "/media/images/iaccess/door_disabled.jpg";
+        var src_default = "/media/images/iaccess/door_default.jpg";
+        var src_nosensor = "/media/images/iaccess/door_nosensor.jpg";
+        var src_offline = "/media/images/iaccess/door_offline.jpg";
+        var src_opened = "/media/images/iaccess/door_opened.jpg";
+        var src_closed = "/media/images/iaccess/door_closed.jpg";
+        var src_alarm = "/media/images/iaccess/door_alarm.jpg";
+        var src_open_timeout = "/media/images/iaccess/door_open_timeout.jpg";
+    {% endblock %}
+
+    {% block show_tip_info %}
+        //光标移动到门图标上时显示的信息
+        function getMoreInfo(index)
+        {
+              return  '<iframe class="maskIframe"></iframe>'
+                      +'<div>'
+                          +'<table>'
+                              +'<tr><th>{% trans "所属设备" %}:</th><td>'+gdata[index][1]+'</td></tr>'
+                              +'<tr><th>{% trans "门编号" %}:</th><td>'+gdata[index][2]+'</td></tr>'
+                              +'<tr><th>{% trans "门名称" %}:</th><td>'+gdata[index][3]+'</td></tr>'
+                              +'<tr><td colspan="2">'
+                              +'<table class="Link_blue1">'
+                              +'<tr><td><a id="opendoor_img" class="" href="javascript:void(0)" onclick="show_opendoor(this.id,'+gdata[index][0]+')">{% trans "远程开门" %}</a></td>'
+                                  +'<td><a id="closedoor_img" class="" href="javascript:void(0)" onclick="show_closedoor(this.id, '+gdata[index][0]+')">{% trans "远程关门" %}</a></td>'
+                                  +'<td><a id="cancelalarm" class="" href="javascript:void(0)" onclick="control_door(this.id, '+gdata[index][0]+')">{% trans "取消报警" %}</a></td></tr>'
+                              +'</table>'
+                              +'</tr></td>'
+                          +'</table>'
+                      +'</div>';
+        }
+
+        function index_tip_info(obj)
+        {
+            var index = $(obj).attr("index");
+            $("#id_tip").html(getMoreInfo(index));
+            var offset = $(obj).offset();
+            if($("#id_tip").css("display") == "none")
+            {
+                $("#id_tip").css({"z-index": 16, "display": "block", "position": "absolute", "top": (offset.top-35), "left": (offset.left-90)})
+                $("#id_tip").mouseover(function()
+                {
+                    $(this).css({"z-index": 16, "display": "block", "position": "absolute", "top": (offset.top-35), "left": (offset.left-90)})
+                }).mouseout(function()
+                {
+                  $("#id_tip").css("display", "none");
+                });
+            }
+            else
+            {
+              $("#id_tip").css("display", "none");
+            }
+            $(".maskIframe").css("width", $(".div_tip").width()+16);
+            $(".maskIframe").css("height", $(".div_tip").height()+14);
+        }
+        function tip_info_exit(obj)
+        {
+            $("#id_tip").css("display", "none")
+        }
+        //弹出框的形式远程开门
+        function show_opendoor(element_id, door_id)//元素id和门id（pk)
+        {  
+            //alert(door_id)
+            //alert(element_id)
+            if(door_id)//不为undefined--开单个门时，开多个门时该值不为undefined
+            {
+                current_door = door_id;
+                var door_img = $("#door_"+door_id+" img").attr("src");
+                if(door_img == src_offline || door_img == src_disabled || door_img == src_default)
+                {
+                    alert(gettext("当前设备状态不支持该操作！"));
+                    return false;
+                }
+            }
+
+            var open_doors_form = '<div id="id_open_doors_form" class="open_doors_form div_box">'
+                                    +'<h1>'+gettext("远程开门")+'</h1>'
+                                    +'<div class="div_box1"><h2>'+gettext("选择开门方式")+'</h2>'
+                                        +'<table>'
+                                            +'<tr><td><ul>'
+                                                    +'<li><input id="id_open_interval_set" type="radio" name="open_interval" checked="checked"/> '+gettext("开门：")+'<input id="id_open_sec1" value="15" maxlength="3" style="width:25px">'+gettext(" 秒")+'(1-254)</input></li>'
+                                                    +'<li><input id="id_reenable_open" type="radio" name="open_interval"/> '+gettext("启用当天常开时间段")+'</li>'
+                                                    +'<li><input id="id_open_no" type="radio" name="open_interval"> '+gettext("常开")+'</input></li>'
+                                            +'</ul></td></tr>'
+                                        +'</table>'
+                                    +'</div>'
+                            +'<div class="btns_class"><button class="btn" id="opendoor" type="button">'+gettext("确定")+'</button>'
+                            +'<button class="btn" id="id_Cancel" type="button">'+gettext("取消")+'</button></div>'
+                            +'</div>';
+
+            $(open_doors_form).dialog()
+
+            $("#id_open_doors_form").find("#id_Cancel").click(function(){
+                $("#id_close").click();
+            });
+            $("#id_open_interval_set").click(function(){
+                $("#id_open_sec1").attr("disabled", false);
+            });
+            $("#id_reenable_open").click(function(){
+                $("#id_open_sec1").attr("disabled", true);
+            });
+            $("#id_open_no").click(function(){
+                $("#id_open_sec1").attr("disabled", true);
+            });
+
+            remote_control(element_id.split("_")[0]);
+        }
+        function show_closedoor(element_id, door_id)
+        {
+            if(door_id)//不为undefined
+            {
+                current_door = door_id;
+                var door_img = $("#door_"+door_id+" img").attr("src");
+                if(door_img == src_offline || door_img == src_disabled || door_img == src_default)
+                {
+                    alert(gettext("当前设备状态不支持该操作！"));
+                    return false;
+                }
+            }
+            var close_doors_form = '<div id="id_close_doors_form" class="close_doors_form div_box">'
+                                        +'<h1>'+gettext("远程关门")+'</h1>'
+                                        +'<div class="div_box1"><h2>'+gettext("选择关门方式")+'</h2>'
+                                            +'<table>'
+                                                +'<tr><td><ul>'
+                                                    +'<li><input type="radio" name="close_style" checked="checked" id="id_close_normal" > '+gettext("关门")+'</input></li>'
+                                                    +'<li><input type="radio" name="close_style" id="id_disable_no_tzs" > '+gettext("禁用当天常开时间段")+'</input></li>'
+                                                +'</ul></td></tr>'
+                                            +'</table>'
+                                        +'</div>'
+                                        +'<div class="btns_class"><button class="btn" id="closedoor" type="button">'+gettext("确定")+'</button>'
+                                        +'<button class="btn" id="id_Cancel" type="button">'+gettext("取消")+'</button></div>'
+                                    +'</div>';
+
+            $(close_doors_form).dialog()
+
+            $("#id_close_doors_form").find("#id_Cancel").click(function(){
+                $("#id_close").click();
+            });
+            remote_control(element_id.split("_")[0]);
+        }
+
+        function remote_control(mode)
+        {
+            $("#opendoor, #openpart, #closedoor, #closepart").click(function(){
+                var stamp5 = new Date().getTime();
+                if((mode == "openpart" || mode == "closepart") && current_doors.length == 0)
+                {
+                    alert(gettext("当前没有符合条件的门！"));
+                    return false;
+                }
+
+                //alert(current_door);
+                if(mode == "opendoor" || mode == "openpart")
+                {
+                    var open_interval = 15;
+                    var enable_no_tzs = false;
+                    if($("#id_open_no").attr("checked") == true)
+                    {
+                        open_interval = 255;
+                    }
+                    else if($("#id_open_interval_set").attr("checked") == true)//正常开门
+                    {
+                        open_interval = $("#id_open_sec1").val();
+                        var reg = /^([0-9]+)$/;
+                        if(!reg.test(open_interval) || parseInt(open_interval) < 1 || parseInt(open_interval) > 254)
+                        {
+                            alert(gettext("请输入有效的开门时长！必须为1-254间的整数！"));
+                            return false;
+                        }
+                    }
+                    else//先禁用常开时间段再开门
+                    {
+                        open_interval = -1;//不开门
+                        enable_no_tzs = true;
+                    }
+
+                    if(mode == "openpart")
+                    {
+                        getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ current_doors +"&open_interval="+open_interval+"&enable_no_tzs="+enable_no_tzs+"&stamp="+ stamp5;
+                    }
+                    else
+                    {
+                        getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ current_door +"&open_interval="+open_interval+"&enable_no_tzs="+enable_no_tzs+"&stamp="+ stamp5;
+                    }
+                }
+                else//closepart
+                {
+                    var disable_no_tzs = false;
+                    if($("#id_disable_no_tzs").attr("checked") == true)
+                    {
+                        disable_no_tzs = true;
+                    }
+                    if(mode == "closepart")
+                    {
+                        getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ current_doors +"&disable_no_tzs="+disable_no_tzs+"&stamp="+ stamp5;
+                    }
+                    else
+                    {
+                        getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ current_door +"&disable_no_tzs="+disable_no_tzs+"&stamp="+ stamp5;
+                    }
+
+                }
+                send_doors_data(mode,getUrl);
+            });
+
+        }
+        
+        function show_rtmonitor(obj)
+        {
+            var stamp = new Date().getTime();
+            var current_stamp = $("#rtmonitor_switch");
+
+            if(current_stamp.text() == "实时监控常开")
+            {
+                url = "/{{ request.surl }}iaccess/GetData/?func=set_rtmonitor&type=0&stamp="+ stamp;
+            }
+            else
+            {
+                url = "/{{ request.surl }}iaccess/GetData/?func=set_rtmonitor&type=1&stamp="+ stamp;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "json",
+                async: true,
+                success: function(data)
+            {
+
+                if(data.ret == 0){
+                    if(current_stamp.text() == "实时监控常开")
+                    {
+                        current_stamp.html("{% trans '实时监控正常开启' %}");
+                    }
+                    else
+                    {
+                        current_stamp.html("{% trans '实时监控常开' %}");
+                    } 
+                }
+                else
+                {
+                   alert(gettext("实时监控设置失败！请重试！"))
+                }                   
+            }
+        });
+    }
+
+    {% endblock %}//end of block show_tip_info
+
+    {% block electro_map %}{% endblock %}
+
+    {% block monitor_log %}
+        var card_no = 0;
+        {% if request.user|HasPerm:"contenttypes.can_MonitorAllPage" %}
+
+        function show_door(data)
+        {
+            if(data.areas != "")
+            {
+                //$("#monitor_area select option:gt(0)").empty();
+                for(a in data.areas)
+                {
+                    $("#monitor_area select").append('<option value="'+data.areas[a][0]+'">'+data.areas[a][1]+'</option>');
+                }
+            }
+
+            if(data.devices != "")
+            {
+                $("#monitor_device select option:gt(0)").remove();
+                for(a in data.devices)
+                {
+                    $("#monitor_device select").append('<option value="'+data.devices[a][0]+'">'+data.devices[a][1]+'</option>');
+                }
+            }
+            else if(data.type == 'all' || data.type == 'area')//没有返回devices且传入参数为area
+            {
+                $("#monitor_device select").empty().append('<option value="0">---------</option>');
+            }
+
+            if(data.doors != "")
+            {
+                if(data.type != 'door')
+                {
+                    $("#monitor_door select option:gt(0)").remove();
+                    for(a in data.doors)
+                    {
+                        $("#monitor_door select").append('<option value="'+data.doors[a][0]+'">'+data.doors[a][3]+'</option>');
+                    }
+                }
+            }
+            else
+            {
+                $("#monitor_door select").empty().append('<option value="0">---------</option>');
+            }
+
+            var html = "";
+            var doors = data.doors;
+            if($("#id_door_state div,#id_door_state table").length > 0)
+            {
+                $("#id_datalist_view,#id_datalist_view_table").remove();
+            }
+
+            //$("#id_door_state #id_datalist_view").remove();//避免重复提示
+
+            var door_total = doors.length;
+            if(door_total > 0)
+            {   
+                {% block init_image_mode %}
+                    var const_door_count = 96;
+                {% endblock %}
+                
+                if(door_total <= const_door_count)//图标方式64
+                {
+                    image_mode = 0;
+                    html += "<div id='id_datalist_view'>"
+                    for(var index in doors)
+                    {
+                        //input中data为门的id
+                        var len = (doors[index][3]).length;
+                        var cnstr = (doors[index][3]).match(/[^\x00-\xff]/ig);//查看是否有中文字符串
+                        if(cnstr!=null)
+                        {
+                            if(len >= 5)
+                            {
+                                door_name = doors[index][3].substr(0,5) + "...";//4个字符
+                            }
+                            else
+                            {
+                                door_name = doors[index][3];
+                            }
+                        }
+                        else
+                        {
+                            if(len >= 10)
+                            {
+                                door_name = doors[index][3].substr(0,10) + "...";//4个字符
+                            }
+                            else
+                            {
+                                door_name = doors[index][3];
+                            }
+                        }
+                        html += "<div id='door_"+doors[index][0]+"' data='"+doors[index][0]+"' class='DoorBox'>"
+                                +"<table cellpadding='0' style='width:100px;' cellspacing='0' border='0'><tr><td align='center'><img id='id_img_row_"+index+"' border='0' src='"+src_default+"' onmouseover='index_tip_info(this);' onmouseout='tip_info_exit(this);' index='"+index+"'/></td></tr>"
+                                +"<tr><td style='text-align:center;width:100'><div class='doorName'>"+door_name
+                                +"</div></td></tr></table>"
+                                +"</div>";
+                    }
+                    html += "<div class='clearB'></div></div>"
+                }
+                else//列表方式
+                {
+                    image_mode = 1;
+                    html += '<table id="id_datalist_view_table" class="Link_blue1 table" width="100%"><thead><tr><th width="25%">{% trans "门名称" %}</th><th width="25%">{% trans "所属设备" %}</th><th width="15%">{% trans "门编号" %}</th><th width="15%">{% trans "当前状态" %}</th><th width="20%">{% trans "操作" %}</th></tr></thead><tbody>';
+                    for(var index in doors)
+                    {
+                        //input中data为门的id
+                        door_name = doors[index][3];
+                        html += '<tr id="door_'+doors[index][0]+'" data="'+doors[index][0]+'" class=""><td>'+door_name+'</td><td>'+doors[index][1]+'</td><td>'+doors[index][2]+'</td><td id="door_state_td_'+doors[index][0]+'">{% trans "读取中......" %}</td>'
+                               + '<td><label id="reading_list" href="javascript:void(0)" >{% trans "读取中......"%}</label>'
+                               + '<label id="no_ops_list" class="door_ops" href="javascript:void(0)" >{% trans "无操作"%}</label>'
+                               + '<a id="opendoor_list" class="door_ops opendoor_list" onclick="show_opendoor(this.id, '+doors[index][0]+');" href="javascript:void(0)">{% trans "远程开门"%}</a>'
+                               + '<a id="closedoor_list" class="door_ops closedoor_list" onclick="show_closedoor(this.id, '+doors[index][0]+');" href="javascript:void(0)">{% trans "远程关门" %}</a>'
+                               + '<a id="cancelalarm" class="door_ops cancelalarm_list" href="javascript:void(0)">{% trans "取消报警" %}</a></td></tr>';
+                    }
+                    html += "</tbody></table>";
+                }
+            }
+            else
+            {
+                html += "<div id='id_datalist_view' class='NoDoor' style='margin:8px 2px 2px 2px;color:red;'>{%trans "当前系统中没有添加门或者没有查询到符合您需要的门!" %}</div>"
+            }
+
+            $("#id_door_loading").hide();
+            $("#id_door_state").append(html);
+            if(image_mode == 1)//列表方式
+            {
+                $(".door_ops").hide();
+            }
+			//alert($("#id_door_state").height());
+            if($("#id_door_state").height() > 150)
+            {
+            	//alert("大于150");
+                $("#id_door_state").height(150);//最大150px
+            }
+        }
+
+        function send_doors_data(mode, getUrl)
+        {
+        	$("#id_close").click();//关闭远程开关门的弹出框
+            $.ajax({
+                type: "GET",
+                url: getUrl,
+                dataType: "json",
+                async: true,
+                success: function(data)
+                {
+                    //$("#id_close").click();//关闭远程开关门的弹出框
+                    var result = data.result;
+                    var tips = '';
+                    if(mode == 'cancelalarm' || mode == 'cancelall')
+                    {
+                    	for(index in result)
+                        {
+                            if(result[index].ret < 0)
+                            {
+                                tips += result[index].device_name + ' ';
+                            }
+                        }
+                        if(result == '' || tips != '')
+                        {
+                            tips += gettext("操作失败！");
+                        }
+                        else
+                        {
+                            tips += gettext("操作成功！");
+                        }
+                        $("#cancelall").parent().hide();//无论成功与否均隐藏。如果失败，会再自动产生
+                        $("#id_alarm_sound object,bgsound").remove();
+                        alert(tips);
+                    }
+                    else if(mode == 'opendoor' || mode == 'openpart')
+                    {
+                        for(index in result)
+                        {
+                            if(result[index].ret < 0)
+                            {
+                                tips += result[index].door_name + ' ';
+                            }
+                        }
+                        if(result == '' || tips != '')
+                        {
+                            tips += gettext("发送请求失败！");
+                        }
+                        else
+                        {
+                            tips += gettext("发送请求成功！");
+                        }
+                        alert(tips);
+                    }
+                    else if(mode == 'closedoor' || mode == 'closepart')
+                    {
+                        for(index in result)
+                        {
+                            if(result[index].ret < 0)
+                            {
+                                tips += result[index].door_name + ' ';
+                            }
+                        }
+                        if(result == '' || tips != '')
+                        {
+                            tips += gettext("发送请求失败！");
+                        }
+                        else
+                        {
+                            tips += gettext("发送请求成功！");
+                        }
+                        alert(tips);
+                    }
+                    data = result = tips = null;
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert(gettext("发送请求失败，请重试！"));
+                }
+            });
+        }
+
+        //远程开关门（单个门）--取消报警
+        function control_door(mode, door_id)
+        {
+            if(mode == "cancelalarm" || mode == "cancelall")//这里只有取消报警的离线判断，远程开关门的离线判断在上一层方法中
+            {
+                var door_img = $("#door_"+door_id+" img").attr("src");
+                if(door_img == src_offline || door_img == src_disabled || door_img == src_default)
+                {
+                    alert(gettext("当前设备状态不支持该操作！"));
+                    return false;
+                }
+            }
+            getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ door_id;
+            send_doors_data(mode, getUrl);
+        }
+
+        var current_doors = new Array();//data--当前页面上的所有门
+        var current_door = 0;//选中的当前门
+        function get_doors_area_device(url)
+        {
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "json",
+                async: false,
+                success: function(data)
+                {
+                    gdata = data.doors;
+                    show_door(data);
+                    current_doors = [];
+                    if(image_mode == 0)//图标
+                    {
+                        $("div[id^='door_']").each(function(){
+                            current_doors.push($(this).attr("data"));
+                        });
+                    }
+                    else
+                    {
+                        $("tr[id^='door_']").each(function(){
+                            current_doors.push($(this).attr("data"));
+                        });
+                    }
+                    data = null;
+                }
+            });
+        }
+
+        //用于向服务器端获取实时事件数据
+        logid = -1;
+        var row = "row0";//第一次加载页面时初始化该值
+        var has_doors = false;
+        var a_logid = 0;//alarm log id
+        var g_has_alarms = false;//当前是否有报警事件（指报警的图标）
+        var image_mode = 0;//0图标模式显示门状态，1代表列表模式
+
+        function GetLinkNum(xmlstr,curch) //获取硬盘录像机当前通道的已连接个数
+        {
+            var members = 0;
+            var maxRes = 0;
+        
+            if(!window.DOMParser && window.ActiveXObject){
+                var xmlDomVersions = ['MSXML.2.DOMDocument.6.0','MSXML.2.DOMDocument.3.0','Microsoft.XMLDOM'];
+                for(var i=0;i<xmlDomVersions.length;i++){
+                    try //Internet Explorer
+                    {
+                          xmlDoc=new ActiveXObject(xmlDomVersions[i]);
+                          xmlDoc.async="false";
+                          xmlDoc.loadXML(xmlstr);
+                    }
+                    catch(e)
+                    {
+                        
+                    }
+                }
+            }
+            else if (window.DOMParser && document.implementation && document.implementation.createDocument)
+            {
+                try{
+                    domParser = new DOMParser();
+                    xmlDoc = domParser.parseFromString(xmlstr, 'text/xml');
+                }
+                catch(e)
+                {
+                    
+                }
+            }
+            else{
+                
+            }
+            
+            if(xmlDoc==null){
+                alert('load xml fail');
+            }
+            
+            alert("after lode  xml");
+            members= xmlDoc.getElementsByTagName("ChannelState");
+            //alert("members"+members[curch].length+","+curch);
+            var curLinkNum = members[curch].getElementsByTagName("LinkNum")[0].firstChild.nodeValue;
+            return curLinkNum;
+            
+        }
+        
+        function OnRefresh()
+        {
+            if($("#id_monitor_events").find("#rt_content tr").length > 50)
+            {
+                $("#id_monitor_events").find("#rt_content").find("tr:gt(50)").remove();
+            }
+
+            var stamp = new Date().getTime();
+            //alert("gdev_filter"+gdev_filter);
+            getUrl = '/{{ request.surl }}iaccess/GetRTLog/?type=all&logid='+ logid +'&step=100'+ gdev_filter;
+            //alert("getUrl"+getUrl);
+            $.ajax({
+                type: "GET",
+                url: getUrl,
+                dataType: "json",
+                async: true,
+                success: function(rtlog)
+                {  
+                    if(rtlog.log_id == -1)//第一次请求(含非第一次请求，缓存清空后重新开始)
+                    {
+                    	logid = rtlog.all_id;
+                    	a_logid = rtlog.alarm_id;//获取监控全部记录开始时的alarm_id(跳转页面使用)
+                    }
+                    else if(rtlog.log_id == undefined)//避免服务异常时（如监控时手动停止服务），造成返回的数据为{}造成的监控停止问题。-darcy20111010
+                    {
+                        logid = -1;//重新计算缓存中记录条数
+                    }
+                    else
+                    {
+                    	logid += rtlog.log_count;
+                    }
+
+                    //门状态监控
+                    var states = rtlog.door_states;
+                    //id state alarm
+                    if(has_doors == false)
+                    {
+                        $("#monitor_area select").change(function(){
+                            //$("#id_datalist_view").remove();
+                            url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=area&area_id="+$(this).val();
+                            //alert("getUrl1"+url);
+                            gdev_filter = "&change=area_id_"+$(this).val()+"&area_id="+$(this).val();
+                            get_doors_area_device(url);
+                        });
+
+                        $("#monitor_device select").change(function(){
+                            //$("#id_datalist_view").remove();
+                            var val = $(this).val();
+                            if(val == 0)
+                            {
+                                var area = $("#monitor_area select").val();
+                                if(area != 0)
+                                {
+                                    url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=area&area_id="+ area;
+                                    //alert("getUrl2"+url);
+                                    gdev_filter = "&change=area_id_"+$(this).val()+"&area_id="+ area;
+                                    get_doors_area_device(url);
+                                    return;
+                                }
+                            }
+
+                            url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=device&device_id="+ val;
+                            //alert("getUrl3"+url);
+                            gdev_filter = "&change=device_id_"+ val +"&device_id="+ val;
+                            get_doors_area_device(url);
+                        });
+
+                        $("#monitor_door select").change(function(){
+                            //$("#id_datalist_view").remove();
+                            var val = $(this).val();
+                            if(val == 0)
+                            {
+                                var dev = $("#monitor_device select").val();
+                                if(dev != 0)
+                                {
+                                    url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=device&device_id="+ dev;
+                                    //alert("getUrl4"+url);
+                                    gdev_filter = "&change=device_id_"+dev+"&device_id="+ dev;
+                                    get_doors_area_device(url);
+                                    return;
+                                }
+                                else
+                                {
+                                    var area = $("#monitor_area select").val();
+                                    if(area != 0)
+                                    {
+                                        url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=area&area_id="+ area;
+                                        //alert("getUrl6"+url);
+                                        gdev_filter = "&change=area_id_"+ area_id +"&area_id="+ area_id;
+                                        get_doors_area_device(url);
+                                        return;
+                                    }
+                                }
+                            }
+
+                            url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=door&door_id="+ val;
+                            //alert("getUrl7"+url);
+                            gdev_filter = "&change=door_id_"+ val +"&door_id="+ val;
+                            get_doors_area_device(url);
+                        });
+
+                        has_doors = true;
+                    }
+
+                    var has_alarms = false;//单次请求中是否有报警事件（对应图标）
+                    for(var index in states)
+                    {
+                        var door_datas = states[index];//该变量记录了当前某个门的状态
+                        var $td_text = $("#door_state_td_"+door_datas.id+"");
+                        $td_text.parent().find("#reading_list,.door_ops").hide();//,
+                        //door_datas.alarm=105
+                        //door_datas.connect=1
+                        //图标和列表方式都需要实时更新
+
+                        if(door_datas.enabled == 0)//设备被禁用
+                        {
+                            if(image_mode == 0)
+                            {
+                                $("#door_"+door_datas.id+" img").attr("src", src_disabled);
+                            }
+                            else
+                            {
+                                $td_text.text(gettext("禁用"));
+                                $td_text.parent().attr("class", "Disabled");
+                                $td_text.parent().find("#no_ops_list").show();
+                            }
+
+                        }
+                        else if(door_datas.connect == 0)//不在线
+                        {
+                            if(image_mode == 0)
+                            {
+                                $("#door_"+door_datas.id+" img").attr("src", src_offline);
+                            }
+                            else
+                            {
+                                $td_text.text(gettext("离线"));
+                                $td_text.parent().attr("class", "OutLine");
+                                $td_text.parent().find("#no_ops_list").show();
+                            }
+                        }
+                        else if(door_datas.alarm == 1)//有报警
+                        {
+                            if(image_mode == 0)
+                            {
+                                $("#door_"+door_datas.id+" img").attr("src", src_alarm);
+                            }
+                            else
+                            {
+                                $td_text.text(gettext("报警"));
+                                $td_text.parent().attr("class", "AlarmLog");
+                                $td_text.parent().find(".door_ops").show();
+                                $td_text.parent().find("#no_ops_list").hide();
+                            }
+
+                            if($("#id_alarm_sound object,bgsound").length == 0)//避免声音重复
+                            {
+                                if($.browser.msie)
+                                {
+                                    $("#id_alarm_sound").append('<bgsound src="/media/sound/alarm.mid" loop="-1"/>');
+                                }
+                                else
+                                {
+                                    $("#id_alarm_sound").append('<object data="/media/sound/alarm.mid" type="application/x-mplayer2" width="0" height="0">'
+                                                                    +'<param name="src" value="/media/sound/alarm.mid">'
+                                                                    +'<param name="autostart" value="1"> '
+                                                                    +'<param name="playcount" value="infinite">'
+                                                                +'</object>');
+                                }
+                                $("#cancelall").parent().show();//取消全部报警
+                                $("#cancelall").unbind("click");
+                            	$("#cancelall").click(function(){
+	                            	var alarm_doors = new Array();//当前页面上所有报警的门
+	                            	if(image_mode == 0)//图标
+				                    {
+				                        $("div[id^='door_']").each(function(){
+				                            if($(this).find("img").attr("src").indexOf("door_alarm") != -1)
+				                            {
+				                            	alarm_doors.push($(this).attr("data"));
+				                            }
+				                        });
+				                    }
+				                    else
+				                    {
+				                        $("tr[id^='door_']").each(function(){
+				                            if($("this").attr("class") == "AlarmLog")
+				                            {
+				                            	alarm_doors.push($(this).attr("data"));
+				                            }
+				                        });
+				                    }
+	                      		  	var mode = $(this).attr("id");
+	                        		getUrl = "/{{ request.surl }}iaccess/SendDoorData/?func="+ mode +"&type=part&data="+ alarm_doors;//所有报警的门非所有门，故type=part而非all
+	                        		send_doors_data(mode,getUrl);
+                            	});
+                            }
+
+                            has_alarms = true;
+                        }
+                        else if(door_datas.alarm == 2)//门开超时
+                        {
+                        	if(image_mode == 0)
+                        	{
+                        		$("#door_"+door_datas.id+" img").attr("src", src_open_timeout);
+                        	}
+                        	else
+                        	{
+                        		$td_text.text(gettext("门开超时"));
+                                $td_text.parent().attr("class", "IllegalLog");
+                                $td_text.parent().find("#opendoor_list, #closedoor_list").show();
+                        	}
+                        }
+                        else
+                        {
+                            $td_text.parent().find("#opendoor_list, #closedoor_list").show();
+                            if(door_datas.state == 1)//门关
+                            {
+                                if(image_mode == 0)
+                                {
+                                    $("#door_"+door_datas.id+" img").attr("src", src_closed);
+                                }
+                                else
+                                {
+                                    $td_text.text(gettext("关闭"));
+                                    $td_text.parent().attr("class", "CommonLog");
+                                }
+                            }
+                            else if(door_datas.state == 2)//门开
+                            {
+                                if(image_mode == 0)
+                                {
+                                    $("#door_"+door_datas.id+" img").attr("src", src_opened);
+                                }
+                                else
+                                {
+                                    $td_text.text(gettext("打开"));
+                                    $td_text.parent().attr("class", "CommonLog");
+                                }
+                            }
+                            else if(door_datas.state == 0)//无门磁
+                            {
+                                if(image_mode == 0)
+                                {
+                                    $("#door_"+door_datas.id+" img").attr("src", src_nosensor);
+                                }
+                                else
+                                {
+                                    $td_text.text(gettext("无门磁"));
+                                    $td_text.parent().attr("class", "NoSensor");
+                                }
+                            }
+                        }
+                    }
+                    g_has_alarms = has_alarms;
+                    if(g_has_alarms == false)
+                    {
+                        $("#cancelall").parent().hide();
+                        $("#id_alarm_sound object,bgsound").remove();//状态在没手动关闭声音前切换，将自动取消声音(实际可能不会发生)
+                    }
+
+                    //事件监控
+                    //alert("rtlog.data ="+rtlog.data );
+                    if(rtlog.data != "")
+                    {
+                        //alert("begin monitor2");
+                        rtlisthtml = "";
+                        for(var index in rtlog.data)
+                        {
+                            var datas = rtlog.data[index];
+                            var type = datas.event_type;
+                            var class_type = "";
+                            if(type >= 20 && type < 100)
+                            {
+                                class_type = "IllegalLog";
+                                if(type == 27)//卡未注册
+                                {
+                                    rtlisthtml = '<tr class="IllegalLog '+row+' ucard">';                                    
+                                }
+                                else
+                                {
+                                    rtlisthtml = '<tr class="IllegalLog '+ row +'">';
+                                }
+                                
+                            }
+                            else if(type >= 100 && type < 200)
+                            {
+                                class_type = "AlarmLog";
+                                rtlisthtml = '<tr class="AlarmLog '+ row +'">';
+                                $("#id_show_alarm").show();//发现报警事件
+                                var href =  $(".ds_MonitorAlarmPage").parent().attr("href");
+                                href = href+'?a_logid=' + a_logid;
+                                $("#id_show_alarm a").attr({"href": href, "target": "_blank"});
+                            }
+                            else
+                            {    
+                                if (datas.link_video != "" && $.browser.msie)  //视频联动
+                                {     
+                                      var picture_path = $("#id_picture_savepath").val();
+                                      alert("picture_path="+picture_path)
+                                      if  (datas.link_video[6] == "1" || datas.link_video[6] =="2" )
+                                      {
+                                          if  ( picture_path =="")
+                                          {
+                                                alert(gettext("如果你要使用视频联动抓图的功能,请先到服务器控制台配置视频联动图片存储路径."))
+                                          }
+                                      }       
+                                      var video_type = datas.link_video[0];
+									  var videoState = $("#id_video_state").val();
+                                      var chNumToInt=parseInt(datas.link_video[5]-"0");
+                                      if(videoState.substr(chNumToInt,1) == '0' || video_type == 6)
+                                      {       
+                                          if(video_type == 4)
+                                          {
+											  videoState=videoState.substr(0,chNumToInt)+'1'+videoState.substr(chNumToInt+1,videoState.length-1-chNumToInt);
+	                                          $("#id_video_state").val(videoState);
+                                          }
+											  video_url = "/{{ request.surl }}video/VideoMonitorPage/?vid_type="+ datas.link_video[0]
+																						+"&vid_ip=" + datas.link_video[1]
+                                                                                        + "&vid_port=" + datas.link_video[2]
+                                                                                        + "&vid_login=" + datas.link_video[3]
+                                                                                        + "&vid_pwd=" + datas.link_video[4]
+                                                                                        + "&vid_ch=" + datas.link_video[5]
+                                                                                        + "&capture_picture=" + datas.link_video[6]
+                                                                                        + "&capture_picture_path=" + picture_path;
+                                          window.showModelessDialog(video_url ,window, "location=no;directories=no;scrollbars=no;toolbar=no;center=yes;status=0;help=no;dialogWidth=420px;dialogHeight=360px");   
+                                       }                             
+                                }
+                                class_type = "CommonLog";
+                                rtlisthtml = '<tr class="CommonLog '+row+'">';
+                            }
+                            rtlisthtml += '<td width="15%">'+datas.time+'</td>'
+                            			+ '<td width="12%">'+datas.device+'</td>'
+                            			+ '<td width="15%">'+datas.event_point+'</td>'
+                            			+ '<td width="15%">'+datas.content+'</td>'
+                                     	+ '<td width="9%">'+datas.card+'</td>'
+                                     	+ '<td width="13%">'+datas.emp+'</td>'
+                                     	+ '<td width="8%">'+datas.state+'</td>'
+                                     	+ '<td width="10%">'+datas.verified+'</td>'
+										+ '<td class = "displayN">'+type+'</td></tr>';
+                            $("#id_monitor_events").find("#rt_content").prepend(rtlisthtml);
+                            if(row == "row0")
+                            {
+                                row = "row1";
+                            }
+                            else
+                            {
+                                row = "row0";
+                            }
+
+                            //处理人员照片
+                            if(datas.photo != "")
+                            {
+                                if($("#message").is("div"))
+                                {
+                                    $.messager.close(true);//删除已有photo
+                                }
+                                //用来获取photo尺寸
+                                var random = ""//随机数(ie)
+                                $.messager.lays(230, 230);
+                                //$.messager.anim('show', 1000);
+                                $.messager.anim('fade', 1);
+                                $.messager.show('<font id="id_photo_title" ><b>'+datas.emp+'</b><br/>'+datas.content+'<br/>'+datas.time+'</font>','<img id="id_photo_img" width="210px" height="160px" src="'+datas.photo+random+'"/>');
+
+                                $("#id_photo_title").parent().width("200px");//标题不够长
+                                $("#message_content").css("height", "165px");
+                                $("#message_down").css("height", '');
+                                //alert($("#message div:first").length);
+                                //弹出框不随窗口滚动而滚动
+                                $(window).scroll(function(){
+                                    var top_height = document.documentElement.scrollTop + document.documentElement.clientHeight - this.layer.height;
+                                    $("#message").css("top", top_height + "px");
+                                });
+
+                                $("#id_photo_temp").remove();//删除
+                            }
+                        }
+                        $(".contextMenu").removeClass("displayN");
+                        $("#rt_content .ucard").contextMenu('add_card_menu', 
+                        {
+                             bindings: 
+                             {
+                               'add_card': function(el) {
+                                    card_no = $(el).find("td:nth-child(5)").text();
+                                    $("#id_add_card").find("a[relgo]").click();
+                               }
+                             }
+                        }); 
+                    }
+                    window.setTimeout('OnRefresh()', 3000)//等*秒执行刷新函数
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    //alert(XMLHttpRequest+textStatus+errorThrown)
+                    window.setTimeout('OnRefresh()', 3000)//等*秒执行刷新函数
+                }
+            });
+        }
+        //intervalID=window.setInterval('OnRefresh()', 3000);//每三秒执行刷新函数
+        //window.showModalDialog("/{{ request.surl }}video/VideoMonitorPage/?vodid=7&ch=0" , "", "location=no;directories=no;scrollbars=no;toolbar=no;center=yes;status=0;dialogWidth=420px;dialogHeight=360px");
+        //取所有门或者符合条件的门
+        var stamp = new Date().getTime();
+        url = "/{{ request.surl }}iaccess/GetData/?func=doors&type=all&stamp="+ stamp;
+        get_doors_area_device(url);
+
+        window.setTimeout('OnRefresh()', 1000)//第一次刷新等1s执行刷新函数
+
+        {% block dialog%}
+        $(function(){
+            /**卡未注册新增卡***/
+            function fun_submit(href,div_dialog,msg,btn_trans){
+                $("#id_span_title",div_dialog).find("span:not(.icon_SiteMap)").remove();
+                if($("#ret_info",div_dialog).length==0){
+                    div_dialog.append("<div id='id_ret_info' class='ret_info'></div>"); 
+                }
+                var CONTINUE=true;
+                var NOCONTINUE=false;
+                var ok_event=function(is_continue){
+                    return function(){
+                        var post_href=href;
+                        var post_data={K:[]};
+                        $("#id_cardno").attr("disabled",false);
+                        if(typeof(post_href)=="function"){
+                            var postlist=post_href();
+                            post_href=postlist[1];
+                            post_data=postlist[0];
+                            query_key=[];
+                            for(var i in post_data){
+                                query_key.push("K="+post_data[i]);
+                            }
+                            post_href+="&"+query_key.join("&");
+                        }
+                        var $form=$("form",div_dialog);
+                        
+                        if($form.valid()){
+                            $form.ajaxSubmit({
+                                url:post_href, 
+                                dataType:"html", 
+                                //async:false, 
+                                success:function(msgback){ 
+                                    if(msgback=='{ Info:"OK" }'){
+                                        var ret_div=$("#id_ret_info",div_dialog);
+                                        ret_div.html("<ul class='successlist'><li>"+gettext("保存成功!")+"</li></ul></td>").hide().show(100);
+                                        $("form",div_dialog).get(0).reset();
+                                        //if(!is_continue){
+                                            $("#id_close",div_dialog).click();
+                                        //}
+                                    }else{
+                                        var ret_div=$("#id_ret_info",div_dialog);
+                                         ret_div.html($(msgback).find("ul.errorlist")).hide().show(100);
+                                    } 
+                                } 
+                            });
+                        }
+                    };
+                };
+                var btns={
+                    //"Save and Continue":ok_event(CONTINUE),
+                    "OK":ok_event(CONTINUE),
+                    "Cancel":function(){
+                        $("#id_close",div_dialog).click();
+                    }
+                    
+                };
+                if(btn_trans){
+                    $.extend(btns,btn_trans);
+                }
+                var f=function(j){ return btns[j] };
+                var $btns_div=$("<div class='btns_class'></div>");
+                for(var i in btns)
+                {
+                    if(div_dialog.find("button#id_"+i).length==0)
+                        $btns_div.append("<button type='button' id='id_"+i+"' class='btn'>"+gettext(i)+"</button>")
+                    else
+                        $btns_div.find("button#id_"+i).text(gettext(i));
+                    var b=$btns_div.find("button#id_"+i)
+                    b.click(f(i));
+                }
+                div_dialog.append($btns_div);
+            }
+    
+            var  $common_opt=$("#id_add_card");
+            $common_opt.find("a[relgo]").click(function(e){
+                var this_a=this;
+                var href=$(this).attr("relgo");
+                var d=new Date();
+                if(href.indexOf("?")==-1){
+                    href=href+"?stamp="+d.getTime();
+                }else{
+                    href=href+"&stamp="+d.getTime();
+                }
+                $.ajax({
+                    url:href,
+                    type:"GET",
+                    //async:false,
+                    success:function(msg){
+                        if($("#id_opt_message").length==0){
+                            $("body").append("<div id='id_opt_message' style='visibility:hidden'></div>");
+                        }
+                        var msg_dialog=$("#id_opt_message");
+                        msg_dialog.append(msg);
+                        $("#id_span_title",msg_dialog).remove();
+                        $("#pre_addition_fields",msg_dialog).remove();
+                        fun_submit(href,msg_dialog,msg);
+                        msg_dialog.dialog({
+                                title:$(this_a).text(),
+                                on_load:function(obj){
+                                        var $overlay=obj.target.getOverlay();
+                                        $overlay.find("input[type=text]:not(:hidden):first").focus();
+                                }
+                            });
+                        msg_dialog.css("visibility","visible");
+                        $("#id_cardno").val(card_no); 
+                        $("#id_cardno").attr("disabled",true);
+                    }
+                });
+                return false;
+            }); 
+        });
+        {% endblock%}
+        
+        {% else %}<!--can_MonitorAllPage-->
+            alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+            window.location.href = "/{{ request.surl }}accounts/login/";
+        {% endif %}<!--can_MonitorAllPage-->
+    {% endblock %}<!--end of monitor_log-->
+
+    {% else %}<!--can_RTMonitorPage-->
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--can_RTMonitorPage-->
+    
+{% endblock %}<!--end of addjs-->

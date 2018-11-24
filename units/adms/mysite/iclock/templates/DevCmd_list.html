@@ -1,0 +1,26 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+
+{% block getdatalist %}
+    {% if request.user|HasPerm:"iclock.browse_devcmd" %}
+		$("#id_model_extend .leftBoxTop").remove();
+        $("#id_datalist").model_grid({
+            "model_url": "{{ model_url }}",
+            "obj_edit": false,//屏蔽掉编辑操作
+            "disabled_actions": ["_change","_add"],
+            "row_operations": []
+        });
+    {% else %}<!--browse_devcmd-->
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--browse_devcmd-->
+{% endblock %}
+{% block export %}
+{% endblock %}
+{% block addjs %}
+//执行删除 后的附加操作
+function after_save_return(){
+	//重新刷新界面
+	window.location.reload();
+}
+{% endblock%}

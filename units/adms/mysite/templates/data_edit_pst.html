@@ -1,0 +1,23 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+{% block form %}
+   <tr><td><table id="id_tmp_form">{{ form.as_table }}</table></td></tr>
+    {% block formSelf%}
+    {% endblock %}
+{% endblock %}
+
+{% block addjs%}
+    setDataPostion();
+    //把id_tmp_form中的数据剪切到属性为pos对应值为id的标签中，然后删除id_tmp_form
+    //如此可以自己来布局
+    /*function setDataPostion(){
+	$("#id_tmp_form label").each(function(){
+            var var_field_id=$(this).attr("for");
+            $(":[pos='"+var_field_id+"']").eq(0).html($(this).parent().next().eq(0).html());
+        });
+        $("#id_tmp_form").parent().parent("tr").remove();
+    }
+*/
+{% endblock %}
+
+

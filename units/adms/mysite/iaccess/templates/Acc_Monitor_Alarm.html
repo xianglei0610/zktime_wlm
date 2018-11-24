@@ -1,0 +1,109 @@
+{% extends "Acc_Monitor_All.html" %}
+{% load i18n %}
+
+{% block content %}
+    {% if request.user|HasPerm:"contenttypes.can_MonitorAlarmPage" %}
+    <div id="id_monitor_events" class="div_box acc_monitor_380" sytle="min-height: 50em;">
+        <h1 style="float:none;">{% trans "报警事件监控" %}</h1>
+        <div id="id_showTbl" style="min-height: 30em;">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="vertical-align:top;border:0px;">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="16%">{% trans '时间' %}</th>
+                                        <th width="18%">{% trans '事件点' %}</th>
+                                        <th width="18%">{% trans '事件描述' %}</th>
+                                        <th width="12%">{% trans '卡号' %}</th>
+                                        <th width="20%">{% trans '人员编号(姓名)' %}</th>
+                                        <th width="8%">{% trans '出入状态' %}</th>
+                                        <th width="8%">{% trans '验证方式' %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rt_content">
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="vertical-align:top;border:0px;width:1px;overflow:hidden;">
+                        <div style="height:260px;width:0px; overflow:hidden"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% endif %}<!--can_MonitorAlarmPage-->
+{% endblock %}
+{% block addjs_base %}{% endblock %}
+{% block getdatalist %}{% endblock %}
+
+{% block show_tip_info %}{% endblock %}
+{% block base_variables %}{% endblock %}
+{% block monitor_log %}
+    {% if request.user|HasPerm:"contenttypes.can_MonitorAlarmPage" %}
+    //用于向服务器端获取实时事件数据
+    logid = {% if logid %}{{ logid }}{% else %}-1{% endif %};//-1为初始值
+    var row = "row0";//第一次加载页面时初始化该值
+    function OnRefresh() 
+    { 
+        if($("#id_monitor_events").find("#rt_content tr").length > 100) 
+        { 
+            $("#id_monitor_events").find("#rt_content").find("tr:gt(100)").remove(); 
+        } 
+
+        getUrl = '/{{ request.surl }}iaccess/GetRTLog/?type=alarm&logid='+ logid +'&step=80'; 
+
+        $.ajax({ 
+            type: "GET", 
+            url: getUrl, 
+            dataType: "json", 
+            async: true, 
+            success: function(rtlog) 
+            {
+                logid = rtlog.alarm_id;
+                rtlisthtml = ""; 
+                if(rtlog.data != "") 
+                { 
+                    rtlisthtml = ""; 
+                    for(var index in rtlog.data) 
+                    { 
+                        var datas = rtlog.data[index];
+                        rtlisthtml = '<tr class="AlarmLog '+row+'" value="'+datas.door_id+'" class="select_row">';
+                        rtlisthtml += '<td width="16%">'+datas.time+'</td>'
+                        		   + '<td width="18%">'+datas.event_point+'</td>'
+                        		   + '<td width="18%">'+datas.content+'</td>'
+                                   + '<td width="12%">'+datas.card+'</td>' 
+                                   + '<td width="20%">'+datas.emp+'</td>'
+                                   + '<td width="8%">'+datas.state+'</td>'
+                                   + '<td width="8%">'+datas.verified+'</td></tr>'; 
+
+                        $("#id_monitor_events").find("#rt_content").prepend(rtlisthtml); 
+                        if(row == "row0")
+                        {
+                            row = "row1";
+                        }
+                        else
+                        {   
+                            row = "row0";
+                        }                        
+                    } 
+                } 
+                             
+                window.setTimeout('OnRefresh()', 3000)//等三秒执行刷新函数       
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) 
+            {
+                window.setTimeout('OnRefresh()', 3000)//等*秒执行刷新函数
+            }            
+        }); 
+    } 
+    window.setTimeout('OnRefresh()', 1000)//第一次等1秒执行刷新函数   
+    
+    {% else %}
+        alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+        window.location.href = "/{{ request.surl }}accounts/login/";
+    {% endif %}<!--can_MonitorAlarmPage-->
+   
+{% endblock %}

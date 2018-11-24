@@ -1,0 +1,17 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs %}
+$(function(){
+    $(".tbl_data_edit>tbody>tr").eq(2).hide();
+
+    $("#id_re_money").attr("readonly",true);
+    $('#id_re_money').css("backgroundColor","scrollbar");
+//    $('#id_edit_form').validate({
+//      	                        rules: {
+//      	                            "card_cost": {required:true,min:0.0,max:9999,"maxlength":8,isMoney:true}}
+//      	                        }
+//      	            );
+
+})
+{% endblock %}

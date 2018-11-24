@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Help Center</title>
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body class="help_body1">
+	<div class="help_position"><span class="help_positionIcon">Help Center</span> -> Access Control System Management -&gt; Door settings -&gt; Linkage setting</div>
+<div class="help_mainContant">
+  <h2>Linkage Setting </h2>
+  <br />
+  Linkage setting means when an event is triggered at an  input point of the access control system, a linkage action will occur at the  specified output point to control such events as verification, opening, alarm  and exception of the system and list them in the corresponding monitored report  for view by the user.<br /><br />
+      <b>Add linkage setting:</b><br /><br />
+    1. Click [Access Control] - [Door configurations] - [Linkage  setting] - [Add] to show the linkage setting interface;
+  <div class="alignC"></div>
+  <br />
+    2. Input linkage setting name (input linkage setting  name before selecting device). After selecting device, corresponding linkage  setting will appear (The system will first determine whether or not the device  is successfully connected and has read extended device parameters such as  auxiliary input quantity, auxiliary output quantity, door quantity and reader  quantity. If the system has no available extended device parameters, it will  remind the user of failing to set anti-passback. Otherwise, it will, shows  linkage setting options according to the currently selected device, such as the  door quantity, auxiliary input and output quantity).
+    <div class="alignC"></div>
+  <br />
+   <b> The fields are as follows:</b><br /><br />
+  <b>Trigger condition: </b>Please refer to <a href="rtmonitorpage.html"> Real-time Monitoring</a> for the Real Time Events Description. Except Linkage Event Triggered, Cancel Alarm, Open Auxiliary Output, Close Auxiliary Output, and Device Start, all events could be trigger condition. <br />
+  <br />
+  <b>Input point address:</b>Any, Door 1, Door 2, Door 3, Door 4, Auxiliary Input 1, Auxiliary Input 2, Auxiliary Input 3, Auxiliary Input 4, Auxiliary Input 9, Auxiliary Input 10, Auxiliary Input 11, Auxiliary Input 12 (the specific input point please refer to specific device parameters);<br />
+<br />
+  <b>Output point address:</b>Lock 1, Lock 2, Lock 3, Lock 4, Auxiliary Output 1, Auxiliary Output 2, Auxiliary Output 3, Auxiliary Output 4, Auxiliary Output 6, Auxiliary Output 8, Auxiliary Output 9, Auxiliary Output 10 (the specific output point please refer to specific device parameters);<br />
+<br />
+  <b>Action type: </b>Close, Open, Normal Open. By default it is  closed. To open, delay time shall be set, or Normal Close can be selected;<br /><br />
+  <b>Delay: </b>Ranges from 1-254s (This item is valid when  the action type is Open)<br />
+   <br />
+   <b>Network video recorder: </b>Select the network video recorder<br />
+   <br />
+   <b>Bound Channel: </b>Select the bound channel, channel 1-8 is optional<br />
+   <br />
+    3. After editing, click [OK] to save and quit, and the  added linkage setting will be shown in the linkage setting list.<br /><br />
+    For example: If select “Normal Punching Card Open” as  the trigger condition, and the input point is Door 1, the output point is Lock  1, the action type is Open, the delay is 60s, then when “Normal Punching Card  Open” occurs at Door 1, the linkage action of “Open” will occur at Lock 1, and  door will be open for 60s.<br />
+  <br /><b>Note: </b>When editing, you can not  modify the device, but can modify linkage setting name and configuration. When  deleting a device, its linkage setting record, if exist, will be deleted.<br /><br />
+    If system has set that the input point is a specific  door or auxiliary input point under a trigger condition of a device, it will  not allow the user to add (or edit) a linkage setting record where the device  and trigger condition are the same but the input point is ‘Any’.<br /><br />
+    On the contrary, if the device and trigger condition  are the same, and the system has linkage setting record where the trigger point  is ‘Any’, the system will not permit the user to add (or edit) a linkage  setting record where the input point is a specific door or auxiliary input.<br /><br />
+    In addition, the system does not allow the same linkage  setting at input point and output point in specific trigger condition.<br /><br />
+    The same device permits consecutive logical (as  mentioned above) linkage settings.<br /><br />
+	Video linkage includes hard linkage and soft linkage. The hard linkage is same to the description before, the system will synchronize the setting information to access control panels. The access control panel (no matter it is offline or online) can execute the current linkage setting. The soft linkage is only applicable to the video linkage, after the system obtains a particular real-time event from access control panel, you can use the software to query the video data from the hard disk, and play on the interface.<br />
+</div>
+</body>
+</html>

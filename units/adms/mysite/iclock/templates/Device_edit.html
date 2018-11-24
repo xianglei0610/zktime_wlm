@@ -1,0 +1,1533 @@
+{% extends "data_edit.html" %}
+{% load i18n %}
+
+{% block headajaxjs %}
+<script src="{{ MEDIA_URL }}/jslib/ipinput.widget.js"></script>
+{% endblock %}
+
+{% block form %}
+	{% if request.user|HasPerm:"iclock.add_device" or request.user|HasPerm:"iclock.change_device" %}
+	{% autoescape off %} 
+	<tr class="sel_dev_type">
+		<td>
+			<div id="div_id_first" class="div_box1">
+				<h2>{% trans '第一步:选择设备类型' %}</h2>
+				<table><tr>{{ form.device_type|field_as_td_h }}</tr></table>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="div_id_second"class="div_box1"> 
+				<h2 class="sel_dev_type">{% trans '第二步:添加设备信息' %}</h2>    
+				<table>
+					<tr id="alias_sn">{{ form.alias|field_as_td_h }}</tr>
+					<tr id="dev_sn">{{ form.sn|field_as_td_h }}</tr>
+					<!--公共1-->
+					<tr id="tr_comm_type">{{ form.comm_type|field_as_td_h }}</tr>
+					<!-- http -->
+					<tr id="id_ip_input" class="displayN">{{ form.ipaddress|field_as_td_h }}</tr>
+					<tr class="id_http_tcp"><th><label class="required">{% trans "IP地址" %}:</label></th><td><div id="ip_input"></div></td></tr>
+					<tr class="id_http_tcp">{{ form.ip_port|field_as_td_h }}</tr>
+					<!-- rs485 -->
+					<tr class="id_com">{{ form.com_port|field_as_td_h }}</tr>
+					<tr class="id_com">{{ form.com_address|field_as_td_h }}</tr>
+					<tr class="id_com">{{ form.baudrate|field_as_td_h }}</tr>
+					
+					
+					<!--视频联动-->
+					<tr class="div_id_vid" >{{ form.video_login|field_as_td_h_asterisk }}</tr>
+					
+					<!--门禁信息--> 
+					<tr id="tr_is_elevator" class="displayN">{{ form.is_elevator|field_as_td_h }}</tr>
+					<tr class="div_id_acc div_id_vid" id="tr_comm_pwd">{{ form.comm_pwd|field_as_td_h }}</tr>
+					<tr id="m_comm_pwd">
+						<td align="right"><label id="modify_comm_pwd">{%trans "重置通讯密码"%}:</label></td>
+						<td><input id="pbox1" type="checkbox"></td>
+					</tr>
+					<tr id="tr_old_comm_pwd">
+						<td align="right">{% trans "旧密码"%}:</td>
+						<td><input  type="password" id="old_comm_pwd" maxlength="16" onblur="check_comm_pwd()"/>&nbsp;<a id="valid_comm_pwd" href="javascript:void(0)" onclick="check_comm_pwd()">{% trans "验证" %}</a>&nbsp;&nbsp;&nbsp;<span id="r_msg"></span</td>
+					</tr>
+					<tr id="tr_new_comm_pwd">
+						<td align="right">{% trans "新密码"%}:</td>
+						<td><input type="password" id="new_comm_pwd"  maxlength="16" disabled="disabled"></input></td>
+					</tr>
+					<tr id="tr_conf_comm_pwd">
+						<td align="right">{%trans "确认密码"%}:</td>
+						<td><input id="confirm_comm_pwd" onblur="check_comm_pass()" type="password"  maxlength="16" disabled="disabled"/>&nbsp;<span id="e_msg2"></span></td>
+					</tr>
+					
+					<tr class="div_id_acc" >{{ form.acpanel_type|field_as_td_h }}</tr>
+					<tr class="div_id_acc" id="tr_four_to_two">{{ form.four_to_two|field_as_td_h }}</tr>
+					<tr class="div_id_acc">{{ form.sync_time|field_as_td_h }}</tr>
+					<tr class="displayN"><th></th><td><input type="checkbox" name="connect_result" class="wZBaseBooleanField" id="id_connect_result"></td></tr>
+					<tr class="displayN"><th></th><td><input type="text" name="ACPanelOptions" id="id_acpanel_options"></td></tr>
+					
+					<!--公共3-->
+					<tr id="areaid">{{ form.area|field_as_td_h }}</tr>	
+					<!--考勤信息-->
+					<!--<tr><td><table id="div_id_att">-->
+						<!-- push -->
+					<tr class="div_id_att">{{ form.tz_adj|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.trans_interval|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.log_stamp|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.oplog_stamp|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.photo_stamp|field_as_td_h }}</tr>
+					<tr style='display:none'>{{ form.update_db|field_as_td_h }}</tr>
+					<tr style='display:none'>{{ form.push_status|field_as_td_h }}</tr>
+					<tr class="div_id_att" id = "update_db_show">
+						<th>{{ form.update_db|field_as_label_tag }}</th>
+						<td>
+							<input type="checkbox" name="update_db_val"/>&nbsp;考勤记录&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;操作日志&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;考勤照片&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;登记指纹&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;登记用户<br/>
+							<input type="checkbox" name="update_db_val"/>&nbsp;指纹图片&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;编辑用户&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;修改指纹&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;人脸登记&nbsp;
+							<input type="checkbox" name="update_db_val"/>&nbsp;用户照片&nbsp;
+						</td>
+					</tr>
+					<tr class="div_id_att"><th></th><td><hr style = "height: 1px; border-bottom-width: 1px; margin: 0px; padding: 0px;border-top-style: none; border-right-style: none; border-bottom-style: solid; border-left-style: none; border-bottom-color:#E0E0E0;"/></td></tr>
+					<tr class="div_id_att" id = "push_status_show">
+						<th >{{ form.push_status|field_as_label_tag }}</th>
+							<td>
+								<input type="checkbox" name="push_status_val"/>&nbsp;是否下发&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;下发指纹&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;下发人脸&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;下发照片&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位<br/>
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" name="push_status_val"/>&nbsp;保留位&nbsp;&nbsp;&nbsp;&nbsp;
+							</td>
+					</tr>
+					<tr class="div_id_att">{{ form.trans_times|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.city|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.realtime|field_as_td_h }}</tr>
+					<!--new-->
+					<tr class="div_id_att">{{ form.max_comm_size|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.max_comm_count|field_as_td_h }}</tr>
+					<tr class="div_id_att">{{ form.delay|field_as_td_h }}</tr>	
+					<!--</table></td></tr>	-->
+					
+					<!-- 消费字段 -->
+					{%if "POS_IC"|filter_config_option%}
+					<tr id="pos_device_use_type" style="display: none">{{ form.device_use_type|field_as_td_h }}</tr>
+					<tr id="pos_cash_type" style="display: none">{{ form.cash_type|field_as_td_h }}</tr>
+					<tr id="pos_cash_model" style="display: none">{{ form.cash_model|field_as_td_h }}</tr>
+					<tr id="pos_favorable" style="display: none">{{ form.favorable|field_as_td_h }}</tr>
+					<tr id="pos_max_norm" style="display: none">{{ form.card_max_money|field_as_td_h }}</tr>
+					<tr id="pos_is_add" style="display: none">{{ form.is_add|field_as_td_h }}</tr>
+					<tr id="pos_is_zeor" style="display: none">{{ form.is_zeor|field_as_td_h }}</tr>
+					<tr id="pos_is_OK" style="display: none">{{ form.is_OK|field_as_td_h }}</tr>
+					<tr id="pos_check_black_list" style="display: none">{{ form.check_black_list|field_as_td_h }}</tr>
+					<tr id="pos_check_white_list" style="display: none">{{ form.check_white_list|field_as_td_h }}</tr>
+					<tr id="pos_is_cons_keap" style="display: none">{{ form.is_cons_keap|field_as_td_h }}</tr>
+					<tr id="pos_is_check_operate" style="display: none">{{ form.is_check_operate|field_as_td_h }}</tr>
+					{%endif%}
+					{%if "POS"|filter_config_option%}
+					<tr id="pos_dining" style="display: none">{{ form.dining|field_as_td_h }}</tr>
+					
+					<tr id="pos_consume_model" style="display: none">{{ form.consume_model|field_as_td_h }}</tr>
+					<tr id="pos_radio" style="display: none"><th>
+					    <td><input type="radio" id="radioDZ" value="1" name="radiobutton">定值
+					    <input type="radio" id="radioSplit" value="2" name="radiobutton">分段定值</td></tr>
+					</tr>
+					<!-- 计时模式 -->
+					<tr  id ="time_work"  style="display: none">
+					{{ form.time_price|field_as_td_h }}{{ form.long_time|field_as_td_h }}
+					</tr>					
+					<tr id="pos_dz_money" style="display: none">{{ form.dz_money|field_as_td_h }}</tr>
+				
+					{%endif%}
+					<!--门禁信息--> 
+					<tr class="" id="tr_sync_all"><th>{% trans "新增时删除设备中数据" %}:</th><td><input type="checkbox" name="whether_sync_all" class="wZBaseBooleanField" id="id_whether_sync_all" checked="checked"></td></tr>
+					
+					<!--其他-->
+				</table>    
+			</div>
+		</td>
+	</tr>
+
+	<tr>
+		<div class="displayN">
+		<!--{{ form.delay.as_widget }} {{ form.max_comm_size }} {{ form.max_comm_count }}-->
+		</div>
+	</tr>
+
+	<tr>
+		<td>
+			<div id="div_id_shownext" class="Link_blue1">
+				<span id="id_device_next"><span class="action_next"></span><a href="javascript:void(0)">{% trans '下一步' %}</a></span>
+				<span id="id_device_cancel"><span class="action_Cancel"></span><a href="javascript:void(0)">{% trans '取消' %}</a></span>
+			</div>
+		</td>
+	</tr>
+	{% if form.non_field_errors %}
+	<tr><td>{{ form.non_field_errors }}</td></tr>
+	{% endif %}
+	{% endautoescape %}
+	{% endif %}<!--add/change_accdoor-->
+{% endblock %}
+
+{% block addjs %}
+	
+	{% if request.user|HasPerm:"iclock.add_device" or request.user|HasPerm:"iclock.change_device" %}
+
+		$("#id_comm_pwd").keypress(function(evt){
+			if(this.value.length == 15)
+			{
+				if(evt.preventDefault)
+				{
+				    evt.preventDefault();
+				}
+				evt.returnValue=false;
+			}
+		});
+		$("#id_comm_pwd").bind("onkeypress",function(){alert(this.value);})
+		var dev_types = {{ "mysite"|get_device_types }}.toString();
+		var sel_dev_types = dev_types.split(",");//获取到得设备类型，如[2],[1,2]
+		$(".tbl_data_edit").css({width:"98%"});
+		//ip地址输入框
+		var ipv4 = new IpV4Box("ipv4" , "ip_input");
+		ipv4.setValue($("#id_ipaddress").val());
+		
+		function after_init(){
+			if($("#id_edit_form").find("#id_alias").val() == "")//新增时开始隐藏放弃、确定等按钮
+			{
+				if(sel_dev_types.length > 1)//多个子系统时临时隐藏最下面的OK和取消
+				{
+					$(".editformbtn").hide();
+				}
+			}
+			device_id = 0;//--全局变量 
+			device_id = $($("#id_datalist").get(0).current_row).attr("data");//Model中的id    
+		}
+
+		//保存并继续
+		function after_save_continue()
+		{
+			if(sel_dev_types.length > 1) 
+			{	
+				$(".editformbtn").hide();
+				$("#div_id_second").hide();
+				$("#div_id_shownext").show();
+				$("#div_id_first").show(); 
+			}
+		}
+		
+		function get_check_val(name){
+			var ret_str = "";
+			$("input[name="+name+"]").each(function(){
+				if($(this)[0].checked==true){
+					ret_str = ret_str+"1";
+				}else{
+					ret_str = ret_str+"0";
+				}
+			});
+			return ret_str;
+		}
+		
+		function set_check_val(name,str_tag){
+			if(str_tag.length<10) return ;
+			var index = 0;
+			$("input[name="+name+"]").each(function(){
+				if(str_tag.charAt(index)=="1"){
+					$(this).attr("checked",true);
+				}else{
+					$(this).attr("checked",false);
+				}
+				index = index+1;
+			});
+		}
+		
+		function before_submit()
+		{
+			
+			$("#id_update_db").val(get_check_val("update_db_val"));
+			$("#id_push_status").val(get_check_val("push_status_val"));
+			
+			if((!$("#id_comm_pwd").attr("readonly")) && $("#id_edit_form").find("#id_alias").val() != "")
+			{
+				if(state1){
+					if(check_old_comm_pwd)
+					{
+						if(b_check_comm_pass)
+						{
+							$("#id_comm_pwd").val($("#new_comm_pwd").val());
+						}else if((!b_check_comm_pass) && $("#new_comm_pwd").val()=="" && $("#confirm_comm_pwd").val()=="" && $("#e_msg2").find("font[color='red']").length==0)
+						{
+							$("#id_comm_pwd").val("");
+									
+						}else
+						{
+							return false;
+						}
+					}else
+					{
+						return false;
+					}
+				}
+			}
+		    $("#id_ipaddress").attr("value",ipv4.getValue());
+			//验证--虽然非星号，但是tcp/ip，串口必填其一   
+			var comm_type_val = $("#tr_comm_type input[name='comm_type']:checked").val();
+			var alias = $("#id_alias").val();
+			var device_sn = $("#id_sn").val(); 
+			var comm_pwd = $("#id_comm_pwd").val()
+			var ip_address = $("#id_ipaddress").val();
+			var ip_port = $("#id_ip_port").val();
+			var com_address = $("#id_com_address").val();
+			var com_port = $("#id_com_port").val();
+			var baudrate = $("#id_baudrate option:selected").text();
+			var alias = $("#id_alias").val();
+			var four_to_two = $("#id_four_to_two").attr("checked");
+			var acpanel_type = $("#id_acpanel_type").val(); 
+			var area = $("input[name='area']").val();
+			var dining = $("#id_dining").val()//消费下拉框值
+			var consume_model = $("#id_consume_model").val()//消费模式下拉框值
+			
+			var splitdzval = $("input[name='splitdz']").val();
+			var cash_model =  $("#id_cash_model").val()//出纳机出纳模式
+			var device_use_type = $("#id_device_use_type").val()//消费设备用途
+			
+			
+			//var dinding = $("select[name='id_dinding']").val();
+			
+			
+			var vid_login_name = $("#id_video_login").val();
+			
+			if(alias === "")
+			{
+				alert(gettext("设备名称不能为空"));
+				return false;
+			}
+			
+			if(!acc_checked && !CheckNumber(device_sn))
+			{
+			    alert(gettext('设备序列号必须为数字'));
+			    return;
+			}
+			
+			//考勤机必须输入序列号
+			if(att_checked && device_sn == "")
+			{
+				alert(gettext("设备序列号不能为空"));
+				$("#id_sn").focus();
+				return false;
+			}
+			
+			//消费机必须输入序列号
+			if(pos_checked && device_sn == "")
+			{
+				alert(gettext("设备序列号不能为空"));
+				$("#id_sn").focus();
+				return false;
+			}
+			
+
+			if( comm_type_val == '1'|| comm_type_val == '3' )
+			{   
+				var reg = /^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/;
+				if(ip_address == "" ||(ip_address != "" && !reg.test(ip_address)))// !reg.exec(reg) )??????
+				{
+					alert(gettext("请输入一个有效的IPv4地址"));//Enter a valid IPv4 address.
+					$("#id_ipaddress").focus();
+					return false;
+				}
+			   
+				if(ip_port == "")
+				{
+					alert(gettext("请输入一个有效的IP端口号"));
+					$("#id_ip_port").focus();
+					return false;
+				}
+
+				$("#id_com_address").val("");
+				$("#id_com_port").val("");
+				$("#id_baudrate").val("");
+			}
+			else if(comm_type_val == '2')
+			{
+				if(com_address == "")
+				{
+					alert(gettext("请输入一个RS485地址"));
+					$("#id_com_address").focus();
+					return false;
+				}
+				
+				var reg_addr = /^[0-9]+$/;
+				if(!reg_addr.test(com_address) || com_address > 255 || com_address <1)
+				{
+					alert(gettext("485地址必须为1到255之间的数字"));
+					$("#id_com_address").focus();
+					return false;
+				}
+				
+				if(com_port == "")
+				{
+					alert(gettext("请选择串口号"));
+					$("#id_com_port").focus();
+					return false;
+				}
+				
+				if(baudrate == "")
+				{
+					alert(gettext("请选择波特率"));
+					$("#id_baudrate").focus();
+					return false;
+				}
+				
+				$("#id_ipaddress").val("");
+				$("#id_ip_port").val("");
+			}
+			{% if "ONLY_POS"|filter_config_option %}
+				if(acc_checked||vid_checked||att_checked)
+				{
+					if(area == "" || area == "undefined")
+					{
+						alert(gettext("请选择设备所属区域"));
+						return false;
+					}
+					
+				}
+			{%else%}
+				if(acc_checked||vid_checked||att_checked||pos_checked)
+					{
+						if(area == "" || area == undefined)
+						{
+							alert(gettext("请选择设备所属区域"));
+							return false;
+						}
+					}
+			{%endif%}
+			if(pos_checked)
+			{
+				if(dining == "")
+				{
+					alert(gettext("请选择设备所属餐厅"));
+					return false;
+				}
+				else if(device_use_type == 0 && consume_model==1)
+				{
+//					alert(consume_model)
+					if($('#radioDZ').is(":checked"))
+						{
+							if($("#id_dz_money").val()=="")
+							{
+								alert(gettext("定值金额不能为空"));
+								return false;
+							}
+						}
+//					else if($("#pos_dz_money").is(":hidden"))
+//					{
+//						if($("#splitTime_val").val()=="")
+//						{
+//							alert(gettext("分段定值不能为空"));
+//							return false;
+//						}
+//					}
+					
+				}
+				else if (device_use_type == 1)//出纳机
+				{
+					var dz_money = $("#id_dz_money").val();
+					var card_max_money = $("#id_card_max_money").val();
+					var cash_type = $("#id_cash_type").val()
+					
+					if(cash_model == 0 && $("#id_dz_money").val()=="")
+					{
+						alert(gettext("定值金额不能为空"));
+						return false;
+					}
+					if(card_max_money=="" && cash_model == 0)
+					{
+						alert(gettext("最大限额不能为空"));
+						return false;
+					}
+					if($("#id_favorable").val()=="")
+					{
+						alert(gettext("优惠比率请输入0-99之间整数"));
+						return false;
+					}
+					
+					else if (cash_type==0 && cash_model == 0 &&(Number(dz_money) > Number(card_max_money)))
+					{
+						
+						alert(gettext("定值金额不能大于最大限额"));
+						return false;
+					}
+					else if (cash_type==0 && cash_model == 0 &&Number(card_max_money) == 0)
+					{
+						alert(gettext("最大限额不能为零"));
+						return false;
+					}
+				}
+				else if(device_use_type == 0 && consume_model==0)
+				{
+						alert(gettext("请选择消费模式"));
+						return false;
+				}
+				else if(device_use_type == 0 && consume_model==6)
+				{
+					var hour_value = $("#id_time_price").val();
+					var longer_value = $("#id_long_time").val();
+					if(hour_value=="")
+					{
+						alert(gettext("时价不能为空"));
+						return false;
+					}
+					if(longer_value=="")
+					{
+						alert(gettext("时长取整不能为空"));
+						return false;
+					}
+					
+				}
+				
+			}
+
+			$("#id_sn").attr("disabled",false);
+			if(acc_checked || vid_checked || cam_checked)//门禁 或 硬盘摄像机 或 网络摄像机
+			{
+				if($("#id_acpanel_type").attr("disabled") == true)//门禁（视频）编辑时的处理，且不执行下面的判断
+				{ 
+					$("input[id^='id_comm_type_']").each(function(){
+						$(this).attr("disabled",false);
+					});
+					
+					$("#id_acpanel_type").attr("disabled",false);
+					//$("#id_sn").attr("disabled", false);
+					$("#id_ipaddress").attr("readonly", false);
+					ipv4.setEnable("false");
+					$("#id_ip_port").attr("readonly", false);
+					$("#id_com_address").attr("readonly", false);
+					$("#id_baudrate").attr("disabled", false);
+					
+					if(vid_checked || cam_checked)
+					{
+						if(vid_login_name == "")
+						{
+							alert(gettext("用户名不能为空"));
+							return false;
+						}
+						//视频不需要再执行下面的脚本，直接返回
+					}
+					else
+					{
+						$("#id_comm_pwd").attr("readonly", false);
+					}
+					return true; //编辑时直接返回       
+				}
+				//非编辑状态将继续执行
+			}
+			
+			if(!acc_checked)
+			{
+				return true;//考勤和视频不需要再执行下面的脚本，直接返回
+			}
+
+			//加是否是添加控制器，以及是否是新增编辑
+			//当前设备连接不上，是否需要继续添加？当前门数量与连接的设备不符合，是否需要继续添加？
+			var door_count = $("#id_acpanel_type").val();
+			var flag = true;
+			function getdata(connect_args)
+			{
+				var stamp = new Date().getTime();
+				$.ajax({
+					type: "GET",
+					url: "/{{ request.surl }}iaccess/GetData/?func=connect_dev"+connect_args+"&stamp="+stamp,
+					dataType: "json",
+					async: false,
+					success: function(args)
+					{
+						$("#id_page_load").hide();
+						if(args['result'] == '485repeat')
+						{
+							alert(gettext("串口：COM")+com_port+gettext(" 的RS485地址：")+com_address+gettext(" 已被占用！"));
+							flag = false;
+						}
+						else if(args['result'] == '485bardrate_error')
+						{
+							alert(gettext("串口：COM")+com_port+gettext(" 已添加过波特率不为：")+baudrate+gettext(" 的设备！同一个串口下不允许存在多个波特率不同的设备。请重新选择波特率！"));
+							flag = false;
+						}
+						else if(args['result'] == '485busy')
+						{
+							alert(gettext("后台通讯忙，请稍后重试！"));
+							flag = false;
+						}
+						else if(args['result'] > 0)
+						{
+							if(args.data == "")
+							{
+								if(confirm(gettext("提示：设备连接成功，但获取设备扩展参数失败，继续添加？")))
+								{
+									$("#id_connect_result").attr("checked", false);
+									flag = true;
+								}
+								else
+								{
+									flag = false;
+								}
+							}
+							else
+							{
+								var acp_opts = new Array();
+								if(door_count != args.data.LockCount && args.data.MachineType != '12')
+								{
+									if(confirm(gettext("提示：设备连接成功，但控制器类型与实际不符，将修改为")+args.data.LockCount+gettext("门控制器，继续添加？")))
+									{
+										flag = true;
+										$("#id_connect_result").attr("checked", true);
+										for(opt in args.data)
+										{
+											acp_opts.push(opt + "=" + args.data[opt]);
+										}
+										$("#id_acpanel_type").val(args.data.LockCount);
+										$("#id_acpanel_options").val(acp_opts);
+									}
+									else
+									{
+										flag = false;
+									}                         
+								}
+								else if(args.data.MachineType == '12' && door_count != '5')
+								{
+									if(confirm(gettext("提示：设备连接成功，但控制器类型与实际不符，将修改为")+gettext("一体机，继续添加？")))
+									{
+										flag = true;
+										$("#id_connect_result").attr("checked", true);
+										for(opt in args.data)
+										{
+											acp_opts.push(opt + "=" + args.data[opt]);
+										}
+										$("#id_acpanel_type").val(args.data.LockCount);
+										$("#id_acpanel_options").val(acp_opts);
+									}
+									else
+									{
+										flag = false;
+									}             
+								}
+								
+								else
+								{
+									//此处可以不加这个提示
+									if(confirm(gettext("提示：设备连接成功，确定后将添加设备！")))
+									{
+										flag = true;
+										$("#id_connect_result").attr("checked",true);
+										for(opt in args.data)
+										{
+											acp_opts.push(opt + "=" + args.data[opt]);
+										}
+										//$("#id_acpanel_type").val(args.data.LockCount);
+										$("#id_acpanel_options").val(acp_opts);
+									}
+									else
+									{
+										flag = false;
+									}
+								}
+							}
+						}
+						else
+						{
+							if(args['reason'] == "")
+							{
+								if(confirm(gettext("提示：设备连接失败（错误码：")+args['result']+gettext("），确定添加该设备？")))
+								{
+									$("#id_connect_result").attr("checked",false);
+									flag = true;
+								}
+								else
+								{
+									flag = false;
+								}
+							}
+							else
+							{
+								if(confirm(gettext("提示：设备连接失败（原因：")+args['reason']+gettext("），确定添加该设备？")))
+								{
+									$("#id_connect_result").attr("checked",false);
+									flag = true;
+								}
+								else
+								{
+									flag = false;
+								}
+							}
+						}
+					},
+					error:function(XMLHttpRequest, textStatus, errorThrown) 
+					{
+						$("#id_page_load").hide();
+						alert(gettext("服务器处理数据失败，请重试！错误码：-615"));
+						flag = false;
+					}            
+				}); //end of ajax       
+			}//end of function getdata
+
+			$("#id_page_load").show();
+			var sync_all_data = $("#id_whether_sync_all").attr("checked");
+			var sync_tips = "";
+			if(sync_all_data)
+			{
+				sync_tips = gettext("您选择了[新增时删除设备中数据]，系统将自动删除设备中的数据(事件记录除外)，确定要继续？");
+			}
+			else
+			{
+				sync_tips = gettext("您没有选择[新增时删除设备中数据]，该功能仅用于系统功能演示和测试。请及时手动同步数据到设备，以确保系统中和设备中权限一致，确定要继续？");
+			}
+
+			if(!confirm(sync_tips))
+			{
+				flag = false;
+				$("#id_page_load").hide();
+			}
+			else
+			{
+				if(comm_type_val == '1')
+				{
+					var connect_args = "&comm_type="+comm_type_val+"&ip="+ip_address+"&ip_port="+ip_port+"&comm_pwd="+comm_pwd+"&acpanel_type="+acpanel_type+"&four_to_two="+four_to_two;
+					getdata(connect_args);
+				}
+				else if(comm_type_val == '2')
+				{
+					var connect_args = "&comm_type="+comm_type_val+"&com_address="+com_address+"&com_port="+com_port+"&baudrate="+baudrate+"&comm_pwd="+comm_pwd+"&acpanel_type="+acpanel_type+"&four_to_two="+four_to_two;  
+					getdata(connect_args);
+				}
+			}
+			return flag;
+		}
+		
+		$("#tr_comm_pwd").hide();
+		$("#m_comm_pwd").hide();
+		$("#tr_old_comm_pwd").hide();
+		$("#tr_new_comm_pwd").hide();
+		$("#tr_conf_comm_pwd").hide();
+
+		var state1 = false;
+		$('#id_cash_model').change(function(){
+			var model = $("#id_cash_model").val()//出纳机模式
+			switch(model){
+				case '0'://定值
+					$('#pos_dz_money').show();
+					break;
+				case '1'://金额
+					$('#pos_dz_money').hide();
+					break;
+			}
+		});
+		$('#id_cash_type').change(function(){
+			var cash_type = $("#id_cash_type").val()//出纳类型
+			switch(cash_type){
+				case '0'://充值
+					$("#pos_favorable").show();
+					$("#pos_max_norm").show();
+					break;
+				case '1'://退款
+					$("#pos_favorable").hide();
+					$("#pos_max_norm").hide();
+					$("#id_favorable").val(0);
+					$("#id_card_max_money").val(0)
+					break;
+				}
+		});		
+						
+		$('#id_device_use_type').change(function(){
+			var type = $("#id_device_use_type").val()//消费机作用类型
+			var convar = $("#id_consume_model").val()//消费模式下拉框值
+			switch(type){
+				case '0'://消费机
+					$('#pos_consume_model').show();
+					$('#pos_dining').show();
+					$('#pos_radio').hide();
+					$('#time_work').hide();
+					$('#pos_dz_money').show();
+					$('#pos_is_add').hide();
+					$('#pos_is_zeor').hide();
+					$('#pos_is_OK').hide();
+					$('#pos_cash_model').hide();
+					$('#pos_check_black_list').hide();
+					$('#check_white_list').hide();
+					$('#pos_max_norm').hide();
+					$('#pos_favorable').hide();
+					$('#pos_dz_money').hide();
+					$('#pos_cash_type').hide();
+					$('#pos_is_cons_keap').show();
+					switch(convar){
+					case '1':
+						 $("#time_work").hide();
+						 $("#pos_radio").show();
+						 $('#pos_max_norm').hide();
+						 $('#pos_favorable').hide();
+						 if($("#id_dz_money").val()!="")
+							{
+								$('#radioDZ').attr("checked",true);
+								$("#pos_dz_money").show();
+								//$("#pos_splitdz").hide();
+							}
+						 else 
+							{
+								$('#radioSplit').attr("checked",true);
+								//$("#pos_splitdz").show();	
+							}
+						 break;
+					case '4':
+						  //$("#pos_splitdz").hide();
+						  $("#pos_radio").hide();
+						  $("#time_work").hide();
+						  $("#pos_dz_money").hide();
+						  break;
+					case '2':
+						  //$("#pos_splitdz").hide();
+						  $("#pos_radio").hide();
+						  $("#time_work").hide();
+						  $("#pos_dz_money").hide();
+						  break;
+					case '3':
+						  //$("#pos_splitdz").hide();
+						  $("#pos_radio").hide();
+						  $("#time_work").hide();
+						  $("#pos_dz_money").hide();
+						  break;
+					case '5':
+						  //$("#pos_splitdz").hide();
+						  $("#pos_radio").hide();
+						  $("#time_work").hide();
+						  $("#pos_dz_money").hide();
+						  break;
+					case '6':
+						  //$("#pos_splitdz").hide();
+						  $("#pos_radio").hide();
+						  $("#time_work").show();
+						  $("#pos_dz_money").hide();
+						  break;
+						 }
+					
+					break;
+				case '2'://补贴机
+					$('#pos_is_cons_keap').hide();
+					$('#pos_consume_model').hide();
+					$('#pos_dining').show();
+					$('#pos_radio').hide();
+					$('#time_work').hide();
+					$('#pos_dz_money').hide();
+					$('#pos_is_add').show();
+					$('#pos_is_zeor').show();
+					$('#pos_is_OK').show();
+					$('#pos_cash_model').hide();
+					$('#pos_max_norm').hide();
+					$('#pos_favorable').hide();
+					$('#pos_cash_type').show();
+					$('#pos_cash_type').hide();
+					break;
+				case '1'://出纳机
+				    $("#id_dz_money").val("");
+					$("#id_favorable").val("");
+				    $('#pos_is_cons_keap').hide();
+					$("#id_cash_model option[value='']").remove()
+					$("#id_cash_type option[value='']").remove()
+					$('#pos_consume_model').hide();
+					$('#pos_dining').show();
+					$('#pos_radio').hide();
+					$('#time_work').hide();
+					$('#pos_is_add').hide();
+					$('#pos_is_zeor').hide();
+					$('#pos_is_OK').hide();
+					$('#pos_max_norm').show();
+					$('#pos_favorable').show();
+					$('#pos_cash_model').show();
+					$('#pos_dz_money').show();
+					$('#pos_cash_type').show();
+					var model = $("#id_cash_model").val()//出纳机出纳模式
+					var cash_type = $("#id_cash_type").val()//出纳类型
+					switch(model){
+						case '0':
+							$('#pos_dz_money').show();
+							break;
+						case '1':
+							$('#pos_dz_money').hide();
+							break;
+					}
+					switch(cash_type){
+						case '0':
+							$("#pos_favorable").show();
+							$("#pos_max_norm").show();
+							break;
+						case '1':
+							$("#pos_favorable").hide();
+							$("#pos_max_norm").hide();
+							$("#id_favorable").val(0);
+							$("#id_card_max_money").val(0)
+							break;
+					}
+					
+					break;
+			}
+		});
+		
+		$('#id_consume_model').change(function() {
+				var convar = $("#id_consume_model").val()//消费模式下拉框值
+  				switch(convar){
+  					case '1':
+  						// $("#pos_splitdz").show();
+						 $("#pos_radio").show();
+						 $("#time_work").hide();
+						 $("#id_time_price").val("6");
+						 $("#id_long_time").val("20");
+						 {%if "POS_ID"|filter_config_option%}
+						 alert("消费模式修改后请重新启动消费机！")
+						 {%endif%}
+  						 break;
+  					case '4':
+  						  //$("#pos_splitdz").hide();
+						  $("#time_work").hide();
+						   $("#pos_radio").hide();
+						   $("#pos_dz_money").hide();
+						   $("#splitTime_val").val("");
+						  //$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+						  //$("#id_dz_money").val("");
+						  $("#id_time_price").val("6");
+						  $("#id_long_time").val("20");
+						  {%if "POS_ID"|filter_config_option%}
+							alert("消费模式修改后请重新启动消费机！")
+						  {%endif%}
+  						  break;
+  					case '2':
+  						  //$("#pos_splitdz").hide();
+  						  $("#pos_radio").hide();
+						  $("#time_work").hide();
+  						  $("#pos_dz_money").hide();
+  						  $("#splitTime_val").val("");
+						  //$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+						  //$("#id_dz_money").val("");
+						  $("#id_time_price").val("6");
+						  $("#id_long_time").val("20");
+						  {%if "POS_ID"|filter_config_option%}
+						  alert("消费模式修改后请重新启动消费机！")
+						  {%endif%}
+						  
+  						  break;
+  					
+					case '3'://键值模式
+							//$("#pos_splitdz").hide();
+							$("#pos_radio").hide();
+							$("#time_work").hide();
+							$("#pos_dz_money").hide();
+							$("#splitTime_val").val("");
+							//$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+							//$("#id_dz_money").val("");
+							$("#id_time_price").val("6");
+							$("#id_long_time").val("20");
+							{%if "POS_ID"|filter_config_option%}
+							 alert("消费模式修改后请重新启动消费机！")
+						    {%endif%}
+							break;
+						
+					case '5'://商品模式
+								//$("#pos_splitdz").hide();
+								$("#pos_radio").hide();
+								$("#time_work").hide();
+								$("#pos_dz_money").hide();
+								$("#splitTime_val").val("");
+								//$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+								//$("#id_dz_money").val("");
+								$("#id_time_price").val("6");
+								$("#id_long_time").val("20");
+								{%if "POS_ID"|filter_config_option%}
+							    alert("消费模式修改后请重新启动消费机！")
+							    {%endif%}
+							    break;
+					case '6'://记时模式
+								//$("#pos_splitdz").hide();
+								$("#pos_radio").hide();
+								$("#time_work").show();
+								$("#pos_dz_money").hide();
+								$("#splitTime_val").val("");
+								//$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+								//$("#id_dz_money").val("");
+								{%if "POS_ID"|filter_config_option%}
+								 alert("消费模式修改后请重新启动消费机！")
+							    {%endif%}
+								break;
+								 }});
+								
+										
+										
+	$('#radioDZ').click(function() {
+					//定值
+					$("#pos_dz_money").show();
+					//$("#pos_splitdz").hide();
+					//$("#splitTime_val").val("");
+					//$("#pos_splitdz>td>input[id!=splitTime_val]").remove();
+											});
+	$('#radioSplit').click(function() {
+					//分段定值
+					//$("#pos_splitdz").show();
+					$("#pos_dz_money").hide();
+					$("#id_dz_money").val("");
+											});
+
+		$(function(){
+			//下一步
+			set_check_val("update_db_val",$("#id_update_db").val());
+			set_check_val("push_status_val",$("#id_push_status").val());
+			$("#id_device_next").click(function(){
+				$("#id_info").hide();//保存并继续时适用
+				$("#div_id_first").hide();
+				var title_http_tcpip = "";//考勤机现只支持http,控制器支持tcp/ip不支持http,硬盘录像机http
+
+				att_checked = false;//global
+				acc_checked = false;//global
+				vid_checked = false;//global
+				cam_checked = false;//global			
+				pos_checked = false;//消费机
+				var title = ""
+				$("input[name='device_type']").each(function(){
+					if($(this).attr("checked"))//设备类型选择
+					{
+						title = $(this).parent().text();
+						if($(this).val() == 1)
+						{
+							att_checked = true;
+						}
+						else if($(this).val() == 2)
+						{
+							acc_checked = true;
+						}
+					
+						else if($(this).val() == 5)//消费
+						{
+							pos_checked = true;
+						}
+						
+						else if($(this).val() == 4)
+						{
+							vid_checked = true;
+						}
+						else if($(this).val() == 6)
+						{
+							cam_checked = true;
+						}
+					}
+				});
+				
+				//通讯方式必填.
+				$("#alias_sn, #dev_sn,.id_com, .id_http_tcp").find("th label").each(function(){
+					$(this).attr('class','required');
+				});
+				
+				$("#id_sn").change(function(){
+					//alert($("#id_sn").val());
+					if(!acc_checked && !CheckNumber($("#id_sn").val()))
+					{
+					    alert(gettext('设备序列号必须为数字'));
+					    return;
+					}
+				});
+
+				//ip地址输入框-tcp/ip-http
+				
+				if(att_checked)//考勤机--新增和编辑时均适应
+				{
+					$(".div_id_att").show();
+					$(".div_id_acc").css("display","None");
+					$(".div_id_vid").hide();
+					$("#areaid>th>label").addClass("required");
+					//通讯方式默认只有http,扩展时只需参考控制器即可
+					//选中http(隐藏)--模型中comm_type字段默认类型为http，即已选中该radiobutton
+					//$("#tr_comm_type td ul li:lt(2)").remove();
+					//$("#id_comm_type_2").attr("checked","checked");
+					$("#tr_comm_type").hide();
+					$("#tr_sync_all").hide();
+					$(".id_com").hide();
+				}
+			
+				else if(pos_checked) //消费
+				{
+					$("#pos_cash_type>th>label").addClass("required");
+					$("#pos_cash_model>th>label").addClass("required");
+					$("#pos_favorable>th>label").addClass("required");
+					$("#pos_max_norm>th>label").addClass("required");
+					
+					$("#id_device_use_type option[value='']").remove()
+					$("#id_dining option[value='']").remove()
+					$("#id_consume_model option[value='']").remove()
+					$("#pos_device_use_type>th>label").addClass("required");
+					$("#pos_dining>th>label").addClass("required");
+					$("#pos_ckblacklist>th>label").addClass("required");
+					$("#pos_ckwhitelist>th>label").addClass("required");
+					$("#pos_consume_model>th>label").addClass("required");
+					//$("#pos_splitdz>th>label").addClass("required");
+					$("#pos_dz_money>th>label").addClass("required");
+					$("#time_work>th>label").addClass("required");
+					$("#areaid>th>label").addClass("required");
+					var type = $("#id_device_use_type").val()//消费机作用类型
+					{% if "ONLY_POS"|filter_config_option %}
+						$("#areaid").hide();
+				    {%endif%}
+					if($("#id_edit_form").find("#id_alias").val() == "")//新增
+					{
+						$("#pos_consume_model").show();
+					}
+					$("#pos_dining").show();
+					$("#pos_device_use_type").show();
+					if (type == '2' ||type == '1' && $("#id_edit_form").find("#id_alias").val() != "")
+					{
+						$('#pos_is_cons_keap').hide();
+					}
+					else
+					{
+						$('#pos_is_cons_keap').show();
+					}
+					$("#pos_is_check_operate").show();
+					//$("#pos_ckblacklist").show();
+					$("#pos_check_white_list").show();
+					$(".div_id_att").css("display","None");
+					
+					
+					
+					$(".div_id_acc").css("display","None");
+					$(".div_id_vid").hide();
+
+					//$("#tr_comm_type td ul li:lt(2)").remove();
+					//$("#id_comm_type_2").attr("checked","checked");
+					$("#tr_comm_type").hide();
+					$("#tr_sync_all").hide();
+					$(".id_com").hide();
+					if($("#id_dz_money").val()!="")
+					{
+						$('#radioDZ').attr("checked",true);
+					}
+					else
+					{
+						$('#radioSplit').attr("checked",true);
+					}
+				}				
+				else if(acc_checked)//门禁控制器--新增和编辑时均适应
+				{  
+					//不显示序列号
+					//$("#id_sn").hide();
+					//$($("#id_sn").parent().parent().find("th")[1]).hide()
+					$("#dev_sn").hide();
+					$(".div_id_att").css("display","None");    
+					$(".div_id_vid").hide();//必须在$(".div_id_acc").show();后
+					$(".div_id_acc").show();
+					$("#tr_four_to_two").hide();//4_to_2默认不显示
+					$("#tr_comm_type td ul li:gt(1)").remove();
+					$("#areaid>th>label").addClass("required");
+					//初始通讯方式
+					var type = $("#tr_comm_type input[name='comm_type']:checked").val();
+					if(type == '2')
+					{
+						$(".id_http_tcp").hide();
+						$(".id_com").show();    
+					}
+					else if(type == '1' || type == undefined)
+					{
+						$("#id_comm_type_0").attr("checked","checked");
+						$(".id_http_tcp").show();
+						$(".id_com").hide();                              
+					}
+					
+					//切换通讯方式
+					$("#tr_comm_type input[name='comm_type']").click(function(){
+						if(this.value == '2')
+						{   
+							$(".id_http_tcp").hide();
+							$(".id_com").show();
+						}
+						if(this.value == '1')
+						{
+							//IP地址输入框
+							$(".id_http_tcp").show();
+							$(".id_com").hide();
+						}
+					});
+					
+					//切换控制器类型
+					$("#id_acpanel_type").change(function(){
+						if($(this).val() == 4)
+						{
+							$("#tr_four_to_two").show();
+						}
+						else
+						{
+							$("#tr_four_to_two").hide();
+							$("#tr_four_to_two input").attr("checked",false)
+						}
+					});
+				}
+				else if(vid_checked || cam_checked)
+				{
+//					$("#id_sn").hide();
+//					$($("#id_sn").parent().parent().find("th")[1]).hide()
+					$("#dev_sn").hide();
+					$(".div_id_att").css("display","None");
+					$(".div_id_vid").show();
+					$("#areaid>th>label").addClass("required");
+					$("#tr_comm_type").hide();
+					$(".id_com").hide();
+					if(vid_checked)
+					{
+						$("#id_ip_port").val('8000');
+					}
+					else
+					{
+						$("#id_ip_port").val('80');
+					}
+					$("#tr_sync_all").hide();
+				}
+
+				$("#div_id_second").css("display","block");  
+				$("#div_id_second h2").text($("#div_id_second h2").text().split("(")[0]+"( "+ title +" )"); 
+				$("#id_communition #http_tcpip fieldset legend").text(title_http_tcpip);
+				$("#div_id_shownext").css("display","None");
+				$(".editformbtn").css("display","block");
+				$("#div_id_first").addClass("displayN");//只读
+			});
+
+			//放弃
+			$("#id_device_cancel").click(function(){
+				$("#Cancel").click();
+			});       
+			
+			$("#div_id_second").css("display","None");    
+			$(".div_id_att").css("display","None");    
+			$(".div_id_acc").css("display","None");  
+			$(".div_id_vid").css("display","None");      
+			
+			if($("#id_edit_form").find("#id_alias").val() != "")//编辑
+			{
+				$("#id_device_next").click();
+				$("#id_sn").attr("disabled",true);
+				$("#div_id_second h2").text(gettext('编辑设备信息(')+$("#div_id_second h2").text().split("(")[1]);
+
+				if(acc_checked || vid_checked || cam_checked)//门禁 或 视频
+				{
+					$("input[id^='id_comm_type_']").each(function(){
+						$(this).attr("disabled",true);
+						//$(this).attr("onclick","return false;");
+					});
+					
+					$("#id_acpanel_type").attr("disabled", true);
+					$("#id_ipaddress").attr("readonly", true);
+					ipv4.setEnable("true");
+					$("#id_ip_port").attr("readonly", true);
+					$("#id_com_address").attr("readonly", true);
+					$("#id_baudrate").attr("disabled", true);
+					if(!vid_checked && !cam_checked)//门禁
+					{
+						$("#id_comm_pwd").attr("readonly", true);
+						$("#tr_sync_all").hide();
+					}
+				}
+				if(pos_checked)
+				{
+					//$("#pos_dining").attr("style","display:none");
+					$("#tr_comm_pwd").hide();
+					var convar = $("#id_consume_model").val()//消费模式下拉框值
+					var type = $("#id_device_use_type").val()//消费机作用类型
+					var model = $("#id_cash_model").val()//出纳机出纳模式
+					var cash_type = $("#id_cash_type").val()//出纳类型
+					{%if "POS_IC"|filter_config_option%}
+						switch(type){
+						case '0'://消费机
+							$('#pos_consume_model').show();
+							$('#pos_dining').show();
+							$('#pos_radio').hide();
+							$('#time_work').show();
+							$('#pos_dz_money').show();
+							$('#pos_is_add').hide();
+							$('#pos_is_zeor').hide();
+							$('#pos_is_OK').hide();
+							$('#pos_cash_model').hide();
+							$('#pos_check_black_list').hide();
+							$('#check_white_list').hide();
+							$('#pos_max_norm').hide();
+							$('#pos_favorable').hide();
+							$('#pos_dz_money').hide();
+							$('#pos_cash_type').hide();
+							$('#pos_is_cons_keap').show();
+							break;
+						case '2'://补贴机
+							$('#pos_consume_model').hide();
+							$('#pos_dining').show();
+							$('#pos_radio').hide();
+							$('#time_work').hide();
+							$('#pos_dz_money').hide();
+							$('#pos_is_add').show();
+							$('#pos_is_zeor').show();
+							$('#pos_is_OK').show();
+							$('#pos_cash_model').hide();
+							$('#pos_max_norm').hide();
+							$('#pos_favorable').hide();
+							$('#pos_cash_type').hide();
+							$('#pos_is_cons_keap').hide();
+							break;
+						case '1'://出纳机
+							$("#id_cash_type option[value='']").remove()
+							$("#id_cash_model option[value='']").remove()
+							$('#pos_consume_model').hide();
+							$('#pos_dining').show();
+							$('#pos_radio').hide();
+							$('#time_work').hide();
+							$('#pos_is_add').hide();
+							$('#pos_is_zeor').hide();
+							$('#pos_is_OK').hide();
+							$('#pos_max_norm').show();
+							$('#pos_favorable').show();
+							$('#pos_cash_model').show();
+							$('#pos_dz_money').show();
+							$('#pos_cash_type').show();
+							$('#pos_is_cons_keap').hide();
+							switch(model){
+								case '0':
+									$('#pos_dz_money').show();
+									break;
+								case '1':
+									$('#pos_dz_money').hide();
+									break;
+							}
+							switch(cash_type){
+									case '0':
+										$("#pos_favorable").show();
+										$("#pos_max_norm").show();
+										break;
+									case '1':
+										$("#pos_favorable").hide();
+										$("#pos_max_norm").hide();
+										$("#id_favorable").val(0);
+										$("#id_card_max_money").val(0)
+										break;
+							}
+			
+							break;
+						}
+						if (type == '0')
+						{
+						switch(convar){
+						case '1':
+							 $("#time_work").hide();
+							 $("#pos_radio").show();
+							 $('#pos_max_norm').hide();
+							 $('#pos_favorable').hide();
+							
+							 if($("#id_dz_money").val()!="")
+								{
+									$('#radioDZ').attr("checked",true);
+									$("#pos_dz_money").show();
+									//$("#pos_splitdz").hide();
+								}
+							 else 
+								{
+									$('#radioSplit').attr("checked",true);
+									//$("#pos_splitdz").show();	
+								}
+							 break;
+						case '4':
+							  //$("#pos_splitdz").hide();
+							  $("#pos_radio").hide();
+							  $("#time_work").hide();
+							  $("#pos_dz_money").hide();
+							  break;
+						case '2':
+							  //$("#pos_splitdz").hide();
+							  $("#pos_radio").hide();
+							  $("#time_work").hide();
+							  $("#pos_dz_money").hide();
+							  break;
+						case '3':
+							  //$("#pos_splitdz").hide();
+							  $("#pos_radio").hide();
+							  $("#time_work").hide();
+							  $("#pos_dz_money").hide();
+							  break;
+						case '5':
+							  //$("#pos_splitdz").hide();
+							  $("#pos_radio").hide();
+							  $("#time_work").hide();
+							  $("#pos_dz_money").hide();
+							  break;
+						case '6':
+							  //$("#pos_splitdz").hide();
+							  $("#pos_radio").hide();
+							  $("#time_work").show();
+							  $("#pos_dz_money").hide();
+							  break;
+							 }
+						}
+						{%else%}
+							$('#pos_consume_model').show();
+							switch(convar){
+							case '1':
+								 $("#time_work").hide();
+								 $("#pos_radio").show();
+								 $('#pos_max_norm').hide();
+								 $('#pos_favorable').hide();
+								
+								 if($("#id_dz_money").val()!="")
+									{
+										$('#radioDZ').attr("checked",true);
+										$("#pos_dz_money").show();
+										//$("#pos_splitdz").hide();
+									}
+								 else 
+									{
+										$('#radioSplit').attr("checked",true);
+										//$("#pos_splitdz").show();	
+									}
+								 break;
+							case '4':
+								  //$("#pos_splitdz").hide();
+								  $("#pos_radio").hide();
+								  $("#time_work").hide();
+								  $("#pos_dz_money").hide();
+								  break;
+							case '2':
+								  //$("#pos_splitdz").hide();
+								  $("#pos_radio").hide();
+								  $("#time_work").hide();
+								  $("#pos_dz_money").hide();
+								  break;
+							case '3':
+								  //$("#pos_splitdz").hide();
+								  $("#pos_radio").hide();
+								  $("#time_work").hide();
+								  $("#pos_dz_money").hide();
+								  break;
+							case '5':
+								  //$("#pos_splitdz").hide();
+								  $("#pos_radio").hide();
+								  $("#time_work").hide();
+								  $("#pos_dz_money").hide();
+								  break;
+							case '6':
+								  //$("#pos_splitdz").hide();
+								  $("#pos_radio").hide();
+								  $("#time_work").show();
+								  $("#pos_dz_money").hide();
+								  break;
+								 }
+						{%endif%}
+				}
+			}
+
+			if(sel_dev_types.length == 1) //单考勤单门禁 无须选择
+			{   
+				$("input[name=device_type][value="+sel_dev_types+"]").click(); //选中对应的设备类型
+				$("#id_device_next").click();  //模仿 点击下一步
+				$(".sel_dev_type").hide();     //隐藏掉 选择项本身
+				$(".div_box1").css("background-image", "none");
+			}
+			if((!$("#id_comm_pwd").attr("readonly")) && $("#id_edit_form").find("#id_alias").val() != "")
+			{
+				if($("#id_comm_pwd").val()==""){
+					if(!pos_checked)
+					$("#tr_comm_pwd").show();
+				}else{
+					$("#tr_comm_pwd").hide();
+					$("#m_comm_pwd").show();
+				}
+				$("#modify_comm_pwd").click(function(){
+						modify_comm_pwd();
+				});
+				$("#pbox1").click(function(){
+						modify_comm_pwd();
+				});
+			}
+		});
+		
+		function modify_comm_pwd(){
+			if(state1 == false)
+			{
+				$("#tr_old_comm_pwd").show();
+				$("#tr_new_comm_pwd").show();
+				$("#tr_conf_comm_pwd").show();
+				$("#pbox1").attr("checked","checked");
+				state1 = true;
+			}
+			else
+			{
+				$("#tr_old_comm_pwd").hide();
+				$("#tr_new_comm_pwd").hide();
+				$("#tr_conf_comm_pwd").hide();
+				$("#pbox1").attr("checked","");
+				$("#new_comm_pwd").attr("disabled","disabled");
+				$("#confirm_comm_pwd").attr("disabled","disabled");
+				$("#old_comm_pwd").attr("value","");
+				$("#new_comm_pwd").attr("value","");
+				$("#confirm_comm_pwd").attr("value","");
+				$("#r_msg").html("");
+				$("#e_msg2").html("");
+				state1 = false;
+			}
+		}
+		
+		var check_old_comm_pwd = false;
+		function check_comm_pwd(){
+			var old_comm_pwd=$("#old_comm_pwd").val();
+			var device=$("input[name='pk']").val();
+			$.post(
+				"/iaccess/check_pwd/",
+				{"old_pwd":old_comm_pwd,"device":device,"field":"comm_pwd"},
+				function(xml){
+					if(xml == 'ok')
+					{
+						$("#r_msg").html("{% trans '正确' %}");
+						check_old_comm_pwd = true;
+						$("#new_comm_pwd").attr("disabled","");
+						$("#confirm_comm_pwd").attr("disabled","");
+					}else
+					{
+						$("#r_msg").html("<font color='red'>{% trans '错误' %}</font>");
+						check_old_comm_pwd = false;
+						$("#new_comm_pwd").attr("disabled","disabled");
+						$("#confirm_comm_pwd").attr("disabled","disabled");
+					}
+				}
+			);
+		}
+		
+		var b_check_comm_pass=false;
+		
+		function check_comm_pass(){
+			var v1 = $("#new_comm_pwd").val();
+			var v2 = $("#confirm_comm_pwd").val();
+			if(v1==v2){
+				var html="{% trans '正确' %}";
+				$("#e_msg2").html(html);
+				b_check_comm_pass = true;
+			}else{
+				var html="<font color='red'>{%trans '密码必须一致'%}</font>"
+				$("#e_msg2").html(html);
+				$("#new_comm_pwd").attr("value","");
+				b_check_comm_pass = false;
+			}
+		}
+		try{
+			if(!acc_checked)
+			{
+				$("#tr_comm_pwd").hide();
+			}
+		}
+		catch(err)
+		{
+		}
+	{% else %}      
+	    alert(gettext("对不起，您没有访问该页面的权限，不能浏览更多信息！"));
+	    window.location.href = "/{{ request.surl }}accounts/login/";
+	{% endif %}<!--add/change_device-->
+{% endblock %}
+
+
+

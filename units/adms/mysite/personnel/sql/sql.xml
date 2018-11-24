@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgroup>
+	<sql id = "get_default_PIN_sql">
+		<content engine = "default">
+			<![CDATA[
+                select badgenumber from userinfo order by userid desc    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "search_by_filter_sql">
+		<content engine = "default">
+			<![CDATA[
+                select userid from userinfo where userid not in  %(where)s  
+			]]>
+			<part id = "levelset">
+				<![CDATA[
+					(select u.userid from userinfo u,acc_levelset_emp a where u.userid = a.employee_id and a.acclevelset_id = '%(level_id)s')
+				]]>
+			</part>
+			<part id = "firstopen">
+				<![CDATA[
+					(select u.userid from userinfo u,acc_firstopen_emp a where u.userid = a.employee_id and a.accfirstopen_id = '%(level_id)s')
+				]]>
+			</part>
+		</content>		
+	</sql>
+	
+	
+	
+	<sql id = "search_accdev_byuser_sql">
+		<content engine = "default">
+			<![CDATA[
+                select distinct device_id from acc_door where  id in (select accdoor_id from acc_levelset_door_group 
+                where acclevelset_id in (select acclevelset_id from acc_levelset_emp where employee_id = %(id)s))  
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	<sql id = "GenerateEmpFlow_sql">
+		<content engine = "default">
+			<![CDATA[
+                select  a.DeptName,
+                      (select count(1) from userinfo where to_char(userinfo.Hiredday,'YYYY-MM-DD')>='%(d1)s' and to_char(userinfo.Hiredday,'YYYY-MM-DD')<='%(d2)s'
+                       and userinfo.defaultdeptid = a.DeptID) newin,
+                      (select count(1) from personnel_empchange cc
+                           where cc.changepostion ='1' and cc.isvalid='1'  and to_char(cc.newvalue) = a.DeptID
+                             and to_char(cc.changedate,'YYYY-MM-DD')>='%(d1)s' and to_char(cc.changedate,'YYYY-MM-DD')<='%(d2)s') transferin,
+                      (select count(1) from personnel_empchange dd
+                           where dd.changepostion ='1' and dd.isvalid='1'  and to_char(dd.oldvalue) = a.DeptID
+                             and to_char(dd.changedate,'YYYY-MM-DD')>='%(d1)s' and to_char(dd.changedate,'YYYY-MM-DD')<='%(d2)s') transferout,
+                      ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea.UserID_id = eb.userid
+                           where ea.leavetype ='1' and eb.defaultdeptid = a.DeptID
+                             and to_char(ea.leavedate,'YYYY-MM-DD') >='%(d1)s' and to_char(ea.leavedate,'YYYY-MM-DD')<= '%(d2)s') selfleave ,
+                      ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea.UserID_id = eb.userid
+                           where ea.leavetype ='2' and eb.defaultdeptid = a.DeptID
+                             and to_char(ea.leavedate,'YYYY-MM-DD') >='%(d1)s' and to_char(ea.leavedate,'YYYY-MM-DD')<= '%(d2)s') passiveleave ,
+                      ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea.UserID_id = eb.userid
+                           where ea.leavetype ='3' and eb.defaultdeptid = a.DeptID
+                             and to_char(ea.leavedate,'YYYY-MM-DD') >='%(d1)s' and to_char(ea.leavedate,'YYYY-MM-DD')<= '%(d2)s') normalleave
+             from departments a  where status=0  %(where)s 
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and  a.DeptID in (%(deptids)s)
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and a.DeptID in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select  a."DeptName",
+                              (select count(1) from userinfo where userinfo."Hiredday">='%(d1)s' and userinfo."Hiredday"<='%(d2)s'
+                               and userinfo.defaultdeptid = a."DeptID") newin,
+                              (select count(1) from personnel_empchange cc
+                                   where cc.changepostion =1 and cc.isvalid=True  and cc.newvalue = to_char(a."DeptID",'999999999999999')
+                                     and cc.changedate>='%(d1)s' and cc.changedate<='%(d2)s') transferin,
+                              (select count(1) from personnel_empchange dd
+                                   where dd.changepostion =1 and dd.isvalid=True  and dd.oldvalue = to_char(a."DeptID",'999999999999999')
+                                     and dd.changedate>='%(d1)s' and dd.changedate<='%(d2)s') transferout,
+                              ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea."UserID_id" = eb.userid
+                                   where ea.leavetype =1 and eb.defaultdeptid = a."DeptID"
+                                     and ea.leavedate >='%(d1)s' and ea.leavedate<= '%(d2)s') selfleave ,
+                              ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea."UserID_id" = eb.userid
+                                   where ea.leavetype =2 and eb.defaultdeptid = a."DeptID"
+                                     and ea.leavedate >='%(d1)s' and ea.leavedate<= '%(d2)s') passiveleave ,
+                              ( select  count(1) from personnel_leavelog ea left join userinfo eb on ea."UserID_id" = eb.userid
+                                   where ea.leavetype =3 and eb.defaultdeptid = a."DeptID"
+                                     and ea.leavedate >='%(d1)s' and ea.leavedate<= '%(d2)s') normalleave
+                     from departments a  where status=0  %(where)s  
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and  a."DeptID" in (%(deptids)s)
+				]]>
+			</part>
+			<part id="nodeptids">
+				<![CDATA[
+					and a."DeptID" in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	
+	<sql id = "GenerateDeptRoster_sql">
+		<content engine = "default">
+			<![CDATA[
+                select a.badgenumber,a.name,c.DeptName,( select b.name from personnel_positions b where a.position_id =b.id )position,a.pager,a.Birthday,
+	           a.birthplace,
+	          ( select b.name from personnel_education b where a.education_id =b.id )  education
+	           from userinfo a left join departments c on a.defaultdeptid=c.DeptID where a.status=0 
+	           %(where)s order by a.defaultdeptid,a.badgenumber 
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and a.defaultdeptid in (%(deptids)s)
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and  a.defaultdeptid in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select a.badgenumber,a.name,c."DeptName",( select b.name from personnel_positions b where a.position_id =b.id )position,a.pager,a."Birthday",
+	           a.birthplace,
+	          (select b.name from personnel_education b where a.education_id =b.id )  education
+	           from userinfo a left join departments c on a.defaultdeptid=c."DeptID" where a.status=0 
+	           %(where)s  order by a.defaultdeptid,a.badgenumber  
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and a.defaultdeptid in (%(deptids)s)
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and  a.defaultdeptid in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = "GenerateEmpEducation_sql">
+		<content engine = "default">
+			<![CDATA[
+                select a.DeptName ,
+                       (select count(1)  from userinfo where education_id =1 and userinfo.defaultdeptid = a.DeptID ) pupil,
+                       (select count(1)  from userinfo where education_id =2 and userinfo.defaultdeptid = a.DeptID ) middle_studemt,
+                       (select count(1)  from userinfo where education_id =3 and userinfo.defaultdeptid = a.DeptID ) high_studemt,
+                       (select count(1)  from userinfo where education_id =8 and userinfo.defaultdeptid = a.DeptID ) university_studemt,
+                       (select count(1)  from userinfo where education_id =9 and userinfo.defaultdeptid = a.DeptID ) graduate_studemt,
+                       (select count(1)  from userinfo where education_id =10 and userinfo.defaultdeptid = a.DeptID ) doctor
+         		from departments a where status=0  %(where)s  
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and a.DeptID in (%(deptids)s)
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and  a.DeptID in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+		<content engine = "postgresql">
+			<![CDATA[
+                select a."DeptName" ,
+                       (select count(1)  from userinfo where "education_id" =1 and userinfo.defaultdeptid = a."DeptID" ) pupil,
+                       (select count(1)  from userinfo where "education_id" =2 and userinfo.defaultdeptid = a."DeptID" ) middle_studemt,
+                       (select count(1)  from userinfo where "education_id" =3 and userinfo.defaultdeptid = a."DeptID" ) high_studemt,
+                       (select count(1)  from userinfo where "education_id" =8 and userinfo.defaultdeptid = a."DeptID" ) university_studemt,
+                       (select count(1)  from userinfo where "education_id" =9 and userinfo.defaultdeptid = a."DeptID" ) graduate_studemt,
+                       (select count(1)  from userinfo where "education_id" =10 and userinfo.defaultdeptid = a."DeptID" ) doctor
+         		from departments a where status=0   %(where)s   
+			]]>
+			<part id = "hasdeptids">
+				<![CDATA[
+					and a."DeptID" in (%(deptids)s)
+				]]>
+			</part>
+			<part id = "nodeptids">
+				<![CDATA[
+					and  a."DeptID" in (%(depts)s)
+				]]>
+			</part>
+		</content>	
+	</sql>
+	
+	
+	
+	<sql id = " ">
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+		<content engine = " ">
+			<![CDATA[
+                    
+			]]>
+			<part id = " ">
+				<![CDATA[
+				
+				]]>
+			</part>
+			<part id=" ">
+				<![CDATA[
+				
+				]]>
+			</part>
+		</content>	
+	</sql>
+
+</sqlgroup>

@@ -1,0 +1,107 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<script type="text/javascript" src="/media/jslib/app_page_summary_report.js"></script>
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block addjs %}
+
+$(function(){
+$(".icon_help_current").hide()
+})
+
+window.onload = consumeCollect
+{% endblock %}
+{% block content_end %}
+<div style="margin:0px 10px 10px 10px;">
+	<input type="hidden" id="id_current_report" value="1" />
+	<input type="hidden" id="id_all_emp" value="all"/>
+	<div id="id_divsearch" class="calculate_divsearch">
+
+		<div style="margin:0px 10px 5px 10px;">
+		<form id="id_calculateform" method="post">
+		<div class="news_topsearch">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				 <td width="50"><div class="news_topsearch1">查询</div></td>
+				 <td>
+					 <div class="news_topsearch2">
+						<table>
+							<tr>
+		
+								{% block select_emp %}		
+										{% autoescape off %}
+										<td><div id="emp_labor">{{empfield|field_as_label_tag}}<div></td><td><div id="show_emp_tree">{{empfield.as_widget}}</div></td>
+										{% endautoescape %}
+								{% endblock %}
+								<td><div class="lineH22">&nbsp;&nbsp;{% trans "开始日期" %}</div></td><td><input type="text" class="date dp-applied"  format="yyyy-MM-dd" readonly="True" name="ComeTime" id="id_cometime"/></td>
+								<td><div class="lineH22">&nbsp;&nbsp;{% trans "结束日期" %}</div></td><td><input type="text" class="date dp-applied" format="yyyy-MM-dd" readonly="True" name="EndTime" id="id_endtime"/></td>
+								<td><div id="check_operate" ><input style="margin-top: 0px;" id="id_is_operate"  type="checkbox" checked="checked" />&nbsp;<label>{% trans "按操作员统计" %}</label></div></td>
+								<td><div id="monitor_hall" style="display: none;"><label>{% trans "餐厅" %}</label><select style="width:80px"><option value="0">{% trans "全部餐厅" %}</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+								<td><div id="monitor_meal" style="display: none;"><label>{% trans "餐别" %}</label><select style="width:160px"><option value="0">{% trans "全部餐别" %}</option></select></div></td>
+								<td><div id="monitor_operate" style="display: none;"><label >{% trans "操作员" %}</label><select style="width:80px"><option value="9999">{% trans "全部" %}
+								{%if "POS_IC"|filter_config_option%}
+								<option value="0">{% trans "机器数据" %}</option>
+								{%endif%}
+								</option></select>&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+
+								<td><div id="monitor_pos_model" style="display: none;"><label for="id_pos_model" >{% trans "消费模式" %}</label><select id="search_id_pos_model" name="" fieldname="pos_model">
+								<option value="0">全部</option>
+								<option value="1">定值模式</option>
+								<option value="2">金额模式</option>
+								<option value="3">键值模式</option>
+								<option value="4">计次模式</option>
+								<option value="5">商品模式</option>
+								<option value="6">计时模式</option>
+								<option value="7">记账模式</option>
+								<option value="9">设备纠错</option>
+								<option value="8">手工补消费</option>
+								</select></div></td>										
+							</tr>
+							<tr><td colspan="3">
+							<div id="id_ReturnMsg" class="div_ReturnMsg"></div></td>
+							</tr>
+						</table>
+						<input type="hidden" name="DeptIDs" value="" />
+						<input type="hidden" name="isForce" value="0" />
+						<input type="hidden" name="UserIDs" value="" />
+						<input type="hidden" name="Dining" value="" />
+						<input type="hidden" name="Meal" value="" />
+						<input type="hidden" name="Operate" value="" />
+						<input type="hidden" name="pos_model" value="" />
+						<input type="hidden" name="check_operate" value="checked" />
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>	
+		</form>
+		</div>
+	</div>
+	<div id="calculatetabs" style="margin-right: 20px;margin-left: 20px;">
+	    <ul class="tabs">
+
+          <li><a href="javascript:void(0)" class="current" onClick="consumeCollect('')">{% trans '个人消费汇总表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="deptCollect('')">{% trans '部门汇总表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="diningCollect('')">{% trans '餐厅汇总表' %}</a></li>
+
+          <li><a href="javascript:void(0)" onClick="deviceCollect('')">{% trans '设备汇总表' %}</a></li>
+
+		  <li><a href="javascript:void(0)" onClick="szCollect('')">{% trans '收支统计表' %}</a></li>
+
+        </ul>
+		<div class="attCalculatediv" id="caltabs" >
+			<div id="grid_frame_div" scrolling="0" style="_height:1%">
+			<iframe src="" id="grid_frame" frameborder="0" scrolling="0" width="100%" height="450"></iframe>
+			</div>
+		</div>
+            <div id="id_posexcept_desc" style="display: none;"></div>
+	</div>
+</div>
+{% block selfservices %} {% endblock %}
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "data_list.html" %}
+{% load i18n %}
+{% block headjs %}
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+    <link href="{{ MEDIA_URL }}/css/app_guide.css" rel="stylesheet" />
+<!--<script src="{{ MEDIA_URL }}/jslib/report_design.js"></script>-->
+{% endblock %}
+
+
+
+<link href="images/css.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.conference_icodi {
+	background-image: url(images/conference_icodi.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.conference_icodi1 {
+	background-image: url(images/conference_icodi1.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+-->
+</style>
+{% block content %}
+<br/><br/>
+<div id="content" >
+<div class="section">
+                    <h2>
+                        <div class="back"></div>
+                        <span>{% trans '会议流程' %}</span>
+                    </h2>
+                </div>
+<br/>
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center">&nbsp;</td>
+        <td align="center"><div class="posguide_di">
+            <div class="conference_ico2"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}iclock/Device/','Device')" >{% trans '设备' %}</a></span>
+                    <p>为会议室添加设备</p>
+            </div>
+        </div></td>
+        <td align="center" >&nbsp;</td>
+        <td align="center">&nbsp;</td>
+        <td align="center" >&nbsp;</td>
+        <td align="center"><div class="posguide_di">
+            <div class="conference_ico4"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}personnel/Employee/','Employee')">{% trans '人员' %}</a></span>
+                    <p>新增人员</p>
+            </div>
+        </div></td>
+        <td align="center">&nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center">&nbsp;</td>
+        <td align="center"><div class="icon_arrow_u"></div></td>
+        <td align="center" >&nbsp;</td>
+        <td align="center">&nbsp;</td>
+        <td align="center" >&nbsp;</td>
+        <td align="center"><div class="icon_arrow_u"></div></td>
+        <td align="center">&nbsp;</td>
+    </tr>
+    <tr>
+	 <td align="center">&nbsp;</td>
+        <td width="200" align="center">
+		
+		<div class="posguide_di">
+            <div class="conference_ico6"></div>
+                <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}meeting/Room/','Room')">{% trans '会议室' %}</a></span>
+                    <p>新增会议室</p>
+                </div>
+        </div>
+		</td>
+        <td align="center" ><div class="icon_arrow_r"></div></td>
+        <td width="200" align="center"><br />
+		<div class="posguide_di">
+		    <div class="conference_ico7"></div>
+                <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}meeting/MeetingEntity/','MeetingEntity')">{% trans '会议' %}</a></span><p>新增会议安排</p> </div>
+        </div>		<br /></td>
+        <td align="center" ><div class="icon_arrow_r"></div></td>
+        <td width="240" align="center"><div class="posguide_di">
+            <div class="conference_ico1"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}meeting/MeetingEmp/','MeetingEmp')">{% trans '会议人员' %}</a></span>
+                    <p>为会议添加人员</p>
+            </div>
+        </div></td>
+        <td align="center">&nbsp;</td>
+    </tr>
+</table>
+<br/><br/>
+<div class="section">
+                    <h2>
+                        <div class="back"></div>
+                        <span>{% trans '其它' %}</span>
+                    </h2>
+                </div>
+<br/><br/>
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center">&nbsp;</td>
+        <td align="center"><div class="posguide_di">
+            <div class="conference_ico3"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}meeting/Leave/','Leave')" >{% trans '会议请假' %}</a></span>
+                    <p>会议人员请假</p>
+            </div>
+        </div></td>
+        <td align="center"><div class="posguide_di">
+            <div class="conference_ico5"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('{{request.dbapp_url}}meeting/MeetingExact/','MeetingExact')" >{% trans '会议补签' %}</a></span>
+                    <p>会议人员补签</p>
+            </div>
+        </div></td>
+        <td align="center"><div class="posguide_di">
+            <div class="conference_ico9"></div>
+            <div class="posguide_icobiao"> <span><a href="javascript:void(0)" onclick="window.open('/meeting/MeetingCalculate/','MeetingCalculate')">{% trans '会议报表' %}</a></span>
+                    <p>会议签到汇总与统计</p>
+            </div>
+        </div></td>
+        <td align="center">&nbsp;</td>
+    </tr>
+</table>
+</div>
+
+{% endblock %}
+{% block getdatalist %}
+{% endblock %}
+
+{% block op_for_tab %}
+{% endblock %}
+{% block export %}
+{% endblock %}
+{% block addjs %}
+$("#id_tab").remove();
+{% endblock %}

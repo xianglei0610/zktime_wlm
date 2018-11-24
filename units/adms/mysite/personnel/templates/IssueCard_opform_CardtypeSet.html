@@ -1,0 +1,8 @@
+{% extends "data_opform.html" %}
+{% load i18n %}
+
+{% block addjs %}
+$(function(){
+    $("#id_cardtype option[value='']").remove()
+})
+{% endblock %}
